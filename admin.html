@@ -2814,40 +2814,81 @@
         }
 
         // Cloudinary Direct Upload Handler
-        async function handleCloudinaryUpload(fileInput, targetInputId) {
-            const file = fileInput.files[0];
-            if (!file) return;
-            const cfg = appState.cloudConfig;
-            if (!cfg.cloudinaryCloudName || !cfg.cloudinaryUploadPreset) {
-                // Local DataURL fallback for immediate preview if Cloudinary keys aren't set yet
+        function compressImageToDataUrl(file, callback) {
+            if (!file.type.startsWith('image/')) {
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                    document.getElementById(targetInputId).value = e.target.result;
-                    showToast('फाईल तात्पुरती लोड झाली (कायमस्वरूपी स्टोरेजसाठी मास्टर लॉगिनमध्ये Cloudinary Keys टाका).');
-                };
+                reader.onload = (e) => callback(e.target.result);
                 reader.readAsDataURL(file);
                 return;
             }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const maxDim = 420;
+                    let w = img.width, h = img.height;
+                    if (w > maxDim || h > maxDim) {
+                        if (w > h) { h = Math.round(h * maxDim / w); w = maxDim; }
+                        else { w = Math.round(w * maxDim / h); h = maxDim; }
+                    }
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, w, h);
+                    callback(canvas.toDataURL('image/jpeg', 0.82));
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        async function handleCloudinaryUpload(fileInput, targetInputId) {
+            const file = fileInput.files[0];
+            if (!file) return;
+            const cfg = appState.cloudConfig || {};
+            const cloudName = (cfg.cloudinaryCloudName || 'tvqzwvy5').trim();
+            const uploadPreset = (cfg.cloudinaryUploadPreset || 'gp_portal').trim();
+            const resourceType = file.type.startsWith('image/') ? 'image' : 'auto';
 
             showToast('फाईल Cloudinary वर अपलोड होत आहे...');
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('upload_preset', cfg.cloudinaryUploadPreset);
+            formData.append('upload_preset', uploadPreset);
 
             try {
-                const res = await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloudinaryCloudName}/auto/upload`, {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
                     method: 'POST',
                     body: formData
                 });
                 const data = await res.json();
-                if (data.secure_url) {
-                    document.getElementById(targetInputId).value = data.secure_url;
-                    showToast('फाईल यशस्वीरित्या क्लाउडवर अपलोड झाली!');
+                if (data && data.secure_url) {
+                    const targetEl = document.getElementById(targetInputId);
+                    if (targetEl) {
+                        targetEl.value = data.secure_url;
+                        targetEl.dispatchEvent(new Event('change'));
+                    }
+                    showToast('फाईल यशस्वीरित्या Cloudinary वर अपलोड झाली!');
                 } else {
-                    showToast('अपलोड त्रुटी: कृपया Cloudinary Preset तपासा.');
+                    const reason = (data && data.error && data.error.message) ? data.error.message : 'Preset/Format त्रुटी';
+                    compressImageToDataUrl(file, (dataUrl) => {
+                        const targetEl = document.getElementById(targetInputId);
+                        if (targetEl) {
+                            targetEl.value = dataUrl;
+                            targetEl.dispatchEvent(new Event('change'));
+                        }
+                        showToast('Cloudinary संदेश (' + reason + ') — फोटो थेट पोर्टलमध्ये सेव्ह केला आहे!');
+                    });
                 }
             } catch (err) {
-                showToast('इंटरनेट किंवा Cloudinary कनेक्शन त्रुटी.');
+                compressImageToDataUrl(file, (dataUrl) => {
+                    const targetEl = document.getElementById(targetInputId);
+                    if (targetEl) {
+                        targetEl.value = dataUrl;
+                        targetEl.dispatchEvent(new Event('change'));
+                    }
+                    showToast('फोटो कॉम्प्रेस करून थेट पोर्टलमध्ये सेव्ह केला आहे!');
+                });
             }
         }
 
