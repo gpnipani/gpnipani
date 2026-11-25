@@ -994,6 +994,8 @@
             .nav-links > li.open .nav-dropdown { display: block; }
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 </head>
 <body>
 
@@ -1042,6 +1044,7 @@
                         <li><a href="#sec-members"><svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> सरपंच व उपसरपंच</a></li>
                         <li><a href="#sec-members"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> ग्रामपंचायत सदस्य मंडळ</a></li>
                         <li><a href="#sec-members"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> ग्रामसेवक व कर्मचारी</a></li>
+                        <li data-nav-sec="committees"><a href="committees.html"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> महत्त्वाच्या समित्या</a></li>
                     </ul>
                 </li>
                 <li class="has-dropdown" data-nav-sec="services">
@@ -1381,6 +1384,13 @@
                     </div>
                     <div id="villageOfficialsEditorGrid" class="grid-2"></div>
                 </div>
+
+                <!-- Village Committees Editor (Gramsevak & Developer) -->
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>महत्त्वाच्या ग्रामपंचायत समित्या संपादन (committees.html)</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून ग्राम आरोग्य व पाणीपुरवठा समिती, शालेय व्यवस्थापन समिती (SMC), महात्मा गांधी तंटामुक्त गाव समिती व दक्षता समितीचे अध्यक्ष, सचिव व सदस्य अपडेट करता येतात.</p>
+                    <div id="committeesEditorGrid" class="grid-2"></div>
+                </div>
             </div>
 
             <!-- Tab 3: Gramsabha & Development Works -->
@@ -1431,9 +1441,84 @@
 
             <!-- Tab 4: Citizen Requests & Complaints -->
             <div class="admin-tab-pane" id="tab-requests">
+                <!-- Date Range Export Panel (JPG / PDF / CSV with Official Header & Footer) -->
+                <div class="info-card" style="margin-bottom: 18px; border-left: 5px solid #15803d;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="color:#15803d; margin-bottom:3px;">अहवाल Export करा (तारीख निवडून JPG / PDF / CSV डाउनलोड)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">ठराविक तारीख (Date Range) निवडून सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी अधिकृत हेडर व फूटरसह डाउनलोड करा.</p>
+                        </div>
+                    </div>
+                    <div class="grid-2" style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:12px;">
+                        <div class="form-group" style="margin-bottom:6px;">
+                            <label>तारीख पासून (From Date)</label>
+                            <input type="date" class="form-control" id="expFromDate">
+                        </div>
+                        <div class="form-group" style="margin-bottom:6px;">
+                            <label>तारीख पर्यंत (To Date)</label>
+                            <input type="date" class="form-control" id="expToDate">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>नोंदीचा प्रकार निवडा</label>
+                            <select class="form-control" id="expRecordType">
+                                <option value="all">सर्व (दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी)</option>
+                                <option value="अर्ज">फक्त दाखले / अर्ज</option>
+                                <option value="तक्रार">फक्त तक्रारी</option>
+                                <option value="चौकशी">फक्त चौकशी / अपॉइंटमेंट</option>
+                            </select>
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label>डेटा स्रोत निवडा</label>
+                            <select class="form-control" id="expDataSource">
+                                <option value="active">सक्रिय यादीतील नोंदी</option>
+                                <option value="archive">१ वर्षाचे संपूर्ण रजिस्टर (मास्टर/ग्रामसेवक)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#b91c1c,#dc2626);" onclick="exportRequestsReport('pdf')">PDF डाउनलोड करा (.pdf)</button>
+                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8);" onclick="exportRequestsReport('jpg')">JPG फोटो डाउनलोड करा (.jpg)</button>
+                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#15803d,#16a34a);" onclick="exportRequestsReport('csv')">CSV / Excel डाउनलोड करा (.csv)</button>
+                    </div>
+                </div>
+
                 <div class="info-card">
-                    <h3>नागरिकांचे ऑनलाइन दाखला अर्ज व तक्रारी</h3>
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="margin-bottom:4px;">नागरिकांचे ऑनलाइन दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">टीप: फक्त 'पूर्ण झाले' अशी कार्यवाही पूर्ण झालेल्या दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी ३० दिवसांनंतर येथून आपोआप डिलीट होतील; 'प्रलंबित' किंवा 'काम सुरू' असलेल्या नोंदी तशाच शिल्लक राहतील.</p>
+                        </div>
+                    </div>
+                    <div id="requestsBulkBar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--bg-subtle); padding:10px 14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
+                        <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:17px; margin:0;">
+                            <input type="checkbox" id="chkSelectAllReqs" onchange="toggleSelectAllRequests(this.checked)" style="width:18px; height:18px; accent-color:var(--primary);">
+                            <span>सर्व नोंदी निवडा (Select All)</span>
+                        </label>
+                        <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:16px;" onclick="deleteSelectedRequests()">निवडलेल्या नोंदी डिलीट करा</button>
+                    </div>
                     <div id="adminRequestsList"></div>
+                </div>
+
+                <!-- 1-Year Master & Gramsevak Complete Register (Visible ONLY to Master Admin & Gramsevak Admin) -->
+                <div class="info-card" id="oneYearRegisterBox" style="display:none; margin-top:22px; border-left:5px solid var(--secondary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <div>
+                            <h3 style="color:var(--secondary); margin-bottom:4px;">१ वर्षाचे संपूर्ण रजिस्टर व डिलीट केलेल्या नोंदी (फक्त मास्टर व ग्रामसेवक ॲडमिनसाठी)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">मागील १ वर्षात (३६५ दिवस) रजिस्टर झालेले सर्व दाखले, तक्रारी, अपॉइंटमेंट, चौकशी फॉर्म आणि डिलीट केलेल्या सर्व नोंदींची माहिती येथे सुरक्षित राहते.</p>
+                        </div>
+                        <span class="badge" id="oneYearCountBadge" style="font-size:15px;">एकूण नोंदी: ०</span>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+                        <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:220px;">
+                        <select class="form-control" id="selArchiveFilter" onchange="renderOneYearRegister()" style="width:auto; min-width:200px;">
+                            <option value="all">सर्व नोंदी दाखवा (१ वर्ष)</option>
+                            <option value="अर्ज">फक्त दाखले / अर्ज</option>
+                            <option value="तक्रार">फक्त तक्रारी</option>
+                            <option value="चौकशी">फक्त चौकशी / अपॉइंटमेंट</option>
+                            <option value="deleted">फक्त डिलीट केलेल्या नोंदी</option>
+                        </select>
+                    </div>
+                    <div id="oneYearRegisterList"></div>
                 </div>
             </div>
 
@@ -1607,6 +1692,22 @@
                     <svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
                     बदल सेव्ह करा
                 </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Official Document / Certificate Viewer (?doc=GP-2026-...) -->
+    <div class="modal-backdrop" id="docViewerModal" style="z-index: 10000; background: rgba(15, 23, 42, 0.82); backdrop-filter: blur(5px);">
+        <div class="modal-box" style="max-width: 640px; padding: 0; overflow: hidden; border: 3px solid var(--primary); border-radius: 18px; box-shadow: 0 25px 55px -12px rgba(15, 23, 42, 0.45);">
+            <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 65%, #ea580c 100%); color: #ffffff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                <div>
+                    <div style="font-size: 14px; opacity: 0.92;">अधिकृत डिजिटल ग्रामपंचायत दस्तऐवज पडताळणी</div>
+                    <div style="font-size: 22px; line-height: 1.2;"><strong>ग्रामपंचायत पिंपळगाव निपाणी</strong></div>
+                </div>
+                <span id="docModalTrackBadge" style="background: rgba(255,255,255,0.2); padding: 5px 13px; border-radius: 999px; font-size: 15px;"></span>
+            </div>
+            <div style="padding: 22px 24px; max-height: 78vh; overflow-y: auto;" id="docModalBody">
+                <div style="text-align:center; padding:20px; color:var(--text-muted);">माहिती तपासत आहे, कृपया थांबा...</div>
             </div>
         </div>
     </div>
@@ -1928,6 +2029,8 @@
                 {
                     trackingId: 'GP-2026-1001',
                     date: '२० नोव्हेंबर २०२६',
+                    createdAt: 1795132800000,
+                    resolvedAt: 1795219200000,
                     type: 'अर्ज',
                     subject: 'रहिवासी दाखला',
                     name: 'अनिल भाऊराव तोरमल',
@@ -1941,6 +2044,8 @@
                 {
                     trackingId: 'GP-2026-1002',
                     date: '२३ नोव्हेंबर २०२६',
+                    createdAt: 1795392000000,
+                    resolvedAt: null,
                     type: 'तक्रार',
                     subject: 'दिवाबत्ती / स्ट्रीट लाईट',
                     name: 'शिवाजी तुकाराम तोरमल',
@@ -1950,6 +2055,38 @@
                     status: 'काम सुरू',
                     actionNote: 'विद्युत कर्मचाऱ्यांना नवीन LED बल्ब बसविण्याच्या सूचना दिल्या आहेत; उद्या सायंकाळपर्यंत दुरुस्ती पूर्ण होईल.',
                     actionProof: ''
+                }
+            ],
+            requestArchiveLog: [
+                {
+                    trackingId: 'GP-2026-1001',
+                    date: '२० नोव्हेंबर २०२६',
+                    createdAt: 1795132800000,
+                    type: 'अर्ज',
+                    subject: 'रहिवासी दाखला',
+                    name: 'अनिल भाऊराव तोरमल',
+                    phone: '9823000001',
+                    detail: 'प्रभाग क्र. २',
+                    status: 'पूर्ण झाले',
+                    actionNote: 'कागदपत्रांची पडताळणी पूर्ण होऊन रहिवासी दाखला तयार करण्यात आला आहे.',
+                    isDeleted: false,
+                    deletedDate: '',
+                    deletedBy: ''
+                },
+                {
+                    trackingId: 'GP-2026-1002',
+                    date: '२३ नोव्हेंबर २०२६',
+                    createdAt: 1795392000000,
+                    type: 'तक्रार',
+                    subject: 'दिवाबत्ती / स्ट्रीट लाईट',
+                    name: 'शिवाजी तुकाराम तोरमल',
+                    phone: '9823000002',
+                    detail: 'मारुती मंदिर चौकातील पथदिवे बंद आहेत.',
+                    status: 'काम सुरू',
+                    actionNote: 'विद्युत कर्मचाऱ्यांना नवीन LED बल्ब बसविण्याच्या सूचना दिल्या आहेत.',
+                    isDeleted: false,
+                    deletedDate: '',
+                    deletedBy: ''
                 }
             ],
             urgentNotice: {
@@ -1972,7 +2109,8 @@
                 notices: true,
                 aaplesarkar: true,
                 panchayatsamiti: true,
-                villageofficials: true
+                villageofficials: true,
+                committees: true
             },
             aapleSarkarCenter: {
                 operatorName: 'संगणक परिचालक (VLE), आपले सरकार सेवा केंद्र',
@@ -2006,6 +2144,40 @@
                 { role: 'महावितरण (MSEB) वायरमन', dept: 'महाराष्ट्र राज्य विद्युत वितरण कंपनी', name: 'श्री. महावितरण लाईनमन (गावांतर्गत)', phone: '१९१२ / ९४२२००६६००', photo: '', color: '#b45309' },
                 { role: 'स्वस्त धान्य दुकानदार (रेशन दुकान)', dept: 'अन्न व नागरी पुरवठा विभाग', name: 'अधिकृत रास्त भाव धान्य दुकान, पिंपळगाव निपाणी', phone: '९४२२००७७००', photo: '', color: '#0f766e' },
                 { role: 'मुख्याध्यापक, जि.प. प्राथमिक शाळा', dept: 'शिक्षण विभाग (जि.प. अहिल्यानगर)', name: 'श्री. मुख्याध्यापक, जि.प. शाळा पिंपळगाव निपाणी', phone: '९४२२००८८००', photo: '', color: '#4338ca' }
+            ],
+            villageCommittees: [
+                {
+                    name: 'ग्राम आरोग्य, पोषण, पाणीपुरवठा व स्वच्छता समिती',
+                    badge: 'आरोग्य, पोषण व पाणीपुरवठा समिती',
+                    president: 'सौ. सुनिता रमेश देशमुख (सरपंच / पदसिद्ध अध्यक्ष)',
+                    secretary: 'श्री. प्रकाश महादेव कुलकर्णी (ग्रामपंचायत अधिकारी / सचिव)',
+                    members: 'आरोग्य सेविका (ANM), अंगणवाडी सेविका, आशा वर्कर व ग्रामपंचायत सदस्य',
+                    phone: '९८२२००११२२'
+                },
+                {
+                    name: 'शालेय व्यवस्थापन समिती (SMC)',
+                    badge: 'शिक्षण व शाळा विकास समिती',
+                    president: 'श्री. शालेय व्यवस्थापन समिती अध्यक्ष',
+                    secretary: 'श्री. मुख्याध्यापक, जि.प. प्राथमिक शाळा (सचिव)',
+                    members: 'पालक प्रतिनिधी, शिक्षक प्रतिनिधी व ग्रामपंचायत सदस्य',
+                    phone: '९४२२००८८००'
+                },
+                {
+                    name: 'महात्मा गांधी तंटामुक्त गाव समिती',
+                    badge: 'शांतता व सलोखा समिती',
+                    president: 'श्री. तंटामुक्त गाव समिती अध्यक्ष',
+                    secretary: 'श्री. पोलीस पाटील / ग्रामपंचायत अधिकारी',
+                    members: 'गावातील ज्येष्ठ नागरिक, महिला प्रतिनिधी व प्रतिष्ठित ग्रामस्थ',
+                    phone: '९४२२००५५६६'
+                },
+                {
+                    name: 'ग्रामस्तरीय दक्षता व घरकुल संनियंत्रण समिती',
+                    badge: 'योजना व पारदर्शकता समिती',
+                    president: 'सरपंच, ग्रामपंचायत पिंपळगाव निपाणी',
+                    secretary: 'ग्रामपंचायत अधिकारी व ग्रामरोजगार सेवक',
+                    members: 'प्रभाग सदस्य, महिला बचत गट प्रतिनिधी व सामाजिक कार्यकर्ते',
+                    phone: '९८२२९९००११'
+                }
             ],
             design: {
                 palette: 'saffron',
@@ -2044,7 +2216,9 @@
         if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
         if (!appState.panchayatSamitiDepts) appState.panchayatSamitiDepts = JSON.parse(JSON.stringify(DEFAULT_STATE.panchayatSamitiDepts));
         if (!appState.villageOfficials) appState.villageOfficials = JSON.parse(JSON.stringify(DEFAULT_STATE.villageOfficials));
+        if (!appState.villageCommittees) appState.villageCommittees = JSON.parse(JSON.stringify(DEFAULT_STATE.villageCommittees));
         if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+        if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = JSON.parse(JSON.stringify(DEFAULT_STATE.requestArchiveLog));
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
         if (Array.isArray(appState.requests)) { appState.requests.forEach((r, i) => { if (!r.trackingId) r.trackingId = 'GP-2026-' + (1001 + i); if (!r.date) r.date = 'नोव्हेंबर २०२६'; if (r.actionNote === undefined) r.actionNote = ''; if (r.actionProof === undefined) r.actionProof = ''; }); }
         if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
@@ -2640,9 +2814,11 @@
             }
             const newId = generateNextTrackingId();
             const todayStr = '२५ नोव्हेंबर २०२६';
-            appState.requests.unshift({
+            const inqEntry = {
                 trackingId: newId,
                 date: todayStr,
+                createdAt: Date.now(),
+                resolvedAt: null,
                 type: 'चौकशी',
                 subject: `${cat} — ${sub}`,
                 name,
@@ -2652,7 +2828,9 @@
                 status: 'प्रलंबित',
                 actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
                 actionProof: ''
-            });
+            };
+            appState.requests.unshift(inqEntry);
+            syncArchiveRecord(inqEntry);
             saveStateToStorage();
             closeModals();
             if (currentCitizen) {
@@ -2691,9 +2869,11 @@
                 const chosenCert = customDropdownValues['ddServiceType'];
                 const certMeta = RTS_CERTIFICATES_DATA[chosenCert];
                 const metaNote = certMeta ? ` (कालमर्यादा: ${certMeta.timeline}, निर्धारित शुल्क: ${certMeta.fee})` : '';
-                appState.requests.unshift({
+                const reqEntry = {
                     trackingId: newId,
                     date: todayStr,
+                    createdAt: Date.now(),
+                    resolvedAt: null,
                     type: 'अर्ज',
                     subject: chosenCert,
                     name, phone, detail: (detail || 'ऑनलाइन अर्ज') + metaNote,
@@ -2701,7 +2881,9 @@
                     status: 'प्रलंबित',
                     actionNote: 'अर्ज प्राप्त झाला असून पडताळणीसाठी संबंधित कर्मचाऱ्यांकडे वर्ग केला आहे.',
                     actionProof: ''
-                });
+                };
+                appState.requests.unshift(reqEntry);
+                syncArchiveRecord(reqEntry);
                 document.getElementById('srvApplicantName').value = '';
                 document.getElementById('srvApplicantPhone').value = '';
                 document.getElementById('srvApplicantAddr').value = '';
@@ -2712,9 +2894,11 @@
                 const detail = document.getElementById('cmpDetails').value.trim();
                 const attachment = document.getElementById('cmpAttachmentUrl') ? document.getElementById('cmpAttachmentUrl').value.trim() : '';
                 if (!name || !detail) { showToast('कृपया नाव आणि तक्रार तपशील भरा.'); return; }
-                appState.requests.unshift({
+                const cmpEntry = {
                     trackingId: newId,
                     date: todayStr,
+                    createdAt: Date.now(),
+                    resolvedAt: null,
                     type: 'तक्रार',
                     subject: customDropdownValues['ddComplaintDept'],
                     name, phone: phone || '-', detail,
@@ -2722,7 +2906,9 @@
                     status: 'प्रलंबित',
                     actionNote: 'तक्रार नोंदवली गेली असून ग्रामपंचायत प्रशासनाकडून पाहणी सुरू आहे.',
                     actionProof: ''
-                });
+                };
+                appState.requests.unshift(cmpEntry);
+                syncArchiveRecord(cmpEntry);
                 document.getElementById('cmpName').value = '';
                 document.getElementById('cmpPhone').value = '';
                 document.getElementById('cmpDetails').value = '';
@@ -3015,6 +3201,12 @@
                 if (isAllowed && !firstVisibleTabBtn) firstVisibleTabBtn = btn;
             });
 
+            const expSrcSel = document.getElementById('expDataSource');
+            if (expSrcSel) {
+                const archOpt = expSrcSel.querySelector('option[value="archive"]');
+                if (archOpt) archOpt.style.display = (currentRole === 'developer' || currentRole === 'gramsevak') ? '' : 'none';
+                if (currentRole === 'operator') expSrcSel.value = 'active';
+            }
             if (firstVisibleTabBtn) {
                 switchAdminTab(firstVisibleTabBtn.getAttribute('data-tab'), firstVisibleTabBtn);
             }
@@ -3024,8 +3216,14 @@
         function exitAdminToPortal() {
             document.getElementById('adminShellView').classList.remove('active');
             document.getElementById('publicPortalView').style.display = 'block';
-            renderPublicPortalWithShimmer();
-        setTimeout(maybeShowUrgentPopupOnHome, 650);
+            enforceRequestRetentionPolicy();
+        renderPublicPortalWithShimmer();
+        checkAndOpenDocFromQueryParam();
+        setTimeout(() => {
+            if (!document.getElementById('docViewerModal')?.classList.contains('active')) {
+                maybeShowUrgentPopupOnHome();
+            }
+        }, 650);
         loadFromFirebaseIfConfigured();
         }
 
@@ -3055,6 +3253,7 @@
 
         function toggleUrgentNoticeSwitch() {
             if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+        if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = JSON.parse(JSON.stringify(DEFAULT_STATE.requestArchiveLog));
             appState.urgentNotice.active = !appState.urgentNotice.active;
             updateUrgentSwitchUI(appState.urgentNotice.active);
             saveStateToStorage();
@@ -3158,6 +3357,7 @@
             updateGovernanceEditorVisibility();
             renderEmployeesEditor();
             renderVillageOfficialsEditor();
+            renderCommitteesEditor();
 
             // Member count custom dropdown
             const countOpts = [5, 7, 9, 11, 13, 15, 17].map(n => ({ value: n, label: `${n} ग्रामपंचायत सदस्य` }));
@@ -3238,6 +3438,21 @@
             const bodyBox = document.getElementById('electedBodyEditorBox');
             if (admBox) admBox.style.display = isAdm ? 'block' : 'none';
             if (bodyBox) bodyBox.style.display = isAdm ? 'none' : 'block';
+        }
+
+        function renderCommitteesEditor() {
+            const grid = document.getElementById('committeesEditorGrid');
+            if (!grid) return;
+            const list = appState.villageCommittees || [];
+            grid.innerHTML = list.map((c, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                    <div style="color: var(--primary); font-size: 18px; margin-bottom: 6px;"><strong>${c.name}</strong></div>
+                    <div class="form-group"><label>अध्यक्ष (President)</label><input type="text" class="form-control" id="cmtPres_${idx}" value="${c.president || ''}"></div>
+                    <div class="form-group"><label>सचिव (Secretary)</label><input type="text" class="form-control" id="cmtSec_${idx}" value="${c.secretary || ''}"></div>
+                    <div class="form-group"><label>सदस्य (Members)</label><input type="text" class="form-control" id="cmtMem_${idx}" value="${c.members || ''}"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>संपर्क क्रमांक</label><input type="text" class="form-control" id="cmtPhone_${idx}" value="${c.phone || ''}"></div>
+                </div>
+            `).join('');
         }
 
         function renderVillageOfficialsEditor() {
@@ -3441,8 +3656,12 @@
                     appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
                     appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
                     localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
+                    enforceRequestRetentionPolicy();
                     populateActualPortalContent();
-                    maybeShowUrgentPopupOnHome();
+                    checkAndOpenDocFromQueryParam();
+                    if (!document.getElementById('docViewerModal')?.classList.contains('active')) {
+                        maybeShowUrgentPopupOnHome();
+                    }
                 }
             } catch (e) { /* silent fallback */ }
         }
@@ -3607,6 +3826,7 @@
             // Urgent Notice Pop-up (ONLY Gramsevak or Operator)
             if ((currentRole === 'gramsevak' || currentRole === 'operator') && document.getElementById('inpUrgTitle')) {
                 if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+        if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = JSON.parse(JSON.stringify(DEFAULT_STATE.requestArchiveLog));
                 appState.urgentNotice.badge = document.getElementById('inpUrgBadge').value.trim() || 'अती तातडीची ग्रामपंचायत सूचना';
                 appState.urgentNotice.date = document.getElementById('inpUrgDate').value.trim();
                 appState.urgentNotice.title = document.getElementById('inpUrgTitle').value.trim();
@@ -3640,6 +3860,18 @@
                         if (nEl) off.name = nEl.value.trim();
                         if (pEl) off.phone = pEl.value.trim();
                         if (phEl) off.photo = phEl.value.trim();
+                    });
+                }
+                if (Array.isArray(appState.villageCommittees)) {
+                    appState.villageCommittees.forEach((c, idx) => {
+                        const pEl = document.getElementById(`cmtPres_${idx}`);
+                        const sEl = document.getElementById(`cmtSec_${idx}`);
+                        const mEl = document.getElementById(`cmtMem_${idx}`);
+                        const phEl = document.getElementById(`cmtPhone_${idx}`);
+                        if (pEl) c.president = pEl.value.trim();
+                        if (sEl) c.secretary = sEl.value.trim();
+                        if (mEl) c.members = mEl.value.trim();
+                        if (phEl) c.phone = phEl.value.trim();
                     });
                 }
             }
@@ -3807,21 +4039,513 @@
             renderAdminWorksAndNotices();
         }
 
+        function syncArchiveRecord(reqObj, extraMeta) {
+            if (!reqObj || !reqObj.trackingId) return;
+            if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = [];
+            const existingIdx = appState.requestArchiveLog.findIndex(a => a.trackingId === reqObj.trackingId);
+            const baseRecord = {
+                trackingId: reqObj.trackingId,
+                date: reqObj.date || 'आज',
+                createdAt: reqObj.createdAt || Date.now(),
+                type: reqObj.type || 'अर्ज',
+                subject: reqObj.subject || '',
+                name: reqObj.name || '',
+                phone: reqObj.phone || '-',
+                detail: reqObj.detail || '',
+                status: reqObj.status || 'प्रलंबित',
+                actionNote: reqObj.actionNote || '',
+                actionProof: reqObj.actionProof || '',
+                isDeleted: false,
+                deletedDate: '',
+                deletedBy: ''
+            };
+            if (existingIdx >= 0) {
+                appState.requestArchiveLog[existingIdx] = Object.assign(appState.requestArchiveLog[existingIdx], baseRecord, extraMeta || {});
+            } else {
+                appState.requestArchiveLog.unshift(Object.assign(baseRecord, extraMeta || {}));
+            }
+        }
+
+        function enforceRequestRetentionPolicy() {
+            const now = Date.now();
+            const THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1000;
+            const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
+            let changed = false;
+
+            if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = [];
+
+            // Ensure all current requests are mirrored in the 1-year archive log
+            if (Array.isArray(appState.requests)) {
+                appState.requests.forEach(r => {
+                    if (!r.createdAt) { r.createdAt = now; changed = true; }
+                    if (r.status === 'पूर्ण झाले' && !r.resolvedAt) { r.resolvedAt = now; changed = true; }
+                    if (r.status !== 'पूर्ण झाले' && r.resolvedAt) { r.resolvedAt = null; changed = true; }
+                    const exists = appState.requestArchiveLog.some(a => a.trackingId === r.trackingId);
+                    if (!exists) { syncArchiveRecord(r); changed = true; }
+                });
+
+                // Remove ONLY 'पूर्ण झाले' requests older than 30 days; keep ALL 'प्रलंबित' AND 'काम सुरू' requests intact!
+                const filteredActive = appState.requests.filter(r => {
+                    if (r.status !== 'पूर्ण झाले') return true;
+                    const refTime = r.resolvedAt || r.createdAt || now;
+                    return (now - refTime) <= THIRTY_DAYS_MS;
+                });
+                if (filteredActive.length !== appState.requests.length) {
+                    appState.requests = filteredActive;
+                    changed = true;
+                }
+            }
+
+            // Retain 1 full year (365 days) of registered + deleted records for Master & Gramsevak Admin
+            const filteredArchive = appState.requestArchiveLog.filter(a => {
+                const cTime = a.createdAt || now;
+                return (now - cTime) <= ONE_YEAR_MS;
+            });
+            if (filteredArchive.length !== appState.requestArchiveLog.length) {
+                appState.requestArchiveLog = filteredArchive;
+                changed = true;
+            }
+
+            if (changed) saveStateToStorage();
+        }
+
+        function toggleSelectAllRequests(isChecked) {
+            document.querySelectorAll('.req-row-chk').forEach(chk => { chk.checked = isChecked; });
+        }
+
+        function markArchiveEntriesDeleted(itemsToDelete) {
+            const roleNames = {
+                developer: 'मास्टर ॲडमिन',
+                gramsevak: 'ग्रामसेवक ॲडमिन',
+                operator: 'संगणक परिचालक'
+            };
+            const delBy = roleNames[currentRole] || 'प्रशासन';
+            const delDateStr = new Date().toLocaleDateString('mr-IN');
+            itemsToDelete.forEach(item => {
+                syncArchiveRecord(item, {
+                    isDeleted: true,
+                    deletedDate: delDateStr,
+                    deletedBy: delBy
+                });
+            });
+        }
+
+        function deleteSingleRequest(idx) {
+            const target = appState.requests[idx];
+            if (!target) return;
+            markArchiveEntriesDeleted([target]);
+            appState.requests.splice(idx, 1);
+            saveStateToStorage();
+            renderAdminRequests();
+            showToast('निवडलेली नोंद डिलीट केली गेली (१ वर्षाच्या मास्टर/ग्रामसेवक रजिस्टरमध्ये सुरक्षित आहे).');
+        }
+
+        function deleteSelectedRequests() {
+            const selectedIndices = [];
+            document.querySelectorAll('.req-row-chk:checked').forEach(chk => {
+                const idx = parseInt(chk.getAttribute('data-idx'), 10);
+                if (!isNaN(idx)) selectedIndices.push(idx);
+            });
+            if (!selectedIndices.length) {
+                showToast('कृपया डिलीट करण्यासाठी किमान एक नोंद निवडा.');
+                return;
+            }
+            const toDelete = selectedIndices.map(i => appState.requests[i]).filter(Boolean);
+            markArchiveEntriesDeleted(toDelete);
+            appState.requests = appState.requests.filter((_, i) => !selectedIndices.includes(i));
+            const selectAllEl = document.getElementById('chkSelectAllReqs');
+            if (selectAllEl) selectAllEl.checked = false;
+            saveStateToStorage();
+            renderAdminRequests();
+            showToast(`${toDelete.length} निवडलेल्या नोंदी डिलीट केल्या गेल्या!`);
+        }
+
+        function renderOneYearRegister() {
+            const box = document.getElementById('oneYearRegisterBox');
+            if (!box) return;
+            // ONLY Master Admin ('developer') and Gramsevak Admin ('gramsevak') can see the 1-year register!
+            if (currentRole !== 'developer' && currentRole !== 'gramsevak') {
+                box.style.display = 'none';
+                return;
+            }
+            box.style.display = 'block';
+            const listEl = document.getElementById('oneYearRegisterList');
+            const badgeEl = document.getElementById('oneYearCountBadge');
+            const query = (document.getElementById('inpArchiveSearch')?.value || '').trim().toLowerCase();
+            const filterVal = document.getElementById('selArchiveFilter')?.value || 'all';
+
+            const allLogs = Array.isArray(appState.requestArchiveLog) ? appState.requestArchiveLog : [];
+            const filtered = allLogs.filter(item => {
+                if (filterVal === 'deleted' && !item.isDeleted) return false;
+                if (filterVal !== 'all' && filterVal !== 'deleted' && item.type !== filterVal) return false;
+                if (query) {
+                    const hay = `${item.trackingId} ${item.name} ${item.phone} ${item.subject} ${item.detail}`.toLowerCase();
+                    if (!hay.includes(query)) return false;
+                }
+                return true;
+            });
+
+            if (badgeEl) badgeEl.textContent = `एकूण १ वर्षाच्या नोंदी: ${allLogs.length} (दाखवत आहे: ${filtered.length})`;
+
+            if (!filtered.length) {
+                listEl.innerHTML = `<div style="padding:14px; text-align:center; color:var(--text-muted); background:var(--bg-subtle); border-radius:10px;">कोणत्याही नोंदी आढळल्या नाहीत.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map(item => `
+                <div style="background:var(--bg-subtle); padding:13px 16px; border-radius:10px; margin-bottom:10px; border-left:4px solid ${item.isDeleted ? '#dc2626' : '#15803d'};">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:8px;">
+                        <div>
+                            <span class="badge">${item.trackingId}</span>
+                            <span class="badge">${item.type}: ${item.subject}</span>
+                            ${item.isDeleted
+                                ? `<span class="badge" style="background:#fee2e2; color:#b91c1c;">डिलीट केलेले (${item.deletedDate || ''} - ${item.deletedBy || ''})</span>`
+                                : `<span class="badge" style="background:#dcfce7; color:#166534;">सक्रिय रजिस्टर (${item.status})</span>`
+                            }
+                            <div style="font-size:18px; margin-top:4px;"><strong>${item.name}</strong> (${item.phone}) <span style="font-size:15px; color:var(--text-muted);">| नोंदणी दिनांक: ${item.date}</span></div>
+                            <div style="font-size:15.5px; color:var(--text-muted);">${item.detail}</div>
+                            ${item.actionNote ? `<div style="font-size:15px; color:var(--secondary); margin-top:3px;"><strong>कार्यवाही शेरा:</strong> ${item.actionNote}</div>` : ''}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+
+        function marathiDigitsToAscii(str) {
+            const map = { '०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9' };
+            return String(str || '').replace(/[०-९]/g, d => map[d] || d);
+        }
+
+        function parseRecordTimestamp(rec) {
+            if (rec && typeof rec.createdAt === 'number' && !isNaN(rec.createdAt)) {
+                return rec.createdAt;
+            }
+            const raw = marathiDigitsToAscii(rec && rec.date ? rec.date : '');
+            const months = {
+                'जानेवारी': 0, 'फेब्रुवारी': 1, 'मार्च': 2, 'एप्रिल': 3,
+                'मे': 4, 'जून': 5, 'जुलै': 6, 'ऑगस्ट': 7,
+                'सप्टेंबर': 8, 'ऑक्टोबर': 9, 'नोव्हेंबर': 10, 'डिसेंबर': 11
+            };
+            const mMatch = raw.match(/(\d{1,2})\s+([^\s\d]+)\s+(\d{4})/);
+            if (mMatch && months[mMatch[2]] !== undefined) {
+                return new Date(parseInt(mMatch[3], 10), months[mMatch[2]], parseInt(mMatch[1], 10), 12, 0, 0).getTime();
+            }
+            const slashMatch = raw.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+            if (slashMatch) {
+                return new Date(parseInt(slashMatch[3], 10), parseInt(slashMatch[2], 10) - 1, parseInt(slashMatch[1], 10), 12, 0, 0).getTime();
+            }
+            return Date.now();
+        }
+
+        function formatDateInputMarathi(isoStr) {
+            if (!isoStr) return '';
+            const parts = isoStr.split('-');
+            if (parts.length !== 3) return isoStr;
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+
+        function getFilteredExportRecords() {
+            const fromVal = document.getElementById('expFromDate')?.value || '';
+            const toVal = document.getElementById('expToDate')?.value || '';
+            const typeVal = document.getElementById('expRecordType')?.value || 'all';
+            const srcVal = document.getElementById('expDataSource')?.value || 'active';
+
+            let pool = [];
+            if (srcVal === 'archive' && (currentRole === 'developer' || currentRole === 'gramsevak')) {
+                pool = Array.isArray(appState.requestArchiveLog) ? appState.requestArchiveLog : [];
+            } else {
+                pool = Array.isArray(appState.requests) ? appState.requests : [];
+            }
+
+            const fromTs = fromVal ? new Date(fromVal + 'T00:00:00').getTime() : null;
+            const toTs = toVal ? new Date(toVal + 'T23:59:59').getTime() : null;
+
+            return pool.filter(r => {
+                if (typeVal !== 'all' && r.type !== typeVal) return false;
+                const rTs = parseRecordTimestamp(r);
+                if (fromTs && rTs < fromTs) return false;
+                if (toTs && rTs > toTs) return false;
+                return true;
+            });
+        }
+
+        function buildPrintableReportElement(records, fromVal, toVal, typeVal) {
+            const typeNames = {
+                all: 'सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी',
+                'अर्ज': 'दाखले / प्रमाणपत्र मागणी अर्ज अहवाल',
+                'तक्रार': 'नागरिक तक्रार निवारण अहवाल',
+                'चौकशी': 'सेवा चौकशी व अपॉइंटमेंट अहवाल'
+            };
+            const rangeLabel = (fromVal || toVal)
+                ? `कालावधी: ${fromVal ? formatDateInputMarathi(fromVal) : 'सुरुवातीपासून'} ते ${toVal ? formatDateInputMarathi(toVal) : 'आजपर्यंत'}`
+                : 'कालावधी: सर्व उपलब्ध नोंदी';
+
+            const wrap = document.createElement('div');
+            wrap.style.cssText = 'position:fixed; left:-9999px; top:0; width:1080px; background:#ffffff; color:#0f172a; font-family:"Khand",sans-serif; padding:0; box-sizing:border-box;';
+
+            const rowsHtml = records.map((r, i) => `
+                <tr style="background:${i % 2 === 0 ? '#ffffff' : '#f8fafc'};">
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px; text-align:center;">${i + 1}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px; white-space:nowrap;">${r.trackingId || '-'}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px; white-space:nowrap;">${r.date || '-'}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.type || '-'}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.subject || '-'}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.name || '-'}<br><span style="font-size:13px; color:#475569;">${r.phone || ''}</span></td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.detail || '-'}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.isDeleted ? 'डिलीट केलेले' : (r.status || 'प्रलंबित')}</td>
+                    <td style="border:1px solid #cbd5e1; padding:8px 10px;">${r.actionNote || '-'}</td>
+                </tr>
+            `).join('');
+
+            wrap.innerHTML = `
+                <!-- Official Header -->
+                <div style="background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 65%,#ea580c 100%); color:#ffffff; padding:22px 28px; border-bottom:4px solid #ea580c;">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <div style="font-size:15px; opacity:0.92;">महाराष्ट्र शासन | पंचायत समिती अकोले अंतर्गत</div>
+                            <div style="font-size:30px; font-weight:700; line-height:1.2;">${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}</div>
+                            <div style="font-size:16px; opacity:0.95;">मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
+                        </div>
+                        <div style="text-align:right; background:rgba(255,255,255,0.16); padding:10px 16px; border-radius:10px;">
+                            <div style="font-size:15px;">अधिकृत नोंदवही अहवाल</div>
+                            <div style="font-size:17px; font-weight:700;">एकूण नोंदी: ${records.length}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sub-Header Info -->
+                <div style="padding:14px 28px; background:#fff7ed; border-bottom:1.5px solid #fed7aa; display:flex; justify-content:space-between; align-items:center; font-size:17px;">
+                    <div><strong>अहवाल विषय:</strong> ${typeNames[typeVal] || typeNames.all}</div>
+                    <div><strong>${rangeLabel}</strong></div>
+                </div>
+
+                <!-- Report Data Table -->
+                <div style="padding:20px 28px;">
+                    <table style="width:100%; border-collapse:collapse; font-size:15px;">
+                        <thead>
+                            <tr style="background:#1e3a8a; color:#ffffff;">
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">अ.क्र.</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">मागोवा क्र.</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">दिनांक</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">प्रकार</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">विषय / दाखला</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">अर्जदार व संपर्क</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">तपशील</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">सद्यस्थिती</th>
+                                <th style="border:1px solid #1e3a8a; padding:9px 8px;">कार्यवाही शेरा</th>
+                            </tr>
+                        </thead>
+                        <tbody>${rowsHtml}</tbody>
+                    </table>
+                </div>
+
+                <!-- Official Footer -->
+                <div style="background:#0f172a; color:#f8fafc; padding:16px 28px; margin-top:12px; display:flex; justify-content:space-between; align-items:center; font-size:15px; border-top:3px solid #ea580c;">
+                    <div>
+                        <div><strong>${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}</strong> | मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५</div>
+                        <div style="color:#cbd5e1; font-size:13.5px;">संगणकीकृत अधिकृत नोंदवही प्रत | डाउनलोड दिनांक: ${new Date().toLocaleDateString('mr-IN')}</div>
+                    </div>
+                    <div style="text-align:right;">
+                        <div style="color:#fb923c; font-size:16px;"><strong>Website Design by Anil Bhaurao Tormal</strong></div>
+                        <div style="color:#e2e8f0; font-size:14px;">संपर्क: 9975571585</div>
+                    </div>
+                </div>
+            `;
+            return wrap;
+        }
+
+        async function exportRequestsReport(format) {
+            const fromVal = document.getElementById('expFromDate')?.value || '';
+            const toVal = document.getElementById('expToDate')?.value || '';
+            const typeVal = document.getElementById('expRecordType')?.value || 'all';
+            const records = getFilteredExportRecords();
+
+            if (!records.length) {
+                showToast('निवडलेल्या तारखेमध्ये कोणतीही नोंद आढळली नाही.');
+                return;
+            }
+
+            const fileBase = `GP_Pimpalgaon_Nipani_Report_${fromVal || 'All'}_to_${toVal || 'Today'}`;
+
+            if (format === 'csv') {
+                const esc = (v) => `"${String(v || '').replace(/"/g, '""')}"`;
+                const rangeStr = (fromVal || toVal)
+                    ? `${fromVal ? formatDateInputMarathi(fromVal) : 'सुरुवातीपासून'} ते ${toVal ? formatDateInputMarathi(toVal) : 'आजपर्यंत'}`
+                    : 'सर्व उपलब्ध नोंदी';
+                const lines = [
+                    // Official Header Rows in CSV
+                    [esc('ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५')].join(','),
+                    [esc(`अधिकृत दाखले, तक्रारी, अपॉइंटमेंट व चौकशी अहवाल | कालावधी: ${rangeStr}`)].join(','),
+                    [''].join(','),
+                    ['अ.क्र.', 'मागोवा क्रमांक', 'दिनांक', 'प्रकार', 'विषय / दाखला', 'अर्जदाराचे नाव', 'मोबाईल क्रमांक', 'तपशील', 'सद्यस्थिती', 'कार्यवाही शेरा'].map(esc).join(',')
+                ];
+                records.forEach((r, idx) => {
+                    lines.push([
+                        esc(idx + 1),
+                        esc(r.trackingId || '-'),
+                        esc(r.date || '-'),
+                        esc(r.type || '-'),
+                        esc(r.subject || '-'),
+                        esc(r.name || '-'),
+                        esc(r.phone || '-'),
+                        esc(r.detail || '-'),
+                        esc(r.isDeleted ? 'डिलीट केलेले' : (r.status || 'प्रलंबित')),
+                        esc(r.actionNote || '-')
+                    ].join(','));
+                });
+                // Official Footer Rows in CSV
+                lines.push([''].join(','));
+                lines.push([esc('ग्रामपंचायत कार्यालय: मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५')].join(','));
+                lines.push([esc('Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
+
+                const blob = new Blob(['﻿' + lines.join('
+')], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `${fileBase}.csv`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                showToast('CSV अहवाल हेडर व फूटरसह डाउनलोड झाला!');
+                return;
+            }
+
+            const reportEl = buildPrintableReportElement(records, fromVal, toVal, typeVal);
+            document.body.appendChild(reportEl);
+            showToast(`${format.toUpperCase()} अहवाल तयार होत आहे, कृपया थांबा...`);
+
+            try {
+                if (typeof html2canvas !== 'undefined') {
+                    const canvas = await html2canvas(reportEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+                    if (format === 'jpg') {
+                        const imgData = canvas.toDataURL('image/jpeg', 0.94);
+                        const a = document.createElement('a');
+                        a.href = imgData;
+                        a.download = `${fileBase}.jpg`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        showToast('JPG अहवाल हेडर व फूटरसह डाउनलोड झाला!');
+                    } else if (format === 'pdf') {
+                        if (window.jspdf && window.jspdf.jsPDF) {
+                            const { jsPDF } = window.jspdf;
+                            const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                            const pdf = new jsPDF('p', 'mm', 'a4');
+                            const pageWidth = pdf.internal.pageSize.getWidth();
+                            const pageHeight = pdf.internal.pageSize.getHeight();
+                            const imgHeight = (canvas.height * pageWidth) / canvas.width;
+                            let heightLeft = imgHeight;
+                            let position = 0;
+
+                            pdf.addImage(imgData, 'JPEG', 0, position, pageWidth, imgHeight);
+                            heightLeft -= pageHeight;
+                            while (heightLeft > 0) {
+                                position = heightLeft - imgHeight;
+                                pdf.addPage();
+                                pdf.addImage(imgData, 'JPEG', 0, position, pageWidth, imgHeight);
+                                heightLeft -= pageHeight;
+                            }
+                            pdf.save(`${fileBase}.pdf`);
+                            showToast('PDF अहवाल हेडर व फूटरसह डाउनलोड झाला!');
+                        } else {
+                            const win = window.open('', '_blank');
+                            win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}</script></body></html>');
+                            win.document.close();
+                        }
+                    }
+                } else {
+                    const win = window.open('', '_blank');
+                    win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}</script></body></html>');
+                    win.document.close();
+                }
+            } catch (e) {
+                showToast('अहवाल तयार करताना त्रुटी आली: ' + e.message);
+            } finally {
+                document.body.removeChild(reportEl);
+            }
+        }
+
+        function sendWhatsAppReplyToCitizen(idx) {
+            const req = appState.requests[idx];
+            if (!req) return;
+            const rawDigits = marathiDigitsToAscii(req.phone || '').replace(/\D/g, '');
+            if (rawDigits.length < 10) {
+                showToast('या नोंदीमध्ये नागरिकाचा वैध १० अंकी मोबाईल क्रमांक उपलब्ध नाही.');
+                return;
+            }
+            const waPhone = rawDigits.length === 10 ? ('91' + rawDigits) : rawDigits;
+            const liveNoteEl = document.getElementById(`reqActionNote_${idx}`);
+            const liveProofEl = document.getElementById(`reqActionProof_${idx}`);
+            const noteText = (liveNoteEl ? liveNoteEl.value.trim() : (req.actionNote || '')).trim() || 'तुमच्या अर्जावर / तक्रारीवर कार्यवाही सुरू आहे.';
+            const proofLink = (liveProofEl ? liveProofEl.value.trim() : (req.actionProof || '')).trim();
+
+            const lines = [
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}*`,
+                `ता. अकोले, जि. अहिल्यानगर`,
+                ``,
+                `नमस्कार *${req.name}*,`,
+                `तुमच्या ऑनलाइन अर्जाबाबत / नोंदीबाबत अद्ययावत माहिती खालीलप्रमाणे आहे:`,
+                ``,
+                `• *मागोवा क्रमांक:* ${req.trackingId || '-'}`,
+                `• *प्रकार व विषय:* ${req.type || 'अर्ज'} — ${req.subject || ''}`,
+                `• *सद्यस्थिती:* *${req.status || 'प्रलंबित'}*`,
+                `• *अधिकारी उत्तर / शेरा:* ${noteText}`
+            ];
+            if (proofLink) {
+                const trackCode = (req.trackingId || '').trim();
+                const currentLoc = window.location.href.split('#')[0].split('?')[0];
+                const portalBase = currentLoc.endsWith('admin.html')
+                    ? currentLoc.replace(/admin\.html$/, '')
+                    : currentLoc;
+                const domainDocUrl = trackCode
+                    ? `${portalBase}?doc=${encodeURIComponent(trackCode)}`
+                    : proofLink;
+                lines.push(`• *तयार दाखला / कागदपत्र पहा व डाउनलोड करा:* ${domainDocUrl}`);
+            }
+            lines.push(``, `धन्यवाद!`, `_ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी_`);
+
+            const waUrl = `https://wa.me/${waPhone}?text=${encodeURIComponent(lines.join('\n'))}`;
+            window.open(waUrl, '_blank', 'noopener');
+        }
+
         function renderAdminRequests() {
+            enforceRequestRetentionPolicy();
             const container = document.getElementById('adminRequestsList');
+            const selectAllEl = document.getElementById('chkSelectAllReqs');
+            if (selectAllEl) selectAllEl.checked = false;
+
+            if (!appState.requests.length) {
+                container.innerHTML = `<div style="padding:18px; text-align:center; color:var(--text-muted); background:var(--bg-subtle); border-radius:12px;">सध्या कोणतेही सक्रिय किंवा प्रलंबित अर्ज, तक्रारी, अपॉइंटमेंट किंवा चौकशी नोंदी नाहीत.</div>`;
+                renderOneYearRegister();
+                return;
+            }
+
             container.innerHTML = appState.requests.map((r, idx) => `
                 <div style="background:var(--bg-subtle);padding:16px;border-radius:12px;margin-bottom:14px;border-left:5px solid var(--primary);">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
-                        <div>
-                            <span class="badge">${r.trackingId || 'GP-2026'}</span>
-                            <span class="badge">${r.type}: ${r.subject}</span>
-                            <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
-                            <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
-                            ${r.attachment ? `<div style="margin-top:6px;"><a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                        <div style="display:flex; align-items:flex-start; gap:10px; flex:1; min-width:240px;">
+                            <input type="checkbox" class="req-row-chk" data-idx="${idx}" style="width:19px; height:19px; margin-top:4px; accent-color:var(--primary); cursor:pointer;">
+                            <div>
+                                <span class="badge">${r.trackingId || 'GP-2026'}</span>
+                                <span class="badge">${r.type}: ${r.subject}</span>
+                                <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
+                                <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
+                                ${r.attachment ? `<div style="margin-top:6px;"><a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                            </div>
                         </div>
-                        <div style="min-width: 180px;">
-                            <label style="font-size:15px;display:block;margin-bottom:4px;">सद्यस्थिती बदला</label>
-                            <div class="inweb-select" id="ddReqStatus_${idx}"></div>
+                        <div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap;">
+                            <div style="min-width: 170px;">
+                                <label style="font-size:15px;display:block;margin-bottom:4px;">सद्यस्थिती बदला</label>
+                                <div class="inweb-select" id="ddReqStatus_${idx}"></div>
+                            </div>
+                            <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:8px 14px; font-size:15.5px; gap:6px; box-shadow:0 3px 10px rgba(22,163,74,0.25);" onclick="sendWhatsAppReplyToCitizen(${idx})" title="नागरिकाला थेट WhatsApp वर उत्तर पाठवा">
+                                <svg class="icon" style="width:17px; height:17px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                                <span>WhatsApp वर उत्तर पाठवा</span>
+                            </button>
+                            <button type="button" class="btn btn-danger" style="padding:8px 12px; font-size:15px;" onclick="deleteSingleRequest(${idx})">डिलीट करा</button>
                         </div>
                     </div>
                     <div class="grid-2" style="background:var(--bg-card);padding:12px;border-radius:10px;border:1px solid var(--border-color);">
@@ -3850,10 +4574,19 @@
                     { value: 'पूर्ण झाले', label: 'पूर्ण झाले' }
                 ], r.status, (newStatus) => {
                     appState.requests[idx].status = newStatus;
+                    if (newStatus === 'पूर्ण झाले') {
+                        appState.requests[idx].resolvedAt = Date.now();
+                    } else {
+                        appState.requests[idx].resolvedAt = null;
+                    }
+                    syncArchiveRecord(appState.requests[idx]);
                     saveStateToStorage();
+                    renderOneYearRegister();
                     showToast('स्थिती अपडेट केली!');
                 });
             });
+
+            renderOneYearRegister();
         }
 
         function updateRequestAction(idx) {
@@ -3861,7 +4594,12 @@
             const proofEl = document.getElementById(`reqActionProof_${idx}`);
             if (noteEl) appState.requests[idx].actionNote = noteEl.value.trim();
             if (proofEl) appState.requests[idx].actionProof = proofEl.value.trim();
+            if (appState.requests[idx].status === 'पूर्ण झाले' && !appState.requests[idx].resolvedAt) {
+                appState.requests[idx].resolvedAt = Date.now();
+            }
+            syncArchiveRecord(appState.requests[idx]);
             saveStateToStorage();
+            renderOneYearRegister();
             showToast('केलेली कार्यवाही अपडेट झाली!');
         }
 
@@ -3882,7 +4620,8 @@
                 notices: 'ग्रामसभा नोटीस व ठराव',
                 aaplesarkar: 'आपले सरकार सेवा केंद्र (CSC)',
                 panchayatsamiti: 'पंचायत समिती अकोले विभाग',
-                villageofficials: 'गावातील इतर शासकीय कर्मचारी'
+                villageofficials: 'गावातील इतर शासकीय कर्मचारी',
+                committees: 'महत्त्वाच्या ग्रामपंचायत समित्या (स्वतंत्र पान)'
             };
 
             const bulkBar = `
@@ -3907,7 +4646,7 @@
 
         function setAllSectionsVis(showState) {
             Object.keys(appState.visibility).forEach(k => { appState.visibility[k] = showState; });
-            ['aaplesarkar', 'panchayatsamiti', 'villageofficials'].forEach(k => { appState.visibility[k] = showState; });
+            ['aaplesarkar', 'panchayatsamiti', 'villageofficials', 'committees'].forEach(k => { appState.visibility[k] = showState; });
             saveStateToStorage();
             renderVisibilityToggles();
             showToast(showState ? 'सर्व विभाग चालू (Visible) केले आहेत!' : 'सर्व विभाग तात्पुरते लपवले आहेत!');
@@ -3936,6 +4675,88 @@
             applyDesignPreferences();
             showToast('मूळ Default डिझाइन परत आणले आहे!');
         }
+
+        function closeDocViewerModal() {
+            const m = document.getElementById('docViewerModal');
+            if (m) m.classList.remove('active');
+            try {
+                const cleanUrl = window.location.href.split('?')[0];
+                window.history.replaceState({}, document.title, cleanUrl);
+            } catch (e) {}
+        }
+
+        function renderDocViewerModalForId(docId) {
+            const modal = document.getElementById('docViewerModal');
+            const badge = document.getElementById('docModalTrackBadge');
+            const body = document.getElementById('docModalBody');
+            if (!modal || !body) return;
+
+            const normId = marathiDigitsToAscii(docId || '').trim().toUpperCase();
+            badge.textContent = normId || 'दस्तऐवज';
+
+            const activeList = Array.isArray(appState.requests) ? appState.requests : [];
+            const archiveList = Array.isArray(appState.requestArchiveLog) ? appState.requestArchiveLog : [];
+            const found = activeList.find(r => marathiDigitsToAscii(r.trackingId || '').trim().toUpperCase() === normId)
+                || archiveList.find(r => marathiDigitsToAscii(r.trackingId || '').trim().toUpperCase() === normId);
+
+            modal.classList.add('active');
+
+            if (!found) {
+                body.innerHTML = `
+                    <div style="text-align:center; padding:12px 0;">
+                        <div style="font-size:22px; color:#b91c1c; margin-bottom:8px;">मागोवा क्रमांक (${normId}) ची माहिती लोड होत आहे किंवा आढळली नाही.</div>
+                        <p style="font-size:16px; color:var(--text-muted); margin-bottom:18px;">कृपया काही क्षण थांबा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.</p>
+                        <button type="button" class="btn btn-primary" style="width:100%; padding:13px; font-size:19px;" onclick="closeDocViewerModal()">मुख्य वेबपोर्टल उघडा</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const proofUrl = (found.actionProof || '').trim();
+            const isImg = /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(proofUrl);
+
+            body.innerHTML = `
+                <div style="background:var(--bg-subtle); padding:16px; border-radius:12px; border-left:5px solid #15803d; margin-bottom:16px;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+                        <span class="badge" style="background:#dcfce7; color:#166534;">अधिकृत पडताळणीकृत नोंद</span>
+                        <span style="font-size:15px; color:var(--text-muted);">दिनांक: ${found.date || '-'}</span>
+                    </div>
+                    <div style="font-size:21px; color:var(--secondary); margin-bottom:4px;"><strong>${found.type || 'अर्ज'}: ${found.subject || ''}</strong></div>
+                    <div style="font-size:17.5px; margin-bottom:4px;"><strong>अर्जदार / नागरिक:</strong> ${found.name || '-'}</div>
+                    <div style="font-size:17px; margin-bottom:4px;"><strong>सद्यस्थिती:</strong> <span style="color:#15803d;">${found.status || 'प्रलंबित'}</span></div>
+                    <div style="font-size:16px; color:var(--text-muted); margin-top:6px;"><strong>अधिकारी उत्तर / शेरा:</strong> ${found.actionNote || '-'}</div>
+                </div>
+
+                ${proofUrl ? `
+                    ${isImg ? `
+                        <div style="margin-bottom:16px; border-radius:12px; overflow:hidden; border:2px solid var(--border-color); background:var(--bg-subtle);">
+                            <img src="${proofUrl}" alt="तयार दाखला / दस्तऐवज" style="width:100%; max-height:340px; object-fit:contain; display:block; margin:0 auto;">
+                        </div>
+                    ` : ''}
+                    <a href="${proofUrl}" target="_blank" rel="noopener" download class="btn" style="width:100%; justify-content:center; background:linear-gradient(135deg,#15803d,#16a34a); color:#ffffff; padding:14px 20px; font-size:20px; border-radius:12px; gap:8px; margin-bottom:12px; box-shadow:0 6px 16px rgba(22,163,74,0.3);">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>तयार दाखला / PDF पहा व डाउनलोड करा</span>
+                    </a>
+                ` : `
+                    <div style="padding:12px; background:#fef3c7; color:#92400e; border-radius:10px; margin-bottom:14px; font-size:16px;">
+                        या अर्जासोबत अद्याप डिजिटल PDF / फोटो फाईल जोडलेली नाही. अधिक माहितीसाठी ग्रामपंचायत कार्यालयाशी संपर्क साधा.
+                    </div>
+                `}
+
+                <button type="button" class="btn btn-secondary" style="width:100%; padding:12px; font-size:18px;" onclick="closeDocViewerModal()">मुख्य वेबपोर्टलवर जा</button>
+            `;
+        }
+
+        function checkAndOpenDocFromQueryParam() {
+            try {
+                const params = new URLSearchParams(window.location.search);
+                const docId = params.get('doc');
+                if (docId && docId.trim()) {
+                    renderDocViewerModalForId(docId.trim());
+                }
+            } catch (e) {}
+        }
+
 
         // Initialize on load
         const savedTheme = localStorage.getItem('gp_theme_v5') || 'light';
