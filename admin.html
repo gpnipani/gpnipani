@@ -1051,10 +1051,10 @@
             </div>
             <div class="top-bar-item">
                 <svg class="icon" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                <span id="topPhone">०२४२४-२२३३४४</span>
+                <span id="topPhone">+91 9975571585</span>
                 <span>&nbsp;|&nbsp;</span>
                 <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-                <span id="topEmail">gppimpalgaonnipani@gmail.com</span>
+                <span id="topEmail">contact.gpnipani@gmail.com</span>
             </div>
         </div>
 
@@ -1111,8 +1111,8 @@
             </ul>
 
             <div class="nav-controls">
-                <button type="button" class="btn btn-secondary" id="pwaInstallHeaderBtn" style="padding: 7px 13px; font-size: 15.5px; border-radius: 999px; border-color: var(--primary); color: var(--primary);" onclick="triggerPwaInstall()" title="मोबाईल होम स्क्रीनवर App सारखा आयकॉन जोडा">
-                    <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                <button type="button" class="btn btn-secondary" id="pwaInstallHeaderBtn" style="padding: 5px 10px; font-size: 14px; border-radius: 999px; border-color: var(--primary); color: var(--primary); white-space: nowrap; gap: 4px; flex-shrink: 0;" onclick="triggerPwaInstall()" title="मोबाईल होम स्क्रीनवर App सारखा आयकॉन जोडा">
+                    <svg class="icon" viewBox="0 0 24 24" style="width:14px;height:14px;flex-shrink:0;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
                     <span>App इन्स्टॉल</span>
                 </button>
                 <button type="button" class="btn btn-primary" id="navLoginBtn" style="padding: 7px 15px; font-size: 16px; border-radius: 999px;" onclick="openLoginModal()">
@@ -2062,6 +2062,12 @@
             <div id="standardLoginFields">
                 <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" name="gp_login_id_field" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
                 <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" name="gp_login_secret_field" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" placeholder="पासवर्ड टाका"></div>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                    <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:16px; color:var(--text-main);">
+                        <input type="checkbox" id="chkRememberMe" checked style="width:18px; height:18px; accent-color:var(--primary);">
+                        <span>मला लॉगिन ठेवा (Remember Me)</span>
+                    </label>
+                </div>
                 <p id="loginError" style="color: #dc2626; font-size: 16px; display: none; margin-bottom: 10px;">चुकीचा युजर आयडी किंवा पासवर्ड!</p>
                 <div id="citizenRegisterPrompt" style="margin-bottom: 12px; font-size: 16px; color: var(--text-muted);">
                     <div style="text-align:center; margin:8px 0; font-size:15px;">— किंवा —</div>
@@ -2203,8 +2209,8 @@
             gpName: 'ग्रामपंचायत पिंपळगाव निपाणी',
             gpAddress: 'ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५',
             gpMapUrl: 'https://maps.app.goo.gl/FDPEea25Kr4XeSDCA?g_st=ac',
-            phone: '०२४२४-२२३३४४',
-            email: 'gppimpalgaonnipani@gmail.com',
+            phone: '+91 9975571585',
+            email: 'contact.gpnipani@gmail.com',
             heroTitle: 'डिजिटल व आदर्श ग्रामपंचायत पिंपळगाव निपाणी',
             heroSubtitle: 'पारदर्शक कारभार, गतिमान विकास आणि ग्रामस्थांच्या सेवेसाठी तत्पर आपले हक्काचे अधिकृत डिजिटल वेबपोर्टल.',
             ticker: 'आगामी ग्रामसभा दिनांक ३० नोव्हेंबर २०२६ रोजी सकाळी ९:३० मिनिटांनी हनुमान मंदिर सभागृहात आयोजित केली आहे. सर्व ग्रामस्थांनी उपस्थित राहावे.   |   घरपट्टी व पाणीपट्टी ३१ डिसेंबरपूर्वी भरून सवलतीचा लाभ घ्यावा.',
@@ -2533,8 +2539,8 @@
             document.getElementById('footerAddress').textContent = addrClean.includes('पिंपळगाव निपाणी')
                 ? (addrClean.startsWith('मु.') ? addrClean : 'मु. पो. ' + addrClean)
                 : 'मु. पो. पिंपळगाव निपाणी, ' + addrClean;
-            document.getElementById('topPhone').textContent = appState.phone;
-            document.getElementById('topEmail').textContent = appState.email;
+            document.getElementById('topPhone').textContent = appState.phone || DEFAULT_STATE.phone;
+            document.getElementById('topEmail').textContent = appState.email || DEFAULT_STATE.email;
             document.getElementById('heroTitle').textContent = appState.heroTitle;
             document.getElementById('heroSubtitle').textContent = appState.heroSubtitle;
             document.getElementById('tickerDisplay').textContent = appState.ticker;
@@ -2573,6 +2579,13 @@
         }
 
         function populateActualPortalContent() {
+            document.getElementById('topPhone').textContent = appState.phone;
+            document.getElementById('topEmail').textContent = appState.email;
+            document.getElementById('headerGpName').textContent = appState.gpName;
+            document.getElementById('headerGpAddress').textContent = appState.gpAddress;
+            document.getElementById('heroTitle').textContent = appState.heroTitle;
+            document.getElementById('heroSubtitle').textContent = appState.heroSubtitle;
+            document.getElementById('tickerDisplay').textContent = appState.ticker;
             const s = appState.stats;
             document.getElementById('statsContainer').innerHTML = `
                 <div class="stat-card"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><h3>${s.pop}</h3><p>एकूण लोकसंख्या</p></div>
@@ -2821,6 +2834,7 @@
                 }
                 currentRole = 'citizen';
                 currentCitizen = foundCit;
+                savePersistentLoginSession('citizen', { citizen: foundCit });
                 updateNavLoginButton();
                 closeModals();
                 openCitizenDashboard();
@@ -3465,7 +3479,9 @@
         function updateNavLoginButton() {
             const lbl = document.getElementById('navLoginLabel');
             if (!lbl) return;
-            if (currentCitizen) {
+            if (currentRole === 'developer' || currentRole === 'gramsevak' || currentRole === 'operator') {
+                lbl.textContent = 'डॅशबोर्ड';
+            } else if (currentCitizen) {
                 lbl.textContent = 'माझे खाते';
             } else {
                 lbl.textContent = 'लॉगिन';
@@ -3494,12 +3510,18 @@
         function logoutCitizen() {
             currentCitizen = null;
             currentRole = null;
+            clearPersistentLoginSession();
+            currentRole = null;
             updateNavLoginButton();
             closeModals();
             showToast('तुम्ही नागरिक खात्यातून लॉगआउट झाला आहात.');
         }
 
         function openLoginModal() {
+            if (currentRole === 'developer' || currentRole === 'gramsevak' || currentRole === 'operator') {
+                enterAdminDashboard();
+                return;
+            }
             if (currentCitizen) {
                 openCitizenDashboard();
                 return;
@@ -3577,6 +3599,8 @@
                     }
                     firebaseMasterIdToken = data.idToken;
                     currentRole = 'developer';
+                    savePersistentLoginSession('developer', { user, token: data.idToken });
+                    updateNavLoginButton();
                     closeModals();
                     enterAdminDashboard();
                     showToast('Firebase द्वारे मास्टर डेव्हलपर लॉगिन यशस्वी!');
@@ -3633,6 +3657,8 @@
             }
 
             currentRole = role;
+            savePersistentLoginSession(role, { user });
+            updateNavLoginButton();
             closeModals();
             enterAdminDashboard();
         }
@@ -3690,8 +3716,51 @@
         loadFromFirebaseIfConfigured();
         }
 
+        function savePersistentLoginSession(role, extra) {
+            try {
+                const remEl = document.getElementById('chkRememberMe');
+                if (remEl && !remEl.checked) {
+                    localStorage.removeItem('gp_saved_session_v1');
+                    return;
+                }
+                localStorage.setItem('gp_saved_session_v1', JSON.stringify(Object.assign({ role, savedAt: Date.now() }, extra || {})));
+            } catch (e) {}
+        }
+
+        function clearPersistentLoginSession() {
+            try { localStorage.removeItem('gp_saved_session_v1'); } catch (e) {}
+        }
+
+        function restorePersistentLoginSession() {
+            try {
+                const raw = localStorage.getItem('gp_saved_session_v1');
+                if (!raw) return false;
+                const sess = JSON.parse(raw);
+                if (!sess || !sess.role) return false;
+                if (sess.role === 'citizen' && sess.citizen) {
+                    currentRole = 'citizen';
+                    currentCitizen = sess.citizen;
+                    updateNavLoginButton();
+                    return true;
+                }
+                if (sess.role === 'developer' || sess.role === 'gramsevak' || sess.role === 'operator') {
+                    currentRole = sess.role;
+                    if (sess.token) firebaseMasterIdToken = sess.token;
+                    updateNavLoginButton();
+                    if (window.location.pathname.endsWith('admin.html') || window.location.hash === '#admin') {
+                        enterAdminDashboard();
+                    }
+                    return true;
+                }
+            } catch (e) {}
+            return false;
+        }
+
         function logoutAdmin() {
             currentRole = null;
+            firebaseMasterIdToken = '';
+            clearPersistentLoginSession();
+            updateNavLoginButton();
             exitAdminToPortal();
             showToast('तुम्ही सुरक्षितपणे लॉगआउट झाला आहात.');
         }
@@ -5504,8 +5573,10 @@
         setTimeout(maybeShowUrgentPopupOnHome, 650);
         loadFromFirebaseIfConfigured();
 
-        // Auto-open Admin Login if opened via admin.html
-        if (true) {
+        const hasRememberedSession = restorePersistentLoginSession();
+
+        // Auto-open Admin Login if opened via admin.html and not already logged in
+        if (!hasRememberedSession) {
             setTimeout(openLoginModal, 350);
         }
     </script>
