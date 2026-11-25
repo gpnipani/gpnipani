@@ -1032,6 +1032,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
+    <meta name="theme-color" content="#ea580c">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="ग्रा.पं. पिंपळगाव निपाणी">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 <body>
 
@@ -1104,6 +1111,10 @@
             </ul>
 
             <div class="nav-controls">
+                <button type="button" class="btn btn-secondary" id="pwaInstallHeaderBtn" style="padding: 7px 13px; font-size: 15.5px; border-radius: 999px; border-color: var(--primary); color: var(--primary);" onclick="triggerPwaInstall()" title="मोबाईल होम स्क्रीनवर App सारखा आयकॉन जोडा">
+                    <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span>App इन्स्टॉल</span>
+                </button>
                 <button type="button" class="btn btn-primary" id="navLoginBtn" style="padding: 7px 15px; font-size: 16px; border-radius: 999px;" onclick="openLoginModal()">
                     <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
                     <span id="navLoginLabel">लॉगिन</span>
@@ -1224,6 +1235,20 @@
                     <h3>ग्रामपंचायत कार्यालय</h3>
                     <p id="footerAddress">मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर, महाराष्ट्र - ४२२६०५</p>
                     <p>कार्यालयीन वेळ: सकाळी ९:४५ ते सायं. ५:३०</p>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
+                        <a id="footerMapLink" href="https://maps.app.goo.gl/FDPEea25Kr4XeSDCA?g_st=ac" target="_blank" rel="noopener" class="btn" style="background:#ea580c; color:#ffffff; padding:7px 13px; font-size:15.5px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;">
+                            <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>Google Maps लोकेशन</span>
+                        </a>
+                        <button type="button" class="btn" style="background:#16a34a; color:#ffffff; padding:7px 13px; font-size:15.5px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;" onclick="sharePortalOnWhatsApp()">
+                            <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>पोर्टल WhatsApp वर शेअर करा</span>
+                        </button>
+                        <button type="button" class="btn" style="background:#1e3a8a; color:#ffffff; padding:7px 13px; font-size:15.5px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;" onclick="triggerPwaInstall()">
+                            <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                            <span>मोबाईल App इन्स्टॉल करा</span>
+                        </button>
+                    </div>
                 </div>
                 <div class="footer-col">
                     <h3>महत्त्वाचे शासकीय दुवे</h3>
@@ -1293,6 +1318,10 @@
                         <div class="form-group">
                             <label>पत्ता व पिनकोड</label>
                             <input type="text" class="form-control" id="inpGpAddress">
+                        </div>
+                        <div class="form-group">
+                            <label>Google Maps लोकेशन लिंक (कार्यालय नकाशा URL)</label>
+                            <input type="url" class="form-control" id="inpGpMapUrl" placeholder="https://maps.app.goo.gl/FDPEea25Kr4XeSDCA?g_st=ac">
                         </div>
                         <div class="form-group">
                             <label>संपर्क फोन क्रमांक</label>
@@ -1831,6 +1860,12 @@
                     </a>
                 </div>
 
+                <!-- WhatsApp Share Button for Urgent Notice -->
+                <button type="button" onclick="shareUrgentNoticeOnWhatsApp()" class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #16a34a, #15803d); color: #ffffff; padding: 13px 18px; font-size: 18.5px; border-radius: 12px; gap: 8px; margin-bottom: 10px; box-shadow: 0 4px 14px rgba(22, 163, 74, 0.28);">
+                    <svg class="icon" style="width:20px;height:20px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <span>ही तातडीची सूचना WhatsApp ग्रुपवर शेअर करा</span>
+                </button>
+
                 <!-- Large Prominent Close Button -->
                 <button type="button" onclick="closeUrgentNoticeModal()" style="width: 100%; background: linear-gradient(135deg, #dc2626, #991b1b); color: #ffffff; border: none; border-radius: 14px; padding: 16px 26px; font-size: 23px; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.38);">
                     <span>✕</span>
@@ -2167,6 +2202,7 @@
         const DEFAULT_STATE = {
             gpName: 'ग्रामपंचायत पिंपळगाव निपाणी',
             gpAddress: 'ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५',
+            gpMapUrl: 'https://maps.app.goo.gl/FDPEea25Kr4XeSDCA?g_st=ac',
             phone: '०२४२४-२२३३४४',
             email: 'gppimpalgaonnipani@gmail.com',
             heroTitle: 'डिजिटल व आदर्श ग्रामपंचायत पिंपळगाव निपाणी',
@@ -2385,6 +2421,7 @@
 
             document.getElementById('headerGpName').textContent = appState.gpName;
             document.getElementById('footerGpName').textContent = appState.gpName;
+            const fMap = document.getElementById('footerMapLink'); if (fMap) fMap.href = appState.gpMapUrl || DEFAULT_STATE.gpMapUrl;
             document.getElementById('headerGpAddress').textContent = appState.gpAddress;
             const addrClean = (appState.gpAddress || '').trim();
             document.getElementById('footerAddress').textContent = addrClean.includes('पिंपळगाव निपाणी')
@@ -2446,6 +2483,12 @@
                 <div class="info-card">
                     <h3>गावाचा संक्षिप्त परिचय</h3>
                     <p>${appState.aboutText}</p>
+                    <div style="margin-top: 12px;">
+                        <a href="${appState.gpMapUrl || DEFAULT_STATE.gpMapUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding: 7px 15px; font-size: 16px; border-color: var(--primary); color: var(--primary); gap: 7px;">
+                            <svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>नकाशावर ग्रामपंचायत कार्यालय पहा (Google Maps)</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="info-card sarpanch-box">
                     <h3>${isAdminPeriod ? 'प्रशासक मनोगत व सूचना' : 'सरपंच मनोगत'}</h3>
@@ -2526,8 +2569,12 @@
                         <p style="color: var(--text-muted); font-size: 16px;">${n.desc}</p>
                         ${n.pdf ? `<p style="color: #9a3412; font-size: 14.5px; margin-top: 4px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</p>` : ''}
                     </div>
-                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                         ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a>` : ''}
+                        <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:6px 13px; font-size:15px; gap:5px;" onclick="shareNoticeOnWhatsApp(${appState.notices.indexOf(n)})" title="ही नोटीस गावच्या WhatsApp ग्रुपवर शेअर करा">
+                            <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                            <span>WhatsApp शेअर</span>
+                        </button>
                         <span class="badge" style="margin:0;">${n.date}</span>
                     </div>
                 </div>
@@ -3635,6 +3682,7 @@
 
             document.getElementById('inpGpName').value = appState.gpName;
             document.getElementById('inpGpAddress').value = appState.gpAddress;
+            if (document.getElementById('inpGpMapUrl')) document.getElementById('inpGpMapUrl').value = appState.gpMapUrl || DEFAULT_STATE.gpMapUrl;
             document.getElementById('inpPhone').value = appState.phone;
             document.getElementById('inpEmail').value = appState.email;
             document.getElementById('inpHeroTitle').value = appState.heroTitle;
@@ -4302,6 +4350,7 @@
             if ((currentRole === 'developer' || currentRole === 'operator') && document.getElementById('inpGpName')) {
                 appState.gpName = document.getElementById('inpGpName').value.trim();
                 appState.gpAddress = document.getElementById('inpGpAddress').value.trim();
+                if (document.getElementById('inpGpMapUrl')) appState.gpMapUrl = document.getElementById('inpGpMapUrl').value.trim() || DEFAULT_STATE.gpMapUrl;
                 appState.phone = document.getElementById('inpPhone').value.trim();
                 appState.email = document.getElementById('inpEmail').value.trim();
                 appState.heroTitle = document.getElementById('inpHeroTitle').value.trim();
@@ -5249,6 +5298,96 @@
                     renderDocViewerModalForId(docId.trim());
                 }
             } catch (e) {}
+        }
+
+
+        // WhatsApp Share Helpers (Portal, Gram Sabha Notice, Urgent Pop-up)
+        function getCleanPortalUrl() {
+            const raw = window.location.href.split('#')[0].split('?')[0];
+            return raw.endsWith('admin.html') ? raw.replace(/admin\.html$/, 'index.html') : raw;
+        }
+
+        function sharePortalOnWhatsApp() {
+            const portalUrl = getCleanPortalUrl();
+            const mapUrl = appState.gpMapUrl || DEFAULT_STATE.gpMapUrl;
+            const text = [
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}*`,
+                `${appState.gpAddress || 'ता. अकोले, जि. अहिल्यानगर'}`,
+                ``,
+                `ग्रामपंचायतीच्या सर्व ऑनलाइन सेवा (दाखले अर्ज, तक्रार निवारण, ग्रामसभा नोटीस, विकासकामे व शासकीय योजना) आता आपल्या मोबाईलवर उपलब्ध आहेत:`,
+                `🌐 पोर्टल लिंक: ${portalUrl}`,
+                `📍 Google Maps लोकेशन: ${mapUrl}`
+            ].join('\n');
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+        }
+
+        function shareNoticeOnWhatsApp(idx) {
+            const n = (appState.notices || [])[idx];
+            if (!n) return;
+            const portalUrl = getCleanPortalUrl();
+            const lines = [
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'} — ग्रामसभा नोटीस / ठराव*`,
+                `दिनांक: ${n.date || ''}`,
+                ``,
+                `*${n.title}*`,
+                `${n.desc || ''}`
+            ];
+            if (n.pdf) {
+                lines.push(``, `संबंधित परिपत्रक / ठराव PDF: ${n.pdf}`);
+            }
+            lines.push(``, `अधिक माहितीसाठी पोर्टल: ${portalUrl}`);
+            window.open(`https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+        }
+
+        function shareUrgentNoticeOnWhatsApp() {
+            const title = (document.getElementById('urgPopupTitle')?.textContent || '').trim();
+            const msg = (document.getElementById('urgPopupMessage')?.textContent || '').trim();
+            const dateStr = (document.getElementById('urgPopupDate')?.textContent || '').trim();
+            const pdfHref = document.getElementById('urgPopupPdfLink')?.getAttribute('href') || '';
+            const portalUrl = getCleanPortalUrl();
+            const lines = [
+                `*📢 अती तातडीची ग्रामपंचायत सूचना*`,
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}* (${dateStr})`,
+                ``,
+                `*${title}*`,
+                `${msg}`
+            ];
+            if (pdfHref && pdfHref !== '#') {
+                lines.push(``, `परिपत्रक PDF: ${pdfHref}`);
+            }
+            lines.push(``, `पोर्टल लिंक: ${portalUrl}`);
+            window.open(`https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
+        }
+
+        // PWA Service Worker & Install Prompt
+        let deferredPwaPrompt = null;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPwaPrompt = e;
+        });
+
+        async function triggerPwaInstall() {
+            if (deferredPwaPrompt) {
+                deferredPwaPrompt.prompt();
+                const choice = await deferredPwaPrompt.userChoice;
+                if (choice && choice.outcome === 'accepted') {
+                    showToast('ग्रामपंचायत पिंपळगाव निपाणी App तुमच्या होम स्क्रीनवर जोडला जात आहे!');
+                }
+                deferredPwaPrompt = null;
+                return;
+            }
+            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            if (isStandalone) {
+                showToast('ग्रामपंचायत पिंपळगाव निपाणी App आधीच इन्स्टॉल केलेला आहे!');
+                return;
+            }
+            showToast('मोबाईल ब्राउझरच्या उजव्या कोपऱ्यातील मेनू (⋮ किंवा Share) वर क्लिक करून "Add to Home Screen / Install App" निवडा.');
+        }
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').catch(() => {});
+            });
         }
 
 
