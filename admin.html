@@ -4399,8 +4399,7 @@
                 lines.push([esc('ग्रामपंचायत कार्यालय: मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५')].join(','));
                 lines.push([esc('Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
 
-                const blob = new Blob(['﻿' + lines.join('
-')], { type: 'text/csv;charset=utf-8;' });
+                const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });;
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
