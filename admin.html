@@ -588,18 +588,28 @@
             border-color: var(--primary);
         }
 
+        .person-profile-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-align: left;
+            padding: 18px;
+        }
+
         .member-avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
+            width: 92px;
+            height: 108px;
+            border-radius: 10px;
             color: #ffffff;
-            font-size: 28px;
+            font-size: 30px;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 12px;
+            flex-shrink: 0;
+            margin: 0;
             overflow: hidden;
-            border: 3px solid var(--primary);
+            border: 2.5px solid var(--primary);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
         }
 
         .member-avatar img {
@@ -1044,6 +1054,14 @@
                     </ul>
                 </li>
                 <li data-nav-sec="notices"><a href="#sec-notices"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ग्रामसभा व ठराव</a></li>
+                <li data-nav-sec="aaplesarkar"><a href="#sec-aaplesarkar"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> आपले सरकार केंद्र</a></li>
+                <li class="has-dropdown" data-nav-sec="panchayatsamiti">
+                    <a href="#sec-panchayatsamiti"><svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg> शासकीय विभाग <svg class="icon nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+                    <ul class="nav-dropdown">
+                        <li data-nav-sec="panchayatsamiti"><a href="#sec-panchayatsamiti">पंचायत समिती अकोले विभाग</a></li>
+                        <li data-nav-sec="villageofficials"><a href="#sec-villageofficials">गावातील इतर शासकीय कर्मचारी</a></li>
+                    </ul>
+                </li>
             </ul>
 
             <div class="nav-controls">
@@ -1160,6 +1178,34 @@
             <div class="notice-list" id="noticesContainer"></div>
         </section>
 
+        <!-- ९. आपले सरकार सेवा केंद्र (CSC / VLE) -->
+        <section class="section-wrap" id="sec-aaplesarkar">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+                <h2 class="section-heading" style="margin-bottom:0;">आपले सरकार सेवा केंद्र (CSC)</h2>
+                <button type="button" class="btn btn-primary" onclick="openInquiryModal('आपले सरकार सेवा केंद्र', '')">केंद्र सेवा चौकशी / पूर्वनोंदणी करा</button>
+            </div>
+            <div id="aapleSarkarBanner" class="info-card" style="margin-bottom: 20px; border-left: 5px solid var(--primary);"></div>
+            <div class="cards-grid" id="aapleSarkarContainer"></div>
+        </section>
+
+        <!-- १०. पंचायत समिती अकोले (जि. अहिल्यानगर) — प्रमुख विभाग -->
+        <section class="section-wrap" id="sec-panchayatsamiti">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+                <h2 class="section-heading" style="margin-bottom:0;">पंचायत समिती अकोले — प्रमुख विभाग व योजना</h2>
+                <button type="button" class="btn btn-primary" onclick="openInquiryModal('पंचायत समिती अकोले विभाग', '')">योजना / विभाग चौकशी करा</button>
+            </div>
+            <div class="cards-grid" id="panchayatSamitiContainer"></div>
+        </section>
+
+        <!-- ११. गावातील इतर शासकीय कर्मचारी व ग्रामस्तरीय यंत्रणा -->
+        <section class="section-wrap" id="sec-villageofficials">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+                <h2 class="section-heading" style="margin-bottom:0;">गावातील इतर शासकीय कर्मचारी व यंत्रणा</h2>
+                <button type="button" class="btn btn-primary" onclick="openInquiryModal('गावातील इतर शासकीय कर्मचारी', '')">शासकीय कर्मचारी / विभाग चौकशी करा</button>
+            </div>
+            <div class="cards-grid" id="villageOfficialsContainer"></div>
+        </section>
+
         <!-- Footer -->
         <footer>
             <div class="footer-grid">
@@ -1220,6 +1266,7 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड सेटिंग्ज (Firebase/Cloudinary)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
         <div class="admin-panel-body">
@@ -1341,6 +1388,27 @@
                         <button type="button" class="btn btn-secondary" onclick="addEmployeeSlot()">+ नवीन कर्मचारी पद जोडा</button>
                     </div>
                 </div>
+
+                <!-- Village Other Govt Officials & Aaple Sarkar Center Editor -->
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>गावातील इतर शासकीय कर्मचारी व आपले सरकार केंद्र संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून तलाठी, कृषी सहाय्यक, पशुधन पर्यवेक्षक, आरोग्य सेविका, अंगणवाडी सेविका, महावितरण वायरमन, रेशन दुकानदार आणि आपले सरकार सेवा केंद्राची माहिती अपडेट करता येते.</p>
+                    <div class="grid-2" style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; margin-bottom: 16px;">
+                        <div class="form-group" style="margin-bottom:8px;">
+                            <label>आपले सरकार केंद्र वेळ</label>
+                            <input type="text" class="form-control" id="inpCscTiming">
+                        </div>
+                        <div class="form-group" style="margin-bottom:8px;">
+                            <label>आपले सरकार केंद्र संपर्क क्रमांक</label>
+                            <input type="text" class="form-control" id="inpCscPhone">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1; margin-bottom:0;">
+                            <label>आपले सरकार केंद्र विशेष मोहीम / सूचना</label>
+                            <input type="text" class="form-control" id="inpCscDrive">
+                        </div>
+                    </div>
+                    <div id="villageOfficialsEditorGrid" class="grid-2"></div>
+                </div>
             </div>
 
             <!-- Tab 3: Gramsabha & Development Works -->
@@ -1353,6 +1421,16 @@
                         <div class="form-group">
                             <label>कामाची सद्यस्थिती</label>
                             <div class="inweb-select" id="ddNewWorkStatus"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>विकासकामाचा फोटो अपलोड करा किंवा लिंक टाका</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="text" class="form-control" id="newWorkPhoto" placeholder="फोटो निवडल्यास लिंक येथे येईल..." style="flex:1; font-size:15px;">
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                                    <span>फोटो निवडा</span>
+                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'newWorkPhoto')">
+                                </label>
+                            </div>
                         </div>
                         <button type="button" class="btn btn-primary" onclick="addNewWork()">विकासकाम जोडा</button>
                         <div id="adminWorksList" style="margin-top: 18px;"></div>
@@ -1481,6 +1559,68 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tab: Urgent Emergency Notice Pop-up (ONLY Gramsevak & Operator; Hidden from Master Login) -->
+            <div class="admin-tab-pane" id="tab-urgent">
+                <div class="info-card" style="border-left: 5px solid #dc2626;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+                        <div>
+                            <h3 style="color:#b91c1c; margin-bottom:4px;">मुख्य पानावरील अती तातडीची सूचना (Pop-up) व्यवस्थापन</h3>
+                            <p style="font-size:16px; color:var(--text-muted); margin:0;">येथून ग्रामस्थांसाठी मुख्य पानावर (Home Screen) दिसणारे तातडीचे सूचना पॉप-अप चालू (ON) किंवा बंद (OFF) करता येते.</p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; background:var(--bg-subtle); padding:10px 16px; border-radius:12px; border:1.5px solid #dc2626;">
+                            <span id="urgStatusLabel" style="font-size:18px; color:#b91c1c;"><strong>पॉप-अप स्थिती: बंद (OFF)</strong></span>
+                            <button type="button" class="inweb-switch" id="urgToggleSwitch" onclick="toggleUrgentNoticeSwitch()">
+                                <span class="inweb-switch-knob"></span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grid-2">
+                        <div class="form-group">
+                            <label>सूचनेचा प्रकार / लेबल</label>
+                            <input type="text" class="form-control" id="inpUrgBadge" placeholder="उदा. अती तातडीची ग्रामपंचायत सूचना">
+                        </div>
+                        <div class="form-group">
+                            <label>दिनांक</label>
+                            <input type="text" class="form-control" id="inpUrgDate" placeholder="उदा. २५ नोव्हेंबर २०२६">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>तातडीच्या सूचनेचे मुख्य शीर्षक</label>
+                            <input type="text" class="form-control" id="inpUrgTitle" placeholder="उदा. उद्या पाणीपुरवठा बंद राहण्याबाबत तातडीची सूचना">
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>सविस्तर सूचना मजकूर</label>
+                            <textarea class="form-control" rows="3" id="inpUrgMessage" placeholder="सर्व ग्रामस्थांना कळविण्यात येते की..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>सूचनेचा फोटो अपलोड करा किंवा लिंक टाका (ऐच्छिक)</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="text" class="form-control" id="inpUrgPhoto" placeholder="फोटो निवडल्यास लिंक येथे येईल..." style="flex:1; font-size:15px;">
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                                    <span>फोटो निवडा</span>
+                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'inpUrgPhoto')">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>परिपत्रक / नोटीस PDF फाईल अपलोड करा (ऐच्छिक)</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="text" class="form-control" id="inpUrgPdf" placeholder="PDF निवडल्यास डाउनलोड लिंक येईल..." style="flex:1; font-size:15px;">
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                                    <span>PDF निवडा</span>
+                                    <input type="file" accept=".pdf,application/pdf" style="display:none;" onchange="handleCloudinaryUpload(this, 'inpUrgPdf')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:10px;">
+                        <button type="button" class="btn btn-secondary" onclick="previewUrgentNoticeFromForm()">पॉप-अप कसा दिसेल ते पहा (Preview)</button>
+                        <button type="button" class="btn btn-primary" onclick="saveAllAdminChanges()">तातडीची सूचना सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <!-- Sticky Bottom Save Bar -->
@@ -1499,6 +1639,48 @@
         </div>
     </div>
 
+    <!-- Modal: Urgent Emergency Notice Pop-up (Home Screen) -->
+    <div class="modal-backdrop" id="urgentNoticeModal" style="z-index: 9999; background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(5px);">
+        <div class="modal-box" style="max-width: 620px; padding: 0; overflow: hidden; border: 3px solid #dc2626; border-radius: 18px; box-shadow: 0 25px 55px -12px rgba(220, 38, 38, 0.5);">
+            <!-- Attractive Red-Saffron Header Banner -->
+            <div style="background: linear-gradient(135deg, #991b1b 0%, #dc2626 55%, #ea580c 100%); color: #ffffff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border-radius: 50%; background: rgba(255,255,255,0.22); font-size: 22px; flex-shrink: 0;">📢</span>
+                    <div>
+                        <div id="urgPopupBadge" style="font-size: 14px; letter-spacing: 0.6px; opacity: 0.95;">अती तातडीची ग्रामपंचायत सूचना</div>
+                        <div style="font-size: 22px; line-height: 1.2;"><strong>ग्रामपंचायत पिंपळगाव निपाणी</strong></div>
+                    </div>
+                </div>
+                <span id="urgPopupDate" style="background: rgba(255,255,255,0.22); padding: 5px 13px; border-radius: 999px; font-size: 14.5px; white-space: nowrap;"></span>
+            </div>
+
+            <!-- Body Content -->
+            <div style="padding: 22px 24px; max-height: 76vh; overflow-y: auto;">
+                <h3 id="urgPopupTitle" style="font-size: 26px; color: #b91c1c; margin-bottom: 10px; line-height: 1.3;"></h3>
+                <p id="urgPopupMessage" style="font-size: 18.5px; color: var(--text-main); line-height: 1.65; white-space: pre-line; margin-bottom: 16px;"></p>
+
+                <!-- Optional Notice Photo -->
+                <div id="urgPopupPhotoWrap" style="display: none; margin-bottom: 16px; border-radius: 12px; overflow: hidden; border: 2px solid var(--border-color); background: var(--bg-subtle);">
+                    <img id="urgPopupPhoto" src="" alt="तातडीची सूचना फोटो" style="width: 100%; max-height: 330px; object-fit: contain; display: block; margin: 0 auto;">
+                </div>
+
+                <!-- Optional PDF Download / View Button -->
+                <div id="urgPopupPdfWrap" style="display: none; margin-bottom: 18px;">
+                    <a id="urgPopupPdfLink" href="#" target="_blank" rel="noopener" download class="btn" style="width: 100%; justify-content: center; background: linear-gradient(135deg, #1e3a8a, #1d4ed8); color: #ffffff; padding: 13px 18px; font-size: 18.5px; border-radius: 12px; gap: 8px; box-shadow: 0 4px 14px rgba(30, 58, 138, 0.28);">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                        <span>संबंधित परिपत्रक / सूचना PDF पहा व डाउनलोड करा</span>
+                    </a>
+                </div>
+
+                <!-- Large Prominent Close Button -->
+                <button type="button" onclick="closeUrgentNoticeModal()" style="width: 100%; background: linear-gradient(135deg, #dc2626, #991b1b); color: #ffffff; border: none; border-radius: 14px; padding: 16px 26px; font-size: 23px; font-family: inherit; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 8px 20px rgba(220, 38, 38, 0.38);">
+                    <span>✕</span>
+                    <span>बंद करा (Close)</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Citizen Service Application -->
     <div class="modal-backdrop" id="serviceModal">
         <div class="modal-box" style="max-width: 640px;">
@@ -1506,28 +1688,66 @@
                 <h3 style="font-size: 24px; color: var(--primary); margin:0;" id="serviceModalTitle">ऑनलाइन दाखला मागणी अर्ज</h3>
                 <span class="badge" style="margin:0; font-size:14px;">महाराष्ट्र लोकसेवा हक्क अधिनियम - २०१५</span>
             </div>
-            <div class="form-group">
-                <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा</label>
-                <div class="inweb-select" id="ddServiceType"></div>
-            </div>
-            <!-- Dynamic RTS Act Service Details Box -->
-            <div id="rtsServiceInfoBox" style="background: var(--bg-subtle); border: 1.5px solid var(--primary); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;"></div>
-            <div class="form-group"><label>अर्जदाराचे पूर्ण नाव</label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
-            <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="srvApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
-            <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
-            <div class="form-group">
-                <label>लिखित अर्ज / आवश्यक कागदपत्रे किंवा फोटो अपलोड करा (PDF / JPG / PNG)</label>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
-                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
-                        <span>फाईल निवडा</span>
-                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAttachmentUrl')">
-                    </label>
+            <div id="serviceFormStep1">
+                <div class="form-group">
+                    <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा</label>
+                    <div class="inweb-select" id="ddServiceType"></div>
+                </div>
+                <div class="form-group"><label>अर्जदाराचे पूर्ण नाव</label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
+                <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="srvApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
+                <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
+                <div class="form-group">
+                    <label>लिखित अर्ज / आवश्यक कागदपत्रे किंवा फोटो अपलोड करा (PDF / JPG / PNG)</label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
+                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                            <span>फाईल निवडा</span>
+                            <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAttachmentUrl')">
+                        </label>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
+                    <button type="button" class="btn btn-primary" onclick="openServiceConfirmStep()">अर्ज सबमिट करा</button>
                 </div>
             </div>
+
+            <!-- Step 2: RTS Act Info & Confirmation Screen before Final Submission -->
+            <div id="serviceConfirmStep2" style="display:none;">
+                <div style="background: #fff7ed; border: 1.5px solid var(--primary); border-radius: 10px; padding: 12px 14px; margin-bottom: 12px;">
+                    <div style="font-size: 18px; color: var(--primary); margin-bottom: 6px;"><strong>अर्ज अंतिम सबमिट करण्यापूर्वी खालील माहिती तपासून खात्री (Confirm) करा:</strong></div>
+                    <div id="confirmApplicantSummary" style="font-size: 16px; color: var(--text-main);"></div>
+                </div>
+                <div id="rtsServiceInfoBox" style="background: var(--bg-subtle); border: 1.5px solid var(--secondary); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;"></div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px; flex-wrap: wrap;">
+                    <button type="button" class="btn btn-secondary" onclick="backToServiceFormStep1()">माहिती बदला (मागे जा)</button>
+                    <button type="button" class="btn btn-primary" onclick="submitCitizenRequest('अर्ज')">खात्री करा व अर्ज अंतिम सबमिट करा</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Department & Service Inquiry -->
+    <div class="modal-backdrop" id="inquiryModal">
+        <div class="modal-box" style="max-width: 580px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:10px;">
+                <h3 style="font-size: 24px; color: var(--primary); margin:0;">सेवा व विभाग चौकशी / पूर्वनोंदणी</h3>
+                <span class="badge" style="margin:0;">ऑनलाइन नागरिक मदत कक्ष</span>
+            </div>
+            <div class="form-group">
+                <label>चौकशीचा विभाग निवडा</label>
+                <div class="inweb-select" id="ddInquiryCategory"></div>
+            </div>
+            <div class="form-group">
+                <label>संबंधित सेवा / उपविभाग निवडा</label>
+                <div class="inweb-select" id="ddInquirySubject"></div>
+            </div>
+            <div class="form-group"><label>चौकशी करणाऱ्याचे पूर्ण नाव</label><input type="text" class="form-control" id="inqApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
+            <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="inqApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
+            <div class="form-group"><label>तुमचा प्रश्न / आवश्यक माहितीचा तपशील</label><textarea class="form-control" rows="3" id="inqDetails" placeholder="उदा. उत्पन्नाच्या दाखल्यासाठी कोणती कागदपत्रे लागतील? किंवा घरकुल योजनेबाबत माहिती हवी आहे."></textarea></div>
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
-                <button type="button" class="btn btn-primary" onclick="submitCitizenRequest('अर्ज')">अर्ज सबमिट करा</button>
+                <button type="button" class="btn btn-primary" onclick="submitCitizenInquiry()">चौकशी सबमिट करा</button>
             </div>
         </div>
     </div>
@@ -1760,6 +1980,15 @@
                     actionProof: ''
                 }
             ],
+            urgentNotice: {
+                active: false,
+                badge: 'अती तातडीची ग्रामपंचायत सूचना',
+                title: 'विशेष ग्रामसभा व पाणीपुरवठा विषयक महत्त्वाची सूचना',
+                date: '२५ नोव्हेंबर २०२६',
+                message: 'सर्व ग्रामस्थांना कळविण्यात येते की, ग्रामपंचायत पिंपळगाव निपाणी अंतर्गत तातडीच्या शासकीय कामकाजासाठी व ग्रामसभेसाठी दिलेल्या वेळेत उपस्थित राहावे.',
+                photo: '',
+                pdf: ''
+            },
             visibility: {
                 ticker: true,
                 hero: true,
@@ -1768,8 +1997,44 @@
                 services: true,
                 members: true,
                 works: true,
-                notices: true
+                notices: true,
+                aaplesarkar: true,
+                panchayatsamiti: true,
+                villageofficials: true
             },
+            aapleSarkarCenter: {
+                operatorName: 'संगणक परिचालक (VLE), आपले सरकार सेवा केंद्र',
+                phone: '९८२२५५६६७७',
+                timing: 'सकाळी ९:४५ ते सायं. ५:३० (शासकीय सुट्टीचे दिवस वगळून)',
+                activeDrive: 'सध्या केंद्रावर ॲग्रीस्टॅक शेतकरी ओळखपत्र (Farmer ID), लाडकी बहीण ई-केवायसी व आयुष्मान भारत कार्ड नोंदणी सुरू आहे.',
+                servicesList: [
+                    { name: 'उत्पन्न, जातीचा व रहिवासी दाखला', fee: 'शासनमान्य दर (₹ ३५ - ₹ ५०)', docs: 'आधार कार्ड, रेशन कार्ड, शाळा सोडल्याचा दाखला / तलाठी अहवाल' },
+                    { name: 'नॉन-क्रिमीलेयर व ईडब्ल्यूएस (EWS) प्रमाणपत्र', fee: 'शासनमान्य दर', docs: '३ वर्षांचे उत्पन्न प्रमाणपत्र, आधार कार्ड, जात/शाळा दाखला' },
+                    { name: 'डिजिटल स्वाक्षरीचा ७/१२ व ८-अ उतारा', fee: '₹ १५ प्रति उतारा', docs: 'गट क्रमांक / खाते क्रमांक व मोबाईल नंबर' },
+                    { name: 'नवीन पॅन कार्ड (PAN) व आधार दुरुस्ती नोंदणी', fee: '₹ १०७ (पॅन कार्ड)', docs: 'आधार कार्ड, २ पासपोर्ट फोटो व मोबाईल लिंक' },
+                    { name: 'आयुष्मान भारत कार्ड व ई-श्रम कार्ड', fee: 'मोफत / शासनमान्य दर', docs: 'आधार कार्ड, रेशन कार्ड व आधार संलग्न मोबाईल नंबर' },
+                    { name: 'पीएम किसान (PM-KISAN) व ॲग्रीस्टॅक शेतकरी आयडी', fee: 'शासनमान्य दर', docs: 'आधार कार्ड, ७/१२ उतारा व आधार लिंक मोबाईल' }
+                ]
+            },
+            panchayatSamitiDepts: [
+                { dept: 'ग्रामपंचायत विभाग', scheme: '१५ वा वित्त आयोग निधी, गावांतर्गत विकासकामे, ग्रामसभा व नागरी सुविधा', contact: 'गट विकास अधिकारी / विस्तार अधिकारी (पं.स. अकोले)' },
+                { dept: 'कृषी विभाग (पं.स. अकोले)', scheme: 'बियाणे व कृषी औजारे अनुदान, फळबाग लागवड, महाडीबीटी (MahaDBT) योजना', contact: 'कृषी अधिकारी, पंचायत समिती अकोले' },
+                { dept: 'पशुसंवर्धन विभाग', scheme: 'जनावरांचे मोफत लसीकरण, वैरण विकास (चारा बियाणे वाटप), दुधाळ जनावरे अनुदान', contact: 'पशुधन विकास अधिकारी, अकोले' },
+                { dept: 'बांधकाम व ग्रामीण पाणीपुरवठा विभाग', scheme: 'जलजीवन मिशन नळ पाणीपुरवठा, रस्ते, बंधारे व विहीर बांधकाम योजना', contact: 'उपअभियंता, ग्रामीण पाणीपुरवठा व बांधकाम' },
+                { dept: 'शिक्षण व एकात्मिक बालविकास (ICDS)', scheme: 'जिल्हा परिषद शाळा सुधारणा, अंगणवाडी पोषण आहार, शिष्यवृत्ती व मातृवंदना योजना', contact: 'गटशिक्षणाधिकारी / बालविकास प्रकल्प अधिकारी' },
+                { dept: 'आरोग्य विभाग', scheme: 'प्राथमिक आरोग्य केंद्र सेवा, माता-बाल लसीकरण व राष्ट्रीय आरोग्य कार्यक्रम', contact: 'तालुका आरोग्य अधिकारी, अकोले' },
+                { dept: 'समाजकल्याण व घरकुल विभाग', scheme: 'रमाई आवास, शबरी आवास, प्रधानमंत्री आवास योजना (ग्रामीण) व दिव्यांग कल्याण निधी', contact: 'विस्तार अधिकारी (सांख्यिकी / समाजकल्याण)' }
+            ],
+            villageOfficials: [
+                { role: 'ग्राम महसूल अधिकारी (तलाठी)', dept: 'महसूल विभाग (सज्जा पिंपळगाव निपाणी)', name: 'श्री. तलाठी साहेब (सज्जा कार्यालय)', phone: '९४२२००११००', photo: '', color: '#1e3a8a' },
+                { role: 'कृषी सहाय्यक', dept: 'कृषी विभाग (पीक पाहणी व योजना)', name: 'श्री. कृषी सहाय्यक, पिंपळगाव निपाणी', phone: '९४२२००२२००', photo: '', color: '#15803d' },
+                { role: 'पशुधन पर्यवेक्षक', dept: 'पशुसंवर्धन विभाग', name: 'डॉ. पशुधन पर्यवेक्षक, पशुवैद्यकीय दवाखाना', phone: '९४२२००३३००', photo: '', color: '#0369a1' },
+                { role: 'आरोग्य सेविका (ANM) / आशा वर्कर', dept: 'सार्वजनिक आरोग्य विभाग', name: 'श्रीमती आरोग्य सेविका (उपकेंद्र)', phone: '९४२२००४४००', photo: '', color: '#be123c' },
+                { role: 'अंगणवाडी सेविका', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. १ व २)', phone: '९४२२००५५००', photo: '', color: '#7e22ce' },
+                { role: 'महावितरण (MSEB) वायरमन', dept: 'महाराष्ट्र राज्य विद्युत वितरण कंपनी', name: 'श्री. महावितरण लाईनमन (गावांतर्गत)', phone: '१९१२ / ९४२२००६६००', photo: '', color: '#b45309' },
+                { role: 'स्वस्त धान्य दुकानदार (रेशन दुकान)', dept: 'अन्न व नागरी पुरवठा विभाग', name: 'अधिकृत रास्त भाव धान्य दुकान, पिंपळगाव निपाणी', phone: '९४२२००७७००', photo: '', color: '#0f766e' },
+                { role: 'मुख्याध्यापक, जि.प. प्राथमिक शाळा', dept: 'शिक्षण विभाग (जि.प. अहिल्यानगर)', name: 'श्री. मुख्याध्यापक, जि.प. शाळा पिंपळगाव निपाणी', phone: '९४२२००८८००', photo: '', color: '#4338ca' }
+            ],
             design: {
                 palette: 'saffron',
                 font: "'Khand', sans-serif",
@@ -1804,6 +2069,10 @@
         if (!appState.cloudConfig.firebaseDatabaseUrl || appState.cloudConfig.firebaseApiKey !== 'AIzaSyDiEunvQ_RerZ7FBlt0iVPXyNUXLHuEmKY') {
             appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
         }
+        if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
+        if (!appState.panchayatSamitiDepts) appState.panchayatSamitiDepts = JSON.parse(JSON.stringify(DEFAULT_STATE.panchayatSamitiDepts));
+        if (!appState.villageOfficials) appState.villageOfficials = JSON.parse(JSON.stringify(DEFAULT_STATE.villageOfficials));
+        if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
         if (Array.isArray(appState.requests)) { appState.requests.forEach((r, i) => { if (!r.trackingId) r.trackingId = 'GP-2026-' + (1001 + i); if (!r.date) r.date = 'नोव्हेंबर २०२६'; if (r.actionNote === undefined) r.actionNote = ''; if (r.actionProof === undefined) r.actionProof = ''; }); }
         if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
@@ -1920,7 +2189,10 @@
             document.getElementById('headerGpName').textContent = appState.gpName;
             document.getElementById('footerGpName').textContent = appState.gpName;
             document.getElementById('headerGpAddress').textContent = appState.gpAddress;
-            document.getElementById('footerAddress').textContent = 'मु. पो. ' + appState.gpAddress;
+            const addrClean = (appState.gpAddress || '').trim();
+            document.getElementById('footerAddress').textContent = addrClean.includes('पिंपळगाव निपाणी')
+                ? (addrClean.startsWith('मु.') ? addrClean : 'मु. पो. ' + addrClean)
+                : 'मु. पो. पिंपळगाव निपाणी, ' + addrClean;
             document.getElementById('topPhone').textContent = appState.phone;
             document.getElementById('topEmail').textContent = appState.email;
             document.getElementById('heroTitle').textContent = appState.heroTitle;
@@ -1991,12 +2263,14 @@
                     ? `<img src="${person.photo}" alt="${person.name}" onerror="this.style.display='none';this.parentElement.textContent='${initials}'">`
                     : initials;
                 return `
-                    <div class="card-item" style="text-align: center;">
+                    <div class="card-item person-profile-card">
                         <div class="member-avatar" style="background-color: ${person.color || '#ea580c'};">${avatarHtml}</div>
-                        <span class="badge">${badgeText}</span>
-                        <h3 style="font-size: 21px; margin-bottom: 4px;">${person.name}</h3>
-                        ${person.subNote ? `<div style="color: var(--primary); font-size: 15px; margin-bottom: 4px;">${person.subNote}</div>` : ''}
-                        <p style="color: var(--text-muted); font-size: 16px;">संपर्क: ${person.phone}</p>
+                        <div style="flex: 1; min-width: 0;">
+                            <span class="badge" style="margin-bottom: 6px;">${badgeText}</span>
+                            <h3 style="font-size: 21px; margin-bottom: 4px; line-height: 1.25;">${person.name}</h3>
+                            ${person.subNote ? `<div style="color: var(--primary); font-size: 15px; margin-bottom: 4px;">${person.subNote}</div>` : ''}
+                            <p style="color: var(--text-muted); font-size: 16px; margin: 0;">संपर्क: ${person.phone}</p>
+                        </div>
                     </div>
                 `;
             }
@@ -2038,10 +2312,13 @@
             document.getElementById('membersContainer').innerHTML = governanceHtml + employeesHtml;
 
             document.getElementById('worksContainer').innerHTML = appState.works.map(w => `
-                <div class="card-item">
-                    <span class="status-pill ${w.status === 'पूर्ण झाले' ? 'status-done' : 'status-progress'}" style="margin-bottom: 10px;">${w.status}</span>
-                    <h3 style="font-size: 21px; margin-bottom: 6px;">${w.title}</h3>
-                    <p style="color: var(--text-muted); font-size: 17px;">${w.fund}</p>
+                <div class="card-item" style="overflow:hidden; display:flex; flex-direction:column;">
+                    ${w.photo ? `<div style="margin:-24px -24px 14px -24px; height:190px; overflow:hidden; border-bottom:2px solid var(--border-color);"><img src="${w.photo}" alt="${w.title}" style="width:100%; height:100%; object-fit:cover;"></div>` : ''}
+                    <div>
+                        <span class="status-pill ${w.status === 'पूर्ण झाले' ? 'status-done' : 'status-progress'}" style="margin-bottom: 10px;">${w.status}</span>
+                        <h3 style="font-size: 21px; margin-bottom: 6px;">${w.title}</h3>
+                        <p style="color: var(--text-muted); font-size: 17px;">${w.fund}</p>
+                    </div>
                 </div>
             `).join('');
 
@@ -2057,6 +2334,73 @@
                     </div>
                 </div>
             `).join('');
+
+            // 9. Aaple Sarkar Seva Kendra
+            const csc = appState.aapleSarkarCenter || DEFAULT_STATE.aapleSarkarCenter;
+            const cscBanner = document.getElementById('aapleSarkarBanner');
+            if (cscBanner) {
+                cscBanner.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                        <div>
+                            <div style="font-size:18px; color:var(--secondary);"><strong>${csc.operatorName}</strong> | संपर्क: <a href="tel:${csc.phone}" style="color:var(--primary);">${csc.phone}</a></div>
+                            <div style="font-size:15.5px; color:var(--text-muted); margin-top:3px;">कार्यालयीन वेळ: ${csc.timing}</div>
+                            <div style="font-size:15.5px; color:#15803d; margin-top:5px;"><strong>विशेष सूचना:</strong> ${csc.activeDrive}</div>
+                        </div>
+                    </div>
+                `;
+            }
+            const cscGrid = document.getElementById('aapleSarkarContainer');
+            if (cscGrid) {
+                cscGrid.innerHTML = (csc.servicesList || []).map(srv => `
+                    <div class="card-item" style="display:flex; flex-direction:column; justify-content:space-between; gap:10px;">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px;">${srv.fee}</span>
+                            <h3 style="font-size:20px; margin-bottom:6px;">${srv.name}</h3>
+                            <p style="font-size:15px; color:var(--text-muted); margin:0;"><strong>आवश्यक कागदपत्रे:</strong> ${srv.docs}</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="openInquiryModal('आपले सरकार सेवा केंद्र', '${srv.name.replace(/'/g, "\'")}')">या सेवेबाबत चौकशी करा</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 10. Panchayat Samiti Akole Departments
+            const psGrid = document.getElementById('panchayatSamitiContainer');
+            if (psGrid) {
+                psGrid.innerHTML = (appState.panchayatSamitiDepts || []).map(d => `
+                    <div class="card-item" style="display:flex; flex-direction:column; justify-content:space-between; gap:10px;">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px;">पंचायत समिती अकोले</span>
+                            <h3 style="font-size:20px; margin-bottom:6px;">${d.dept}</h3>
+                            <p style="font-size:15.5px; color:var(--text-main); margin-bottom:6px;"><strong>प्रमुख योजना व कामे:</strong> ${d.scheme}</p>
+                            <p style="font-size:14.5px; color:var(--text-muted); margin:0;"><strong>संपर्क अधिकारी:</strong> ${d.contact}</p>
+                        </div>
+                        <div>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="openInquiryModal('पंचायत समिती अकोले विभाग', '${d.dept.replace(/'/g, "\'")}')">विभाग चौकशी करा</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 11. Village Other Govt Officials
+            const voGrid = document.getElementById('villageOfficialsContainer');
+            if (voGrid) {
+                voGrid.innerHTML = (appState.villageOfficials || []).map(off => `
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                        ${renderPersonCard({
+                            name: off.name,
+                            phone: off.phone,
+                            photo: off.photo,
+                            color: off.color || '#1e3a8a',
+                            subNote: off.dept
+                        }, off.role)}
+                        <div style="text-align:right; margin-top:-4px;">
+                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="openInquiryModal('गावातील इतर शासकीय कर्मचारी', '${off.role.replace(/'/g, "\'")}')">चौकशी करा</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
         }
 
         function applyVisibility() {
@@ -2068,7 +2412,10 @@
                 services: 'sec-services',
                 members: 'sec-members',
                 works: 'sec-works',
-                notices: 'sec-notices'
+                notices: 'sec-notices',
+                aaplesarkar: 'sec-aaplesarkar',
+                panchayatsamiti: 'sec-panchayatsamiti',
+                villageofficials: 'sec-villageofficials'
             };
             Object.keys(map).forEach(key => {
                 const isVis = appState.visibility[key] !== false;
@@ -2235,16 +2582,111 @@
                 label: `${RTS_CERTIFICATES_DATA[name].srNo}. ${name} (${RTS_CERTIFICATES_DATA[name].timeline} | ${RTS_CERTIFICATES_DATA[name].fee})`
             }));
             const initialCert = RTS_CERTIFICATES_DATA[defaultType] ? defaultType : 'जन्म नोंद दाखला';
-            renderInwebDropdown('ddServiceType', certOptions, initialCert, (selectedVal) => {
-                updateRtsServiceInfoBox(selectedVal);
-            });
-            updateRtsServiceInfoBox(initialCert);
+            renderInwebDropdown('ddServiceType', certOptions, initialCert);
+            document.getElementById('serviceFormStep1').style.display = 'block';
+            document.getElementById('serviceConfirmStep2').style.display = 'none';
             if (currentCitizen) {
                 document.getElementById('srvApplicantName').value = currentCitizen.name;
                 document.getElementById('srvApplicantPhone').value = currentCitizen.phone;
                 document.getElementById('srvApplicantAddr').value = currentCitizen.ward;
             }
             document.getElementById('serviceModal').classList.add('active');
+        }
+
+        function openServiceConfirmStep() {
+            const name = document.getElementById('srvApplicantName').value.trim();
+            const phone = document.getElementById('srvApplicantPhone').value.trim();
+            const addr = document.getElementById('srvApplicantAddr').value.trim();
+            const chosenCert = customDropdownValues['ddServiceType'] || 'जन्म नोंद दाखला';
+            if (!name || !phone) {
+                showToast('कृपया अर्जदाराचे पूर्ण नाव आणि मोबाईल क्रमांक भरा.');
+                return;
+            }
+            document.getElementById('confirmApplicantSummary').innerHTML = `
+                <div><strong>दाखल्याचा प्रकार:</strong> ${chosenCert}</div>
+                <div><strong>अर्जदाराचे नाव:</strong> ${name}</div>
+                <div><strong>मोबाईल क्रमांक:</strong> ${phone} | <strong>प्रभाग/पत्ता:</strong> ${addr || 'नोंदवलेला नाही'}</div>
+            `;
+            updateRtsServiceInfoBox(chosenCert);
+            document.getElementById('serviceFormStep1').style.display = 'none';
+            document.getElementById('serviceConfirmStep2').style.display = 'block';
+        }
+
+        function backToServiceFormStep1() {
+            document.getElementById('serviceConfirmStep2').style.display = 'none';
+            document.getElementById('serviceFormStep1').style.display = 'block';
+        }
+
+        function getInquirySubjectsByCategory(cat) {
+            if (cat === 'आपले सरकार सेवा केंद्र') {
+                const list = (appState.aapleSarkarCenter && appState.aapleSarkarCenter.servicesList) || [];
+                return list.map(s => ({ value: s.name, label: s.name })).concat([{ value: 'इतर आपले सरकार सेवा / पूर्वनोंदणी', label: 'इतर आपले सरकार सेवा / पूर्वनोंदणी' }]);
+            }
+            if (cat === 'पंचायत समिती अकोले विभाग') {
+                const list = appState.panchayatSamitiDepts || [];
+                return list.map(d => ({ value: d.dept, label: d.dept })).concat([{ value: 'पंचायत समिती अकोले इतर योजना चौकशी', label: 'पंचायत समिती अकोले इतर योजना चौकशी' }]);
+            }
+            const offs = appState.villageOfficials || [];
+            return offs.map(o => ({ value: o.role, label: `${o.role} (${o.dept})` })).concat([{ value: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी', label: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी' }]);
+        }
+
+        function openInquiryModal(defaultCategory, defaultSubject) {
+            const categories = [
+                { value: 'आपले सरकार सेवा केंद्र', label: '१. आपले सरकार सेवा केंद्र (CSC)' },
+                { value: 'पंचायत समिती अकोले विभाग', label: '२. पंचायत समिती अकोले विभाग' },
+                { value: 'गावातील इतर शासकीय कर्मचारी', label: '३. गावातील इतर शासकीय कर्मचारी' }
+            ];
+            const chosenCat = defaultCategory || 'आपले सरकार सेवा केंद्र';
+            const initialSubjects = getInquirySubjectsByCategory(chosenCat);
+            const chosenSub = defaultSubject && initialSubjects.some(s => s.value === defaultSubject)
+                ? defaultSubject
+                : (initialSubjects[0] ? initialSubjects[0].value : '');
+
+            renderInwebDropdown('ddInquiryCategory', categories, chosenCat, (newCat) => {
+                const nextSubs = getInquirySubjectsByCategory(newCat);
+                renderInwebDropdown('ddInquirySubject', nextSubs, nextSubs[0] ? nextSubs[0].value : '');
+            });
+            renderInwebDropdown('ddInquirySubject', initialSubjects, chosenSub);
+
+            if (currentCitizen) {
+                document.getElementById('inqApplicantName').value = currentCitizen.name || '';
+                document.getElementById('inqApplicantPhone').value = currentCitizen.phone || '';
+            }
+            document.getElementById('inqDetails').value = '';
+            document.getElementById('inquiryModal').classList.add('active');
+        }
+
+        function submitCitizenInquiry() {
+            const cat = customDropdownValues['ddInquiryCategory'] || 'आपले सरकार सेवा केंद्र';
+            const sub = customDropdownValues['ddInquirySubject'] || '';
+            const name = document.getElementById('inqApplicantName').value.trim();
+            const phone = document.getElementById('inqApplicantPhone').value.trim();
+            const details = document.getElementById('inqDetails').value.trim();
+            if (!name || !phone || !details) {
+                showToast('कृपया तुमचे नाव, मोबाईल क्रमांक आणि चौकशीचा प्रश्न भरा.');
+                return;
+            }
+            const newId = generateNextTrackingId();
+            const todayStr = '२५ नोव्हेंबर २०२६';
+            appState.requests.unshift({
+                trackingId: newId,
+                date: todayStr,
+                type: 'चौकशी',
+                subject: `${cat} — ${sub}`,
+                name,
+                phone,
+                detail: details,
+                attachment: '',
+                status: 'प्रलंबित',
+                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
+                actionProof: ''
+            });
+            saveStateToStorage();
+            closeModals();
+            if (currentCitizen) {
+                renderCitizenRequestsHistory();
+            }
+            showToast(`चौकशी यशस्वीरित्या नोंदवली गेली! मागोवा क्रमांक: ${newId}`);
         }
 
         function openComplaintModal() {
@@ -2611,6 +3053,7 @@
             document.getElementById('adminShellView').classList.remove('active');
             document.getElementById('publicPortalView').style.display = 'block';
             renderPublicPortalWithShimmer();
+        setTimeout(maybeShowUrgentPopupOnHome, 650);
         loadFromFirebaseIfConfigured();
         }
 
@@ -2627,7 +3070,88 @@
             if (btnEl) btnEl.classList.add('active');
         }
 
+        function updateUrgentSwitchUI(isOn) {
+            const sw = document.getElementById('urgToggleSwitch');
+            const lbl = document.getElementById('urgStatusLabel');
+            if (sw) sw.classList.toggle('on', !!isOn);
+            if (lbl) {
+                lbl.innerHTML = isOn
+                    ? '<strong style="color:#15803d;">पॉप-अप स्थिती: चालू (ON - मुख्य पानावर दिसेल)</strong>'
+                    : '<strong style="color:#b91c1c;">पॉप-अप स्थिती: बंद (OFF)</strong>';
+            }
+        }
+
+        function toggleUrgentNoticeSwitch() {
+            if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+            appState.urgentNotice.active = !appState.urgentNotice.active;
+            updateUrgentSwitchUI(appState.urgentNotice.active);
+            saveStateToStorage();
+            showToast(appState.urgentNotice.active ? 'अती तातडीची सूचना Pop-up चालू (ON) केले आहे!' : 'अती तातडीची सूचना Pop-up बंद (OFF) केले आहे!');
+        }
+
+        function renderUrgentNoticeModal(urgObj) {
+            if (!urgObj) return;
+            document.getElementById('urgPopupBadge').textContent = urgObj.badge || 'अती तातडीची ग्रामपंचायत सूचना';
+            document.getElementById('urgPopupDate').textContent = urgObj.date || '';
+            document.getElementById('urgPopupTitle').textContent = urgObj.title || 'तातडीची सूचना';
+            document.getElementById('urgPopupMessage').textContent = urgObj.message || '';
+
+            const photoWrap = document.getElementById('urgPopupPhotoWrap');
+            const photoImg = document.getElementById('urgPopupPhoto');
+            if (urgObj.photo && urgObj.photo.trim()) {
+                photoImg.src = urgObj.photo.trim();
+                photoWrap.style.display = 'block';
+            } else {
+                photoWrap.style.display = 'none';
+            }
+
+            const pdfWrap = document.getElementById('urgPopupPdfWrap');
+            const pdfLink = document.getElementById('urgPopupPdfLink');
+            if (urgObj.pdf && urgObj.pdf.trim()) {
+                pdfLink.href = urgObj.pdf.trim();
+                pdfWrap.style.display = 'block';
+            } else {
+                pdfWrap.style.display = 'none';
+            }
+
+            document.getElementById('urgentNoticeModal').classList.add('active');
+        }
+
+        function previewUrgentNoticeFromForm() {
+            renderUrgentNoticeModal({
+                badge: document.getElementById('inpUrgBadge').value.trim() || 'अती तातडीची ग्रामपंचायत सूचना',
+                date: document.getElementById('inpUrgDate').value.trim(),
+                title: document.getElementById('inpUrgTitle').value.trim() || 'तातडीची सूचना',
+                message: document.getElementById('inpUrgMessage').value.trim(),
+                photo: document.getElementById('inpUrgPhoto').value.trim(),
+                pdf: document.getElementById('inpUrgPdf').value.trim()
+            });
+        }
+
+        function closeUrgentNoticeModal() {
+            document.getElementById('urgentNoticeModal').classList.remove('active');
+            sessionStorage.setItem('gp_urgent_dismissed', '1');
+        }
+
+        function maybeShowUrgentPopupOnHome() {
+            if (document.getElementById('adminShellView').classList.contains('active')) return;
+            if (sessionStorage.getItem('gp_urgent_dismissed') === '1') return;
+            const urg = appState.urgentNotice;
+            if (urg && urg.active && (urg.title || urg.message || urg.photo || urg.pdf)) {
+                renderUrgentNoticeModal(urg);
+            }
+        }
+
         function populateAdminForms() {
+            const urg = appState.urgentNotice || DEFAULT_STATE.urgentNotice;
+            if (document.getElementById('inpUrgBadge')) document.getElementById('inpUrgBadge').value = urg.badge || '';
+            if (document.getElementById('inpUrgDate')) document.getElementById('inpUrgDate').value = urg.date || '';
+            if (document.getElementById('inpUrgTitle')) document.getElementById('inpUrgTitle').value = urg.title || '';
+            if (document.getElementById('inpUrgMessage')) document.getElementById('inpUrgMessage').value = urg.message || '';
+            if (document.getElementById('inpUrgPhoto')) document.getElementById('inpUrgPhoto').value = urg.photo || '';
+            if (document.getElementById('inpUrgPdf')) document.getElementById('inpUrgPdf').value = urg.pdf || '';
+            updateUrgentSwitchUI(!!urg.active);
+
             document.getElementById('inpGpName').value = appState.gpName;
             document.getElementById('inpGpAddress').value = appState.gpAddress;
             document.getElementById('inpPhone').value = appState.phone;
@@ -2661,6 +3185,7 @@
             });
             updateGovernanceEditorVisibility();
             renderEmployeesEditor();
+            renderVillageOfficialsEditor();
 
             // Member count custom dropdown
             const countOpts = [5, 7, 9, 11, 13, 15, 17].map(n => ({ value: n, label: `${n} ग्रामपंचायत सदस्य` }));
@@ -2741,6 +3266,34 @@
             const bodyBox = document.getElementById('electedBodyEditorBox');
             if (admBox) admBox.style.display = isAdm ? 'block' : 'none';
             if (bodyBox) bodyBox.style.display = isAdm ? 'none' : 'block';
+        }
+
+        function renderVillageOfficialsEditor() {
+            const csc = appState.aapleSarkarCenter || DEFAULT_STATE.aapleSarkarCenter;
+            if (document.getElementById('inpCscTiming')) document.getElementById('inpCscTiming').value = csc.timing || '';
+            if (document.getElementById('inpCscPhone')) document.getElementById('inpCscPhone').value = csc.phone || '';
+            if (document.getElementById('inpCscDrive')) document.getElementById('inpCscDrive').value = csc.activeDrive || '';
+
+            const grid = document.getElementById('villageOfficialsEditorGrid');
+            if (!grid) return;
+            const list = appState.villageOfficials || [];
+            grid.innerHTML = list.map((off, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--secondary);">
+                    <div style="color: var(--secondary); font-size: 17px; margin-bottom: 6px;"><strong>${off.role}</strong> (${off.dept})</div>
+                    <div class="form-group"><label>अधिकारी / कर्मचाऱ्याचे नाव</label><input type="text" class="form-control" id="voName_${idx}" value="${off.name}"></div>
+                    <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="voPhone_${idx}" value="${off.phone}"></div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>फोटो अपलोड करा किंवा लिंक टाका</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" class="form-control" id="voPhoto_${idx}" value="${off.photo || ''}" placeholder="https://..." style="flex:1;">
+                            <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 12px;">
+                                <span>फोटो</span>
+                                <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'voPhoto_${idx}')">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
         }
 
         function renderEmployeesEditor() {
@@ -2917,6 +3470,7 @@
                     appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
                     localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
                     populateActualPortalContent();
+                    maybeShowUrgentPopupOnHome();
                 }
             } catch (e) { /* silent fallback */ }
         }
@@ -3078,7 +3632,18 @@
                 appState.aboutText = document.getElementById('inpAboutText').value.trim();
             }
 
-            // 2. Employees Information (Gramsevak OR Master Developer)
+            // Urgent Notice Pop-up (ONLY Gramsevak or Operator)
+            if ((currentRole === 'gramsevak' || currentRole === 'operator') && document.getElementById('inpUrgTitle')) {
+                if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+                appState.urgentNotice.badge = document.getElementById('inpUrgBadge').value.trim() || 'अती तातडीची ग्रामपंचायत सूचना';
+                appState.urgentNotice.date = document.getElementById('inpUrgDate').value.trim();
+                appState.urgentNotice.title = document.getElementById('inpUrgTitle').value.trim();
+                appState.urgentNotice.message = document.getElementById('inpUrgMessage').value.trim();
+                appState.urgentNotice.photo = document.getElementById('inpUrgPhoto').value.trim();
+                appState.urgentNotice.pdf = document.getElementById('inpUrgPdf').value.trim();
+            }
+
+            // 2. Employees, Village Officials & CSC Information (Gramsevak OR Master Developer)
             if ((currentRole === 'developer' || currentRole === 'gramsevak') && Array.isArray(appState.employees)) {
                 appState.employees.forEach((emp, idx) => {
                     const rEl = document.getElementById(`empRole_${idx}`);
@@ -3090,6 +3655,21 @@
                     if (pEl) emp.phone = pEl.value.trim();
                     if (phEl) emp.photo = phEl.value.trim();
                 });
+                if (appState.aapleSarkarCenter) {
+                    if (document.getElementById('inpCscTiming')) appState.aapleSarkarCenter.timing = document.getElementById('inpCscTiming').value.trim();
+                    if (document.getElementById('inpCscPhone')) appState.aapleSarkarCenter.phone = document.getElementById('inpCscPhone').value.trim();
+                    if (document.getElementById('inpCscDrive')) appState.aapleSarkarCenter.activeDrive = document.getElementById('inpCscDrive').value.trim();
+                }
+                if (Array.isArray(appState.villageOfficials)) {
+                    appState.villageOfficials.forEach((off, idx) => {
+                        const nEl = document.getElementById(`voName_${idx}`);
+                        const pEl = document.getElementById(`voPhone_${idx}`);
+                        const phEl = document.getElementById(`voPhoto_${idx}`);
+                        if (nEl) off.name = nEl.value.trim();
+                        if (pEl) off.phone = pEl.value.trim();
+                        if (phEl) off.photo = phEl.value.trim();
+                    });
+                }
             }
 
             // 3. Master Developer Exclusive Controls (Stats, Governance Mode, Leadership/Members, Design, Gramsevak & Master Accounts)
@@ -3195,8 +3775,11 @@
         function renderAdminWorksAndNotices() {
             const isSuper = (currentRole === 'developer');
             document.getElementById('adminWorksList').innerHTML = appState.works.map((w, idx) => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border-color);gap:8px;">
-                    <div><strong>${w.title}</strong><div style="font-size:15px;color:var(--text-muted);">${w.fund} (${w.status})</div></div>
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border-color);gap:10px;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        ${w.photo ? `<img src="${w.photo}" alt="${w.title}" style="width:54px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border-color);">` : ''}
+                        <div><strong>${w.title}</strong><div style="font-size:15px;color:var(--text-muted);">${w.fund} (${w.status})</div></div>
+                    </div>
                     ${isSuper ? `<button type="button" class="btn btn-danger" style="padding:5px 10px;font-size:15px;" onclick="deleteWork(${idx})">काढा</button>` : ''}
                 </div>
             `).join('');
@@ -3213,10 +3796,12 @@
             const title = document.getElementById('newWorkTitle').value.trim();
             const fund = document.getElementById('newWorkFund').value.trim();
             const status = customDropdownValues['ddNewWorkStatus'] || 'काम सुरू';
+            const photo = document.getElementById('newWorkPhoto') ? document.getElementById('newWorkPhoto').value.trim() : '';
             if (!title) return;
-            appState.works.unshift({ title, fund: fund || 'ग्रामपंचायत निधी', status });
+            appState.works.unshift({ title, fund: fund || 'ग्रामपंचायत निधी', status, photo });
             document.getElementById('newWorkTitle').value = '';
             document.getElementById('newWorkFund').value = '';
+            if (document.getElementById('newWorkPhoto')) document.getElementById('newWorkPhoto').value = '';
             saveStateToStorage();
             renderAdminWorksAndNotices();
             showToast('नवीन विकासकाम जोडले गेले!');
@@ -3322,10 +3907,20 @@
                 services: 'ऑनलाइन नागरिक सेवा',
                 members: 'पदाधिकारी व कर्मचारी मंडळ',
                 works: 'गावातील विकासकामे',
-                notices: 'ग्रामसभा नोटीस व ठराव'
+                notices: 'ग्रामसभा नोटीस व ठराव',
+                aaplesarkar: 'आपले सरकार सेवा केंद्र (CSC)',
+                panchayatsamiti: 'पंचायत समिती अकोले विभाग',
+                villageofficials: 'गावातील इतर शासकीय कर्मचारी'
             };
 
-            document.getElementById('visibilityTogglesList').innerHTML = Object.keys(labels).map(key => {
+            const bulkBar = `
+                <div style="grid-column: 1 / -1; display:flex; gap:10px; flex-wrap:wrap; margin-bottom:6px;">
+                    <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:16px;" onclick="setAllSectionsVis(true)">सर्व विभाग दाखवा (Show All)</button>
+                    <button type="button" class="btn btn-secondary" style="padding:7px 14px; font-size:16px;" onclick="setAllSectionsVis(false)">सर्व विभाग लपवा (Hide All)</button>
+                </div>
+            `;
+
+            document.getElementById('visibilityTogglesList').innerHTML = bulkBar + Object.keys(labels).map(key => {
                 const isOn = appState.visibility[key] !== false;
                 return `
                     <div style="background:var(--bg-subtle);padding:14px 16px;border-radius:10px;display:flex;justify-content:space-between;align-items:center;border:1px solid var(--border-color);">
@@ -3336,6 +3931,14 @@
                     </div>
                 `;
             }).join('');
+        }
+
+        function setAllSectionsVis(showState) {
+            Object.keys(appState.visibility).forEach(k => { appState.visibility[k] = showState; });
+            ['aaplesarkar', 'panchayatsamiti', 'villageofficials'].forEach(k => { appState.visibility[k] = showState; });
+            saveStateToStorage();
+            renderVisibilityToggles();
+            showToast(showState ? 'सर्व विभाग चालू (Visible) केले आहेत!' : 'सर्व विभाग तात्पुरते लपवले आहेत!');
         }
 
         function toggleSectionVis(key) {
@@ -3366,6 +3969,7 @@
         const savedTheme = localStorage.getItem('gp_theme_v5') || 'light';
         applyTheme(savedTheme);
         renderPublicPortalWithShimmer();
+        setTimeout(maybeShowUrgentPopupOnHome, 650);
         loadFromFirebaseIfConfigured();
 
         // Auto-open Admin Login if opened via admin.html
