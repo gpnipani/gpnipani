@@ -1788,7 +1788,7 @@
             },
             cloudConfig: {
                 configured: true,
-                firebaseApiKey: 'AIzaSyDiEunvQ_RerZ7FBlt8iVRXyNUXLHuEmKY',
+                firebaseApiKey: 'AIzaSyDiEunvQ_RerZ7FBlt0iVPXyNUXLHuEmKY',
                 firebaseProjectId: 'gpnipani-f8271',
                 firebaseDatabaseUrl: 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app',
                 cloudinaryCloudName: 'tvqzwvy5',
@@ -1801,7 +1801,7 @@
         appState.accounts = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.accounts)), appState.accounts || {});
         appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
         appState.cloudConfig = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig)), appState.cloudConfig || {});
-        if (!appState.cloudConfig.firebaseDatabaseUrl || appState.cloudConfig.firebaseApiKey === 'AIzaSyDiEunvQ_RerZ7F8lt8iVRXyNUXLHuEmKY') {
+        if (!appState.cloudConfig.firebaseDatabaseUrl || appState.cloudConfig.firebaseApiKey !== 'AIzaSyDiEunvQ_RerZ7FBlt0iVPXyNUXLHuEmKY') {
             appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
         }
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
@@ -2872,6 +2872,8 @@
                 const remote = await res.json();
                 if (remote && remote.gpName) {
                     appState = Object.assign(appState, remote);
+                    appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
+                    appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
                     localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
                     populateActualPortalContent();
                 }
