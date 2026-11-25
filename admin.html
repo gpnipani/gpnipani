@@ -1447,7 +1447,7 @@
                             <button type="button" class="inweb-switch" id="swGsActive" onclick="toggleMasterPerm('gsActive')"><span class="inweb-switch-knob"></span></button>
                         </div>
                         <div style="border-top:1px solid var(--border-color); padding-top:12px;">
-                            <div style="font-size:15px; color:var(--text-muted); margin-bottom:8px;">अधिकृत मास्टर ईमेल: <strong>Aniltormal2@gmail.com</strong> (Firebase Auth संरक्षित)</div>
+                            <div style="font-size:15px; color:var(--text-muted); margin-bottom:8px;">अधिकृत मास्टर ईमेल: <strong>an******2@gmail.com</strong> (Firebase Auth संरक्षित)</div>
                             <div class="form-group"><label>Firebase मास्टर पासवर्ड बदला (किमान ६ अक्षरे)</label><input type="password" class="form-control" id="mstDevPass" placeholder="नवीन पासवर्ड टाका (ऐच्छिक)"></div>
                             <button type="button" class="btn btn-secondary" style="padding:7px 14px; font-size:15px;" onclick="changeFirebaseMasterPassword()">Firebase पासवर्ड अपडेट करा</button>
                         </div>
@@ -1501,12 +1501,17 @@
 
     <!-- Modal: Citizen Service Application -->
     <div class="modal-backdrop" id="serviceModal">
-        <div class="modal-box">
-            <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 12px;" id="serviceModalTitle">ऑनलाइन दाखला मागणी अर्ज</h3>
+        <div class="modal-box" style="max-width: 640px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
+                <h3 style="font-size: 24px; color: var(--primary); margin:0;" id="serviceModalTitle">ऑनलाइन दाखला मागणी अर्ज</h3>
+                <span class="badge" style="margin:0; font-size:14px;">महाराष्ट्र लोकसेवा हक्क अधिनियम - २०१५</span>
+            </div>
             <div class="form-group">
-                <label>सेवा / दाखल्याचा प्रकार निवडा</label>
+                <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा</label>
                 <div class="inweb-select" id="ddServiceType"></div>
             </div>
+            <!-- Dynamic RTS Act Service Details Box -->
+            <div id="rtsServiceInfoBox" style="background: var(--bg-subtle); border: 1.5px solid var(--primary); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;"></div>
             <div class="form-group"><label>अर्जदाराचे पूर्ण नाव</label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
             <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="srvApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
             <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
@@ -1567,8 +1572,8 @@
 
             <!-- Standard Login Fields -->
             <div id="standardLoginFields">
-                <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
-                <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" placeholder="पासवर्ड टाका"></div>
+                <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" name="gp_login_id_field" autocomplete="off" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
+                <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" name="gp_login_secret_field" autocomplete="new-password" placeholder="पासवर्ड टाका"></div>
                 <p id="loginError" style="color: #dc2626; font-size: 16px; display: none; margin-bottom: 10px;">चुकीचा युजर आयडी किंवा पासवर्ड!</p>
                 <div id="citizenRegisterPrompt" style="margin-bottom: 12px; font-size: 16px; color: var(--text-muted);">
                     <div style="text-align:center; margin:8px 0; font-size:15px;">— किंवा —</div>
@@ -2128,16 +2133,117 @@
             }
         }
 
+        const RTS_CERTIFICATES_DATA = {
+            'जन्म नोंद दाखला': {
+                srNo: '१',
+                timeline: '७ दिवस',
+                fee: '₹ ४० रुपये',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'मृत्यू नोंद दाखला': {
+                srNo: '२',
+                timeline: '७ दिवस',
+                fee: '₹ ४० रुपये',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'विवाह नोंद दाखला': {
+                srNo: '३',
+                timeline: '७ दिवस',
+                fee: '₹ ४० रुपये',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'दारिद्र्य रेषेखालील असल्याचा दाखला': {
+                srNo: '४',
+                timeline: '७ दिवस',
+                fee: 'सेवा निःशुल्क',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'ग्रामपंचायत येणे बाकी नसल्याचा दाखला': {
+                srNo: '५',
+                timeline: '५ दिवस',
+                fee: '₹ ४० रुपये',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'नमुना नं. ८ अ चा उतारा': {
+                srNo: '६',
+                timeline: '५ दिवस',
+                fee: '₹ ४० रुपये',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            },
+            'निराधार असल्याचा दाखला': {
+                srNo: '७',
+                timeline: '२० दिवस',
+                fee: 'सेवा निःशुल्क',
+                designatedOfficer: 'ग्रामपंचायत अधिकारी',
+                firstAppeal: 'सहा. गट विकास अधिकारी',
+                secondAppeal: 'गट विकास अधिकारी'
+            }
+        };
+
+        function updateRtsServiceInfoBox(serviceName) {
+            const box = document.getElementById('rtsServiceInfoBox');
+            if (!box) return;
+            const info = RTS_CERTIFICATES_DATA[serviceName] || RTS_CERTIFICATES_DATA['जन्म नोंद दाखला'];
+            box.innerHTML = `
+                <div style="font-size: 16px; color: var(--secondary); margin-bottom: 8px; border-bottom: 1px solid var(--border-color); padding-bottom: 5px;">
+                    <strong>अधिसूचित लोकसेवा तपशील (अ.क्र. ${info.srNo} — विभाग: ग्रामविकास)</strong>
+                </div>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 8px; font-size: 15px;">
+                    <div style="background: var(--bg-card); padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-color);">
+                        <span style="color: var(--text-muted); display:block; font-size:13px;">विहित कालमर्यादा:</span>
+                        <strong style="color: var(--primary); font-size:17px;">${info.timeline}</strong>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-color);">
+                        <span style="color: var(--text-muted); display:block; font-size:13px;">निर्धारित शुल्क:</span>
+                        <strong style="color: #15803d; font-size:17px;">${info.fee}</strong>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-color);">
+                        <span style="color: var(--text-muted); display:block; font-size:13px;">पदनिर्देशित अधिकारी:</span>
+                        <strong>${info.designatedOfficer}</strong>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-color);">
+                        <span style="color: var(--text-muted); display:block; font-size:13px;">प्रथम अपिलीय अधिकारी:</span>
+                        <strong>${info.firstAppeal}</strong>
+                    </div>
+                    <div style="background: var(--bg-card); padding: 7px 10px; border-radius: 7px; border: 1px solid var(--border-color); grid-column: 1 / -1;">
+                        <span style="color: var(--text-muted); display:block; font-size:13px;">द्वितीय अपिलीय अधिकारी:</span>
+                        <strong>${info.secondAppeal}</strong> <span style="font-size:13px; color:var(--text-muted);">(तृतीय व अंतिम अपील: आयुक्त, राज्य सेवा हक्क आयोग, नाशिक विभाग, नाशिक)</span>
+                    </div>
+                </div>
+                <div style="margin-top: 8px; font-size: 13.5px; color: var(--text-muted); line-height: 1.4;">
+                    * टीप: वरील दर कर वगळून आहेत. नागरिकांना घरपोच सेवा हवी असल्यास अतिरिक्त शुल्क रु. १००/- (कर वगळून) आकारण्यात येतील.
+                </div>
+            `;
+        }
+
         function openServiceModal(defaultType) {
-            document.getElementById('serviceModalTitle').textContent = defaultType;
-            renderInwebDropdown('ddServiceType', [
-                { value: 'रहिवासी दाखला', label: 'रहिवासी दाखला' },
-                { value: 'जन्म नोंदणी दाखला', label: 'जन्म नोंदणी दाखला' },
-                { value: 'मृत्यू नोंदणी दाखला', label: 'मृत्यू नोंदणी दाखला' },
-                { value: 'विवाह नोंदणी दाखला', label: 'विवाह नोंदणी दाखला' },
-                { value: 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)', label: 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)' }
-            ], defaultType === 'ऑनलाइन कर भरणा' ? 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)' : 'रहिवासी दाखला');
-            if (currentCitizen) { document.getElementById('srvApplicantName').value = currentCitizen.name; document.getElementById('srvApplicantPhone').value = currentCitizen.phone; document.getElementById('srvApplicantAddr').value = currentCitizen.ward; }
+            document.getElementById('serviceModalTitle').textContent = defaultType || 'ऑनलाइन दाखला मागणी अर्ज';
+            const certOptions = Object.keys(RTS_CERTIFICATES_DATA).map(name => ({
+                value: name,
+                label: `${RTS_CERTIFICATES_DATA[name].srNo}. ${name} (${RTS_CERTIFICATES_DATA[name].timeline} | ${RTS_CERTIFICATES_DATA[name].fee})`
+            }));
+            const initialCert = RTS_CERTIFICATES_DATA[defaultType] ? defaultType : 'जन्म नोंद दाखला';
+            renderInwebDropdown('ddServiceType', certOptions, initialCert, (selectedVal) => {
+                updateRtsServiceInfoBox(selectedVal);
+            });
+            updateRtsServiceInfoBox(initialCert);
+            if (currentCitizen) {
+                document.getElementById('srvApplicantName').value = currentCitizen.name;
+                document.getElementById('srvApplicantPhone').value = currentCitizen.phone;
+                document.getElementById('srvApplicantAddr').value = currentCitizen.ward;
+            }
             document.getElementById('serviceModal').classList.add('active');
         }
 
@@ -2168,12 +2274,15 @@
                 const detail = document.getElementById('srvApplicantAddr').value.trim();
                 const attachment = document.getElementById('srvAttachmentUrl') ? document.getElementById('srvAttachmentUrl').value.trim() : '';
                 if (!name || !phone) { showToast('कृपया नाव आणि मोबाईल नंबर भरा.'); return; }
+                const chosenCert = customDropdownValues['ddServiceType'];
+                const certMeta = RTS_CERTIFICATES_DATA[chosenCert];
+                const metaNote = certMeta ? ` (कालमर्यादा: ${certMeta.timeline}, निर्धारित शुल्क: ${certMeta.fee})` : '';
                 appState.requests.unshift({
                     trackingId: newId,
                     date: todayStr,
                     type: 'अर्ज',
-                    subject: customDropdownValues['ddServiceType'],
-                    name, phone, detail: detail || 'ऑनलाइन अर्ज',
+                    subject: chosenCert,
+                    name, phone, detail: (detail || 'ऑनलाइन अर्ज') + metaNote,
                     attachment,
                     status: 'प्रलंबित',
                     actionNote: 'अर्ज प्राप्त झाला असून पडताळणीसाठी संबंधित कर्मचाऱ्यांकडे वर्ग केला आहे.',
@@ -2355,7 +2464,7 @@
                     : (isDev ? 'मास्टर ईमेल आयडी (Firebase Email)' : 'युजर आयडी (Username)');
                 document.getElementById('loginUser').placeholder = isCit
                     ? 'नोंदणीकृत मोबाईल नंबर'
-                    : (isDev ? 'उदा. Aniltormal2@gmail.com' : 'युजर आयडी टाका');
+                    : (isDev ? 'अधिकृत मास्टर ईमेल आयडी टाका' : 'युजर आयडी टाका');
                 document.getElementById('citizenRegisterPrompt').style.display = isCit ? 'block' : 'none';
                 document.getElementById('loginUser').value = '';
                 document.getElementById('loginPass').value = '';
@@ -2398,7 +2507,16 @@
                     });
                     const data = await res.json();
                     if (!res.ok || !data.idToken) {
-                        errEl.textContent = 'Firebase ईमेल किंवा पासवर्ड चुकीचा आहे! कृपया तपासा.';
+                        const fbMsg = (data && data.error && data.error.message) ? data.error.message : '';
+                        if (fbMsg.includes('OPERATION_NOT_ALLOWED')) {
+                            errEl.textContent = 'Firebase Console मध्ये Email/Password Sign-in पद्धत Enable केलेली नाही!';
+                        } else if (fbMsg.includes('INVALID_LOGIN_CREDENTIALS') || fbMsg.includes('INVALID_PASSWORD') || fbMsg.includes('EMAIL_NOT_FOUND')) {
+                            errEl.textContent = 'Firebase मध्ये सेव्ह केलेला ईमेल किंवा पासवर्ड जुळत नाही (INVALID_LOGIN_CREDENTIALS). कृपया पासवर्ड तपासा.';
+                        } else if (fbMsg.includes('TOO_MANY_ATTEMPTS')) {
+                            errEl.textContent = 'अनेक वेळा चुकीचा पासवर्ड टाकल्यामुळे तात्पुरते थांबवले आहे. थोड्या वेळाने प्रयत्न करा.';
+                        } else {
+                            errEl.textContent = 'Firebase प्रमाणीकरण त्रुटी: ' + (fbMsg || 'ईमेल किंवा पासवर्ड तपासा.');
+                        }
                         errEl.style.display = 'block';
                         return;
                     }
