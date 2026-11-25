@@ -62,7 +62,12 @@
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; margin-bottom: 5px; font-size: 16.5px; color: var(--text-main); }
         .form-control { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid var(--border-color); background: var(--bg-subtle); color: var(--text-main); font-size: 17px; }
-        .toast { position: fixed; bottom: 22px; right: 22px; background: #15803d; color: #fff; padding: 12px 20px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.25); z-index: 9999; display: none; font-size: 17px; }
+                @keyframes centerPopIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.78); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+        .toast { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: linear-gradient(135deg, #065f46 0%, #15803d 100%); color: #fff; padding: 20px 26px; border-radius: 16px; border: 2px solid #bbf7d0; box-shadow: 0 22px 48px rgba(0,0,0,0.35); z-index: 9999; display: none; font-size: 18.5px; text-align: center; min-width: 280px; max-width: 90vw; animation: centerPopIn 0.28s ease forwards; }
         footer { background: #0f172a; color: #e2e8f0; padding: 24px 20px; margin-top: 40px; text-align: center; font-size: 15.5px; }
         footer a { color: #fb923c; text-decoration: none; }
     </style>

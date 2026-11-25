@@ -877,20 +877,17 @@
         }
 
         .admin-sticky-footer {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            margin-top: 28px;
             background-color: var(--bg-card);
-            border-top: 3px solid var(--primary);
-            padding: 12px 5%;
+            border: 2px solid var(--primary);
+            border-radius: 14px;
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
             gap: 12px;
-            box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
-            z-index: 1050;
+            box-shadow: var(--shadow-md);
         }
 
 
@@ -949,21 +946,59 @@
 
         .subtle-admin-link:hover { color: #ffffff; }
 
+        @keyframes centerPopIn {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.78); }
+            70% { opacity: 1; transform: translate(-50%, -50%) scale(1.03); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .toast-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.35);
+            backdrop-filter: blur(2px);
+            z-index: 11999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.22s ease;
+        }
+
+        .toast-backdrop.show {
+            display: block;
+            opacity: 1;
+        }
+
         .toast {
             position: fixed;
-            bottom: 22px;
-            right: 22px;
-            background-color: #166534;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1);
+            background: linear-gradient(135deg, #065f46 0%, #15803d 100%);
             color: #ffffff;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 17px;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.3);
-            z-index: 2000;
+            padding: 22px 28px;
+            border-radius: 18px;
+            border: 2.5px solid #bbf7d0;
+            font-size: 19px;
+            text-align: center;
+            min-width: 290px;
+            max-width: 90vw;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.38);
+            z-index: 12000;
             display: none;
         }
 
-        .toast.show { display: block; }
+        .toast.toast-warn {
+            background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%);
+            border-color: #fecaca;
+        }
+
+        .toast.show {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            animation: centerPopIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
 
         @media (max-width: 920px) {
             .about-grid { grid-template-columns: 1fr; }
@@ -996,6 +1031,7 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
 </head>
 <body>
 
@@ -1232,16 +1268,16 @@
         </div>
 
         <div class="admin-tabs" id="adminTabsBar">
-            <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,operator" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" onclick="switchAdminTab('tab-employees', this)">३. ग्रामपंचायत कर्मचारी माहिती</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,operator" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" onclick="switchAdminTab('tab-requests', this)">५. तक्रारी व दाखले हाताळणी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड सेटिंग्ज (Firebase/Cloudinary)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
+            <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,operator" data-label="ताज्या सूचना व मुख्य पृष्ठ" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer" data-label="आकडेवारी, बॉडी / प्रशासक (मास्टर)" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" data-label="ग्रामपंचायत कर्मचारी माहिती" onclick="switchAdminTab('tab-employees', this)">३. ग्रामपंचायत कर्मचारी माहिती</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,operator" data-label="ग्रामसभा PDF व विकासकामे" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">५. तक्रारी व दाखले हाताळणी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer" data-label="विभाग लपवा / दाखवा (मास्टर)" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer" data-label="डिझाइन, रंग व फॉन्ट (मास्टर)" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" data-label="कर्मचारी लॉगिन व पासवर्ड" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer" data-label="क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
         <div class="admin-panel-body">
@@ -1441,6 +1477,16 @@
 
             <!-- Tab 4: Citizen Requests & Complaints -->
             <div class="admin-tab-pane" id="tab-requests">
+                <!-- Master Login ONLY: Clean Zero Reset before Public Launch -->
+                <div id="masterZeroResetBox" class="info-card" style="display:none; margin-bottom: 18px; border-left: 5px solid #dc2626; background: #fef2f2;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <h3 style="color:#b91c1c; margin-bottom:4px;">मास्टर नियंत्रण: लाइव्ह करण्यापूर्वी सर्व चाचणी नोंदी पुसणे (Zero Reset)</h3>
+                            <p style="font-size:15.5px; color:#7f1d1d; margin:0;">पोर्टल नागरिकांसाठी लाइव्ह करण्यापूर्वी आतापर्यंतच्या सर्व चाचणी नोंदी (अर्ज, तक्रारी, चौकशी व १ वर्षाचे रजिस्टर) कायमच्या डिलीट करून ० पासून सुरू करा.</p>
+                        </div>
+                        <button type="button" class="btn btn-danger" style="padding:10px 18px; font-size:17px;" onclick="resetAllRecordsToZeroByMaster()">सर्व नोंदी पुसून ० पासून सुरू करा</button>
+                    </div>
+                </div>
                 <!-- Date Range Export Panel (JPG / PDF / CSV with Official Header & Footer) -->
                 <div class="info-card" style="margin-bottom: 18px; border-left: 5px solid #15803d;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
@@ -1615,6 +1661,46 @@
                         <button type="button" class="btn btn-primary" onclick="saveAndLockCloudKeys()">Keys सेव्ह करा व बॉक्स लपवा</button>
                     </div>
                 </div>
+
+                <!-- Master Login ONLY: Default Document & Photo Watermark Settings -->
+                <div class="info-card" style="margin-top: 20px; border-left: 5px solid var(--secondary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="color:var(--secondary); margin-bottom:3px;">दस्तऐवज व फोटो स्वयंचलित वॉटरमार्क सेटिंग्ज (मास्टर नियंत्रण)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">प्रशासक पॅनलमधून अपलोड होणाऱ्या सर्व फोटो आणि PDF फाईल्सवर आपोआप ग्रामपंचायतीचा वॉटरमार्क जोडला जातो.</p>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-size:16px;">वॉटरमार्क स्थिती:</span>
+                            <button type="button" class="inweb-switch on" id="swWatermarkEnabled" onclick="toggleWatermarkSwitch()"><span class="inweb-switch-knob"></span></button>
+                        </div>
+                    </div>
+                    <div class="grid-2" style="margin-top:12px;">
+                        <div class="form-group">
+                            <label>वॉटरमार्क मजकूर (Watermark Text)</label>
+                            <input type="text" class="form-control" id="wmTextInput" placeholder="उदा. ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी">
+                        </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्कची जागा (Position)</label>
+                            <select class="form-control" id="wmPositionSelect">
+                                <option value="diagonal">मध्यभागी तिरपा (Diagonal Center — शिफारस केलेले)</option>
+                                <option value="bottom-right">तळाशी उजव्या कोपऱ्यात (Bottom Right)</option>
+                                <option value="both">मध्यभागी तिरपा आणि तळाशी दोन्हीकडे (Both)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्क गडदपणा (Opacity)</label>
+                            <select class="form-control" id="wmOpacitySelect">
+                                <option value="light">हलका पारदर्शक (Light - 18%)</option>
+                                <option value="medium">मध्यम पारदर्शक (Medium - 30%)</option>
+                                <option value="dark">गडद पारदर्शक (Dark - 45%)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
+                        <button type="button" class="btn btn-primary" onclick="saveWatermarkSettingsByMaster()">वॉटरमार्क सेटिंग्ज सेव्ह करा</button>
+                        <button type="button" class="btn btn-danger" onclick="resetAllRecordsToZeroByMaster()">सर्व चाचणी नोंदी पुसून ० पासून सुरू करा</button>
+                    </div>
+                </div>
             </div>
 
             <!-- Tab: Urgent Emergency Notice Pop-up (ONLY Gramsevak & Operator; Hidden from Master Login) -->
@@ -1756,32 +1842,70 @@
 
     <!-- Modal: Citizen Service Application -->
     <div class="modal-backdrop" id="serviceModal">
-        <div class="modal-box" style="max-width: 640px;">
+        <div class="modal-box" style="max-width: 660px;">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:6px; margin-bottom:8px;">
                 <h3 style="font-size: 24px; color: var(--primary); margin:0;" id="serviceModalTitle">ऑनलाइन दाखला मागणी अर्ज</h3>
                 <span class="badge" style="margin:0; font-size:14px;">महाराष्ट्र लोकसेवा हक्क अधिनियम - २०१५</span>
             </div>
             <div id="serviceFormStep1">
                 <div class="form-group">
-                    <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा</label>
+                    <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा <span style="color:#dc2626;">*</span></label>
                     <div class="inweb-select" id="ddServiceType"></div>
                 </div>
-                <div class="form-group"><label>अर्जदाराचे पूर्ण नाव</label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
-                <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="srvApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
-                <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
+                <div class="grid-2">
+                    <div class="form-group"><label>अर्जदाराचे पूर्ण नाव <span style="color:#dc2626;">*</span></label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
+                    <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="srvApplicantPhone" placeholder="उदा. 9822001122"></div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group"><label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="12" class="form-control" id="srvApplicantAadhaar" placeholder="१२ अंकी आधार नंबर टाका"></div>
+                    <div class="form-group"><label>प्रभाग / पत्ता <span style="color:#dc2626;">*</span></label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
+                </div>
+
+                <!-- Invisible Anti-Spam Honeypot -->
+                <div style="position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden;" aria-hidden="true">
+                    <input type="text" id="srvWebsiteHp" tabindex="-1" autocomplete="off" placeholder="Leave blank">
+                </div>
+
                 <div class="form-group">
-                    <label>लिखित अर्ज / आवश्यक कागदपत्रे किंवा फोटो अपलोड करा (PDF / JPG / PNG)</label>
+                    <label>१) लिखित दाखला अर्ज / आवश्यक कागदपत्रे अपलोड करा (अनिवार्य - PDF / JPG / PNG) <span style="color:#dc2626;">*</span></label>
                     <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
+                        <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
                         <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
-                            <span>फाईल निवडा</span>
+                            <span>अर्ज / कागदपत्र निवडा</span>
                             <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAttachmentUrl')">
                         </label>
                     </div>
                 </div>
-                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
+
+                <div class="form-group">
+                    <label>२) अर्जदाराचा आधार कार्ड फोटो / PDF अपलोड करा (अनिवार्य) <span style="color:#dc2626;">*</span></label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <input type="text" class="form-control" id="srvAadhaarDocUrl" placeholder="आधार कार्ड फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
+                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                            <span>आधार फोटो निवडा</span>
+                            <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAadhaarDocUrl')">
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Anti-Spam Math Captcha -->
+                <div class="form-group" style="background: var(--bg-subtle); padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border-color);">
+                    <label style="margin-bottom:6px; color: var(--secondary);">स्पॅम सुरक्षा पडताळणी: <span id="srvCaptchaQuestion" style="color:var(--primary); font-size:19px;">५ + ३ = किती?</span> <span style="color:#dc2626;">*</span></label>
+                    <input type="text" inputmode="numeric" class="form-control" id="srvCaptchaInput" placeholder="वरील बेरजेचे उत्तर अंकात लिहा">
+                </div>
+
+                <!-- Legal Privacy & Data Protection Disclaimer -->
+                <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 12px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
+                    <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित शासकीय दाखला/सेवा कार्यवाही व अधिकृत पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत.</div>
+                    <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
+                        <input type="checkbox" id="srvPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
+                        <span>मी वरील अटी वाचल्या असून माझी माहिती व आधार कागदपत्रे शासकीय कार्यवाहीसाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
+                    </label>
+                </div>
+
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
                     <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
-                    <button type="button" class="btn btn-primary" onclick="openServiceConfirmStep()">अर्ज सबमिट करा</button>
+                    <button type="button" class="btn btn-primary" onclick="openServiceConfirmStep()">पुढे जा (पडताळणी करा)</button>
                 </div>
             </div>
 
@@ -1827,26 +1951,62 @@
 
     <!-- Modal: Citizen Complaint -->
     <div class="modal-backdrop" id="complaintModal">
-        <div class="modal-box">
+        <div class="modal-box" style="max-width: 660px;">
             <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 12px;">ऑनलाइन तक्रार नोंदणी</h3>
             <div class="form-group">
-                <label>तक्रारीचा विभाग निवडा</label>
+                <label>तक्रारीचा विभाग निवडा <span style="color:#dc2626;">*</span></label>
                 <div class="inweb-select" id="ddComplaintDept"></div>
             </div>
-            <div class="form-group"><label>तक्रारदाराचे नाव</label><input type="text" class="form-control" id="cmpName" placeholder="पूर्ण नाव"></div>
-            <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="cmpPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
-            <div class="form-group"><label>तक्रारीचा सविस्तर तपशील</label><textarea class="form-control" rows="3" id="cmpDetails" placeholder="ठिकाण आणि समस्येचे वर्णन लिहा"></textarea></div>
+            <div class="grid-2">
+                <div class="form-group"><label>तक्रारदाराचे पूर्ण नाव <span style="color:#dc2626;">*</span></label><input type="text" class="form-control" id="cmpName" placeholder="पूर्ण नाव"></div>
+                <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="cmpPhone" placeholder="उदा. 9822001122"></div>
+            </div>
+            <div class="form-group"><label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="12" class="form-control" id="cmpAadhaar" placeholder="१२ अंकी आधार नंबर टाका"></div>
+            <div class="form-group"><label>तक्रारीचा सविस्तर तपशील <span style="color:#dc2626;">*</span></label><textarea class="form-control" rows="3" id="cmpDetails" placeholder="ठिकाण आणि समस्येचे वर्णन लिहा"></textarea></div>
+
+            <!-- Invisible Anti-Spam Honeypot -->
+            <div style="position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden;" aria-hidden="true">
+                <input type="text" id="cmpWebsiteHp" tabindex="-1" autocomplete="off" placeholder="Leave blank">
+            </div>
+
             <div class="form-group">
-                <label>समस्येचा फोटो किंवा लिखित तक्रार अर्ज अपलोड करा (JPG / PNG / PDF)</label>
+                <label>१) समस्येचा फोटो किंवा लिखित तक्रार अर्ज अपलोड करा (अनिवार्य - JPG / PNG / PDF) <span style="color:#dc2626;">*</span></label>
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <input type="text" class="form-control" id="cmpAttachmentUrl" placeholder="फोटो/कागदपत्र निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
+                    <input type="text" class="form-control" id="cmpAttachmentUrl" placeholder="तक्रार अर्ज / फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
                     <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
-                        <span>फोटो / PDF निवडा</span>
+                        <span>तक्रार अर्ज / फोटो निवडा</span>
                         <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'cmpAttachmentUrl')">
                     </label>
                 </div>
             </div>
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
+
+            <div class="form-group">
+                <label>२) तक्रारदाराचा आधार कार्ड फोटो / PDF अपलोड करा (अनिवार्य) <span style="color:#dc2626;">*</span></label>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" class="form-control" id="cmpAadhaarDocUrl" placeholder="आधार कार्ड फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                        <span>आधार फोटो निवडा</span>
+                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'cmpAadhaarDocUrl')">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Anti-Spam Math Captcha -->
+            <div class="form-group" style="background: var(--bg-subtle); padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border-color);">
+                <label style="margin-bottom:6px; color: var(--secondary);">स्पॅम सुरक्षा पडताळणी: <span id="cmpCaptchaQuestion" style="color:var(--primary); font-size:19px;">४ + ५ = किती?</span> <span style="color:#dc2626;">*</span></label>
+                <input type="text" inputmode="numeric" class="form-control" id="cmpCaptchaInput" placeholder="वरील बेरजेचे उत्तर अंकात लिहा">
+            </div>
+
+            <!-- Legal Privacy & Data Protection Disclaimer -->
+            <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 12px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
+                <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित तक्रार निवारण कार्यवाही व पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत.</div>
+                <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
+                    <input type="checkbox" id="cmpPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
+                    <span>मी वरील गोपनीयता सूचना वाचली असून माझी माहिती व आधार कागदपत्रे तक्रार निवारणासाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
                 <button type="button" class="btn btn-primary" onclick="submitCitizenRequest('तक्रार')">तक्रार नोंदवा</button>
             </div>
@@ -1928,7 +2088,11 @@
     <div class="modal-backdrop" id="trackStatusModal">
         <div class="modal-box" style="max-width: 640px;">
             <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 6px;">अर्ज व तक्रार मागोवा (Track Status)</h3>
-            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 14px;">तुमचा <strong>नोंदणी क्रमांक (उदा. GP-2026-1001)</strong> किंवा <strong>मोबाईल क्रमांक</strong> टाकून अर्जावर केलेली कार्यवाही पहा.</p>
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 12px;">तुमचा <strong>मागोवा क्रमांक (उदा. GP-2026-1001)</strong> किंवा <strong>मोबाईल क्रमांक</strong> टाकून अर्जावर केलेली कार्यवाही पहा.</p>
+            <div id="savedLastTrackBanner" style="display:none; background:#fff7ed; border:1.5px solid var(--primary); border-radius:10px; padding:10px 14px; margin-bottom:12px; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <span style="font-size:16px; color:var(--text-main);">तुमचा शेवटचा नोंदवलेला मागोवा क्रमांक: <strong id="savedLastTrackText" style="color:var(--primary);"></strong></span>
+                <button type="button" class="btn btn-primary" style="padding:5px 14px; font-size:15.5px;" onclick="useSavedLastTrackCode()">हा क्रमांक तपासा</button>
+            </div>
             <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
                 <input type="text" class="form-control" id="trackQueryInput" placeholder="उदा. GP-2026-1001 किंवा 9823000001" style="flex:1;">
                 <button type="button" class="btn btn-primary" onclick="searchTrackingStatus()">मागोवा घ्या</button>
@@ -1942,13 +2106,33 @@
 
     <!-- Modal: Instant Submission Receipt with Tracking ID -->
     <div class="modal-backdrop" id="receiptModal">
-        <div class="modal-box" style="text-align:center;">
-            <div style="width:60px; height:60px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
-                <svg class="icon" viewBox="0 0 24 24" style="width:32px;height:32px;"><polyline points="20 6 9 17 4 12"/></svg>
+        <div class="modal-box" style="text-align:center; max-width: 560px; border: 2.5px solid #16a34a;">
+            <div style="width:62px; height:62px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 10px;">
+                <svg class="icon" viewBox="0 0 24 24" style="width:34px;height:34px;"><polyline points="20 6 9 17 4 12"/></svg>
             </div>
-            <h3 style="font-size: 24px; color: #166534; margin-bottom: 6px;">तुमची नोंद यशस्वीरित्या झाली आहे!</h3>
-            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 12px;">भविष्यात लॉगिन न करता अर्जाची स्थिती तपासण्यासाठी खालील टोकन क्रमांक जपून ठेवा:</p>
-            <div id="receiptTrackingCode" style="background:var(--bg-subtle); border:2px dashed var(--primary); padding:12px; border-radius:10px; font-size:26px; color:var(--primary); margin-bottom:16px;">GP-2026-1003</div>
+            <h3 style="font-size: 25px; color: #166534; margin-bottom: 6px;">तुमची नोंद यशस्वीरित्या झाली आहे!</h3>
+            <div style="background:#fef2f2; border:1.5px solid #fca5a5; color:#991b1b; padding:10px 14px; border-radius:10px; font-size:16px; margin-bottom:12px; line-height:1.4;">
+                <strong>महत्त्वाची सूचना:</strong> भविष्यात लॉगिन न करता तुमच्या अर्जाची / तक्रारीची सद्यस्थिती तपासण्यासाठी खालील <strong>मागोवा क्रमांक</strong> आणि तुमचा <strong>मोबाईल क्रमांक</strong> अवश्य नोंद करून ठेवा किंवा पोचपावती डाउनलोड करा!
+            </div>
+            <div style="background:var(--bg-subtle); border:2.5px dashed var(--primary); padding:12px 16px; border-radius:12px; margin-bottom:14px;">
+                <div style="font-size:15px; color:var(--text-muted);">तुमचा अधिकृत मागोवा क्रमांक (Tracking ID)</div>
+                <div id="receiptTrackingCode" style="font-size:30px; color:var(--primary); letter-spacing:1px;">GP-2026-1003</div>
+                <div id="receiptSummaryMeta" style="font-size:15.5px; color:var(--text-main); margin-top:4px;"></div>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
+                <button type="button" class="btn btn-secondary" style="padding:9px 15px; font-size:16px;" onclick="copyReceiptTrackingCode()">
+                    <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>क्रमांक कॉपी करा</span>
+                </button>
+                <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:9px 15px; font-size:16px;" onclick="saveReceiptToOwnWhatsApp()">
+                    <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <span>स्वतःच्या WhatsApp वर सेव्ह करा</span>
+                </button>
+                <button type="button" class="btn btn-secondary" style="padding:9px 15px; font-size:16px;" onclick="downloadCitizenReceiptSlip()">
+                    <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>पोचपावती डाउनलोड करा</span>
+                </button>
+            </div>
             <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
                 <button type="button" class="btn btn-primary" onclick="closeModals(); openTrackModalWithCode()">आत्ता स्थिती पहा</button>
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">ठीक आहे</button>
@@ -1968,7 +2152,13 @@
         </div>
     </div>
 
-    <div class="toast" id="toastMsg">माहिती यशस्वीरित्या सेव्ह झाली!</div>
+    <div class="toast-backdrop" id="toastBackdrop" onclick="hideToastNow()"></div>
+    <div class="toast" id="toastMsg" role="status" aria-live="polite">
+        <div id="toastIconBox" style="width:46px; height:46px; border-radius:50%; background:rgba(255,255,255,0.2); display:flex; align-items:center; justify-content:center;">
+            <svg class="icon" viewBox="0 0 24 24" style="width:28px; height:28px;"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <div id="toastTextBody" style="line-height:1.4;">माहिती यशस्वीरित्या सेव्ह झाली!</div>
+    </div>
 
     <!-- Firebase Auth SDK for Citizen One-Time Google Sign-In -->
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -2025,175 +2215,13 @@
                 { title: 'विशेष ग्रामसभा नोटीस (सण २०२६-२७ विकास आराखडा)', date: '३० नोव्हेंबर २०२६', desc: 'सकाळी ९:३० मिनिटांनी, हनुमान मंदिर सभागृह' },
                 { title: 'घरपट्टी व पाणीपट्टी थकबाकी वसुली जाहीर आवाहन', date: '१५ नोव्हेंबर २०२६', desc: '३१ डिसेंबरपूर्वी कर भरणा करून ५% सूट मिळवावी.' }
             ],
-            requests: [
-                {
-                    trackingId: 'GP-2026-1001',
-                    date: '२० नोव्हेंबर २०२६',
-                    createdAt: 1795132800000,
-                    resolvedAt: 1795219200000,
-                    type: 'अर्ज',
-                    subject: 'रहिवासी दाखला',
-                    name: 'अनिल भाऊराव तोरमल',
-                    phone: '9823000001',
-                    detail: 'प्रभाग क्र. २',
-                    attachment: '',
-                    status: 'पूर्ण झाले',
-                    actionNote: 'कागदपत्रांची पडताळणी पूर्ण होऊन रहिवासी दाखला तयार करण्यात आला आहे. ग्रामपंचायत कार्यालयातून किंवा खालील लिंकवरून प्रत घ्यावी.',
-                    actionProof: ''
-                },
-                {
-                    trackingId: 'GP-2026-1002',
-                    date: '२३ नोव्हेंबर २०२६',
-                    createdAt: 1795392000000,
-                    resolvedAt: null,
-                    type: 'तक्रार',
-                    subject: 'दिवाबत्ती / स्ट्रीट लाईट',
-                    name: 'शिवाजी तुकाराम तोरमल',
-                    phone: '9823000002',
-                    detail: 'मारुती मंदिर चौकातील पथदिवे बंद आहेत.',
-                    attachment: '',
-                    status: 'काम सुरू',
-                    actionNote: 'विद्युत कर्मचाऱ्यांना नवीन LED बल्ब बसविण्याच्या सूचना दिल्या आहेत; उद्या सायंकाळपर्यंत दुरुस्ती पूर्ण होईल.',
-                    actionProof: ''
-                }
-            ],
-            requestArchiveLog: [
-                {
-                    trackingId: 'GP-2026-1001',
-                    date: '२० नोव्हेंबर २०२६',
-                    createdAt: 1795132800000,
-                    type: 'अर्ज',
-                    subject: 'रहिवासी दाखला',
-                    name: 'अनिल भाऊराव तोरमल',
-                    phone: '9823000001',
-                    detail: 'प्रभाग क्र. २',
-                    status: 'पूर्ण झाले',
-                    actionNote: 'कागदपत्रांची पडताळणी पूर्ण होऊन रहिवासी दाखला तयार करण्यात आला आहे.',
-                    isDeleted: false,
-                    deletedDate: '',
-                    deletedBy: ''
-                },
-                {
-                    trackingId: 'GP-2026-1002',
-                    date: '२३ नोव्हेंबर २०२६',
-                    createdAt: 1795392000000,
-                    type: 'तक्रार',
-                    subject: 'दिवाबत्ती / स्ट्रीट लाईट',
-                    name: 'शिवाजी तुकाराम तोरमल',
-                    phone: '9823000002',
-                    detail: 'मारुती मंदिर चौकातील पथदिवे बंद आहेत.',
-                    status: 'काम सुरू',
-                    actionNote: 'विद्युत कर्मचाऱ्यांना नवीन LED बल्ब बसविण्याच्या सूचना दिल्या आहेत.',
-                    isDeleted: false,
-                    deletedDate: '',
-                    deletedBy: ''
-                }
-            ],
-            urgentNotice: {
-                active: false,
-                badge: 'अती तातडीची ग्रामपंचायत सूचना',
-                title: 'विशेष ग्रामसभा व पाणीपुरवठा विषयक महत्त्वाची सूचना',
-                date: '२५ नोव्हेंबर २०२६',
-                message: 'सर्व ग्रामस्थांना कळविण्यात येते की, ग्रामपंचायत पिंपळगाव निपाणी अंतर्गत तातडीच्या शासकीय कामकाजासाठी व ग्रामसभेसाठी दिलेल्या वेळेत उपस्थित राहावे.',
-                photo: '',
-                pdf: ''
-            },
-            visibility: {
-                ticker: true,
-                hero: true,
-                stats: true,
-                about: true,
-                services: true,
-                members: true,
-                works: true,
-                notices: true,
-                aaplesarkar: true,
-                panchayatsamiti: true,
-                villageofficials: true,
-                committees: true
-            },
-            aapleSarkarCenter: {
-                operatorName: 'संगणक परिचालक (VLE), आपले सरकार सेवा केंद्र',
-                phone: '९८२२५५६६७७',
-                timing: 'सकाळी ९:४५ ते सायं. ५:३० (शासकीय सुट्टीचे दिवस वगळून)',
-                activeDrive: 'सध्या केंद्रावर ॲग्रीस्टॅक शेतकरी ओळखपत्र (Farmer ID), लाडकी बहीण ई-केवायसी व आयुष्मान भारत कार्ड नोंदणी सुरू आहे.',
-                servicesList: [
-                    { name: 'उत्पन्न, जातीचा व रहिवासी दाखला', fee: 'शासनमान्य दर (₹ ३५ - ₹ ५०)', docs: 'आधार कार्ड, रेशन कार्ड, शाळा सोडल्याचा दाखला / तलाठी अहवाल' },
-                    { name: 'नॉन-क्रिमीलेयर व ईडब्ल्यूएस (EWS) प्रमाणपत्र', fee: 'शासनमान्य दर', docs: '३ वर्षांचे उत्पन्न प्रमाणपत्र, आधार कार्ड, जात/शाळा दाखला' },
-                    { name: 'डिजिटल स्वाक्षरीचा ७/१२ व ८-अ उतारा', fee: '₹ १५ प्रति उतारा', docs: 'गट क्रमांक / खाते क्रमांक व मोबाईल नंबर' },
-                    { name: 'नवीन पॅन कार्ड (PAN) व आधार दुरुस्ती नोंदणी', fee: '₹ १०७ (पॅन कार्ड)', docs: 'आधार कार्ड, २ पासपोर्ट फोटो व मोबाईल लिंक' },
-                    { name: 'आयुष्मान भारत कार्ड व ई-श्रम कार्ड', fee: 'मोफत / शासनमान्य दर', docs: 'आधार कार्ड, रेशन कार्ड व आधार संलग्न मोबाईल नंबर' },
-                    { name: 'पीएम किसान (PM-KISAN) व ॲग्रीस्टॅक शेतकरी आयडी', fee: 'शासनमान्य दर', docs: 'आधार कार्ड, ७/१२ उतारा व आधार लिंक मोबाईल' }
-                ]
-            },
-            panchayatSamitiDepts: [
-                { dept: 'ग्रामपंचायत विभाग', scheme: '१५ वा वित्त आयोग निधी, गावांतर्गत विकासकामे, ग्रामसभा व नागरी सुविधा', contact: 'गट विकास अधिकारी / विस्तार अधिकारी (पं.स. अकोले)' },
-                { dept: 'कृषी विभाग (पं.स. अकोले)', scheme: 'बियाणे व कृषी औजारे अनुदान, फळबाग लागवड, महाडीबीटी (MahaDBT) योजना', contact: 'कृषी अधिकारी, पंचायत समिती अकोले' },
-                { dept: 'पशुसंवर्धन विभाग', scheme: 'जनावरांचे मोफत लसीकरण, वैरण विकास (चारा बियाणे वाटप), दुधाळ जनावरे अनुदान', contact: 'पशुधन विकास अधिकारी, अकोले' },
-                { dept: 'बांधकाम व ग्रामीण पाणीपुरवठा विभाग', scheme: 'जलजीवन मिशन नळ पाणीपुरवठा, रस्ते, बंधारे व विहीर बांधकाम योजना', contact: 'उपअभियंता, ग्रामीण पाणीपुरवठा व बांधकाम' },
-                { dept: 'शिक्षण व एकात्मिक बालविकास (ICDS)', scheme: 'जिल्हा परिषद शाळा सुधारणा, अंगणवाडी पोषण आहार, शिष्यवृत्ती व मातृवंदना योजना', contact: 'गटशिक्षणाधिकारी / बालविकास प्रकल्प अधिकारी' },
-                { dept: 'आरोग्य विभाग', scheme: 'प्राथमिक आरोग्य केंद्र सेवा, माता-बाल लसीकरण व राष्ट्रीय आरोग्य कार्यक्रम', contact: 'तालुका आरोग्य अधिकारी, अकोले' },
-                { dept: 'समाजकल्याण व घरकुल विभाग', scheme: 'रमाई आवास, शबरी आवास, प्रधानमंत्री आवास योजना (ग्रामीण) व दिव्यांग कल्याण निधी', contact: 'विस्तार अधिकारी (सांख्यिकी / समाजकल्याण)' }
-            ],
-            villageOfficials: [
-                { role: 'ग्राम महसूल अधिकारी (तलाठी)', dept: 'महसूल विभाग (सज्जा पिंपळगाव निपाणी)', name: 'श्री. तलाठी साहेब (सज्जा कार्यालय)', phone: '९४२२००११००', photo: '', color: '#1e3a8a' },
-                { role: 'कृषी सहाय्यक', dept: 'कृषी विभाग (पीक पाहणी व योजना)', name: 'श्री. कृषी सहाय्यक, पिंपळगाव निपाणी', phone: '९४२२००२२००', photo: '', color: '#15803d' },
-                { role: 'पशुधन पर्यवेक्षक', dept: 'पशुसंवर्धन विभाग', name: 'डॉ. पशुधन पर्यवेक्षक, पशुवैद्यकीय दवाखाना', phone: '९४२२००३३००', photo: '', color: '#0369a1' },
-                { role: 'आरोग्य सेविका (ANM) / आशा वर्कर', dept: 'सार्वजनिक आरोग्य विभाग', name: 'श्रीमती आरोग्य सेविका (उपकेंद्र)', phone: '९४२२००४४००', photo: '', color: '#be123c' },
-                { role: 'अंगणवाडी सेविका', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. १ व २)', phone: '९४२२००५५००', photo: '', color: '#7e22ce' },
-                { role: 'महावितरण (MSEB) वायरमन', dept: 'महाराष्ट्र राज्य विद्युत वितरण कंपनी', name: 'श्री. महावितरण लाईनमन (गावांतर्गत)', phone: '१९१२ / ९४२२००६६००', photo: '', color: '#b45309' },
-                { role: 'स्वस्त धान्य दुकानदार (रेशन दुकान)', dept: 'अन्न व नागरी पुरवठा विभाग', name: 'अधिकृत रास्त भाव धान्य दुकान, पिंपळगाव निपाणी', phone: '९४२२००७७००', photo: '', color: '#0f766e' },
-                { role: 'मुख्याध्यापक, जि.प. प्राथमिक शाळा', dept: 'शिक्षण विभाग (जि.प. अहिल्यानगर)', name: 'श्री. मुख्याध्यापक, जि.प. शाळा पिंपळगाव निपाणी', phone: '९४२२००८८००', photo: '', color: '#4338ca' }
-            ],
-            villageCommittees: [
-                {
-                    name: 'ग्राम आरोग्य, पोषण, पाणीपुरवठा व स्वच्छता समिती',
-                    badge: 'आरोग्य, पोषण व पाणीपुरवठा समिती',
-                    president: 'सौ. सुनिता रमेश देशमुख (सरपंच / पदसिद्ध अध्यक्ष)',
-                    secretary: 'श्री. प्रकाश महादेव कुलकर्णी (ग्रामपंचायत अधिकारी / सचिव)',
-                    members: 'आरोग्य सेविका (ANM), अंगणवाडी सेविका, आशा वर्कर व ग्रामपंचायत सदस्य',
-                    phone: '९८२२००११२२'
-                },
-                {
-                    name: 'शालेय व्यवस्थापन समिती (SMC)',
-                    badge: 'शिक्षण व शाळा विकास समिती',
-                    president: 'श्री. शालेय व्यवस्थापन समिती अध्यक्ष',
-                    secretary: 'श्री. मुख्याध्यापक, जि.प. प्राथमिक शाळा (सचिव)',
-                    members: 'पालक प्रतिनिधी, शिक्षक प्रतिनिधी व ग्रामपंचायत सदस्य',
-                    phone: '९४२२००८८००'
-                },
-                {
-                    name: 'महात्मा गांधी तंटामुक्त गाव समिती',
-                    badge: 'शांतता व सलोखा समिती',
-                    president: 'श्री. तंटामुक्त गाव समिती अध्यक्ष',
-                    secretary: 'श्री. पोलीस पाटील / ग्रामपंचायत अधिकारी',
-                    members: 'गावातील ज्येष्ठ नागरिक, महिला प्रतिनिधी व प्रतिष्ठित ग्रामस्थ',
-                    phone: '९४२२००५५६६'
-                },
-                {
-                    name: 'ग्रामस्तरीय दक्षता व घरकुल संनियंत्रण समिती',
-                    badge: 'योजना व पारदर्शकता समिती',
-                    president: 'सरपंच, ग्रामपंचायत पिंपळगाव निपाणी',
-                    secretary: 'ग्रामपंचायत अधिकारी व ग्रामरोजगार सेवक',
-                    members: 'प्रभाग सदस्य, महिला बचत गट प्रतिनिधी व सामाजिक कार्यकर्ते',
-                    phone: '९८२२९९००११'
-                }
-            ],
-            design: {
-                palette: 'saffron',
-                font: "'Khand', sans-serif",
-                layout: 'classic'
-            },
-            accounts: {
-                developer: { masterEmail: 'aniltormal2@gmail.com' },
-                gramsevak: { user: 'gramsevak', pass: 'admin123', active: true },
-                operator: { user: 'operator', pass: 'op123', active: true },
-                staffList: [
-                    { name: 'संगणक परिचालक (VLE)', user: 'operator', pass: 'op123', active: true }
-                ],
-                citizens: [
-                    { name: 'अनिल भाऊराव तोरमल', phone: '9823000001', pass: '1234', ward: 'प्रभाग क्र. २' }
-                ]
+            requests: [],
+            requestArchiveLog: [],
+            watermarkConfig: {
+                enabled: true,
+                text: 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी',
+                position: 'diagonal',
+                opacity: 'medium'
             },
             cloudConfig: {
                 configured: true,
@@ -2217,6 +2245,7 @@
         if (!appState.panchayatSamitiDepts) appState.panchayatSamitiDepts = JSON.parse(JSON.stringify(DEFAULT_STATE.panchayatSamitiDepts));
         if (!appState.villageOfficials) appState.villageOfficials = JSON.parse(JSON.stringify(DEFAULT_STATE.villageOfficials));
         if (!appState.villageCommittees) appState.villageCommittees = JSON.parse(JSON.stringify(DEFAULT_STATE.villageCommittees));
+        if (!appState.watermarkConfig) appState.watermarkConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.watermarkConfig));
         if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
         if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = JSON.parse(JSON.stringify(DEFAULT_STATE.requestArchiveLog));
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
@@ -2231,11 +2260,33 @@
             localStorage.setItem('gp_portal_v6', JSON.stringify(appState)); syncToFirebaseIfConfigured();
         }
 
+        let activeToastTimer = null;
+        function hideToastNow() {
+            const t = document.getElementById('toastMsg');
+            const bd = document.getElementById('toastBackdrop');
+            if (t) t.classList.remove('show');
+            if (bd) bd.classList.remove('show');
+        }
         function showToast(msg) {
             const t = document.getElementById('toastMsg');
-            t.textContent = msg;
+            const bd = document.getElementById('toastBackdrop');
+            const body = document.getElementById('toastTextBody');
+            const iconBox = document.getElementById('toastIconBox');
+            if (!t || !body) return;
+            const isWarn = /कृपया|चुकीच|आवश्यक|उपलब्ध नाही|आढळल|थांबा|त्रुट|मर्यादा|अवैध/.test(msg);
+            t.classList.toggle('toast-warn', isWarn);
+            if (iconBox) {
+                iconBox.innerHTML = isWarn
+                    ? '<svg class="icon" viewBox="0 0 24 24" style="width:28px;height:28px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+                    : '<svg class="icon" viewBox="0 0 24 24" style="width:28px;height:28px;"><polyline points="20 6 9 17 4 12"/></svg>';
+            }
+            body.textContent = msg;
+            t.classList.remove('show');
+            void t.offsetWidth;
             t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2600);
+            if (bd) bd.classList.add('show');
+            if (activeToastTimer) clearTimeout(activeToastTimer);
+            activeToastTimer = setTimeout(hideToastNow, 2900);
         }
 
         // Custom In-Web Dropdown Builder (replaces native <select>)
@@ -2473,6 +2524,7 @@
                     <div>
                         <h3 style="font-size: 20px; color: var(--text-main);">${n.title}</h3>
                         <p style="color: var(--text-muted); font-size: 16px;">${n.desc}</p>
+                        ${n.pdf ? `<p style="color: #9a3412; font-size: 14.5px; margin-top: 4px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</p>` : ''}
                     </div>
                     <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
                         ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a>` : ''}
@@ -2721,6 +2773,58 @@
             `;
         }
 
+        let srvCaptchaAnswer = 8;
+        let cmpCaptchaAnswer = 9;
+        let lastReceiptPayload = null;
+
+        function refreshFormCaptcha(kind) {
+            const a = Math.floor(2 + Math.random() * 8);
+            const b = Math.floor(1 + Math.random() * 8);
+            const marDigits = ['०','१','२','३','४','५','६','७','८','९'];
+            const toMar = (n) => String(n).split('').map(d => marDigits[Number(d)] || d).join('');
+            if (kind === 'srv') {
+                srvCaptchaAnswer = a + b;
+                const qEl = document.getElementById('srvCaptchaQuestion');
+                const iEl = document.getElementById('srvCaptchaInput');
+                if (qEl) qEl.textContent = `${toMar(a)} + ${toMar(b)} = किती?`;
+                if (iEl) iEl.value = '';
+            } else {
+                cmpCaptchaAnswer = a + b;
+                const qEl = document.getElementById('cmpCaptchaQuestion');
+                const iEl = document.getElementById('cmpCaptchaInput');
+                if (qEl) qEl.textContent = `${toMar(a)} + ${toMar(b)} = किती?`;
+                if (iEl) iEl.value = '';
+            }
+        }
+
+        function isValidIndianMobile(rawPhone) {
+            const digits = marathiDigitsToAscii(rawPhone || '').replace(/\D/g, '');
+            if (!/^[6-9]\d{9}$/.test(digits)) return false;
+            if (/^(\d)\1{9}$/.test(digits)) return false;
+            if (digits === '1234567890' || digits === '9876543210') return false;
+            return true;
+        }
+
+        function isValidAadhaarNumber(rawAadhaar) {
+            const digits = marathiDigitsToAscii(rawAadhaar || '').replace(/\D/g, '');
+            if (!/^[2-9]\d{11}$/.test(digits)) return false;
+            if (/^(\d)\1{11}$/.test(digits)) return false;
+            return true;
+        }
+
+        function checkAntiSpamCooldown() {
+            try {
+                const lastTs = Number(localStorage.getItem('gp_last_submit_ts') || '0');
+                const diffSec = Math.floor((Date.now() - lastTs) / 1000);
+                if (lastTs > 0 && diffSec < 90) {
+                    const waitSec = 90 - diffSec;
+                    showToast(`स्पॅम सुरक्षा मर्यादा: कृपया पुढील अर्ज / तक्रार दाखल करण्यापूर्वी ${waitSec} सेकंद थांबा.`);
+                    return false;
+                }
+            } catch (e) {}
+            return true;
+        }
+
         function openServiceModal(defaultType) {
             document.getElementById('serviceModalTitle').textContent = defaultType || 'ऑनलाइन दाखला मागणी अर्ज';
             const certOptions = Object.keys(RTS_CERTIFICATES_DATA).map(name => ({
@@ -2731,6 +2835,9 @@
             renderInwebDropdown('ddServiceType', certOptions, initialCert);
             document.getElementById('serviceFormStep1').style.display = 'block';
             document.getElementById('serviceConfirmStep2').style.display = 'none';
+            refreshFormCaptcha('srv');
+            const consentEl = document.getElementById('srvPrivacyConsent');
+            if (consentEl) consentEl.checked = false;
             if (currentCitizen) {
                 document.getElementById('srvApplicantName').value = currentCitizen.name;
                 document.getElementById('srvApplicantPhone').value = currentCitizen.phone;
@@ -2740,18 +2847,60 @@
         }
 
         function openServiceConfirmStep() {
+            const hp = (document.getElementById('srvWebsiteHp')?.value || '').trim();
+            if (hp) return;
+
             const name = document.getElementById('srvApplicantName').value.trim();
-            const phone = document.getElementById('srvApplicantPhone').value.trim();
+            const phone = marathiDigitsToAscii(document.getElementById('srvApplicantPhone').value.trim()).replace(/\D/g, '');
+            const aadhaar = marathiDigitsToAscii(document.getElementById('srvApplicantAadhaar').value.trim()).replace(/\D/g, '');
             const addr = document.getElementById('srvApplicantAddr').value.trim();
+            const attachment = (document.getElementById('srvAttachmentUrl')?.value || '').trim();
+            const aadhaarDoc = (document.getElementById('srvAadhaarDocUrl')?.value || '').trim();
+            const captchaAns = Number(marathiDigitsToAscii(document.getElementById('srvCaptchaInput')?.value || '').replace(/\D/g, ''));
+            const consentOk = document.getElementById('srvPrivacyConsent')?.checked;
             const chosenCert = customDropdownValues['ddServiceType'] || 'जन्म नोंद दाखला';
-            if (!name || !phone) {
-                showToast('कृपया अर्जदाराचे पूर्ण नाव आणि मोबाईल क्रमांक भरा.');
+
+            if (!name || name.length < 3) {
+                showToast('कृपया अर्जदाराचे पूर्ण नाव (किमान ३ अक्षरे) भरा.');
                 return;
             }
+            if (!isValidIndianMobile(phone)) {
+                showToast('कृपया वैध १०-अंकी मोबाईल क्रमांक टाका.');
+                return;
+            }
+            if (!isValidAadhaarNumber(aadhaar)) {
+                showToast('कृपया वैध १२-अंकी आधार क्रमांक टाका.');
+                return;
+            }
+            if (!addr) {
+                showToast('कृपया प्रभाग क्रमांक व पूर्ण पत्ता भरा.');
+                return;
+            }
+            if (!attachment) {
+                showToast('कृपया लिखित दाखला अर्ज / आवश्यक कागदपत्र अपलोड करणे अनिवार्य आहे.');
+                return;
+            }
+            if (!aadhaarDoc) {
+                showToast('कृपया अर्जदाराचा आधार कार्ड फोटो / PDF अपलोड करणे अनिवार्य आहे.');
+                return;
+            }
+            if (captchaAns !== srvCaptchaAnswer) {
+                showToast('स्पॅम सुरक्षा पडताळणी (गणिती उत्तर) चुकीचे आहे. कृपया बरोबर उत्तर टाका.');
+                refreshFormCaptcha('srv');
+                return;
+            }
+            if (!consentOk) {
+                showToast('कृपया गोपनीयता व माहिती संरक्षण संमती बॉक्सवर टिक करा.');
+                return;
+            }
+            if (!checkAntiSpamCooldown()) return;
+
             document.getElementById('confirmApplicantSummary').innerHTML = `
                 <div><strong>दाखल्याचा प्रकार:</strong> ${chosenCert}</div>
                 <div><strong>अर्जदाराचे नाव:</strong> ${name}</div>
-                <div><strong>मोबाईल क्रमांक:</strong> ${phone} | <strong>प्रभाग/पत्ता:</strong> ${addr || 'नोंदवलेला नाही'}</div>
+                <div><strong>मोबाईल क्रमांक:</strong> ${phone} | <strong>आधार क्रमांक:</strong> ${aadhaar}</div>
+                <div><strong>प्रभाग/पत्ता:</strong> ${addr}</div>
+                <div style="color:#15803d; margin-top:4px;"><strong>अपलोड कागदपत्रे:</strong> १) लिखित अर्ज/कागदपत्र जोडले आहे | २) आधार कार्ड फोटो जोडला आहे</div>
             `;
             updateRtsServiceInfoBox(chosenCert);
             document.getElementById('serviceFormStep1').style.display = 'none';
@@ -2846,6 +2995,9 @@
                 { value: 'स्वच्छता व गटार व्यवस्था', label: 'स्वच्छता व गटार व्यवस्था' },
                 { value: 'रस्ते व बांधकाम', label: 'रस्ते व बांधकाम' }
             ], 'पाणीपुरवठा विभाग');
+            refreshFormCaptcha('cmp');
+            const consentEl = document.getElementById('cmpPrivacyConsent');
+            if (consentEl) consentEl.checked = false;
             if (currentCitizen) { document.getElementById('cmpName').value = currentCitizen.name; document.getElementById('cmpPhone').value = currentCitizen.phone; }
             document.getElementById('complaintModal').classList.add('active');
         }
@@ -2858,14 +3010,22 @@
         }
 
         function submitCitizenRequest(kind) {
-            const newId = generateNextTrackingId();
-            const todayStr = '२५ नोव्हेंबर २०२६';
+            const todayStr = '२६ नोव्हेंबर २०२६';
             if (kind === 'अर्ज') {
                 const name = document.getElementById('srvApplicantName').value.trim();
-                const phone = document.getElementById('srvApplicantPhone').value.trim();
+                const phone = marathiDigitsToAscii(document.getElementById('srvApplicantPhone').value.trim()).replace(/\D/g, '');
+                const aadhaar = marathiDigitsToAscii(document.getElementById('srvApplicantAadhaar').value.trim()).replace(/\D/g, '');
                 const detail = document.getElementById('srvApplicantAddr').value.trim();
-                const attachment = document.getElementById('srvAttachmentUrl') ? document.getElementById('srvAttachmentUrl').value.trim() : '';
-                if (!name || !phone) { showToast('कृपया नाव आणि मोबाईल नंबर भरा.'); return; }
+                const attachment = (document.getElementById('srvAttachmentUrl')?.value || '').trim();
+                const aadhaarDoc = (document.getElementById('srvAadhaarDocUrl')?.value || '').trim();
+
+                if (!name || !isValidIndianMobile(phone) || !isValidAadhaarNumber(aadhaar) || !attachment || !aadhaarDoc) {
+                    showToast('कृपया सर्व अनिवार्य माहिती, आधार क्रमांक व दोन्ही कागदपत्रे अपलोड करा.');
+                    return;
+                }
+                if (!checkAntiSpamCooldown()) return;
+
+                const newId = generateNextTrackingId();
                 const chosenCert = customDropdownValues['ddServiceType'];
                 const certMeta = RTS_CERTIFICATES_DATA[chosenCert];
                 const metaNote = certMeta ? ` (कालमर्यादा: ${certMeta.timeline}, निर्धारित शुल्क: ${certMeta.fee})` : '';
@@ -2876,24 +3036,60 @@
                     resolvedAt: null,
                     type: 'अर्ज',
                     subject: chosenCert,
-                    name, phone, detail: (detail || 'ऑनलाइन अर्ज') + metaNote,
+                    name, phone, aadhaar,
+                    detail: (detail || 'ऑनलाइन अर्ज') + metaNote,
                     attachment,
+                    aadhaarDoc,
                     status: 'प्रलंबित',
                     actionNote: 'अर्ज प्राप्त झाला असून पडताळणीसाठी संबंधित कर्मचाऱ्यांकडे वर्ग केला आहे.',
                     actionProof: ''
                 };
                 appState.requests.unshift(reqEntry);
                 syncArchiveRecord(reqEntry);
+                lastReceiptPayload = reqEntry;
+                lastGeneratedTrackingId = newId;
+                try {
+                    localStorage.setItem('gp_last_submit_ts', String(Date.now()));
+                    localStorage.setItem('gp_last_tracking_id', newId);
+                } catch (e) {}
+
                 document.getElementById('srvApplicantName').value = '';
                 document.getElementById('srvApplicantPhone').value = '';
+                document.getElementById('srvApplicantAadhaar').value = '';
                 document.getElementById('srvApplicantAddr').value = '';
                 if (document.getElementById('srvAttachmentUrl')) document.getElementById('srvAttachmentUrl').value = '';
+                if (document.getElementById('srvAadhaarDocUrl')) document.getElementById('srvAadhaarDocUrl').value = '';
             } else {
+                const hp = (document.getElementById('cmpWebsiteHp')?.value || '').trim();
+                if (hp) return;
+
                 const name = document.getElementById('cmpName').value.trim();
-                const phone = document.getElementById('cmpPhone').value.trim();
+                const phone = marathiDigitsToAscii(document.getElementById('cmpPhone').value.trim()).replace(/\D/g, '');
+                const aadhaar = marathiDigitsToAscii(document.getElementById('cmpAadhaar').value.trim()).replace(/\D/g, '');
                 const detail = document.getElementById('cmpDetails').value.trim();
-                const attachment = document.getElementById('cmpAttachmentUrl') ? document.getElementById('cmpAttachmentUrl').value.trim() : '';
-                if (!name || !detail) { showToast('कृपया नाव आणि तक्रार तपशील भरा.'); return; }
+                const attachment = (document.getElementById('cmpAttachmentUrl')?.value || '').trim();
+                const aadhaarDoc = (document.getElementById('cmpAadhaarDocUrl')?.value || '').trim();
+                const captchaAns = Number(marathiDigitsToAscii(document.getElementById('cmpCaptchaInput')?.value || '').replace(/\D/g, ''));
+                const consentOk = document.getElementById('cmpPrivacyConsent')?.checked;
+
+                if (!name || name.length < 3) { showToast('कृपया तक्रारदाराचे पूर्ण नाव भरा.'); return; }
+                if (!isValidIndianMobile(phone)) { showToast('कृपया वैध १०-अंकी मोबाईल क्रमांक टाका.'); return; }
+                if (!isValidAadhaarNumber(aadhaar)) { showToast('कृपया वैध १२-अंकी आधार क्रमांक टाका.'); return; }
+                if (!detail || detail.length < 5) { showToast('कृपया तक्रारीचा सविस्तर तपशील भरा.'); return; }
+                if (!attachment) { showToast('कृपया समस्येचा फोटो किंवा लिखित तक्रार अर्ज अपलोड करणे अनिवार्य आहे.'); return; }
+                if (!aadhaarDoc) { showToast('कृपया तक्रारदाराचा आधार कार्ड फोटो / PDF अपलोड करणे अनिवार्य आहे.'); return; }
+                if (captchaAns !== cmpCaptchaAnswer) {
+                    showToast('स्पॅम सुरक्षा पडताळणी (गणिती उत्तर) चुकीचे आहे. कृपया बरोबर उत्तर टाका.');
+                    refreshFormCaptcha('cmp');
+                    return;
+                }
+                if (!consentOk) {
+                    showToast('कृपया गोपनीयता व माहिती संरक्षण संमती बॉक्सवर टिक करा.');
+                    return;
+                }
+                if (!checkAntiSpamCooldown()) return;
+
+                const newId = generateNextTrackingId();
                 const cmpEntry = {
                     trackingId: newId,
                     date: todayStr,
@@ -2901,30 +3097,136 @@
                     resolvedAt: null,
                     type: 'तक्रार',
                     subject: customDropdownValues['ddComplaintDept'],
-                    name, phone: phone || '-', detail,
+                    name, phone, aadhaar, detail,
                     attachment,
+                    aadhaarDoc,
                     status: 'प्रलंबित',
                     actionNote: 'तक्रार नोंदवली गेली असून ग्रामपंचायत प्रशासनाकडून पाहणी सुरू आहे.',
                     actionProof: ''
                 };
                 appState.requests.unshift(cmpEntry);
                 syncArchiveRecord(cmpEntry);
+                lastReceiptPayload = cmpEntry;
+                lastGeneratedTrackingId = newId;
+                try {
+                    localStorage.setItem('gp_last_submit_ts', String(Date.now()));
+                    localStorage.setItem('gp_last_tracking_id', newId);
+                } catch (e) {}
+
                 document.getElementById('cmpName').value = '';
                 document.getElementById('cmpPhone').value = '';
+                document.getElementById('cmpAadhaar').value = '';
                 document.getElementById('cmpDetails').value = '';
                 if (document.getElementById('cmpAttachmentUrl')) document.getElementById('cmpAttachmentUrl').value = '';
+                if (document.getElementById('cmpAadhaarDocUrl')) document.getElementById('cmpAadhaarDocUrl').value = '';
             }
-            lastGeneratedTrackingId = newId;
             saveStateToStorage();
             closeModals();
             if (currentCitizen) renderCitizenDashboard();
-            document.getElementById('receiptTrackingCode').textContent = newId;
+            document.getElementById('receiptTrackingCode').textContent = lastGeneratedTrackingId;
+            const metaEl = document.getElementById('receiptSummaryMeta');
+            if (metaEl && lastReceiptPayload) {
+                metaEl.textContent = `${lastReceiptPayload.type}: ${lastReceiptPayload.subject} | अर्जदार: ${lastReceiptPayload.name} (${lastReceiptPayload.phone})`;
+            }
             document.getElementById('receiptModal').classList.add('active');
+        }
+
+        function copyReceiptTrackingCode() {
+            const code = (document.getElementById('receiptTrackingCode')?.textContent || lastGeneratedTrackingId || '').trim();
+            if (!code) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => showToast(`मागोवा क्रमांक (${code}) कॉपी झाला आहे!`));
+            } else {
+                showToast(`तुमचा मागोवा क्रमांक: ${code}`);
+            }
+        }
+
+        function saveReceiptToOwnWhatsApp() {
+            const rec = lastReceiptPayload || { trackingId: lastGeneratedTrackingId, type: 'अर्ज', subject: '', name: '', phone: '', date: '२६ नोव्हेंबर २०२६' };
+            const digits = marathiDigitsToAscii(rec.phone || '').replace(/\D/g, '');
+            const waPhone = digits.length === 10 ? ('91' + digits) : '';
+            const portalUrl = window.location.href.split('#')[0].split('?')[0];
+            const lines = [
+                `*ग्रामपंचायत पिंपळगाव निपाणी — पोचपावती*`,
+                `ता. अकोले, जि. अहिल्यानगर`,
+                ``,
+                `• *मागोवा क्रमांक (Tracking ID):* *${rec.trackingId}*`,
+                `• *प्रकार व विषय:* ${rec.type} — ${rec.subject}`,
+                `• *अर्जदार:* ${rec.name}`,
+                `• *नोंदणी दिनांक:* ${rec.date}`,
+                ``,
+                `स्थिती तपासण्यासाठी लिंक: ${portalUrl}`
+            ];
+            const url = waPhone
+                ? `https://wa.me/${waPhone}?text=${encodeURIComponent(lines.join('\n'))}`
+                : `https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`;
+            window.open(url, '_blank', 'noopener');
+        }
+
+        function downloadCitizenReceiptSlip() {
+            const rec = lastReceiptPayload || { trackingId: lastGeneratedTrackingId, type: 'अर्ज', subject: '-', name: '-', phone: '-', date: '२६ नोव्हेंबर २०२६' };
+            const slip = document.createElement('div');
+            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:680px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:Khand,sans-serif;';
+            slip.innerHTML = `
+                <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;">
+                    <div style="font-size:24px;"><strong>ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी</strong></div>
+                    <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन पोचपावती</div>
+                </div>
+                <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px;border-radius:10px;text-align:center;margin-bottom:16px;">
+                    <div style="font-size:16px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
+                    <div style="font-size:32px;color:#ea580c;"><strong>${rec.trackingId}</strong></div>
+                </div>
+                <div style="font-size:18px;line-height:1.7;margin-bottom:18px;">
+                    <div><strong>नोंदणी दिनांक:</strong> ${rec.date}</div>
+                    <div><strong>प्रकार व विषय:</strong> ${rec.type} — ${rec.subject}</div>
+                    <div><strong>अर्जदाराचे नाव:</strong> ${rec.name}</div>
+                    <div><strong>मोबाईल क्रमांक:</strong> ${rec.phone}</div>
+                    <div><strong>सद्यस्थिती:</strong> प्रलंबित (कार्यालयीन तपासणी सुरू)</div>
+                </div>
+                <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;">
+                    <span>सूचना: मागोवा क्रमांकावरून वेबपोर्टलवर सद्यस्थिती पहा.</span>
+                    <span>Website Design by Anil Bhaurao Tormal</span>
+                </div>
+            `;
+            document.body.appendChild(slip);
+            if (typeof html2canvas !== 'undefined') {
+                html2canvas(slip, { scale: 2 }).then(canvas => {
+                    const a = document.createElement('a');
+                    a.download = `Pochpavati_${rec.trackingId}.png`;
+                    a.href = canvas.toDataURL('image/png');
+                    a.click();
+                    document.body.removeChild(slip);
+                    showToast('पोचपावती तुमच्या मोबाईल/संगणकावर डाउनलोड झाली आहे!');
+                }).catch(() => {
+                    document.body.removeChild(slip);
+                });
+            } else {
+                document.body.removeChild(slip);
+            }
+        }
+
+        function useSavedLastTrackCode() {
+            const code = (document.getElementById('savedLastTrackText')?.textContent || '').trim();
+            if (!code) return;
+            document.getElementById('trackQueryInput').value = code;
+            searchTrackingStatus();
         }
 
         function openTrackModal() {
             document.getElementById('trackQueryInput').value = '';
             document.getElementById('trackResultsContainer').innerHTML = '';
+            let savedCode = lastGeneratedTrackingId;
+            try {
+                if (!savedCode) savedCode = localStorage.getItem('gp_last_tracking_id') || '';
+            } catch (e) {}
+            const banner = document.getElementById('savedLastTrackBanner');
+            const textEl = document.getElementById('savedLastTrackText');
+            if (banner && textEl && savedCode) {
+                textEl.textContent = savedCode;
+                banner.style.display = 'flex';
+            } else if (banner) {
+                banner.style.display = 'none';
+            }
             document.getElementById('trackStatusModal').classList.add('active');
         }
 
@@ -2951,7 +3253,7 @@
                     <div style="background:var(--bg-card); padding:10px 12px; border-radius:8px; border:1px solid var(--border-color);">
                         <div style="font-size:15px; color:var(--secondary);">ग्रामपंचायत कार्यवाही शेरा (Action Taken):</div>
                         <div style="font-size:16px; color:var(--text-main);">${item.actionNote || 'कार्यवाही प्रक्रियेत आहे.'}</div>
-                        ${item.actionProof ? `<div style="margin-top:6px;"><a href="${item.actionProof}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:5px 12px; font-size:15px;">तयार दाखला / कार्यवाही पुरावा पहा</a></div>` : ''}
+                        ${item.actionProof ? `<div style="margin-top:6px;"><a href="${item.actionProof}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:5px 12px; font-size:15px;">तयार दाखला / कार्यवाही पुरावा पहा</a><div style="font-size:14.5px; color:#9a3412; margin-top:5px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</div></div>` : ''}
                     </div>
                 </div>
             `;
@@ -3193,12 +3495,20 @@
             };
             document.getElementById('roleBadgeDisplay').textContent = roleTitles[currentRole];
 
+            const marNums = ['१','२','३','४','५','६','७','८','९','१०'];
+            let visibleSeq = 0;
             let firstVisibleTabBtn = null;
             document.querySelectorAll('#adminTabsBar .admin-tab-btn').forEach(btn => {
                 const allowedRoles = (btn.getAttribute('data-roles') || '').split(',');
                 const isAllowed = allowedRoles.includes(currentRole);
                 btn.style.display = isAllowed ? 'inline-flex' : 'none';
-                if (isAllowed && !firstVisibleTabBtn) firstVisibleTabBtn = btn;
+                if (isAllowed) {
+                    const baseLabel = btn.getAttribute('data-label') || btn.textContent.replace(/^[०-९]+\.\s*/, '');
+                    const prefix = marNums[visibleSeq] || String(visibleSeq + 1);
+                    btn.textContent = `${prefix}. ${baseLabel}`;
+                    visibleSeq++;
+                    if (!firstVisibleTabBtn) firstVisibleTabBtn = btn;
+                }
             });
 
             const expSrcSel = document.getElementById('expDataSource');
@@ -3583,9 +3893,169 @@
             reader.readAsDataURL(file);
         }
 
+        function toggleWatermarkSwitch() {
+            if (currentRole !== 'developer') return;
+            appState.watermarkConfig.enabled = !(appState.watermarkConfig.enabled !== false);
+            document.getElementById('swWatermarkEnabled').classList.toggle('on', appState.watermarkConfig.enabled);
+        }
+
+        function saveWatermarkSettingsByMaster() {
+            if (currentRole !== 'developer') {
+                showToast('हा अधिकार फक्त मास्टर लॉगिनसाठी राखीव आहे.');
+                return;
+            }
+            appState.watermarkConfig = {
+                enabled: document.getElementById('swWatermarkEnabled')?.classList.contains('on') !== false,
+                text: (document.getElementById('wmTextInput')?.value || '').trim() || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी',
+                position: document.getElementById('wmPositionSelect')?.value || 'diagonal',
+                opacity: document.getElementById('wmOpacitySelect')?.value || 'medium'
+            };
+            saveStateToStorage();
+            showToast('वॉटरमार्क सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
+        }
+
+        function resetAllRecordsToZeroByMaster() {
+            if (currentRole !== 'developer') {
+                showToast('हा अधिकार फक्त मास्टर लॉगिनसाठी राखीव आहे.');
+                return;
+            }
+            if (!confirm('तुम्हाला खात्री आहे का? या कृतीमुळे पोर्टल व Firebase मधील सर्व चाचणी अर्ज, तक्रारी, चौकशी आणि १ वर्षाचे रजिस्टर कायमचे डिलीट होऊन ० (Zero) पासून सुरू होईल!')) {
+                return;
+            }
+            appState.requests = [];
+            appState.requestArchiveLog = [];
+            lastGeneratedTrackingId = '';
+            lastReceiptPayload = null;
+            try {
+                localStorage.removeItem('gp_last_tracking_id');
+                localStorage.removeItem('gp_last_submit_ts');
+            } catch (e) {}
+            saveStateToStorage();
+            renderAdminRequests();
+            showToast('सर्व चाचणी नोंदी कायमच्या पुसल्या गेल्या असून पोर्टल ० (Zero) पासून लाइव्हसाठी सज्ज आहे!');
+        }
+
+        function getWatermarkAlpha() {
+            const op = (appState.watermarkConfig && appState.watermarkConfig.opacity) || 'medium';
+            if (op === 'light') return 0.18;
+            if (op === 'dark') return 0.45;
+            return 0.30;
+        }
+
+        function createWatermarkOverlayDataUrl(width, height, wmText, position, alpha) {
+            const c = document.createElement('canvas');
+            c.width = Math.max(400, Math.round(width));
+            c.height = Math.max(400, Math.round(height));
+            const ctx = c.getContext('2d');
+            ctx.clearRect(0, 0, c.width, c.height);
+
+            if (position === 'diagonal' || position === 'both') {
+                ctx.save();
+                ctx.translate(c.width / 2, c.height / 2);
+                ctx.rotate(-Math.PI / 6);
+                const fontSize = Math.max(22, Math.round(Math.min(c.width, c.height) * 0.048));
+                ctx.font = `bold ${fontSize}px Khand, sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillStyle = `rgba(30, 58, 138, ${alpha})`;
+                ctx.strokeStyle = `rgba(255, 255, 255, ${Math.min(0.65, alpha + 0.15)})`;
+                ctx.lineWidth = Math.max(2, Math.round(fontSize * 0.08));
+                ctx.strokeText(wmText, 0, 0);
+                ctx.fillText(wmText, 0, 0);
+                ctx.restore();
+            }
+
+            if (position === 'bottom-right' || position === 'both') {
+                ctx.save();
+                const bFont = Math.max(16, Math.round(Math.min(c.width, c.height) * 0.028));
+                ctx.font = `bold ${bFont}px Khand, sans-serif`;
+                const pad = Math.round(bFont * 0.8);
+                const textW = ctx.measureText(wmText).width;
+                const boxW = textW + pad * 2;
+                const boxH = bFont + pad * 1.3;
+                const x = c.width - boxW - Math.round(c.width * 0.03);
+                const y = c.height - boxH - Math.round(c.height * 0.03);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(0.82, alpha + 0.35)})`;
+                ctx.fillRect(x, y, boxW, boxH);
+                ctx.strokeStyle = `rgba(234, 88, 12, ${Math.min(0.85, alpha + 0.35)})`;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(x, y, boxW, boxH);
+                ctx.fillStyle = `rgba(15, 23, 42, ${Math.min(0.9, alpha + 0.45)})`;
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(wmText, x + pad, y + boxH / 2);
+                ctx.restore();
+            }
+            return c.toDataURL('image/png');
+        }
+
+        async function applyWatermarkToAdminFile(file, targetInputId) {
+            const citizenInputs = ['srvAttachmentUrl', 'srvAadhaarDocUrl', 'cmpAttachmentUrl', 'cmpAadhaarDocUrl'];
+            if (citizenInputs.includes(targetInputId)) return file;
+            const wmCfg = appState.watermarkConfig || DEFAULT_STATE.watermarkConfig;
+            if (!wmCfg || wmCfg.enabled === false) return file;
+
+            const wmText = (wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी').trim();
+            const position = wmCfg.position || 'diagonal';
+            const alpha = getWatermarkAlpha();
+
+            try {
+                if (file.type.startsWith('image/')) {
+                    return await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = (ev) => {
+                            const img = new Image();
+                            img.onload = () => {
+                                const canvas = document.createElement('canvas');
+                                canvas.width = img.width;
+                                canvas.height = img.height;
+                                const ctx = canvas.getContext('2d');
+                                ctx.drawImage(img, 0, 0);
+                                const overlayUrl = createWatermarkOverlayDataUrl(img.width, img.height, wmText, position, alpha);
+                                const ovImg = new Image();
+                                ovImg.onload = () => {
+                                    ctx.drawImage(ovImg, 0, 0);
+                                    canvas.toBlob((blob) => {
+                                        if (blob) {
+                                            resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.jpg'), { type: 'image/jpeg' }));
+                                        } else {
+                                            resolve(file);
+                                        }
+                                    }, 'image/jpeg', 0.88);
+                                };
+                                ovImg.onerror = () => resolve(file);
+                                ovImg.src = overlayUrl;
+                            };
+                            img.onerror = () => resolve(file);
+                            img.src = ev.target.result;
+                        };
+                        reader.onerror = () => resolve(file);
+                        reader.readAsDataURL(file);
+                    });
+                } else if (file.type === 'application/pdf' && typeof PDFLib !== 'undefined') {
+                    const arrayBuf = await file.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(arrayBuf);
+                    const pages = pdfDoc.getPages();
+                    for (const page of pages) {
+                        const { width, height } = page.getSize();
+                        const overlayDataUrl = createWatermarkOverlayDataUrl(width * 2, height * 2, wmText, position, alpha);
+                        const pngBytes = await fetch(overlayDataUrl).then(r => r.arrayBuffer());
+                        const pngImage = await pdfDoc.embedPng(pngBytes);
+                        page.drawImage(pngImage, { x: 0, y: 0, width, height });
+                    }
+                    const pdfBytes = await pdfDoc.save();
+                    return new File([pdfBytes], file.name, { type: 'application/pdf' });
+                }
+            } catch (e) {
+                return file;
+            }
+            return file;
+        }
+
         async function handleCloudinaryUpload(fileInput, targetInputId) {
-            const file = fileInput.files[0];
-            if (!file) return;
+            const rawFile = fileInput.files[0];
+            if (!rawFile) return;
+            const file = await applyWatermarkToAdminFile(rawFile, targetInputId);
             const cfg = appState.cloudConfig || {};
             const cloudName = (cfg.cloudinaryCloudName || 'tvqzwvy5').trim();
             const uploadPreset = (cfg.cloudinaryUploadPreset || 'gp_portal').trim();
@@ -3755,6 +4225,23 @@
             const masterBox = document.getElementById('masterOnlyAccountsBox');
             if (masterBox) {
                 masterBox.style.display = currentRole === 'developer' ? 'block' : 'none';
+            }
+            const zeroResetBox = document.getElementById('masterZeroResetBox');
+            if (zeroResetBox) {
+                zeroResetBox.style.display = currentRole === 'developer' ? 'block' : 'none';
+            }
+            const wmCfg = appState.watermarkConfig || DEFAULT_STATE.watermarkConfig;
+            if (document.getElementById('swWatermarkEnabled')) {
+                document.getElementById('swWatermarkEnabled').classList.toggle('on', wmCfg.enabled !== false);
+            }
+            if (document.getElementById('wmTextInput')) {
+                document.getElementById('wmTextInput').value = wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी';
+            }
+            if (document.getElementById('wmPositionSelect')) {
+                document.getElementById('wmPositionSelect').value = wmCfg.position || 'diagonal';
+            }
+            if (document.getElementById('wmOpacitySelect')) {
+                document.getElementById('wmOpacitySelect').value = wmCfg.opacity || 'medium';
             }
 
             const staffContainer = document.getElementById('staffAccountsList');
@@ -4051,6 +4538,8 @@
                 subject: reqObj.subject || '',
                 name: reqObj.name || '',
                 phone: reqObj.phone || '-',
+                aadhaar: reqObj.aadhaar || '',
+                aadhaarDoc: reqObj.aadhaarDoc || '',
                 detail: reqObj.detail || '',
                 status: reqObj.status || 'प्रलंबित',
                 actionNote: reqObj.actionNote || '',
@@ -4530,9 +5019,12 @@
                             <div>
                                 <span class="badge">${r.trackingId || 'GP-2026'}</span>
                                 <span class="badge">${r.type}: ${r.subject}</span>
-                                <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
+                                <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) ${r.aadhaar ? `<span class="badge" style="background:#e0e7ff; color:#1e3a8a; font-size:14px;">आधार: ${r.aadhaar}</span>` : ''} <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
                                 <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
-                                ${r.attachment ? `<div style="margin-top:6px;"><a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                                <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
+                                    ${r.attachment ? `<a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">अर्ज / तक्रार कागदपत्र पहा</a>` : ''}
+                                    ${r.aadhaarDoc ? `<a href="${r.aadhaarDoc}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px; border-color:#1e3a8a; color:#1e3a8a;">आधार कार्ड फोटो पहा</a>` : ''}
+                                </div>
                             </div>
                         </div>
                         <div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap;">
@@ -4736,6 +5228,9 @@
                         <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                         <span>तयार दाखला / PDF पहा व डाउनलोड करा</span>
                     </a>
+                    <div style="background:#fff7ed; border:1.5px solid #fdba74; color:#9a3412; padding:10px 13px; border-radius:10px; margin-bottom:12px; font-size:15.5px; line-height:1.45;">
+                        <strong>महत्त्वाची सूचना:</strong> ही प्रत केवळ ऑनलाइन माहिती व पडताळणीसाठी आहे. मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया <strong>ग्रामपंचायत कार्यालयाशी प्रत्यक्ष संपर्क साधावा.</strong>
+                    </div>
                 ` : `
                     <div style="padding:12px; background:#fef3c7; color:#92400e; border-radius:10px; margin-bottom:14px; font-size:16px;">
                         या अर्जासोबत अद्याप डिजिटल PDF / फोटो फाईल जोडलेली नाही. अधिक माहितीसाठी ग्रामपंचायत कार्यालयाशी संपर्क साधा.
