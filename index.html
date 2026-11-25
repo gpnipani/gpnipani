@@ -1744,12 +1744,12 @@
                 ]
             },
             cloudConfig: {
-                configured: false,
-                firebaseApiKey: '',
-                firebaseProjectId: '',
-                firebaseDatabaseUrl: '',
-                cloudinaryCloudName: '',
-                cloudinaryUploadPreset: ''
+                configured: true,
+                firebaseApiKey: 'AIzaSyDiEunvQ_RerZ7F8lt8iVRXyNUXLHuEmKY',
+                firebaseProjectId: 'gpnipani-f8271',
+                firebaseDatabaseUrl: 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app',
+                cloudinaryCloudName: 'tvqzwvy5',
+                cloudinaryUploadPreset: 'gp_portal'
             }
         };
 
@@ -1757,6 +1757,9 @@
         let appState = savedRaw ? Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), savedRaw) : JSON.parse(JSON.stringify(DEFAULT_STATE));
         appState.accounts = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.accounts)), appState.accounts || {});
         appState.cloudConfig = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig)), appState.cloudConfig || {});
+        if (!appState.cloudConfig.firebaseDatabaseUrl) {
+            appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
+        }
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
         if (Array.isArray(appState.requests)) { appState.requests.forEach((r, i) => { if (!r.trackingId) r.trackingId = 'GP-2026-' + (1001 + i); if (!r.date) r.date = 'नोव्हेंबर २०२६'; if (r.actionNote === undefined) r.actionNote = ''; if (r.actionProof === undefined) r.actionProof = ''; }); }
         if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
