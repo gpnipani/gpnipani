@@ -4452,13 +4452,13 @@
                             showToast('PDF अहवाल हेडर व फूटरसह डाउनलोड झाला!');
                         } else {
                             const win = window.open('', '_blank');
-                            win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}</script></body></html>');
+                            win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}<\/script></body></html>');
                             win.document.close();
                         }
                     }
                 } else {
                     const win = window.open('', '_blank');
-                    win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}</script></body></html>');
+                    win.document.write('<html><head><title>' + fileBase + '</title></head><body style="margin:0;">' + reportEl.outerHTML + '<script>window.onload=function(){window.print();}<\/script></body></html>');
                     win.document.close();
                 }
             } catch (e) {
