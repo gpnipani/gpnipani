@@ -1572,8 +1572,8 @@
 
             <!-- Standard Login Fields -->
             <div id="standardLoginFields">
-                <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" name="gp_login_id_field" autocomplete="off" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
-                <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" name="gp_login_secret_field" autocomplete="new-password" placeholder="पासवर्ड टाका"></div>
+                <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" name="gp_login_id_field" autocomplete="off" readonly onfocus="this.removeAttribute('readonly');" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
+                <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" name="gp_login_secret_field" autocomplete="new-password" readonly onfocus="this.removeAttribute('readonly');" placeholder="पासवर्ड टाका"></div>
                 <p id="loginError" style="color: #dc2626; font-size: 16px; display: none; margin-bottom: 10px;">चुकीचा युजर आयडी किंवा पासवर्ड!</p>
                 <div id="citizenRegisterPrompt" style="margin-bottom: 12px; font-size: 16px; color: var(--text-muted);">
                     <div style="text-align:center; margin:8px 0; font-size:15px;">— किंवा —</div>
@@ -1788,7 +1788,7 @@
             },
             cloudConfig: {
                 configured: true,
-                firebaseApiKey: 'AIzaSyDiEunvQ_RerZ7F8lt8iVRXyNUXLHuEmKY',
+                firebaseApiKey: 'AIzaSyDiEunvQ_RerZ7FBlt8iVRXyNUXLHuEmKY',
                 firebaseProjectId: 'gpnipani-f8271',
                 firebaseDatabaseUrl: 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app',
                 cloudinaryCloudName: 'tvqzwvy5',
@@ -1801,7 +1801,7 @@
         appState.accounts = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.accounts)), appState.accounts || {});
         appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
         appState.cloudConfig = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig)), appState.cloudConfig || {});
-        if (!appState.cloudConfig.firebaseDatabaseUrl) {
+        if (!appState.cloudConfig.firebaseDatabaseUrl || appState.cloudConfig.firebaseApiKey === 'AIzaSyDiEunvQ_RerZ7F8lt8iVRXyNUXLHuEmKY') {
             appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
         }
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
@@ -2137,7 +2137,7 @@
             'जन्म नोंद दाखला': {
                 srNo: '१',
                 timeline: '७ दिवस',
-                fee: '₹ ४० रुपये',
+                fee: '₹ ५० रुपये',
                 designatedOfficer: 'ग्रामपंचायत अधिकारी',
                 firstAppeal: 'सहा. गट विकास अधिकारी',
                 secondAppeal: 'गट विकास अधिकारी'
@@ -2145,7 +2145,7 @@
             'मृत्यू नोंद दाखला': {
                 srNo: '२',
                 timeline: '७ दिवस',
-                fee: '₹ ४० रुपये',
+                fee: '₹ ५० रुपये',
                 designatedOfficer: 'ग्रामपंचायत अधिकारी',
                 firstAppeal: 'सहा. गट विकास अधिकारी',
                 secondAppeal: 'गट विकास अधिकारी'
@@ -2153,7 +2153,7 @@
             'विवाह नोंद दाखला': {
                 srNo: '३',
                 timeline: '७ दिवस',
-                fee: '₹ ४० रुपये',
+                fee: '₹ ५० रुपये',
                 designatedOfficer: 'ग्रामपंचायत अधिकारी',
                 firstAppeal: 'सहा. गट विकास अधिकारी',
                 secondAppeal: 'गट विकास अधिकारी'
@@ -2169,7 +2169,7 @@
             'ग्रामपंचायत येणे बाकी नसल्याचा दाखला': {
                 srNo: '५',
                 timeline: '५ दिवस',
-                fee: '₹ ४० रुपये',
+                fee: '₹ ५० रुपये',
                 designatedOfficer: 'ग्रामपंचायत अधिकारी',
                 firstAppeal: 'सहा. गट विकास अधिकारी',
                 secondAppeal: 'गट विकास अधिकारी'
@@ -2177,7 +2177,7 @@
             'नमुना नं. ८ अ चा उतारा': {
                 srNo: '६',
                 timeline: '५ दिवस',
-                fee: '₹ ४० रुपये',
+                fee: '₹ ५० रुपये',
                 designatedOfficer: 'ग्रामपंचायत अधिकारी',
                 firstAppeal: 'सहा. गट विकास अधिकारी',
                 secondAppeal: 'गट विकास अधिकारी'
