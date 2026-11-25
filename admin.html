@@ -283,7 +283,8 @@
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            margin-left: auto;
         }
 
         .pill-theme-toggle {
@@ -858,11 +859,30 @@
             border-color: var(--primary);
         }
 
+
         .admin-panel-body {
-            padding: 28px 5%;
+            padding: 28px 5% 96px;
             max-width: 1180px;
             margin: 0 auto;
         }
+
+        .admin-sticky-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--bg-card);
+            border-top: 3px solid var(--primary);
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 -6px 20px rgba(0, 0, 0, 0.15);
+            z-index: 1050;
+        }
+
 
         .admin-tab-pane { display: none; }
         .admin-tab-pane.active { display: block; }
@@ -937,6 +957,7 @@
 
         @media (max-width: 920px) {
             .about-grid { grid-template-columns: 1fr; }
+            .navbar { justify-content: flex-end; padding-top: 8px; padding-bottom: 8px; }
             .mobile-menu-btn { display: inline-flex; }
             .nav-links {
                 display: none;
@@ -1019,12 +1040,17 @@
                         <li><a href="javascript:void(0)" onclick="openServiceModal('दाखला मागणी अर्ज')"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> जन्म / मृत्यू / रहिवासी दाखला</a></li>
                         <li><a href="javascript:void(0)" onclick="openServiceModal('ऑनलाइन कर भरणा')"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> घरपट्टी व पाणीपट्टी भरणा</a></li>
                         <li><a href="javascript:void(0)" onclick="openComplaintModal()"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> ऑनलाइन तक्रार नोंदणी</a></li>
+                        <li><a href="javascript:void(0)" onclick="openTrackModal()"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> अर्ज / तक्रार मागोवा (Track)</a></li>
                     </ul>
                 </li>
                 <li data-nav-sec="notices"><a href="#sec-notices"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ग्रामसभा व ठराव</a></li>
             </ul>
 
             <div class="nav-controls">
+                <button type="button" class="btn btn-primary" id="navLoginBtn" style="padding: 7px 15px; font-size: 16px; border-radius: 999px;" onclick="openLoginModal()">
+                    <svg class="icon" viewBox="0 0 24 24" style="width:16px;height:16px;"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <span id="navLoginLabel">लॉगिन</span>
+                </button>
                 <button type="button" class="pill-theme-toggle" id="themeToggleBtn" aria-label="थीम बदला">
                     <span class="pill-track">
                         <span class="pill-thumb" id="themeThumbIcon">
@@ -1068,6 +1094,10 @@
                     <svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
                     तक्रार नोंदवा
                 </button>
+                <button type="button" class="btn btn-outline" style="border-color: #fde047; color: #fde047;" onclick="openTrackModal()">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    अर्ज / तक्रार मागोवा
+                </button>
             </div>
         </section>
 
@@ -1104,10 +1134,10 @@
                     <button type="button" class="btn btn-primary" onclick="openComplaintModal()">तक्रार द्या</button>
                 </div>
                 <div class="card-item" style="text-align: center;">
-                    <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
-                    <h3 style="font-size: 22px; margin-bottom: 8px;">माहितीचा अधिकार (RTI)</h3>
-                    <p style="color: var(--text-muted); margin-bottom: 16px;">कलम ४(१)(ब) अंतर्गत ग्रामपंचायतीची सार्वजनिक माहिती व ठराव पहा.</p>
-                    <a href="#sec-notices" class="btn btn-primary">माहिती पहा</a>
+                    <div class="stat-icon"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div>
+                    <h3 style="font-size: 22px; margin-bottom: 8px;">अर्ज / तक्रार मागोवा</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 16px;">लॉगिन न करताही टोकन क्रमांक किंवा मोबाईल नंबरवरून अर्जाची सद्यस्थिती पहा.</p>
+                    <button type="button" class="btn btn-primary" onclick="openTrackModal()">स्थिती तपासा</button>
                 </div>
             </div>
         </section>
@@ -1150,9 +1180,8 @@
                     <p>महावितरण तक्रार: १९१२</p>
                 </div>
             </div>
-            <div class="copyright-bar">
+            <div class="copyright-bar" style="justify-content: center;">
                 <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | सर्व हक्क राखीव.</span>
-                <a class="subtle-admin-link" onclick="openLoginModal()">अधिकृत लॉगिन</a>
             </div>
         </footer>
     </div>
@@ -1171,12 +1200,15 @@
         </div>
 
         <div class="admin-tabs" id="adminTabsBar">
-            <button type="button" class="admin-tab-btn active" data-tab="tab-general" onclick="switchAdminTab('tab-general', this)">१. मुख्य पृष्ठ व सूचना</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-super-only="true" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी व पदाधिकारी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-works" onclick="switchAdminTab('tab-works', this)">३. ग्रामसभा व विकासकामे</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-requests" onclick="switchAdminTab('tab-requests', this)">४. तक्रारी व अर्ज</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-super-only="true" onclick="switchAdminTab('tab-visibility', this)">५. विभाग लपवा / दाखवा</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-super-only="true" onclick="switchAdminTab('tab-design', this)">६. डिझाइन, रंग व फॉन्ट</button>
+            <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,operator" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" onclick="switchAdminTab('tab-employees', this)">३. ग्रामपंचायत कर्मचारी माहिती</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,operator" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" onclick="switchAdminTab('tab-requests', this)">५. तक्रारी व दाखले हाताळणी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड सेटिंग्ज (Firebase/Cloudinary)</button>
         </div>
 
         <div class="admin-panel-body">
@@ -1222,7 +1254,7 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Stats & Dynamic Member Count + Structured Editor -->
+            <!-- Tab 2: Master Developer - Stats & Governance Mode (Elected Body vs Administrator Period) -->
             <div class="admin-tab-pane" id="tab-members">
                 <div class="info-card" style="margin-bottom: 22px;">
                     <h3>गावाची आकडेवारी संपादन</h3>
@@ -1232,30 +1264,70 @@
                         <div class="form-group"><label>एकूण क्षेत्रफळ</label><input type="text" class="form-control" id="inpStatArea"></div>
                         <div class="form-group"><label>साक्षरता दर</label><input type="text" class="form-control" id="inpStatLit"></div>
                     </div>
-                    <div class="form-group">
-                        <label>सरपंच मनोगत संदेश</label>
-                        <textarea class="form-control" rows="2" id="inpSarpanchMsg"></textarea>
-                    </div>
                 </div>
 
-                <div class="info-card">
-                    <h3>सरपंच, उपसरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य संख्या आणि प्रमाणित माहिती</h3>
-                    <div style="display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; background: var(--bg-subtle); padding: 14px; border-radius: 10px;">
-                        <div style="min-width: 220px;">
-                            <label style="display:block; margin-bottom:5px;">ग्रामपंचायत सदस्य संख्या निवडा</label>
-                            <div class="inweb-select" id="ddWardMemberCount"></div>
-                        </div>
-                        <div>
-                            <label style="display:block; margin-bottom:5px;">किंवा कस्टम संख्या टाका (१ ते २५)</label>
-                            <input type="number" min="1" max="25" class="form-control" id="inpCustomMemberCount" style="width: 140px;">
-                        </div>
-                        <button type="button" class="btn btn-secondary" onclick="applyCustomMemberCount()">संख्या लागू करा</button>
+                <div class="info-card" style="margin-bottom: 22px;">
+                    <h3>ग्रामपंचायत कार्यकारिणी स्थिती (निवडून आलेली बॉडी किंवा प्रशासक कालावधी)</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:12px;">जर सध्या सरपंच, उपसरपंच व सदस्य कमिटी अस्तित्वात नसेल आणि प्रशासक नेमलेला असेल, तर खालील ड्रॉप-डाउनमधून <strong>'प्रशासक कालावधी सुरू'</strong> निवडा.</p>
+                    <div style="max-width: 380px; margin-bottom: 18px;">
+                        <label style="display:block; margin-bottom:5px;">सध्याची कार्यकारिणी स्थिती निवडा</label>
+                        <div class="inweb-select" id="ddGovernanceMode"></div>
                     </div>
 
-                    <div id="structuredMembersEditor" class="grid-2"></div>
+                    <!-- Administrator Mode Editor -->
+                    <div id="administratorEditorBox" style="display:none; background:var(--bg-subtle); padding:16px; border-radius:10px; border-left:5px solid var(--secondary);">
+                        <h4 style="font-size:20px; color:var(--secondary); margin-bottom:12px;">प्रशासक (Administrator) माहिती संपादन</h4>
+                        <div class="grid-2">
+                            <div class="form-group"><label>प्रशासकाचे पूर्ण नाव</label><input type="text" class="form-control" id="inpAdminName"></div>
+                            <div class="form-group"><label>पदनाम</label><input type="text" class="form-control" id="inpAdminRole"></div>
+                            <div class="form-group"><label>शासन आदेश / कार्यकाळ नोंद</label><input type="text" class="form-control" id="inpAdminOrder"></div>
+                            <div class="form-group"><label>संपर्क मोबाईल क्रमांक</label><input type="text" class="form-control" id="inpAdminPhone"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>प्रशासक फोटो अपलोड करा किंवा लिंक टाका</label>
+                            <div style="display:flex; gap:8px;">
+                                <input type="text" class="form-control" id="inpAdminPhoto" placeholder="https://...">
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;"><span>फोटो</span><input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'inpAdminPhoto')"></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>प्रशासक मनोगत / संदेश</label>
+                            <textarea class="form-control" rows="2" id="inpAdminMsg"></textarea>
+                        </div>
+                    </div>
 
-                    <div style="margin-top: 20px;">
-                        <button type="button" class="btn btn-primary" onclick="saveStatsAndMembers()">सर्व आकडेवारी व पदाधिकारी माहिती सेव्ह करा</button>
+                    <!-- Elected Body Mode Editor -->
+                    <div id="electedBodyEditorBox">
+                        <div class="form-group">
+                            <label>सरपंच मनोगत संदेश</label>
+                            <textarea class="form-control" rows="2" id="inpSarpanchMsg"></textarea>
+                        </div>
+
+                        <div style="display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 20px; background: var(--bg-subtle); padding: 14px; border-radius: 10px;">
+                            <div style="min-width: 220px;">
+                                <label style="display:block; margin-bottom:5px;">ग्रामपंचायत सदस्य संख्या निवडा</label>
+                                <div class="inweb-select" id="ddWardMemberCount"></div>
+                            </div>
+                            <div>
+                                <label style="display:block; margin-bottom:5px;">किंवा कस्टम संख्या टाका (१ ते २५)</label>
+                                <input type="number" min="1" max="25" class="form-control" id="inpCustomMemberCount" style="width: 140px;">
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="applyCustomMemberCount()">संख्या लागू करा</button>
+                        </div>
+
+                        <div id="structuredMembersEditor" class="grid-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 3: Employees Editor (Accessible to Gramsevak & Master Developer) -->
+            <div class="admin-tab-pane" id="tab-employees">
+                <div class="info-card">
+                    <h3>ग्रामपंचायत अधिकारी व कर्मचारी माहिती संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:16px;">येथून ग्रामपंचायत अधिकारी, लिपिक (क्लार्क), पाणीपुरवठा कर्मचारी, दोन संगणक परिचालक व ग्रामरोजगार सेवक यांची नावे, संपर्क व फोटो अपडेट करता येतात.</p>
+                    <div id="employeesEditorGrid" class="grid-2"></div>
+                    <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addEmployeeSlot()">+ नवीन कर्मचारी पद जोडा</button>
                     </div>
                 </div>
             </div>
@@ -1279,7 +1351,17 @@
                         <h3>नवीन ग्रामसभा नोटीस / ठराव जोडा</h3>
                         <div class="form-group"><label>नोटीस / ठराव शीर्षक</label><input type="text" class="form-control" id="newNoticeTitle" placeholder="उदा. मासिक ग्रामसभा नोटीस"></div>
                         <div class="form-group"><label>दिनांक</label><input type="text" class="form-control" id="newNoticeDate" placeholder="उदा. ३० नोव्हेंबर २०२६"></div>
-                        <div class="form-group"><label>तपशील / PDF दुवा</label><input type="text" class="form-control" id="newNoticeDesc" placeholder="सकाळी १०:०० वाजता ग्रामपंचायत कार्यालय"></div>
+                        <div class="form-group"><label>तपशील</label><input type="text" class="form-control" id="newNoticeDesc" placeholder="सकाळी १०:०० वाजता ग्रामपंचायत कार्यालय"></div>
+                        <div class="form-group">
+                            <label>PDF दस्तऐवज अपलोड करा किंवा लिंक टाका</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="text" class="form-control" id="newNoticePdf" placeholder="PDF लिंक (ऐच्छिक)" style="flex:1;">
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0;">
+                                    <span>PDF निवडा</span>
+                                    <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'newNoticePdf')">
+                                </label>
+                            </div>
+                        </div>
                         <button type="button" class="btn btn-primary" onclick="addNewNotice()">नोटीस प्रसिद्ध करा</button>
                         <div id="adminNoticesList" style="margin-top: 18px;"></div>
                     </div>
@@ -1327,6 +1409,80 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Tab 7: Staff / Operator Login Management (Gramsevak & Master Developer) -->
+            <div class="admin-tab-pane" id="tab-users">
+                <div class="grid-2">
+                    <div class="info-card">
+                        <h3>संगणक परिचालक / ग्रामपंचायत कर्मचारी लॉगिन तयार करा</h3>
+                        <p style="font-size:16px; color:var(--text-muted); margin-bottom:12px;">नवीन संगणक परिचालक किंवा लिपिकासाठी स्वतंत्र युजर आयडी व पासवर्ड तयार करा.</p>
+                        <div class="form-group"><label>कर्मचाऱ्याचे नाव / पद</label><input type="text" class="form-control" id="newStaffName" placeholder="उदा. संगणक परिचालक - राहुल शिंदे"></div>
+                        <div class="form-group"><label>नवीन युजर आयडी</label><input type="text" class="form-control" id="newStaffUser" placeholder="उदा. operator2"></div>
+                        <div class="form-group"><label>पासवर्ड सेट करा</label><input type="text" class="form-control" id="newStaffPass" placeholder="नवीन पासवर्ड"></div>
+                        <button type="button" class="btn btn-primary" onclick="addStaffAccount()">नवीन लॉगिन तयार करा</button>
+
+                        <div style="margin-top:18px; border-top:1px solid var(--border-color); padding-top:14px;">
+                            <h4 style="font-size:19px; color:var(--primary); margin-bottom:10px;">सध्याचे कर्मचारी / संगणक परिचालक खाते</h4>
+                            <div id="staffAccountsList"></div>
+                        </div>
+                    </div>
+
+                    <div class="info-card" id="masterOnlyAccountsBox">
+                        <h3>ग्रामसेवक व मास्टर डेव्हलपर पासवर्ड नियंत्रण (फक्त डेव्हलपरसाठी)</h3>
+                        <div class="form-group"><label>ग्रामसेवक युजर आयडी</label><input type="text" class="form-control" id="mstGsUser"></div>
+                        <div class="form-group"><label>ग्रामसेवक पासवर्ड</label><input type="text" class="form-control" id="mstGsPass"></div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; padding:10px; background:var(--bg-subtle); border-radius:8px; margin-bottom:14px;">
+                            <span>ग्रामसेवक खाते सक्रिय (Active) ठेवा</span>
+                            <button type="button" class="inweb-switch" id="swGsActive" onclick="toggleMasterPerm('gsActive')"><span class="inweb-switch-knob"></span></button>
+                        </div>
+                        <div style="border-top:1px solid var(--border-color); padding-top:12px;">
+                            <div class="form-group"><label>मास्टर डेव्हलपर पासवर्ड बदला</label><input type="text" class="form-control" id="mstDevPass"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 8: Master Cloud Settings (Auto-hides form once configured) -->
+            <div class="admin-tab-pane" id="tab-cloud">
+                <div class="info-card">
+                    <h3>क्लाउड डेटाबेस व मीडिया स्टोरेज (Firebase + Cloudinary)</h3>
+                    <p>एकदा Keys सेव्ह केल्या की सुरक्षिततेसाठी हा सेटिंग बॉक्स आपोआप लपवला जाईल. भविष्यात बदल करायचा असल्यास फक्त मास्टर डेव्हलपर लॉगिनमधूनच उघडता येईल.</p>
+
+                    <div id="cloudConfiguredBanner" style="display:none; background:#dcfce7; color:#166534; padding:16px; border-radius:10px; margin-top:14px; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                        <div>
+                            <strong style="font-size:19px;">क्लाउड कनेक्शन सक्रिय व सुरक्षित आहे (Keys लपवलेल्या आहेत)</strong>
+                            <div style="font-size:16px;">सर्व डेटा व फोटो/PDF थेट तुमच्या क्लाउड खात्यात सुरक्षित राहतील.</div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" onclick="reopenCloudSettingsBox()">Keys बदला / संपादित करा</button>
+                    </div>
+
+                    <div id="cloudSettingsFormBox" style="margin-top:16px;">
+                        <div class="grid-2">
+                            <div class="form-group"><label>Firebase API Key</label><input type="password" class="form-control" id="cldFbApiKey" placeholder="AIzaSy..."></div>
+                            <div class="form-group"><label>Firebase Project ID</label><input type="text" class="form-control" id="cldFbProjectId" placeholder="grampanchayat-portal"></div>
+                            <div class="form-group"><label>Firebase Realtime Database URL</label><input type="text" class="form-control" id="cldFbDbUrl" placeholder="https://your-project-default-rtdb.firebaseio.com"></div>
+                            <div class="form-group"><label>Cloudinary Cloud Name</label><input type="text" class="form-control" id="cldCloudName" placeholder="उदा. dxyz1234"></div>
+                            <div class="form-group"><label>Cloudinary Unsigned Upload Preset</label><input type="text" class="form-control" id="cldUploadPreset" placeholder="उदा. gp_unsigned"></div>
+                        </div>
+                        <button type="button" class="btn btn-primary" onclick="saveAndLockCloudKeys()">Keys सेव्ह करा व बॉक्स लपवा</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sticky Bottom Save Bar -->
+        <div class="admin-sticky-footer">
+            <div style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 16px;">
+                <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+                <span>सर्व विभागांतील केलेले बदल एकत्र सुरक्षित करण्यासाठी उजवीकडील बटण दाबा.</span>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button type="button" class="btn btn-secondary" onclick="exitAdminToPortal()">पोर्टल पहा</button>
+                <button type="button" class="btn btn-primary" style="padding: 12px 28px; font-size: 19px; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);" onclick="saveAllAdminChanges()">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                    बदल सेव्ह करा
+                </button>
+            </div>
         </div>
     </div>
 
@@ -1341,6 +1497,16 @@
             <div class="form-group"><label>अर्जदाराचे पूर्ण नाव</label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
             <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="srvApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
             <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="srvApplicantAddr" placeholder="प्रभाग क्रमांक व घर नंबर"></div>
+            <div class="form-group">
+                <label>लिखित अर्ज / आवश्यक कागदपत्रे किंवा फोटो अपलोड करा (PDF / JPG / PNG)</label>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                        <span>फाईल निवडा</span>
+                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAttachmentUrl')">
+                    </label>
+                </div>
+            </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
                 <button type="button" class="btn btn-primary" onclick="submitCitizenRequest('अर्ज')">अर्ज सबमिट करा</button>
@@ -1359,6 +1525,16 @@
             <div class="form-group"><label>तक्रारदाराचे नाव</label><input type="text" class="form-control" id="cmpName" placeholder="पूर्ण नाव"></div>
             <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="cmpPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
             <div class="form-group"><label>तक्रारीचा सविस्तर तपशील</label><textarea class="form-control" rows="3" id="cmpDetails" placeholder="ठिकाण आणि समस्येचे वर्णन लिहा"></textarea></div>
+            <div class="form-group">
+                <label>समस्येचा फोटो किंवा लिखित तक्रार अर्ज अपलोड करा (JPG / PNG / PDF)</label>
+                <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                    <input type="text" class="form-control" id="cmpAttachmentUrl" placeholder="फोटो/कागदपत्र निवडल्यास लिंक येथे येईल..." readonly style="flex:1; font-size:15px;">
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                        <span>फोटो / PDF निवडा</span>
+                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'cmpAttachmentUrl')">
+                    </label>
+                </div>
+            </div>
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
                 <button type="button" class="btn btn-primary" onclick="submitCitizenRequest('तक्रार')">तक्रार नोंदवा</button>
@@ -1366,21 +1542,95 @@
         </div>
     </div>
 
-    <!-- Modal: Role-Based Admin Login -->
+    <!-- Modal: 4-Tier Login (Citizen, Operator, Gramsevak, Master Developer) -->
     <div class="modal-backdrop" id="loginModal">
         <div class="modal-box">
-            <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 8px;">अधिकृत प्रशासन लॉगिन</h3>
-            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 14px;">ग्रामविकास अधिकारी (ग्रामसेवक) किंवा संगणक परिचालक खात्याने लॉगिन करा.</p>
+            <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 8px;">पोर्टल लॉगिन प्रवेशद्वार</h3>
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 14px;">नागरिक, संगणक परिचालक, ग्रामसेवक किंवा मास्टर डेव्हलपर खाते निवडा.</p>
             <div class="form-group">
-                <label>भूमिका निवडा (Role)</label>
+                <label>लॉगिन प्रकार निवडा</label>
                 <div class="inweb-select" id="ddLoginRole"></div>
             </div>
-            <div class="form-group"><label>युजर आयडी (Username)</label><input type="text" class="form-control" id="loginUser" value="gramsevak"></div>
-            <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" value="admin123"></div>
-            <p id="loginError" style="color: #dc2626; font-size: 16px; display: none; margin-bottom: 10px;">चुकीचा युजर आयडी किंवा पासवर्ड!</p>
-            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+
+            <!-- Standard Login Fields -->
+            <div id="standardLoginFields">
+                <div class="form-group"><label id="loginUserLabel">मोबाईल नंबर / युजर आयडी</label><input type="text" class="form-control" id="loginUser" placeholder="मोबाईल नंबर किंवा युजर आयडी"></div>
+                <div class="form-group"><label>पासवर्ड (Password)</label><input type="password" class="form-control" id="loginPass" placeholder="पासवर्ड टाका"></div>
+                <p id="loginError" style="color: #dc2626; font-size: 16px; display: none; margin-bottom: 10px;">चुकीचा युजर आयडी किंवा पासवर्ड!</p>
+                <div id="citizenRegisterPrompt" style="margin-bottom: 12px; font-size: 16px; color: var(--text-muted);">
+                    नवीन नागरिक आहात? <a href="javascript:void(0)" style="color: var(--primary);" onclick="toggleCitizenRegisterForm(true)">येथे नवीन खाते नोंदवा</a>
+                </div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModals()">बंद करा</button>
+                    <button type="button" class="btn btn-primary" onclick="performLogin()">लॉगिन करा</button>
+                </div>
+            </div>
+
+            <!-- Citizen Self-Registration Fields -->
+            <div id="citizenRegisterFields" style="display:none;">
+                <h4 style="font-size: 20px; color: var(--secondary); margin-bottom: 10px;">नवीन नागरिक नोंदणी</h4>
+                <div class="form-group"><label>पूर्ण नाव</label><input type="text" class="form-control" id="regCitName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
+                <div class="form-group"><label>मोबाईल क्रमांक (हाच तुमचा लॉगिन आयडी असेल)</label><input type="text" class="form-control" id="regCitPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
+                <div class="form-group"><label>प्रभाग / पत्ता</label><input type="text" class="form-control" id="regCitWard" placeholder="प्रभाग क्र. १"></div>
+                <div class="form-group"><label>पासवर्ड तयार करा</label><input type="password" class="form-control" id="regCitPass" placeholder="नवीन पासवर्ड"></div>
+                <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 14px;">
+                    <button type="button" class="btn btn-secondary" onclick="toggleCitizenRegisterForm(false)">मागे जा</button>
+                    <button type="button" class="btn btn-primary" onclick="registerNewCitizen()">नोंदणी पूर्ण करा</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Citizen Personal Dashboard -->
+    <div class="modal-backdrop" id="citizenDashboardModal">
+        <div class="modal-box" style="max-width: 680px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px; border-bottom:2px solid var(--primary); padding-bottom:10px;">
+                <div>
+                    <h3 style="font-size: 24px; color: var(--primary);" id="citDashName">नागरिक डॅशबोर्ड</h3>
+                    <p style="font-size: 16px; color: var(--text-muted);" id="citDashMeta"></p>
+                </div>
+                <button type="button" class="btn btn-danger" style="padding:6px 14px; font-size:15px;" onclick="logoutCitizen()">लॉगआउट</button>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+                <button type="button" class="btn btn-primary" style="padding:8px 14px; font-size:16px;" onclick="closeModals(); openServiceModal('दाखला मागणी अर्ज')">+ नवीन दाखला अर्ज</button>
+                <button type="button" class="btn btn-secondary" style="padding:8px 14px; font-size:16px;" onclick="closeModals(); openComplaintModal()">+ नवीन तक्रार नोंदवा</button>
+            </div>
+            <h4 style="font-size: 20px; margin-bottom: 10px;">तुमचे दाखल केलेले अर्ज व तक्रारी आणि सद्यस्थिती</h4>
+            <div id="citizenRequestsHistory"></div>
+            <div style="text-align:right; margin-top:14px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">बंद करा</button>
-                <button type="button" class="btn btn-primary" onclick="performLogin()">लॉगिन करा</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Track Application / Complaint Without Login -->
+    <div class="modal-backdrop" id="trackStatusModal">
+        <div class="modal-box" style="max-width: 640px;">
+            <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 6px;">अर्ज व तक्रार मागोवा (Track Status)</h3>
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 14px;">तुमचा <strong>नोंदणी क्रमांक (उदा. GP-2026-1001)</strong> किंवा <strong>मोबाईल क्रमांक</strong> टाकून अर्जावर केलेली कार्यवाही पहा.</p>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;">
+                <input type="text" class="form-control" id="trackQueryInput" placeholder="उदा. GP-2026-1001 किंवा 9823000001" style="flex:1;">
+                <button type="button" class="btn btn-primary" onclick="searchTrackingStatus()">मागोवा घ्या</button>
+            </div>
+            <div id="trackResultsContainer"></div>
+            <div style="text-align:right; margin-top:14px;">
+                <button type="button" class="btn btn-secondary" onclick="closeModals()">बंद करा</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Instant Submission Receipt with Tracking ID -->
+    <div class="modal-backdrop" id="receiptModal">
+        <div class="modal-box" style="text-align:center;">
+            <div style="width:60px; height:60px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 12px;">
+                <svg class="icon" viewBox="0 0 24 24" style="width:32px;height:32px;"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 style="font-size: 24px; color: #166534; margin-bottom: 6px;">तुमची नोंद यशस्वीरित्या झाली आहे!</h3>
+            <p style="color: var(--text-muted); font-size: 16px; margin-bottom: 12px;">भविष्यात लॉगिन न करता अर्जाची स्थिती तपासण्यासाठी खालील टोकन क्रमांक जपून ठेवा:</p>
+            <div id="receiptTrackingCode" style="background:var(--bg-subtle); border:2px dashed var(--primary); padding:12px; border-radius:10px; font-size:26px; color:var(--primary); margin-bottom:16px;">GP-2026-1003</div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <button type="button" class="btn btn-primary" onclick="closeModals(); openTrackModalWithCode()">आत्ता स्थिती पहा</button>
+                <button type="button" class="btn btn-secondary" onclick="closeModals()">ठीक आहे</button>
             </div>
         </div>
     </div>
@@ -1399,11 +1649,27 @@
             aboutText: 'पिंपळगाव निपाणी हे अकोले तालुक्यातील एक प्रगतशील, निसर्गरम्य व ऐतिहासिक परंपरा असलेले गाव आहे. ग्रामपंचायतीच्या माध्यमातून स्वच्छता, शुद्ध पाणीपुरवठा, अंतर्गत रस्ते, सौर ऊर्जा आणि डिजिटल नागरिक सेवा प्रभावीपणे राबवल्या जातात.',
             sarpanchMsg: 'आपल्या गावाचा सर्वांगीण आणि पारदर्शक विकास हेच आमचे ध्येय आहे. प्रत्येक नागरिकाने ग्रामसभेत सहभागी होऊन गावाच्या प्रगतीत हातभार लावावा.',
             stats: { pop: '३,४५०+', fam: '६८०+', area: '१,२४० हे.', lit: '८६.५%' },
+            governanceMode: 'body', // 'body' or 'administrator'
+            administrator: {
+                name: 'श्री. प्रकाश महादेव कुलकर्णी',
+                role: 'प्रशासक, ग्रामपंचायत पिंपळगाव निपाणी',
+                orderInfo: 'शासन आदेशानुसार प्रशासक कार्यकाळ सुरू',
+                phone: '९४२२००५५६६',
+                photo: '',
+                message: 'ग्रामपंचायतीवर प्रशासक कार्यकाळ सुरू असून शासनाच्या सर्व योजना व नागरी सेवा पारदर्शकपणे सुरू आहेत.'
+            },
             wardMemberCount: 7,
             leadership: [
                 { role: 'सरपंच', name: 'सौ. सुनिता रमेश देशमुख', ward: 'सरपंच पद', phone: '९८२२००११२२', photo: '', color: '#ea580c' },
-                { role: 'उपसरपंच', name: 'श्री. संतोष बाळासाहेब वाकचौरे', ward: 'उपसरपंच पद', phone: '९८२२००३३४४', photo: '', color: '#1e3a8a' },
-                { role: 'ग्रामविकास अधिकारी / ग्रामसेवक', name: 'श्री. प्रकाश महादेव कुलकर्णी', ward: 'प्रशासन प्रमुख', phone: '९४२२००५५६६', photo: '', color: '#15803d' }
+                { role: 'उपसरपंच', name: 'श्री. संतोष बाळासाहेब वाकचौरे', ward: 'उपसरपंच पद', phone: '९८२२००३३४४', photo: '', color: '#1e3a8a' }
+            ],
+            employees: [
+                { role: 'ग्रामपंचायत अधिकारी / ग्रामसेवक', name: 'श्री. प्रकाश महादेव कुलकर्णी', phone: '९४२२००५५६६', photo: '', color: '#15803d' },
+                { role: 'लिपिक (क्लार्क)', name: 'श्री. संदीप विठ्ठल जाधव', phone: '९८२२११२२३३', photo: '', color: '#1e3a8a' },
+                { role: 'पाणीपुरवठा कर्मचारी', name: 'श्री. बाळासाहेब दत्तात्रय शिंदे', phone: '९८२२३३४४५५', photo: '', color: '#0369a1' },
+                { role: 'संगणक परिचालक (१)', name: 'श्री. राहुल अशोक कदम', phone: '९८२२५५६६७७', photo: '', color: '#7e22ce' },
+                { role: 'संगणक परिचालक (२)', name: 'कु. पूजा राजेंद्र पवार', phone: '९८२२७७८८९९', photo: '', color: '#be123c' },
+                { role: 'ग्रामरोजगार सेवक', name: 'श्री. नितीन भाऊसाहेब गायकर', phone: '९८२२९९००११', photo: '', color: '#b45309' }
             ],
             wardMembers: [
                 { name: 'श्री. राजेंद्र लक्ष्मण तोरमल', ward: 'प्रभाग क्र. १', phone: '९८५०११२२३३', photo: '', color: '#0f766e' },
@@ -1424,8 +1690,32 @@
                 { title: 'घरपट्टी व पाणीपट्टी थकबाकी वसुली जाहीर आवाहन', date: '१५ नोव्हेंबर २०२६', desc: '३१ डिसेंबरपूर्वी कर भरणा करून ५% सूट मिळवावी.' }
             ],
             requests: [
-                { type: 'अर्ज', subject: 'रहिवासी दाखला', name: 'अनिल भाऊराव तोरमल', phone: '९८२३०००००१', detail: 'प्रभाग क्र. २', status: 'पूर्ण झाले' },
-                { type: 'तक्रार', subject: 'दिवाबत्ती / स्ट्रीट लाईट', name: 'शिवाजी तुकाराम तोरमल', phone: '९८२३०००००२', detail: 'मारुती मंदिर चौकातील पथदिवे बंद आहेत.', status: 'काम सुरू' }
+                {
+                    trackingId: 'GP-2026-1001',
+                    date: '२० नोव्हेंबर २०२६',
+                    type: 'अर्ज',
+                    subject: 'रहिवासी दाखला',
+                    name: 'अनिल भाऊराव तोरमल',
+                    phone: '9823000001',
+                    detail: 'प्रभाग क्र. २',
+                    attachment: '',
+                    status: 'पूर्ण झाले',
+                    actionNote: 'कागदपत्रांची पडताळणी पूर्ण होऊन रहिवासी दाखला तयार करण्यात आला आहे. ग्रामपंचायत कार्यालयातून किंवा खालील लिंकवरून प्रत घ्यावी.',
+                    actionProof: ''
+                },
+                {
+                    trackingId: 'GP-2026-1002',
+                    date: '२३ नोव्हेंबर २०२६',
+                    type: 'तक्रार',
+                    subject: 'दिवाबत्ती / स्ट्रीट लाईट',
+                    name: 'शिवाजी तुकाराम तोरमल',
+                    phone: '9823000002',
+                    detail: 'मारुती मंदिर चौकातील पथदिवे बंद आहेत.',
+                    attachment: '',
+                    status: 'काम सुरू',
+                    actionNote: 'विद्युत कर्मचाऱ्यांना नवीन LED बल्ब बसविण्याच्या सूचना दिल्या आहेत; उद्या सायंकाळपर्यंत दुरुस्ती पूर्ण होईल.',
+                    actionProof: ''
+                }
             ],
             visibility: {
                 ticker: true,
@@ -1441,14 +1731,42 @@
                 palette: 'saffron',
                 font: "'Khand', sans-serif",
                 layout: 'classic'
+            },
+            accounts: {
+                developer: { user: 'developer', pass: 'master123' },
+                gramsevak: { user: 'gramsevak', pass: 'admin123', active: true },
+                operator: { user: 'operator', pass: 'op123', active: true },
+                staffList: [
+                    { name: 'संगणक परिचालक (VLE)', user: 'operator', pass: 'op123', active: true }
+                ],
+                citizens: [
+                    { name: 'अनिल भाऊराव तोरमल', phone: '9823000001', pass: '1234', ward: 'प्रभाग क्र. २' }
+                ]
+            },
+            cloudConfig: {
+                configured: false,
+                firebaseApiKey: '',
+                firebaseProjectId: '',
+                firebaseDatabaseUrl: '',
+                cloudinaryCloudName: '',
+                cloudinaryUploadPreset: ''
             }
         };
 
-        let appState = JSON.parse(localStorage.getItem('gp_portal_v5')) || JSON.parse(JSON.stringify(DEFAULT_STATE));
-        let currentRole = null; // 'gramsevak' or 'operator'
+        let savedRaw = JSON.parse(localStorage.getItem('gp_portal_v6'));
+        let appState = savedRaw ? Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), savedRaw) : JSON.parse(JSON.stringify(DEFAULT_STATE));
+        appState.accounts = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.accounts)), appState.accounts || {});
+        appState.cloudConfig = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig)), appState.cloudConfig || {});
+        appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
+        if (Array.isArray(appState.requests)) { appState.requests.forEach((r, i) => { if (!r.trackingId) r.trackingId = 'GP-2026-' + (1001 + i); if (!r.date) r.date = 'नोव्हेंबर २०२६'; if (r.actionNote === undefined) r.actionNote = ''; if (r.actionProof === undefined) r.actionProof = ''; }); }
+        if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
+            appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees));
+        }
+        let currentRole = null; // 'developer', 'gramsevak', 'operator', or 'citizen'
+        let currentCitizen = null;
 
         function saveStateToStorage() {
-            localStorage.setItem('gp_portal_v5', JSON.stringify(appState));
+            localStorage.setItem('gp_portal_v6', JSON.stringify(appState)); syncToFirebaseIfConfigured();
         }
 
         function showToast(msg) {
@@ -1604,28 +1922,23 @@
                 <div class="stat-card"><div class="stat-icon"><svg class="icon" viewBox="0 0 24 24"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg></div><h3>${s.lit}</h3><p>साक्षरता दर</p></div>
             `;
 
+            const isAdminPeriod = appState.governanceMode === 'administrator';
             const sarpanch = appState.leadership[0] || { name: 'सरपंच' };
+            const adminInfo = appState.administrator || DEFAULT_STATE.administrator;
+
             document.getElementById('aboutContainer').innerHTML = `
                 <div class="info-card">
                     <h3>गावाचा संक्षिप्त परिचय</h3>
                     <p>${appState.aboutText}</p>
                 </div>
                 <div class="info-card sarpanch-box">
-                    <h3>सरपंच मनोगत</h3>
-                    <p>"${appState.sarpanchMsg}"</p>
-                    <div style="color: var(--primary); font-size: 18px;">— ${sarpanch.name} (सरपंच)</div>
+                    <h3>${isAdminPeriod ? 'प्रशासक मनोगत व सूचना' : 'सरपंच मनोगत'}</h3>
+                    <p>"${isAdminPeriod ? adminInfo.message : appState.sarpanchMsg}"</p>
+                    <div style="color: var(--primary); font-size: 18px;">— ${isAdminPeriod ? adminInfo.name + ' (प्रशासक)' : sarpanch.name + ' (सरपंच)'}</div>
                 </div>
             `;
 
-            const allPeople = [
-                ...appState.leadership.map(p => ({ ...p, badgeText: p.role })),
-                ...appState.wardMembers.slice(0, appState.wardMemberCount).map((m, idx) => ({
-                    ...m,
-                    badgeText: `सदस्य (${m.ward || 'प्रभाग ' + (idx + 1)})`
-                }))
-            ];
-
-            document.getElementById('membersContainer').innerHTML = allPeople.map(person => {
+            function renderPersonCard(person, badgeText) {
                 const initials = (person.name || 'ग्रा').replace(/^(श्री\.|सौ\.|कु\.)\s*/g, '').trim().charAt(0) || 'ग्रा';
                 const avatarHtml = person.photo
                     ? `<img src="${person.photo}" alt="${person.name}" onerror="this.style.display='none';this.parentElement.textContent='${initials}'">`
@@ -1633,12 +1946,49 @@
                 return `
                     <div class="card-item" style="text-align: center;">
                         <div class="member-avatar" style="background-color: ${person.color || '#ea580c'};">${avatarHtml}</div>
-                        <span class="badge">${person.badgeText}</span>
+                        <span class="badge">${badgeText}</span>
                         <h3 style="font-size: 21px; margin-bottom: 4px;">${person.name}</h3>
+                        ${person.subNote ? `<div style="color: var(--primary); font-size: 15px; margin-bottom: 4px;">${person.subNote}</div>` : ''}
                         <p style="color: var(--text-muted); font-size: 16px;">संपर्क: ${person.phone}</p>
                     </div>
                 `;
-            }).join('');
+            }
+
+            let governanceHtml = '';
+            if (isAdminPeriod) {
+                governanceHtml = `
+                    <div style="grid-column: 1 / -1; max-width: 480px; margin: 0 auto; width: 100%;">
+                        ${renderPersonCard({
+                            name: adminInfo.name,
+                            phone: adminInfo.phone,
+                            photo: adminInfo.photo,
+                            color: '#1e3a8a',
+                            subNote: adminInfo.orderInfo
+                        }, adminInfo.role || 'प्रशासक (Administrator)')}
+                    </div>
+                `;
+            } else {
+                const bodyPeople = [
+                    ...appState.leadership.map(p => ({ ...p, badgeText: p.role })),
+                    ...appState.wardMembers.slice(0, appState.wardMemberCount).map((m, idx) => ({
+                        ...m,
+                        badgeText: `सदस्य (${m.ward || 'प्रभाग ' + (idx + 1)})`
+                    }))
+                ];
+                governanceHtml = bodyPeople.map(p => renderPersonCard(p, p.badgeText)).join('');
+            }
+
+            const empList = appState.employees || [];
+            const employeesHtml = empList.length ? `
+                <div style="grid-column: 1 / -1; margin-top: 26px;">
+                    <h3 style="text-align: center; font-size: 26px; color: var(--secondary); margin-bottom: 18px;">ग्रामपंचायत अधिकारी व कर्मचारी वृंद</h3>
+                    <div class="cards-grid">
+                        ${empList.map(emp => renderPersonCard(emp, emp.role)).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            document.getElementById('membersContainer').innerHTML = governanceHtml + employeesHtml;
 
             document.getElementById('worksContainer').innerHTML = appState.works.map(w => `
                 <div class="card-item">
@@ -1654,7 +2004,10 @@
                         <h3 style="font-size: 20px; color: var(--text-main);">${n.title}</h3>
                         <p style="color: var(--text-muted); font-size: 16px;">${n.desc}</p>
                     </div>
-                    <span class="badge">${n.date}</span>
+                    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a>` : ''}
+                        <span class="badge" style="margin:0;">${n.date}</span>
+                    </div>
                 </div>
             `).join('');
         }
@@ -1694,6 +2047,7 @@
                 { value: 'विवाह नोंदणी दाखला', label: 'विवाह नोंदणी दाखला' },
                 { value: 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)', label: 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)' }
             ], defaultType === 'ऑनलाइन कर भरणा' ? 'ऑनलाइन कर भरणा (घरपट्टी/पाणीपट्टी)' : 'रहिवासी दाखला');
+            if (currentCitizen) { document.getElementById('srvApplicantName').value = currentCitizen.name; document.getElementById('srvApplicantPhone').value = currentCitizen.phone; document.getElementById('srvApplicantAddr').value = currentCitizen.ward; }
             document.getElementById('serviceModal').classList.add('active');
         }
 
@@ -1704,53 +2058,216 @@
                 { value: 'स्वच्छता व गटार व्यवस्था', label: 'स्वच्छता व गटार व्यवस्था' },
                 { value: 'रस्ते व बांधकाम', label: 'रस्ते व बांधकाम' }
             ], 'पाणीपुरवठा विभाग');
+            if (currentCitizen) { document.getElementById('cmpName').value = currentCitizen.name; document.getElementById('cmpPhone').value = currentCitizen.phone; }
             document.getElementById('complaintModal').classList.add('active');
         }
 
+        let lastGeneratedTrackingId = '';
+
+        function generateNextTrackingId() {
+            const num = 1001 + appState.requests.length + Math.floor(Math.random() * 89);
+            return `GP-2026-${num}`;
+        }
+
         function submitCitizenRequest(kind) {
+            const newId = generateNextTrackingId();
+            const todayStr = '२५ नोव्हेंबर २०२६';
             if (kind === 'अर्ज') {
                 const name = document.getElementById('srvApplicantName').value.trim();
                 const phone = document.getElementById('srvApplicantPhone').value.trim();
                 const detail = document.getElementById('srvApplicantAddr').value.trim();
+                const attachment = document.getElementById('srvAttachmentUrl') ? document.getElementById('srvAttachmentUrl').value.trim() : '';
                 if (!name || !phone) { showToast('कृपया नाव आणि मोबाईल नंबर भरा.'); return; }
                 appState.requests.unshift({
+                    trackingId: newId,
+                    date: todayStr,
                     type: 'अर्ज',
                     subject: customDropdownValues['ddServiceType'],
                     name, phone, detail: detail || 'ऑनलाइन अर्ज',
-                    status: 'प्रलंबित'
+                    attachment,
+                    status: 'प्रलंबित',
+                    actionNote: 'अर्ज प्राप्त झाला असून पडताळणीसाठी संबंधित कर्मचाऱ्यांकडे वर्ग केला आहे.',
+                    actionProof: ''
                 });
                 document.getElementById('srvApplicantName').value = '';
                 document.getElementById('srvApplicantPhone').value = '';
                 document.getElementById('srvApplicantAddr').value = '';
+                if (document.getElementById('srvAttachmentUrl')) document.getElementById('srvAttachmentUrl').value = '';
             } else {
                 const name = document.getElementById('cmpName').value.trim();
                 const phone = document.getElementById('cmpPhone').value.trim();
                 const detail = document.getElementById('cmpDetails').value.trim();
+                const attachment = document.getElementById('cmpAttachmentUrl') ? document.getElementById('cmpAttachmentUrl').value.trim() : '';
                 if (!name || !detail) { showToast('कृपया नाव आणि तक्रार तपशील भरा.'); return; }
                 appState.requests.unshift({
+                    trackingId: newId,
+                    date: todayStr,
                     type: 'तक्रार',
                     subject: customDropdownValues['ddComplaintDept'],
                     name, phone: phone || '-', detail,
-                    status: 'प्रलंबित'
+                    attachment,
+                    status: 'प्रलंबित',
+                    actionNote: 'तक्रार नोंदवली गेली असून ग्रामपंचायत प्रशासनाकडून पाहणी सुरू आहे.',
+                    actionProof: ''
                 });
                 document.getElementById('cmpName').value = '';
                 document.getElementById('cmpPhone').value = '';
                 document.getElementById('cmpDetails').value = '';
+                if (document.getElementById('cmpAttachmentUrl')) document.getElementById('cmpAttachmentUrl').value = '';
             }
+            lastGeneratedTrackingId = newId;
             saveStateToStorage();
             closeModals();
-            showToast('तुमची नोंद यशस्वीरित्या ग्रामपंचायतीकडे पाठवली आहे!');
+            if (currentCitizen) renderCitizenDashboard();
+            document.getElementById('receiptTrackingCode').textContent = newId;
+            document.getElementById('receiptModal').classList.add('active');
         }
 
-        // Role-Based Login & Admin Panel
+        function openTrackModal() {
+            document.getElementById('trackQueryInput').value = '';
+            document.getElementById('trackResultsContainer').innerHTML = '';
+            document.getElementById('trackStatusModal').classList.add('active');
+        }
+
+        function openTrackModalWithCode() {
+            openTrackModal();
+            document.getElementById('trackQueryInput').value = lastGeneratedTrackingId;
+            searchTrackingStatus();
+        }
+
+        function renderRequestTimelineCard(item) {
+            const statusClass = item.status === 'पूर्ण झाले' ? 'status-done' : (item.status === 'काम सुरू' ? 'status-progress' : 'status-pending');
+            return `
+                <div style="background:var(--bg-subtle); padding:15px; border-radius:12px; margin-bottom:12px; border-left:5px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:6px;">
+                        <div>
+                            <span class="badge" style="margin:0;">${item.trackingId}</span>
+                            <span class="badge" style="margin:0 0 0 6px;">${item.type}: ${item.subject}</span>
+                        </div>
+                        <span class="status-pill ${statusClass}">${item.status}</span>
+                    </div>
+                    <div style="font-size:18px; color:var(--text-main);">${item.name} <span style="font-size:15px; color:var(--text-muted);">(${item.date || 'नोंदणीकृत'})</span></div>
+                    <div style="font-size:16px; color:var(--text-muted); margin-bottom:8px;">तपशील: ${item.detail}</div>
+                    ${item.attachment ? `<div style="margin-bottom:8px;"><a href="${item.attachment}" target="_blank" rel="noopener" style="font-size:15px; color:var(--primary);">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                    <div style="background:var(--bg-card); padding:10px 12px; border-radius:8px; border:1px solid var(--border-color);">
+                        <div style="font-size:15px; color:var(--secondary);">ग्रामपंचायत कार्यवाही शेरा (Action Taken):</div>
+                        <div style="font-size:16px; color:var(--text-main);">${item.actionNote || 'कार्यवाही प्रक्रियेत आहे.'}</div>
+                        ${item.actionProof ? `<div style="margin-top:6px;"><a href="${item.actionProof}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:5px 12px; font-size:15px;">तयार दाखला / कार्यवाही पुरावा पहा</a></div>` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        function searchTrackingStatus() {
+            const q = document.getElementById('trackQueryInput').value.trim().toLowerCase();
+            const out = document.getElementById('trackResultsContainer');
+            if (!q) {
+                out.innerHTML = `<p style="color:#dc2626;">कृपया टोकन क्रमांक (उदा. GP-2026-1001) किंवा मोबाईल क्रमांक टाका.</p>`;
+                return;
+            }
+            const matches = appState.requests.filter(r =>
+                (r.trackingId && r.trackingId.toLowerCase() === q) ||
+                (r.phone && r.phone.trim() === q)
+            );
+            if (!matches.length) {
+                out.innerHTML = `<p style="color:#dc2626; background:var(--bg-subtle); padding:12px; border-radius:8px;">या क्रमांकाशी संबंधित कोणताही अर्ज किंवा तक्रार आढळली नाही. कृपया क्रमांक तपासून पुन्हा प्रयत्न करा.</p>`;
+                return;
+            }
+            out.innerHTML = matches.map(renderRequestTimelineCard).join('');
+        }
+
+        // 4-Tier Role-Based Login (Citizen, Operator, Gramsevak, Master Developer)
+        function toggleCitizenRegisterForm(showReg) {
+            document.getElementById('standardLoginFields').style.display = showReg ? 'none' : 'block';
+            document.getElementById('citizenRegisterFields').style.display = showReg ? 'block' : 'none';
+        }
+
+        function registerNewCitizen() {
+            const name = document.getElementById('regCitName').value.trim();
+            const phone = document.getElementById('regCitPhone').value.trim();
+            const ward = document.getElementById('regCitWard').value.trim();
+            const pass = document.getElementById('regCitPass').value.trim();
+            if (!name || !phone || !pass) {
+                showToast('कृपया पूर्ण नाव, मोबाईल नंबर आणि पासवर्ड भरा.');
+                return;
+            }
+            if (!appState.accounts.citizens) appState.accounts.citizens = [];
+            if (appState.accounts.citizens.some(c => c.phone === phone)) {
+                showToast('हा मोबाईल नंबर आधीच नोंदणीकृत आहे. कृपया लॉगिन करा.');
+                toggleCitizenRegisterForm(false);
+                return;
+            }
+            const newCit = { name, phone, ward: ward || 'ग्रामस्थ', pass };
+            appState.accounts.citizens.push(newCit);
+            saveStateToStorage();
+            currentRole = 'citizen';
+            currentCitizen = newCit;
+            updateNavLoginButton();
+            closeModals();
+            openCitizenDashboard();
+            showToast('नागरिक खाते यशस्वीरित्या तयार झाले!');
+        }
+
+        function updateNavLoginButton() {
+            const lbl = document.getElementById('navLoginLabel');
+            if (!lbl) return;
+            if (currentCitizen) {
+                lbl.textContent = 'माझे खाते';
+            } else {
+                lbl.textContent = 'लॉगिन';
+            }
+        }
+
+        function openCitizenDashboard() {
+            if (!currentCitizen) return;
+            document.getElementById('citDashName').textContent = `स्वागत आहे, ${currentCitizen.name}`;
+            document.getElementById('citDashMeta').textContent = `मोबाईल: ${currentCitizen.phone} | ${currentCitizen.ward}`;
+            renderCitizenDashboard();
+            document.getElementById('citizenDashboardModal').classList.add('active');
+        }
+
+        function renderCitizenDashboard() {
+            if (!currentCitizen) return;
+            const myItems = appState.requests.filter(r => r.phone === currentCitizen.phone || r.name === currentCitizen.name);
+            const container = document.getElementById('citizenRequestsHistory');
+            if (!myItems.length) {
+                container.innerHTML = `<p style="color:var(--text-muted); padding:14px; background:var(--bg-subtle); border-radius:10px;">तुम्ही अद्याप कोणताही ऑनलाइन अर्ज किंवा तक्रार नोंदवलेली नाही.</p>`;
+                return;
+            }
+            container.innerHTML = myItems.map(renderRequestTimelineCard).join('');
+        }
+
+        function logoutCitizen() {
+            currentCitizen = null;
+            currentRole = null;
+            updateNavLoginButton();
+            closeModals();
+            showToast('तुम्ही नागरिक खात्यातून लॉगआउट झाला आहात.');
+        }
+
         function openLoginModal() {
+            if (currentCitizen) {
+                openCitizenDashboard();
+                return;
+            }
+            toggleCitizenRegisterForm(false);
             renderInwebDropdown('ddLoginRole', [
-                { value: 'gramsevak', label: 'ग्रामविकास अधिकारी / ग्रामसेवक (Super Admin)' },
-                { value: 'operator', label: 'संगणक परिचालक / VLE (Operator)' }
-            ], 'gramsevak', (roleVal) => {
-                document.getElementById('loginUser').value = roleVal;
-                document.getElementById('loginPass').value = roleVal === 'gramsevak' ? 'admin123' : 'op123';
+                { value: 'citizen', label: 'नागरिक लॉगिन (Citizen Login)' },
+                { value: 'operator', label: 'संगणक परिचालक लॉगिन (Operator)' },
+                { value: 'gramsevak', label: 'ग्रामसेवक लॉगिन (Gramsevak)' },
+                { value: 'developer', label: 'मास्टर लॉगिन (Web Developer)' }
+            ], 'citizen', (roleVal) => {
+                toggleCitizenRegisterForm(false);
+                const isCit = roleVal === 'citizen';
+                document.getElementById('loginUserLabel').textContent = isCit ? 'नोंदणीकृत मोबाईल नंबर' : 'युजर आयडी (Username)';
+                document.getElementById('citizenRegisterPrompt').style.display = isCit ? 'block' : 'none';
+                document.getElementById('loginUser').value = '';
+                document.getElementById('loginPass').value = '';
             });
+            document.getElementById('loginUserLabel').textContent = 'नोंदणीकृत मोबाईल नंबर';
+            document.getElementById('citizenRegisterPrompt').style.display = 'block';
+            document.getElementById('loginUser').value = '';
+            document.getElementById('loginPass').value = '';
             document.getElementById('loginError').style.display = 'none';
             document.getElementById('loginModal').classList.add('active');
         }
@@ -1759,16 +2276,54 @@
             const role = customDropdownValues['ddLoginRole'];
             const user = document.getElementById('loginUser').value.trim();
             const pass = document.getElementById('loginPass').value.trim();
+            const errEl = document.getElementById('loginError');
 
-            if (role === 'gramsevak' && user === 'gramsevak' && pass === 'admin123') {
-                currentRole = 'gramsevak';
-            } else if (role === 'operator' && user === 'operator' && pass === 'op123') {
-                currentRole = 'operator';
-            } else {
-                document.getElementById('loginError').style.display = 'block';
+            if (role === 'citizen') {
+                const citizens = appState.accounts.citizens || [];
+                const foundCit = citizens.find(c => c.phone === user && c.pass === pass);
+                if (!foundCit) {
+                    errEl.textContent = 'चुकीचा मोबाईल नंबर किंवा पासवर्ड! नवीन असल्यास खाली नोंदणी करा.';
+                    errEl.style.display = 'block';
+                    return;
+                }
+                currentRole = 'citizen';
+                currentCitizen = foundCit;
+                updateNavLoginButton();
+                closeModals();
+                openCitizenDashboard();
                 return;
             }
 
+            if (role === 'operator') {
+                const staffList = appState.accounts.staffList || [];
+                const matchedStaff = staffList.find(s => s.user === user && s.pass === pass);
+                const legacyOp = appState.accounts.operator;
+                if (matchedStaff) {
+                    if (matchedStaff.active === false) {
+                        errEl.textContent = 'तुमचे कर्मचारी खाते ग्रामसेवक/प्रशासकाद्वारे बंद केले आहे.';
+                        errEl.style.display = 'block';
+                        return;
+                    }
+                } else if (!(legacyOp && user === legacyOp.user && pass === legacyOp.pass && legacyOp.active !== false)) {
+                    errEl.textContent = 'चुकीचा कर्मचारी युजर आयडी किंवा पासवर्ड!';
+                    errEl.style.display = 'block';
+                    return;
+                }
+            } else {
+                const acc = appState.accounts[role];
+                if (!acc || user !== acc.user || pass !== acc.pass) {
+                    errEl.textContent = 'चुकीचा युजर आयडी किंवा पासवर्ड!';
+                    errEl.style.display = 'block';
+                    return;
+                }
+                if (role !== 'developer' && acc.active === false) {
+                    errEl.textContent = 'हे खाते मास्टर डेव्हलपरद्वारे तात्पुरते बंद केले आहे.';
+                    errEl.style.display = 'block';
+                    return;
+                }
+            }
+
+            currentRole = role;
             closeModals();
             enterAdminDashboard();
         }
@@ -1777,16 +2332,24 @@
             document.getElementById('publicPortalView').style.display = 'none';
             document.getElementById('adminShellView').classList.add('active');
 
-            const isSuper = currentRole === 'gramsevak';
-            document.getElementById('roleBadgeDisplay').textContent = isSuper
-                ? 'ग्रामसेवक (Super Admin - पूर्ण अधिकार)'
-                : 'संगणक परिचालक (Operator - मर्यादित अधिकार)';
+            const roleTitles = {
+                developer: 'वेब डेव्हलपर (Master Login — सर्व अधिकार)',
+                gramsevak: 'ग्रामसेवक (कर्मचारी माहिती, तक्रार निवारण व कर्मचारी लॉगिन नियंत्रण)',
+                operator: 'संगणक परिचालक (बातम्या, PDF/विकासकामे व दाखले/तक्रारी अपडेट)'
+            };
+            document.getElementById('roleBadgeDisplay').textContent = roleTitles[currentRole];
 
-            document.querySelectorAll('[data-super-only="true"]').forEach(btn => {
-                btn.style.display = isSuper ? 'inline-flex' : 'none';
+            let firstVisibleTabBtn = null;
+            document.querySelectorAll('#adminTabsBar .admin-tab-btn').forEach(btn => {
+                const allowedRoles = (btn.getAttribute('data-roles') || '').split(',');
+                const isAllowed = allowedRoles.includes(currentRole);
+                btn.style.display = isAllowed ? 'inline-flex' : 'none';
+                if (isAllowed && !firstVisibleTabBtn) firstVisibleTabBtn = btn;
             });
 
-            switchAdminTab('tab-general', document.querySelector('[data-tab="tab-general"]'));
+            if (firstVisibleTabBtn) {
+                switchAdminTab(firstVisibleTabBtn.getAttribute('data-tab'), firstVisibleTabBtn);
+            }
             populateAdminForms();
         }
 
@@ -1794,6 +2357,7 @@
             document.getElementById('adminShellView').classList.remove('active');
             document.getElementById('publicPortalView').style.display = 'block';
             renderPublicPortalWithShimmer();
+        loadFromFirebaseIfConfigured();
         }
 
         function logoutAdmin() {
@@ -1824,6 +2388,25 @@
             document.getElementById('inpStatArea').value = appState.stats.area;
             document.getElementById('inpStatLit').value = appState.stats.lit;
             document.getElementById('inpSarpanchMsg').value = appState.sarpanchMsg;
+
+            // Governance mode dropdown (Elected Body vs Administrator Period)
+            const adm = appState.administrator || DEFAULT_STATE.administrator;
+            document.getElementById('inpAdminName').value = adm.name || '';
+            document.getElementById('inpAdminRole').value = adm.role || '';
+            document.getElementById('inpAdminOrder').value = adm.orderInfo || '';
+            document.getElementById('inpAdminPhone').value = adm.phone || '';
+            document.getElementById('inpAdminPhoto').value = adm.photo || '';
+            document.getElementById('inpAdminMsg').value = adm.message || '';
+
+            renderInwebDropdown('ddGovernanceMode', [
+                { value: 'body', label: 'निवडून आलेली बॉडी (सरपंच, उपसरपंच व सदस्य)' },
+                { value: 'administrator', label: 'प्रशासक कालावधी सुरू (प्रशासक माहिती दाखवा)' }
+            ], appState.governanceMode || 'body', (modeVal) => {
+                appState.governanceMode = modeVal;
+                updateGovernanceEditorVisibility();
+            });
+            updateGovernanceEditorVisibility();
+            renderEmployeesEditor();
 
             // Member count custom dropdown
             const countOpts = [5, 7, 9, 11, 13, 15, 17].map(n => ({ value: n, label: `${n} ग्रामपंचायत सदस्य` }));
@@ -1864,6 +2447,8 @@
                 { value: "'Rozha One', serif", label: 'Rozha One Display' }
             ], appState.design.font);
 
+            refreshMasterControlsUI();
+
             renderInwebDropdown('ddAdminLayout', [
                 { value: 'classic', label: 'क्लासिक शासकीय (Default)' },
                 { value: 'modern', label: 'मॉडर्न गोलाकार कार्ड्स' },
@@ -1896,6 +2481,54 @@
             showToast(`सदस्य संख्या ${val} निश्चित केली आहे.`);
         }
 
+        function updateGovernanceEditorVisibility() {
+            const isAdm = (appState.governanceMode === 'administrator');
+            const admBox = document.getElementById('administratorEditorBox');
+            const bodyBox = document.getElementById('electedBodyEditorBox');
+            if (admBox) admBox.style.display = isAdm ? 'block' : 'none';
+            if (bodyBox) bodyBox.style.display = isAdm ? 'none' : 'block';
+        }
+
+        function renderEmployeesEditor() {
+            const grid = document.getElementById('employeesEditorGrid');
+            if (!grid) return;
+            const list = appState.employees || [];
+            grid.innerHTML = list.map((emp, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="color: var(--primary); font-size: 18px;">कर्मचारी #${idx + 1}</span>
+                        ${list.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removeEmployeeSlot(${idx})">काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>पदनाम</label><input type="text" class="form-control" id="empRole_${idx}" value="${emp.role}"></div>
+                    <div class="form-group"><label>कर्मचाऱ्याचे पूर्ण नाव</label><input type="text" class="form-control" id="empName_${idx}" value="${emp.name}"></div>
+                    <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="empPhone_${idx}" value="${emp.phone}"></div>
+                    <div class="form-group">
+                        <label>फोटो अपलोड करा किंवा लिंक टाका</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" class="form-control" id="empPhoto_${idx}" value="${emp.photo || ''}" placeholder="https://...">
+                            <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 12px;"><span>फोटो</span><input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'empPhoto_${idx}')"></label>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function addEmployeeSlot() {
+            appState.employees.push({
+                role: 'ग्रामपंचायत कर्मचारी',
+                name: 'नवीन कर्मचारी नाव',
+                phone: '९८००००००००',
+                photo: '',
+                color: '#0f766e'
+            });
+            renderEmployeesEditor();
+        }
+
+        function removeEmployeeSlot(idx) {
+            appState.employees.splice(idx, 1);
+            renderEmployeesEditor();
+        }
+
         function renderStructuredMembersEditor() {
             const container = document.getElementById('structuredMembersEditor');
             let html = '';
@@ -1906,7 +2539,7 @@
                         <div style="color: var(--primary); font-size: 18px; margin-bottom: 8px;">${p.role}</div>
                         <div class="form-group"><label>पूर्ण नाव</label><input type="text" class="form-control" id="leadName_${i}" value="${p.name}"></div>
                         <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="leadPhone_${i}" value="${p.phone}"></div>
-                        <div class="form-group"><label>फोटो लिंक (ऐच्छिक)</label><input type="text" class="form-control" id="leadPhoto_${i}" value="${p.photo || ''}" placeholder="https://..."></div>
+                        <div class="form-group"><label>फोटो अपलोड करा किंवा लिंक टाका</label><div style="display:flex;gap:8px;"><input type="text" class="form-control" id="leadPhoto_${i}" value="${p.photo || ''}" placeholder="https://..."><label class="btn btn-secondary" style="cursor:pointer;margin:0;padding:8px 12px;"><span>फोटो</span><input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'leadPhoto_${i}')"></label></div></div>
                     </div>
                 `;
             });
@@ -1919,11 +2552,280 @@
                         <div class="form-group"><label>सदस्याचे पूर्ण नाव</label><input type="text" class="form-control" id="memName_${i}" value="${m.name}"></div>
                         <div class="form-group"><label>प्रभाग / आरक्षण प्रवर्ग</label><input type="text" class="form-control" id="memWard_${i}" value="${m.ward}"></div>
                         <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="memPhone_${i}" value="${m.phone}"></div>
-                        <div class="form-group"><label>फोटो लिंक (ऐच्छिक)</label><input type="text" class="form-control" id="memPhoto_${i}" value="${m.photo || ''}" placeholder="https://..."></div>
+                        <div class="form-group"><label>फोटो अपलोड करा किंवा लिंक टाका</label><div style="display:flex;gap:8px;"><input type="text" class="form-control" id="memPhoto_${i}" value="${m.photo || ''}" placeholder="https://..."><label class="btn btn-secondary" style="cursor:pointer;margin:0;padding:8px 12px;"><span>फोटो</span><input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'memPhoto_${i}')"></label></div></div>
                     </div>
                 `;
             }
             container.innerHTML = html;
+        }
+
+        // Cloudinary Direct Upload Handler
+        async function handleCloudinaryUpload(fileInput, targetInputId) {
+            const file = fileInput.files[0];
+            if (!file) return;
+            const cfg = appState.cloudConfig;
+            if (!cfg.cloudinaryCloudName || !cfg.cloudinaryUploadPreset) {
+                // Local DataURL fallback for immediate preview if Cloudinary keys aren't set yet
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    document.getElementById(targetInputId).value = e.target.result;
+                    showToast('फाईल तात्पुरती लोड झाली (कायमस्वरूपी स्टोरेजसाठी मास्टर लॉगिनमध्ये Cloudinary Keys टाका).');
+                };
+                reader.readAsDataURL(file);
+                return;
+            }
+
+            showToast('फाईल Cloudinary वर अपलोड होत आहे...');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', cfg.cloudinaryUploadPreset);
+
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cfg.cloudinaryCloudName}/auto/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data.secure_url) {
+                    document.getElementById(targetInputId).value = data.secure_url;
+                    showToast('फाईल यशस्वीरित्या क्लाउडवर अपलोड झाली!');
+                } else {
+                    showToast('अपलोड त्रुटी: कृपया Cloudinary Preset तपासा.');
+                }
+            } catch (err) {
+                showToast('इंटरनेट किंवा Cloudinary कनेक्शन त्रुटी.');
+            }
+        }
+
+        // Firebase Realtime Database Sync (when configured by Master Developer)
+        async function syncToFirebaseIfConfigured() {
+            const dbUrl = (appState.cloudConfig && appState.cloudConfig.firebaseDatabaseUrl || '').replace(/\/$/, '');
+            if (!dbUrl) return;
+            try {
+                await fetch(`${dbUrl}/grampanchayatPortal.json`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(appState)
+                });
+            } catch (e) { /* silent fallback */ }
+        }
+
+        async function loadFromFirebaseIfConfigured() {
+            const dbUrl = (appState.cloudConfig && appState.cloudConfig.firebaseDatabaseUrl || '').replace(/\/$/, '');
+            if (!dbUrl) return;
+            try {
+                const res = await fetch(`${dbUrl}/grampanchayatPortal.json`);
+                const remote = await res.json();
+                if (remote && remote.gpName) {
+                    appState = Object.assign(appState, remote);
+                    localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
+                    populateActualPortalContent();
+                }
+            } catch (e) { /* silent fallback */ }
+        }
+
+        function addStaffAccount() {
+            const name = document.getElementById('newStaffName').value.trim();
+            const user = document.getElementById('newStaffUser').value.trim();
+            const pass = document.getElementById('newStaffPass').value.trim();
+            if (!user || !pass) {
+                showToast('कृपया युजर आयडी आणि पासवर्ड भरा.');
+                return;
+            }
+            if (!appState.accounts.staffList) appState.accounts.staffList = [];
+            appState.accounts.staffList.push({
+                name: name || 'ग्रामपंचायत कर्मचारी',
+                user,
+                pass,
+                active: true
+            });
+            document.getElementById('newStaffName').value = '';
+            document.getElementById('newStaffUser').value = '';
+            document.getElementById('newStaffPass').value = '';
+            saveStateToStorage();
+            refreshMasterControlsUI();
+            showToast('नवीन कर्मचारी / संगणक परिचालक लॉगिन तयार केले!');
+        }
+
+        function updateStaffPass(idx, newPass) {
+            if (appState.accounts.staffList[idx]) {
+                appState.accounts.staffList[idx].pass = newPass.trim();
+                saveStateToStorage();
+                showToast('कर्मचारी पासवर्ड बदलला गेला!');
+            }
+        }
+
+        function toggleStaffActive(idx) {
+            if (appState.accounts.staffList[idx]) {
+                appState.accounts.staffList[idx].active = !(appState.accounts.staffList[idx].active !== false);
+                saveStateToStorage();
+                refreshMasterControlsUI();
+            }
+        }
+
+        function deleteStaffAccount(idx) {
+            if (appState.accounts.staffList.length <= 1) {
+                showToast('किमान एक संगणक परिचालक खाते असणे आवश्यक आहे.');
+                return;
+            }
+            appState.accounts.staffList.splice(idx, 1);
+            saveStateToStorage();
+            refreshMasterControlsUI();
+            showToast('कर्मचारी खाते काढले गेले.');
+        }
+
+        function toggleMasterPerm(key) {
+            if (key === 'gsActive') appState.accounts.gramsevak.active = !appState.accounts.gramsevak.active;
+            refreshMasterControlsUI();
+        }
+
+        function refreshMasterControlsUI() {
+            const masterBox = document.getElementById('masterOnlyAccountsBox');
+            if (masterBox) {
+                masterBox.style.display = currentRole === 'developer' ? 'block' : 'none';
+            }
+
+            const staffContainer = document.getElementById('staffAccountsList');
+            if (staffContainer) {
+                const list = appState.accounts.staffList || [];
+                staffContainer.innerHTML = list.map((st, idx) => `
+                    <div style="background:var(--bg-subtle); padding:12px; border-radius:10px; margin-bottom:10px; border:1px solid var(--border-color);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <strong>${st.name} (ID: ${st.user})</strong>
+                            <button type="button" class="inweb-switch ${st.active !== false ? 'on' : ''}" onclick="toggleStaffActive(${idx})"><span class="inweb-switch-knob"></span></button>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                            <input type="text" class="form-control" style="flex:1; padding:7px 10px;" value="${st.pass}" onchange="updateStaffPass(${idx}, this.value)" placeholder="नवीन पासवर्ड">
+                            <button type="button" class="btn btn-danger" style="padding:7px 12px; font-size:15px;" onclick="deleteStaffAccount(${idx})">काढा</button>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            if (document.getElementById('mstGsUser')) {
+                document.getElementById('mstGsUser').value = appState.accounts.gramsevak.user;
+                document.getElementById('mstGsPass').value = appState.accounts.gramsevak.pass;
+                document.getElementById('mstDevPass').value = appState.accounts.developer.pass;
+                document.getElementById('swGsActive').classList.toggle('on', appState.accounts.gramsevak.active !== false);
+            }
+
+            const isCfg = appState.cloudConfig.configured === true;
+            if (document.getElementById('cloudConfiguredBanner')) {
+                document.getElementById('cloudConfiguredBanner').style.display = isCfg ? 'flex' : 'none';
+                document.getElementById('cloudSettingsFormBox').style.display = isCfg ? 'none' : 'block';
+                document.getElementById('cldFbApiKey').value = appState.cloudConfig.firebaseApiKey || '';
+                document.getElementById('cldFbProjectId').value = appState.cloudConfig.firebaseProjectId || '';
+                document.getElementById('cldFbDbUrl').value = appState.cloudConfig.firebaseDatabaseUrl || '';
+                document.getElementById('cldCloudName').value = appState.cloudConfig.cloudinaryCloudName || '';
+                document.getElementById('cldUploadPreset').value = appState.cloudConfig.cloudinaryUploadPreset || '';
+            }
+        }
+
+        function saveAndLockCloudKeys() {
+            appState.cloudConfig.firebaseApiKey = document.getElementById('cldFbApiKey').value.trim();
+            appState.cloudConfig.firebaseProjectId = document.getElementById('cldFbProjectId').value.trim();
+            appState.cloudConfig.firebaseDatabaseUrl = document.getElementById('cldFbDbUrl').value.trim();
+            appState.cloudConfig.cloudinaryCloudName = document.getElementById('cldCloudName').value.trim();
+            appState.cloudConfig.cloudinaryUploadPreset = document.getElementById('cldUploadPreset').value.trim();
+            appState.cloudConfig.configured = true;
+            saveStateToStorage();
+            refreshMasterControlsUI();
+            showToast('Firebase आणि Cloudinary Keys सेव्ह होऊन सेटिंग बॉक्स लपवला गेला आहे!');
+        }
+
+        function reopenCloudSettingsBox() {
+            appState.cloudConfig.configured = false;
+            refreshMasterControlsUI();
+        }
+
+        function saveAllAdminChanges() {
+            // 1. General Info & Ticker (Master Developer or Operator)
+            if ((currentRole === 'developer' || currentRole === 'operator') && document.getElementById('inpGpName')) {
+                appState.gpName = document.getElementById('inpGpName').value.trim();
+                appState.gpAddress = document.getElementById('inpGpAddress').value.trim();
+                appState.phone = document.getElementById('inpPhone').value.trim();
+                appState.email = document.getElementById('inpEmail').value.trim();
+                appState.heroTitle = document.getElementById('inpHeroTitle').value.trim();
+                appState.heroSubtitle = document.getElementById('inpHeroSubtitle').value.trim();
+                appState.ticker = document.getElementById('inpTicker').value.trim();
+                appState.aboutText = document.getElementById('inpAboutText').value.trim();
+            }
+
+            // 2. Employees Information (Gramsevak OR Master Developer)
+            if ((currentRole === 'developer' || currentRole === 'gramsevak') && Array.isArray(appState.employees)) {
+                appState.employees.forEach((emp, idx) => {
+                    const rEl = document.getElementById(`empRole_${idx}`);
+                    const nEl = document.getElementById(`empName_${idx}`);
+                    const pEl = document.getElementById(`empPhone_${idx}`);
+                    const phEl = document.getElementById(`empPhoto_${idx}`);
+                    if (rEl) emp.role = rEl.value.trim();
+                    if (nEl) emp.name = nEl.value.trim();
+                    if (pEl) emp.phone = pEl.value.trim();
+                    if (phEl) emp.photo = phEl.value.trim();
+                });
+            }
+
+            // 3. Master Developer Exclusive Controls (Stats, Governance Mode, Leadership/Members, Design, Gramsevak & Master Accounts)
+            if (currentRole === 'developer') {
+                if (document.getElementById('mstGsUser')) {
+                    appState.accounts.gramsevak.user = document.getElementById('mstGsUser').value.trim() || 'gramsevak';
+                    appState.accounts.gramsevak.pass = document.getElementById('mstGsPass').value.trim() || 'admin123';
+                    appState.accounts.developer.pass = document.getElementById('mstDevPass').value.trim() || 'master123';
+                }
+                if (customDropdownValues['ddGovernanceMode']) {
+                    appState.governanceMode = customDropdownValues['ddGovernanceMode'];
+                }
+                if (document.getElementById('inpAdminName')) {
+                    appState.administrator.name = document.getElementById('inpAdminName').value.trim();
+                    appState.administrator.role = document.getElementById('inpAdminRole').value.trim();
+                    appState.administrator.orderInfo = document.getElementById('inpAdminOrder').value.trim();
+                    appState.administrator.phone = document.getElementById('inpAdminPhone').value.trim();
+                    appState.administrator.photo = document.getElementById('inpAdminPhoto').value.trim();
+                    appState.administrator.message = document.getElementById('inpAdminMsg').value.trim();
+                }
+                if (document.getElementById('inpStatPop')) {
+                    appState.stats.pop = document.getElementById('inpStatPop').value.trim();
+                    appState.stats.fam = document.getElementById('inpStatFam').value.trim();
+                    appState.stats.area = document.getElementById('inpStatArea').value.trim();
+                    appState.stats.lit = document.getElementById('inpStatLit').value.trim();
+                    appState.sarpanchMsg = document.getElementById('inpSarpanchMsg').value.trim();
+
+                    appState.leadership.forEach((p, i) => {
+                        const nEl = document.getElementById(`leadName_${i}`);
+                        const pEl = document.getElementById(`leadPhone_${i}`);
+                        const phEl = document.getElementById(`leadPhoto_${i}`);
+                        if (nEl) p.name = nEl.value.trim();
+                        if (pEl) p.phone = pEl.value.trim();
+                        if (phEl) p.photo = phEl.value.trim();
+                    });
+
+                    for (let i = 0; i < appState.wardMemberCount; i++) {
+                        const mn = document.getElementById(`memName_${i}`);
+                        const mw = document.getElementById(`memWard_${i}`);
+                        const mp = document.getElementById(`memPhone_${i}`);
+                        const mph = document.getElementById(`memPhoto_${i}`);
+                        if (mn) appState.wardMembers[i].name = mn.value.trim();
+                        if (mw) appState.wardMembers[i].ward = mw.value.trim();
+                        if (mp) appState.wardMembers[i].phone = mp.value.trim();
+                        if (mph) appState.wardMembers[i].photo = mph.value.trim();
+                    }
+                }
+
+                if (customDropdownValues['ddAdminPalette']) {
+                    appState.design.palette = customDropdownValues['ddAdminPalette'];
+                }
+                if (customDropdownValues['ddAdminFont']) {
+                    appState.design.font = customDropdownValues['ddAdminFont'];
+                }
+                if (customDropdownValues['ddAdminLayout']) {
+                    appState.design.layout = customDropdownValues['ddAdminLayout'];
+                }
+                applyDesignPreferences();
+            }
+
+            if (Array.isArray(appState.requests)) { appState.requests.forEach((r, idx) => { const n = document.getElementById(`reqActionNote_${idx}`); const p = document.getElementById(`reqActionProof_${idx}`); if (n) r.actionNote = n.value.trim(); if (p) r.actionProof = p.value.trim(); }); }
+            saveStateToStorage();
+            showToast('सर्व बदल यशस्वीरित्या सेव्ह केले गेले आहेत!');
         }
 
         function saveGeneralSettings() {
@@ -1964,7 +2866,7 @@
         }
 
         function renderAdminWorksAndNotices() {
-            const isSuper = currentRole === 'gramsevak';
+            const isSuper = (currentRole === 'developer');
             document.getElementById('adminWorksList').innerHTML = appState.works.map((w, idx) => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border-color);gap:8px;">
                     <div><strong>${w.title}</strong><div style="font-size:15px;color:var(--text-muted);">${w.fund} (${w.status})</div></div>
@@ -2003,11 +2905,13 @@
             const title = document.getElementById('newNoticeTitle').value.trim();
             const date = document.getElementById('newNoticeDate').value.trim();
             const desc = document.getElementById('newNoticeDesc').value.trim();
+            const pdf = document.getElementById('newNoticePdf') ? document.getElementById('newNoticePdf').value.trim() : '';
             if (!title) return;
-            appState.notices.unshift({ title, date: date || 'आज', desc: desc || 'ग्रामपंचायत कार्यालय' });
+            appState.notices.unshift({ title, date: date || 'आज', desc: desc || 'ग्रामपंचायत कार्यालय', pdf });
             document.getElementById('newNoticeTitle').value = '';
             document.getElementById('newNoticeDate').value = '';
             document.getElementById('newNoticeDesc').value = '';
+            if (document.getElementById('newNoticePdf')) document.getElementById('newNoticePdf').value = '';
             saveStateToStorage();
             renderAdminWorksAndNotices();
             showToast('नवीन ग्रामसभा नोटीस प्रसिद्ध झाली!');
@@ -2022,14 +2926,35 @@
         function renderAdminRequests() {
             const container = document.getElementById('adminRequestsList');
             container.innerHTML = appState.requests.map((r, idx) => `
-                <div style="background:var(--bg-subtle);padding:14px;border-radius:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
-                    <div>
-                        <span class="badge">${r.type}: ${r.subject}</span>
-                        <div style="font-size:19px;">${r.name} (${r.phone})</div>
-                        <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
+                <div style="background:var(--bg-subtle);padding:16px;border-radius:12px;margin-bottom:14px;border-left:5px solid var(--primary);">
+                    <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
+                        <div>
+                            <span class="badge">${r.trackingId || 'GP-2026'}</span>
+                            <span class="badge">${r.type}: ${r.subject}</span>
+                            <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
+                            <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
+                            ${r.attachment ? `<div style="margin-top:6px;"><a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                        </div>
+                        <div style="min-width: 180px;">
+                            <label style="font-size:15px;display:block;margin-bottom:4px;">सद्यस्थिती बदला</label>
+                            <div class="inweb-select" id="ddReqStatus_${idx}"></div>
+                        </div>
                     </div>
-                    <div style="min-width: 170px;">
-                        <div class="inweb-select" id="ddReqStatus_${idx}"></div>
+                    <div class="grid-2" style="background:var(--bg-card);padding:12px;border-radius:10px;border:1px solid var(--border-color);">
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label style="font-size:15px;">केलेली कार्यवाही / अधिकारी शेरा (नागरिकांना दिसेल)</label>
+                            <input type="text" class="form-control" id="reqActionNote_${idx}" value="${r.actionNote || ''}" placeholder="उदा. काम पूर्ण झाले आहे / दाखला तयार आहे" onchange="updateRequestAction(${idx})">
+                        </div>
+                        <div class="form-group" style="margin-bottom:0;">
+                            <label style="font-size:15px;">तयार दाखला PDF किंवा कार्यवाहीचा फोटो जोडा</label>
+                            <div style="display:flex;gap:8px;">
+                                <input type="text" class="form-control" id="reqActionProof_${idx}" value="${r.actionProof || ''}" placeholder="फाईल लिंक (ऐच्छिक)" onchange="updateRequestAction(${idx})">
+                                <label class="btn btn-secondary" style="cursor:pointer;margin:0;padding:8px 12px;font-size:15px;">
+                                    <span>अपलोड</span>
+                                    <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUploadAndSaveReq(this, ${idx})">
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
@@ -2045,6 +2970,20 @@
                     showToast('स्थिती अपडेट केली!');
                 });
             });
+        }
+
+        function updateRequestAction(idx) {
+            const noteEl = document.getElementById(`reqActionNote_${idx}`);
+            const proofEl = document.getElementById(`reqActionProof_${idx}`);
+            if (noteEl) appState.requests[idx].actionNote = noteEl.value.trim();
+            if (proofEl) appState.requests[idx].actionProof = proofEl.value.trim();
+            saveStateToStorage();
+            showToast('केलेली कार्यवाही अपडेट झाली!');
+        }
+
+        async function handleCloudinaryUploadAndSaveReq(fileInput, idx) {
+            await handleCloudinaryUpload(fileInput, `reqActionProof_${idx}`);
+            setTimeout(() => updateRequestAction(idx), 600);
         }
 
         function renderVisibilityToggles() {
@@ -2100,6 +3039,7 @@
         const savedTheme = localStorage.getItem('gp_theme_v5') || 'light';
         applyTheme(savedTheme);
         renderPublicPortalWithShimmer();
+        loadFromFirebaseIfConfigured();
 
         // Auto-open Admin Login if opened via admin.html
         if (true) {
