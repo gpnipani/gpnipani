@@ -1054,12 +1054,12 @@
                     </ul>
                 </li>
                 <li data-nav-sec="notices"><a href="#sec-notices"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ग्रामसभा व ठराव</a></li>
-                <li data-nav-sec="aaplesarkar"><a href="#sec-aaplesarkar"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> आपले सरकार केंद्र</a></li>
+                <li data-nav-sec="aaplesarkar"><a href="aaple-sarkar.html"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> आपले सरकार केंद्र</a></li>
                 <li class="has-dropdown" data-nav-sec="panchayatsamiti">
-                    <a href="#sec-panchayatsamiti"><svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg> शासकीय विभाग <svg class="icon nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
+                    <a href="panchayat-samiti.html"><svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg> शासकीय विभाग <svg class="icon nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
                     <ul class="nav-dropdown">
-                        <li data-nav-sec="panchayatsamiti"><a href="#sec-panchayatsamiti">पंचायत समिती अकोले विभाग</a></li>
-                        <li data-nav-sec="villageofficials"><a href="#sec-villageofficials">गावातील इतर शासकीय कर्मचारी</a></li>
+                        <li data-nav-sec="panchayatsamiti"><a href="panchayat-samiti.html">पंचायत समिती अकोले विभाग</a></li>
+                        <li data-nav-sec="villageofficials"><a href="village-officials.html">गावातील इतर शासकीय कर्मचारी</a></li>
                     </ul>
                 </li>
             </ul>
@@ -1176,34 +1176,6 @@
         <section class="section-wrap" id="sec-notices">
             <h2 class="section-heading">ग्रामसभा नोटीस व ठराव</h2>
             <div class="notice-list" id="noticesContainer"></div>
-        </section>
-
-        <!-- ९. आपले सरकार सेवा केंद्र (CSC / VLE) -->
-        <section class="section-wrap" id="sec-aaplesarkar">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-                <h2 class="section-heading" style="margin-bottom:0;">आपले सरकार सेवा केंद्र (CSC)</h2>
-                <button type="button" class="btn btn-primary" onclick="openInquiryModal('आपले सरकार सेवा केंद्र', '')">केंद्र सेवा चौकशी / पूर्वनोंदणी करा</button>
-            </div>
-            <div id="aapleSarkarBanner" class="info-card" style="margin-bottom: 20px; border-left: 5px solid var(--primary);"></div>
-            <div class="cards-grid" id="aapleSarkarContainer"></div>
-        </section>
-
-        <!-- १०. पंचायत समिती अकोले (जि. अहिल्यानगर) — प्रमुख विभाग -->
-        <section class="section-wrap" id="sec-panchayatsamiti">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-                <h2 class="section-heading" style="margin-bottom:0;">पंचायत समिती अकोले — प्रमुख विभाग व योजना</h2>
-                <button type="button" class="btn btn-primary" onclick="openInquiryModal('पंचायत समिती अकोले विभाग', '')">योजना / विभाग चौकशी करा</button>
-            </div>
-            <div class="cards-grid" id="panchayatSamitiContainer"></div>
-        </section>
-
-        <!-- ११. गावातील इतर शासकीय कर्मचारी व ग्रामस्तरीय यंत्रणा -->
-        <section class="section-wrap" id="sec-villageofficials">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
-                <h2 class="section-heading" style="margin-bottom:0;">गावातील इतर शासकीय कर्मचारी व यंत्रणा</h2>
-                <button type="button" class="btn btn-primary" onclick="openInquiryModal('गावातील इतर शासकीय कर्मचारी', '')">शासकीय कर्मचारी / विभाग चौकशी करा</button>
-            </div>
-            <div class="cards-grid" id="villageOfficialsContainer"></div>
         </section>
 
         <!-- Footer -->
