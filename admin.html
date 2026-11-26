@@ -623,7 +623,6 @@
             user-select: none;
             -webkit-touch-callout: none;
             -webkit-user-drag: none;
-            pointer-events: none;
         }
 
         .badge {
@@ -2706,7 +2705,8 @@
                 governanceHtml = bodyPeople.map(p => renderPersonCard(p, p.badgeText)).join('');
             }
 
-            const empList = appState.employees || [];
+            if (!Array.isArray(appState.employees) || appState.employees.length === 0) { appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees)); }
+            const empList = appState.employees;
             const employeesHtml = empList.length ? `
                 <div style="grid-column: 1 / -1; margin-top: 26px;">
                     <h3 style="text-align: center; font-size: 26px; color: var(--secondary); margin-bottom: 18px;">ग्रामपंचायत अधिकारी व कर्मचारी वृंद</h3>
@@ -2737,7 +2737,7 @@
                         ${n.pdf ? `<p style="color: #9a3412; font-size: 14.5px; margin-top: 4px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</p>` : ''}
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a><button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15px;" onclick="downloadOfficialNoticePdf('${(n.pdf || '').replace(/'/g, "\'")}', '${(n.title || 'Notice').replace(/'/g, "\'")}')">PDF डाउनलोड करा</button>` : ''}
+                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a><button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15px;" onclick="downloadOfficialNoticeByIndex(${appState.notices.indexOf(n)})">PDF डाउनलोड करा</button>` : ''}
                         <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:6px 13px; font-size:15px; gap:5px;" onclick="shareNoticeOnWhatsApp(${appState.notices.indexOf(n)})" title="ही नोटीस गावच्या WhatsApp ग्रुपवर शेअर करा">
                             <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                             <span>WhatsApp शेअर</span>
@@ -3452,11 +3452,11 @@
         async 
         // Block direct right-click / long-press save & drag on website images
         (function protectWebsiteImagesFromDirectDownload() {
-            let longPressTimer = null;
             document.addEventListener('contextmenu', (e) => {
                 const target = e.target;
                 if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
                     e.preventDefault();
+                    return false;
                 }
             }, { capture: true });
 
@@ -3464,22 +3464,16 @@
                 const target = e.target;
                 if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
                     e.preventDefault();
+                    return false;
                 }
             }, { capture: true });
-
-            document.addEventListener('touchstart', (e) => {
-                const target = e.target;
-                if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
-                    clearTimeout(longPressTimer);
-                    longPressTimer = setTimeout(() => {
-                        showToast('वेबसाइटवरील फोटो थेट डाउनलोड करणे प्रतिबंधित आहे. फक्त अधिकृत पोचपावती, नोटीस व PDF डाउनलोड बटणाचा वापर करा.');
-                    }, 420);
-                }
-            }, { capture: true, passive: true });
-
-            document.addEventListener('touchend', () => clearTimeout(longPressTimer), { capture: true, passive: true });
-            document.addEventListener('touchmove', () => clearTimeout(longPressTimer), { capture: true, passive: true });
         })();
+
+                function downloadOfficialNoticeByIndex(idx) {
+            const n = (appState.notices || [])[idx];
+            if (!n || !n.pdf) return;
+            downloadOfficialNoticePdf(n.pdf, n.title || 'GramSabha_Notice');
+        }
 
         // Official Notice PDF / Document Download with gpnipani.online watermark stamp when PDF-lib available
         async function downloadOfficialNoticePdf(pdfUrl, noticeTitle) {
@@ -4664,6 +4658,9 @@
                 const remote = await res.json();
                 if (remote && remote.gpName) {
                     appState = Object.assign(appState, remote);
+                    if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
+                        appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees));
+                    }
                     appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
                     appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
                     localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
