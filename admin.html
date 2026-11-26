@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>प्रशासन लॉगिन | ग्रामपंचायत पिंपळगाव निपाणी — gpnipani.online</title>
+    <title>प्रशासन लॉगिन | ग्रामपंचायत पिंपळगाव निपाणी — http://gpnipani.online</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&family=Noto+Sans+Devanagari:wght@600;700&family=Poppins:wght@600;700&family=Rozha+One&display=swap" rel="stylesheet">
@@ -618,6 +618,14 @@
             object-fit: cover;
         }
 
+        img {
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
         .badge {
             display: inline-block;
             padding: 3px 12px;
@@ -1092,7 +1100,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="ग्रा.पं. पिंपळगाव निपाणी">
-    <link rel="canonical" href="https://gpnipani.online/admin.html">
+    <link rel="canonical" href="http://gpnipani.online/admin.html">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1309,6 +1317,7 @@
                 </div>
                 <div class="footer-col">
                     <h3>महत्त्वाचे शासकीय दुवे</h3>
+                    <a href="https://gr.maharashtra.gov.in/" target="_blank" rel="noopener">महाराष्ट्र शासन निर्णय (GR पोर्टल)</a>
                     <a href="https://bhulekh.mahabhumi.gov.in/" target="_blank" rel="noopener">महाभुलेख (७/१२ व ८-अ उतारा)</a>
                     <a href="https://aaplesarkar.mahaonline.gov.in/" target="_blank" rel="noopener">आपले सरकार सेवा पोर्टल</a>
                     <a href="https://egramswaraj.gov.in/" target="_blank" rel="noopener">ई-ग्रामस्वराज (eGramSwaraj)</a>
@@ -1324,7 +1333,7 @@
                 </div>
             </div>
             <div class="copyright-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | <a href="https://gpnipani.online" style="color:#fde047; text-decoration:none;">gpnipani.online</a></span>
+                <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | <a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
                 <span style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
                     <span>Website Design by <strong>Anil Bhaurao Tormal</strong></span>
                     <a href="tel:+919975571585" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.14); color:#fde047; padding:3px 10px; border-radius:999px; text-decoration:none; font-size:15px;">
@@ -2300,7 +2309,7 @@
             requestArchiveLog: [],
             watermarkConfig: {
                 enabled: true,
-                text: 'ग्रामपंचायत पिंपळगाव निपाणी | gpnipani.online',
+                text: 'ग्रामपंचायत पिंपळगाव निपाणी | http://gpnipani.online',
                 position: 'diagonal',
                 opacity: 'medium'
             },
@@ -2728,7 +2737,7 @@
                         ${n.pdf ? `<p style="color: #9a3412; font-size: 14.5px; margin-top: 4px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</p>` : ''}
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a>` : ''}
+                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a><button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15px;" onclick="downloadOfficialNoticePdf('${(n.pdf || '').replace(/'/g, "\'")}', '${(n.title || 'Notice').replace(/'/g, "\'")}')">PDF डाउनलोड करा</button>` : ''}
                         <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:6px 13px; font-size:15px; gap:5px;" onclick="shareNoticeOnWhatsApp(${appState.notices.indexOf(n)})" title="ही नोटीस गावच्या WhatsApp ग्रुपवर शेअर करा">
                             <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                             <span>WhatsApp शेअर</span>
@@ -3440,7 +3449,89 @@
         }
 
         
-        async function downloadPhotoWithDomainStamp(imgUrl, filenamePrefix) {
+        async 
+        // Block direct right-click / long-press save & drag on website images
+        (function protectWebsiteImagesFromDirectDownload() {
+            let longPressTimer = null;
+            document.addEventListener('contextmenu', (e) => {
+                const target = e.target;
+                if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
+                    e.preventDefault();
+                }
+            }, { capture: true });
+
+            document.addEventListener('dragstart', (e) => {
+                const target = e.target;
+                if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
+                    e.preventDefault();
+                }
+            }, { capture: true });
+
+            document.addEventListener('touchstart', (e) => {
+                const target = e.target;
+                if (target && (target.tagName === 'IMG' || target.closest('img') || target.closest('.member-avatar'))) {
+                    clearTimeout(longPressTimer);
+                    longPressTimer = setTimeout(() => {
+                        showToast('वेबसाइटवरील फोटो थेट डाउनलोड करणे प्रतिबंधित आहे. फक्त अधिकृत पोचपावती, नोटीस व PDF डाउनलोड बटणाचा वापर करा.');
+                    }, 420);
+                }
+            }, { capture: true, passive: true });
+
+            document.addEventListener('touchend', () => clearTimeout(longPressTimer), { capture: true, passive: true });
+            document.addEventListener('touchmove', () => clearTimeout(longPressTimer), { capture: true, passive: true });
+        })();
+
+        // Official Notice PDF / Document Download with gpnipani.online watermark stamp when PDF-lib available
+        async function downloadOfficialNoticePdf(pdfUrl, noticeTitle) {
+            if (!pdfUrl) return;
+            const safeTitle = (noticeTitle || 'GramSabha_Notice').replace(/[^a-zA-Z0-9_-]+/g, '_');
+            const outName = `gpnipani.online_${safeTitle}.pdf`;
+            try {
+                if (typeof PDFLib !== 'undefined') {
+                    const resp = await fetch(pdfUrl);
+                    const buf = await resp.arrayBuffer();
+                    const pdfDoc = await PDFLib.PDFDocument.load(buf);
+                    const pages = pdfDoc.getPages();
+                    for (const page of pages) {
+                        const { width } = page.getSize();
+                        page.drawText('ग्रामपंचायत पिंपळगाव निपाणी | अधिकृत वेबपोर्टल: http://gpnipani.online', {
+                            x: 24,
+                            y: 16,
+                            size: 9,
+                            opacity: 0.72
+                        });
+                        page.drawText('http://gpnipani.online', {
+                            x: Math.max(24, width - 110),
+                            y: 16,
+                            size: 9,
+                            opacity: 0.72
+                        });
+                    }
+                    const bytes = await pdfDoc.save();
+                    const blob = new Blob([bytes], { type: 'application/pdf' });
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = blobUrl;
+                    a.download = outName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    setTimeout(() => URL.revokeObjectURL(blobUrl), 2500);
+                    showToast('अधिकृत नोटीस PDF (gpnipani.online वॉटरमार्कसह) डाउनलोड झाली!');
+                    return;
+                }
+            } catch (e) {}
+            const a = document.createElement('a');
+            a.href = pdfUrl;
+            a.download = outName;
+            a.target = '_blank';
+            a.rel = 'noopener';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+
+        function downloadPhotoWithDomainStamp(imgUrl, filenamePrefix) {
             if (!imgUrl) return;
             const cleanPrefix = (filenamePrefix || 'GP_Pimpalgaon_Nipani').replace(/[^a-zA-Z0-9_-]+/g, '_');
             const outName = `gpnipani.online_${cleanPrefix}_${Date.now()}.jpg`;
@@ -3466,7 +3557,7 @@
                 ctx.fillStyle = '#ffffff';
                 ctx.textBaseline = 'middle';
                 ctx.textAlign = 'left';
-                ctx.fillText('ग्रामपंचायत पिंपळगाव निपाणी | अधिकृत वेबपोर्टल: gpnipani.online', Math.round(barH * 0.4), canvas.height - barH / 2);
+                ctx.fillText('ग्रामपंचायत पिंपळगाव निपाणी | अधिकृत वेबपोर्टल: http://gpnipani.online', Math.round(barH * 0.4), canvas.height - barH / 2);
                 ctx.textAlign = 'right';
                 ctx.fillStyle = '#fb923c';
                 ctx.fillText('Design by Anil Bhaurao Tormal', canvas.width - Math.round(barH * 0.4), canvas.height - barH / 2);
@@ -3500,8 +3591,8 @@
                         <div style="font-size:24px;"><strong>ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी</strong></div>
                         <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन पोचपावती</div>
                     </div>
-                    <div style="background:rgba(255,255,255,0.16);padding:6px 12px;border-radius:8px;font-size:15px;white-space:nowrap;">
-                        <strong>gpnipani.online</strong>
+                    <div style="background:rgba(255,255,255,0.16);padding:6px 12px;border-radius:8px;font-size:14.5px;white-space:nowrap;display:inline-flex;align-items:center;">
+                        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><strong>http://gpnipani.online</strong>
                     </div>
                 </div>
                 <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px;border-radius:10px;text-align:center;margin-bottom:16px;">
@@ -3516,7 +3607,7 @@
                     <div><strong>सद्यस्थिती:</strong> प्रलंबित (कार्यालयीन तपासणी सुरू)</div>
                 </div>
                 <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <span>अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">gpnipani.online</strong> (येथे मागोवा क्र. तपासा)</span>
+                    <span style="display:inline-flex;align-items:center;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;display:inline-flex;align-items:center;margin-left:4px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>http://gpnipani.online</strong>&nbsp;(येथे मागोवा क्र. तपासा)</span>
                     <span>Website Design by Anil Bhaurao Tormal</span>
                 </div>
             `;
@@ -4011,7 +4102,13 @@
             const pdfWrap = document.getElementById('urgPopupPdfWrap');
             const pdfLink = document.getElementById('urgPopupPdfLink');
             if (urgObj.pdf && urgObj.pdf.trim()) {
-                pdfLink.href = urgObj.pdf.trim();
+                const cleanPdfUrl = urgObj.pdf.trim();
+                pdfLink.href = cleanPdfUrl;
+                pdfLink.removeAttribute('download');
+                pdfLink.onclick = (ev) => {
+                    ev.preventDefault();
+                    downloadOfficialNoticePdf(cleanPdfUrl, urgObj.title || 'Urgent_Notice');
+                };
                 pdfWrap.style.display = 'block';
             } else {
                 pdfWrap.style.display = 'none';
@@ -4418,8 +4515,8 @@
             const wmCfg = appState.watermarkConfig || DEFAULT_STATE.watermarkConfig;
             if (!wmCfg || wmCfg.enabled === false) return file;
 
-            const rawWm = (wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी | gpnipani.online').trim();
-            const wmText = rawWm.includes('gpnipani.online') ? rawWm : `${rawWm} | gpnipani.online`;
+            const rawWm = (wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी | http://gpnipani.online').trim();
+            const wmText = rawWm.includes('http://gpnipani.online') ? rawWm : `${rawWm} | http://gpnipani.online`;
             const position = wmCfg.position || 'diagonal';
             const alpha = getWatermarkAlpha();
 
@@ -5248,7 +5345,7 @@
                         <div style="text-align:right; background:rgba(255,255,255,0.16); padding:10px 16px; border-radius:10px;">
                             <div style="font-size:15px;">अधिकृत नोंदवही अहवाल</div>
                             <div style="font-size:17px; font-weight:700;">एकूण नोंदी: ${records.length}</div>
-                            <div style="font-size:14px; color:#fde047; margin-top:2px;">🌐 gpnipani.online</div>
+                            <div style="font-size:14px; color:#fde047; margin-top:2px; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></div>
                         </div>
                     </div>
                 </div>
@@ -5283,7 +5380,7 @@
                 <div style="background:#0f172a; color:#f8fafc; padding:16px 28px; margin-top:12px; display:flex; justify-content:space-between; align-items:center; font-size:15px; border-top:3px solid #ea580c;">
                     <div>
                         <div><strong>${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}</strong> | मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५</div>
-                        <div style="color:#cbd5e1; font-size:13.5px;">अधिकृत वेबपोर्टल: <strong style="color:#fde047;">gpnipani.online</strong> | डाउनलोड दिनांक: ${new Date().toLocaleDateString('mr-IN')}</div>
+                        <div style="color:#cbd5e1; font-size:13.5px;">अधिकृत वेबपोर्टल: <strong style="color:#fde047; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>http://gpnipani.online</strong> | डाउनलोड दिनांक: ${new Date().toLocaleDateString('mr-IN')}</div>
                     </div>
                     <div style="text-align:right;">
                         <div style="color:#fb923c; font-size:16px;"><strong>Website Design by Anil Bhaurao Tormal</strong></div>
@@ -5314,7 +5411,7 @@
                     : 'सर्व उपलब्ध नोंदी';
                 const lines = [
                     // Official Header Rows in CSV
-                    [esc('ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत वेबपोर्टल: gpnipani.online')].join(','),
+                    [esc('ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत वेबपोर्टल: http://gpnipani.online')].join(','),
                     [esc(`अधिकृत दाखले, तक्रारी, अपॉइंटमेंट व चौकशी अहवाल | कालावधी: ${rangeStr}`)].join(','),
                     [''].join(','),
                     ['अ.क्र.', 'मागोवा क्रमांक', 'दिनांक', 'प्रकार', 'विषय / दाखला', 'अर्जदाराचे नाव', 'मोबाईल क्रमांक', 'तपशील', 'सद्यस्थिती', 'कार्यवाही शेरा'].map(esc).join(',')
@@ -5336,7 +5433,7 @@
                 // Official Footer Rows in CSV
                 lines.push([''].join(','));
                 lines.push([esc('ग्रामपंचायत कार्यालय: मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५')].join(','));
-                lines.push([esc('अधिकृत वेबपोर्टल: https://gpnipani.online | Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
+                lines.push([esc('अधिकृत वेबपोर्टल: http://gpnipani.online | Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
 
                 const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });;
                 const url = URL.createObjectURL(blob);
@@ -5704,7 +5801,7 @@
 
         // WhatsApp Share Helpers (Portal, Gram Sabha Notice, Urgent Pop-up)
         const OFFICIAL_PORTAL_DOMAIN = 'gpnipani.online';
-        const OFFICIAL_PORTAL_URL = 'https://gpnipani.online';
+        const OFFICIAL_PORTAL_URL = 'http://gpnipani.online';
 
         function getCleanPortalUrl() {
             return OFFICIAL_PORTAL_URL;

@@ -159,12 +159,13 @@
             font-weight: 600;
         }
 
+            img { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; pointer-events: none; }
     </style>
     <meta name="theme-color" content="#ea580c">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="canonical" href="https://gpnipani.online/committees.html">
+    <link rel="canonical" href="http://gpnipani.online/committees.html">
 </head>
 <body>
     <div class="top-bar">
@@ -238,7 +239,7 @@
 
     <footer>
         <div>मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
-        <div style="margin-top: 6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी (<a href="https://gpnipani.online" style="color:var(--primary); text-decoration:none;">gpnipani.online</a>) | Website Design by <strong>Anil Bhaurao Tormal</strong> | संपर्क: <a href="tel:+919975571585">9975571585</a></div>
+        <div style="margin-top: 6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी (<a href="http://gpnipani.online" style="color:var(--primary); text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a>) | Website Design by <strong>Anil Bhaurao Tormal</strong> | संपर्क: <a href="tel:+919975571585">9975571585</a></div>
     </footer>
 
     <script>
@@ -479,6 +480,16 @@
                 }
                 lastY = curY;
             }, { passive: true });
+        })();
+
+    
+        (function protectSubpageImages() {
+            document.addEventListener('contextmenu', (e) => {
+                if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img'))) e.preventDefault();
+            }, { capture: true });
+            document.addEventListener('dragstart', (e) => {
+                if (e.target && (e.target.tagName === 'IMG' || e.target.closest('img'))) e.preventDefault();
+            }, { capture: true });
         })();
 
     </script>
