@@ -663,7 +663,7 @@
             box-shadow: var(--shadow);
         }
 
-        /* Custom In-Web Dropdown Component */
+        /* Modern Custom In-App Dropdown Component */
         .inweb-select {
             position: relative;
             width: 100%;
@@ -672,26 +672,42 @@
 
         .inweb-select-trigger {
             width: 100%;
-            background-color: var(--bg-subtle);
+            background: var(--bg-subtle);
             color: var(--text-main);
             border: 2px solid var(--border-color);
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 10px 14px;
             font-size: 17px;
+            font-weight: 500;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
             cursor: pointer;
-            transition: border-color 0.2s ease;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        .inweb-select-trigger .selected-label {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: left;
         }
 
         .inweb-select.open .inweb-select-trigger,
         .inweb-select-trigger:hover {
             border-color: var(--primary);
+            background-color: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(234, 88, 12, 0.14);
         }
 
         .inweb-select-trigger svg {
-            transition: transform 0.25s ease;
+            flex-shrink: 0;
+            color: var(--primary);
+            transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         .inweb-select.open .inweb-select-trigger svg {
@@ -700,45 +716,53 @@
 
         .inweb-select-menu {
             position: absolute;
-            top: calc(100% + 6px);
+            top: calc(100% + 7px);
             left: 0;
-            width: 100%;
+            min-width: 100%;
+            width: max-content;
+            max-width: min(92vw, 440px);
             background-color: var(--bg-card);
-            border: 1px solid var(--border-color);
-            border-radius: 10px;
-            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.18);
-            z-index: 1200;
-            max-height: 230px;
+            border: 1.5px solid var(--primary);
+            border-radius: 12px;
+            padding: 5px;
+            box-shadow: 0 16px 36px rgba(15, 23, 42, 0.22);
+            z-index: 1500;
+            max-height: 255px;
             overflow-y: auto;
             opacity: 0;
             visibility: hidden;
-            transform: translateY(-6px);
-            transition: all 0.2s ease;
+            transform: translateY(-8px) scale(0.98);
+            transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.2s;
         }
 
         .inweb-select.open .inweb-select-menu {
             opacity: 1;
             visibility: visible;
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
 
         .inweb-option {
-            padding: 10px 14px;
-            font-size: 17px;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-size: 16.5px;
             color: var(--text-main);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 10px;
             cursor: pointer;
-            border-bottom: 1px solid var(--border-color);
+            transition: background-color 0.15s ease, color 0.15s ease;
         }
 
-        .inweb-option:last-child { border-bottom: none; }
+        .inweb-option:hover {
+            background-color: var(--hover-tint);
+            color: var(--primary);
+        }
 
-        .inweb-option:hover,
         .inweb-option.selected {
             background-color: var(--hover-tint);
             color: var(--primary);
+            font-weight: 600;
         }
 
         /* Animated In-Web Switch Toggle (for Admin Section Show/Hide) */
@@ -1535,19 +1559,11 @@
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label>नोंदीचा प्रकार निवडा</label>
-                            <select class="form-control" id="expRecordType">
-                                <option value="all">सर्व (दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी)</option>
-                                <option value="अर्ज">फक्त दाखले / अर्ज</option>
-                                <option value="तक्रार">फक्त तक्रारी</option>
-                                <option value="चौकशी">फक्त चौकशी / अपॉइंटमेंट</option>
-                            </select>
+                            <div class="inweb-select" id="ddExpRecordType"></div>
                         </div>
                         <div class="form-group" style="margin-bottom:0;">
                             <label>डेटा स्रोत निवडा</label>
-                            <select class="form-control" id="expDataSource">
-                                <option value="active">सक्रिय यादीतील नोंदी</option>
-                                <option value="archive">१ वर्षाचे संपूर्ण रजिस्टर (मास्टर/ग्रामसेवक)</option>
-                            </select>
+                            <div class="inweb-select" id="ddExpDataSource"></div>
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap;">
@@ -1585,13 +1601,7 @@
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
                         <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:220px;">
-                        <select class="form-control" id="selArchiveFilter" onchange="renderOneYearRegister()" style="width:auto; min-width:200px;">
-                            <option value="all">सर्व नोंदी दाखवा (१ वर्ष)</option>
-                            <option value="अर्ज">फक्त दाखले / अर्ज</option>
-                            <option value="तक्रार">फक्त तक्रारी</option>
-                            <option value="चौकशी">फक्त चौकशी / अपॉइंटमेंट</option>
-                            <option value="deleted">फक्त डिलीट केलेल्या नोंदी</option>
-                        </select>
+                        <div class="inweb-select" id="ddSelArchiveFilter" style="width:auto; min-width:230px;"></div>
                     </div>
                     <div id="oneYearRegisterList"></div>
                 </div>
@@ -1710,19 +1720,11 @@
                         </div>
                         <div class="form-group">
                             <label>वॉटरमार्कची जागा (Position)</label>
-                            <select class="form-control" id="wmPositionSelect">
-                                <option value="diagonal">मध्यभागी तिरपा (Diagonal Center — शिफारस केलेले)</option>
-                                <option value="bottom-right">तळाशी उजव्या कोपऱ्यात (Bottom Right)</option>
-                                <option value="both">मध्यभागी तिरपा आणि तळाशी दोन्हीकडे (Both)</option>
-                            </select>
+                            <div class="inweb-select" id="ddWmPositionSelect"></div>
                         </div>
                         <div class="form-group">
                             <label>वॉटरमार्क गडदपणा (Opacity)</label>
-                            <select class="form-control" id="wmOpacitySelect">
-                                <option value="light">हलका पारदर्शक (Light - 18%)</option>
-                                <option value="medium">मध्यम पारदर्शक (Medium - 30%)</option>
-                                <option value="dark">गडद पारदर्शक (Dark - 45%)</option>
-                            </select>
+                            <div class="inweb-select" id="ddWmOpacitySelect"></div>
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
@@ -1931,7 +1933,7 @@
 
                 <!-- Legal Privacy & Data Protection Disclaimer -->
                 <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 12px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
-                    <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित शासकीय दाखला/सेवा कार्यवाही व अधिकृत पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत.</div>
+                    <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित शासकीय दाखला/सेवा कार्यवाही व अधिकृत पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत. तसेच, अर्जदाराचे किंवा तक्रारदाराचे नाव, लेखी अर्ज अथवा आधार कार्ड तपशील चुकीचे किंवा अपूर्ण आढळल्यास सदर अर्ज / तक्रार फेटाळण्याचा व रद्द करण्याचा पूर्ण अधिकार ग्रामपंचायतीकडे राखीव राहील.</div>
                     <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
                         <input type="checkbox" id="srvPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
                         <span>मी वरील अटी वाचल्या असून माझी माहिती व आधार कागदपत्रे शासकीय कार्यवाहीसाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
@@ -2034,7 +2036,7 @@
 
             <!-- Legal Privacy & Data Protection Disclaimer -->
             <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 12px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
-                <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित तक्रार निवारण कार्यवाही व पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत.</div>
+                <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित तक्रार निवारण कार्यवाही व पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत. तसेच, अर्जदाराचे किंवा तक्रारदाराचे नाव, लेखी अर्ज अथवा आधार कार्ड तपशील चुकीचे किंवा अपूर्ण आढळल्यास सदर अर्ज / तक्रार फेटाळण्याचा व रद्द करण्याचा पूर्ण अधिकार ग्रामपंचायतीकडे राखीव राहील.</div>
                 <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
                     <input type="checkbox" id="cmpPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
                     <span>मी वरील गोपनीयता सूचना वाचली असून माझी माहिती व आधार कागदपत्रे तक्रार निवारणासाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
@@ -3603,7 +3605,7 @@
                     updateNavLoginButton();
                     closeModals();
                     enterAdminDashboard();
-                    showToast('Firebase द्वारे मास्टर डेव्हलपर लॉगिन यशस्वी!');
+                    showToast('मास्टर डेव्हलपर लॉगिन यशस्वी!');
                 } catch (err) {
                     errEl.textContent = 'इंटरनेट कनेक्शन किंवा Firebase प्रमाणीकरण त्रुटी.';
                     errEl.style.display = 'block';
@@ -3690,12 +3692,29 @@
                 }
             });
 
-            const expSrcSel = document.getElementById('expDataSource');
-            if (expSrcSel) {
-                const archOpt = expSrcSel.querySelector('option[value="archive"]');
-                if (archOpt) archOpt.style.display = (currentRole === 'developer' || currentRole === 'gramsevak') ? '' : 'none';
-                if (currentRole === 'operator') expSrcSel.value = 'active';
+            renderInwebDropdown('ddExpRecordType', [
+                { value: 'all', label: 'सर्व (दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी)' },
+                { value: 'अर्ज', label: 'फक्त दाखले / अर्ज' },
+                { value: 'तक्रार', label: 'फक्त तक्रारी' },
+                { value: 'चौकशी', label: 'फक्त चौकशी / अपॉइंटमेंट' }
+            ], customDropdownValues['ddExpRecordType'] || 'all');
+
+            const expSrcOptions = [{ value: 'active', label: 'सक्रिय यादीतील नोंदी' }];
+            if (currentRole === 'developer' || currentRole === 'gramsevak') {
+                expSrcOptions.push({ value: 'archive', label: '१ वर्षाचे संपूर्ण रजिस्टर (मास्टर/ग्रामसेवक)' });
             }
+            const curExpSrc = (currentRole === 'operator') ? 'active' : (customDropdownValues['ddExpDataSource'] || 'active');
+            renderInwebDropdown('ddExpDataSource', expSrcOptions, curExpSrc);
+
+            renderInwebDropdown('ddSelArchiveFilter', [
+                { value: 'all', label: 'सर्व नोंदी दाखवा (१ वर्ष)' },
+                { value: 'अर्ज', label: 'फक्त दाखले / अर्ज' },
+                { value: 'तक्रार', label: 'फक्त तक्रारी' },
+                { value: 'चौकशी', label: 'फक्त चौकशी / अपॉइंटमेंट' },
+                { value: 'deleted', label: 'फक्त डिलीट केलेल्या नोंदी' }
+            ], customDropdownValues['ddSelArchiveFilter'] || 'all', () => {
+                renderOneYearRegister();
+            });
             if (firstVisibleTabBtn) {
                 switchAdminTab(firstVisibleTabBtn.getAttribute('data-tab'), firstVisibleTabBtn);
             }
@@ -4130,8 +4149,8 @@
             appState.watermarkConfig = {
                 enabled: document.getElementById('swWatermarkEnabled')?.classList.contains('on') !== false,
                 text: (document.getElementById('wmTextInput')?.value || '').trim() || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी',
-                position: document.getElementById('wmPositionSelect')?.value || 'diagonal',
-                opacity: document.getElementById('wmOpacitySelect')?.value || 'medium'
+                position: customDropdownValues['ddWmPositionSelect'] || 'diagonal',
+                opacity: customDropdownValues['ddWmOpacitySelect'] || 'medium'
             };
             saveStateToStorage();
             showToast('वॉटरमार्क सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
@@ -4460,12 +4479,16 @@
             if (document.getElementById('wmTextInput')) {
                 document.getElementById('wmTextInput').value = wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी';
             }
-            if (document.getElementById('wmPositionSelect')) {
-                document.getElementById('wmPositionSelect').value = wmCfg.position || 'diagonal';
-            }
-            if (document.getElementById('wmOpacitySelect')) {
-                document.getElementById('wmOpacitySelect').value = wmCfg.opacity || 'medium';
-            }
+            renderInwebDropdown('ddWmPositionSelect', [
+                { value: 'diagonal', label: 'मध्यभागी तिरपा (Diagonal Center — शिफारस केलेले)' },
+                { value: 'bottom-right', label: 'तळाशी उजव्या कोपऱ्यात (Bottom Right)' },
+                { value: 'both', label: 'मध्यभागी तिरपा आणि तळाशी दोन्हीकडे (Both)' }
+            ], wmCfg.position || 'diagonal');
+            renderInwebDropdown('ddWmOpacitySelect', [
+                { value: 'light', label: 'हलका पारदर्शक (Light - 18%)' },
+                { value: 'medium', label: 'मध्यम पारदर्शक (Medium - 30%)' },
+                { value: 'dark', label: 'गडद पारदर्शक (Dark - 45%)' }
+            ], wmCfg.opacity || 'medium');
 
             const staffContainer = document.getElementById('staffAccountsList');
             if (staffContainer) {
@@ -4885,7 +4908,7 @@
             const listEl = document.getElementById('oneYearRegisterList');
             const badgeEl = document.getElementById('oneYearCountBadge');
             const query = (document.getElementById('inpArchiveSearch')?.value || '').trim().toLowerCase();
-            const filterVal = document.getElementById('selArchiveFilter')?.value || 'all';
+            const filterVal = customDropdownValues['ddSelArchiveFilter'] || 'all';
 
             const allLogs = Array.isArray(appState.requestArchiveLog) ? appState.requestArchiveLog : [];
             const filtered = allLogs.filter(item => {
@@ -4961,8 +4984,8 @@
         function getFilteredExportRecords() {
             const fromVal = document.getElementById('expFromDate')?.value || '';
             const toVal = document.getElementById('expToDate')?.value || '';
-            const typeVal = document.getElementById('expRecordType')?.value || 'all';
-            const srcVal = document.getElementById('expDataSource')?.value || 'active';
+            const typeVal = customDropdownValues['ddExpRecordType'] || 'all';
+            const srcVal = customDropdownValues['ddExpDataSource'] || 'active';
 
             let pool = [];
             if (srcVal === 'archive' && (currentRole === 'developer' || currentRole === 'gramsevak')) {
@@ -5071,7 +5094,7 @@
         async function exportRequestsReport(format) {
             const fromVal = document.getElementById('expFromDate')?.value || '';
             const toVal = document.getElementById('expToDate')?.value || '';
-            const typeVal = document.getElementById('expRecordType')?.value || 'all';
+            const typeVal = customDropdownValues['ddExpRecordType'] || 'all';
             const records = getFilteredExportRecords();
 
             if (!records.length) {
