@@ -1347,6 +1347,17 @@
                     <p>महावितरण तक्रार: १९१२ | आपत्ती व्यवस्थापन: १०७७</p>
                 </div>
             </div>
+            <div style="border-top: 1px solid #334155; padding: 14px 0 12px; margin-top: 8px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px 18px; font-size: 16px;">
+                <a href="javascript:void(0)" onclick="openPolicyModal('privacy')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">गोपनीयता धोरण (Privacy Policy)</a>
+                <span style="color: #64748b;">|</span>
+                <a href="javascript:void(0)" onclick="openPolicyModal('disclaimer')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">अस्वीकरण (Disclaimer)</a>
+                <span style="color: #64748b;">|</span>
+                <a href="javascript:void(0)" onclick="openPolicyModal('terms')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">अटी व शर्ती (Terms &amp; Conditions)</a>
+                <span style="color: #64748b;">|</span>
+                <a href="javascript:void(0)" onclick="openPolicyModal('copyright')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">कॉपीराइट सूचना (Copyright)</a>
+                <span style="color: #64748b;">|</span>
+                <a href="javascript:void(0)" onclick="openPolicyModal('grievance')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">संपर्क व तक्रार मार्गदर्शन</a>
+            </div>
             <div class="copyright-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
                 <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | <a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
                 <span style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
@@ -1383,6 +1394,7 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer,gramsevak" data-label="डिझाइन, रंग व फॉन्ट (मास्टर)" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" data-label="कर्मचारी लॉगिन व पासवर्ड" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer,gramsevak" data-label="क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="धोरणे, अस्वीकरण व अटी (मास्टर)" onclick="switchAdminTab('tab-policies', this)">१०. धोरणे, अस्वीकरण व अटी (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
@@ -1812,6 +1824,60 @@
                     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
                         <button type="button" class="btn btn-primary" onclick="saveWatermarkSettingsByMaster()">वॉटरमार्क सेटिंग्ज सेव्ह करा</button>
                         <button type="button" class="btn btn-danger" onclick="resetAllRecordsToZeroByMaster()">सर्व चाचणी नोंदी पुसून ० पासून सुरू करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Legal Policy Pages Editor (STRICTLY Master Developer Only) -->
+            <div class="admin-tab-pane" id="tab-policies">
+                <div class="info-card" style="border-left: 5px solid var(--secondary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <div>
+                            <h3 style="color:var(--secondary); margin-bottom:4px;">फूटरमधील धोरणे, अस्वीकरण व कायदेशीर विभाग संपादन (फक्त मास्टर डॅशबोर्डसाठी)</h3>
+                            <p style="font-size:16px; color:var(--text-muted); margin:0;">येथून पोर्टलच्या फूटरमध्ये दिसणारे पाचही विभाग (Privacy Policy, Disclaimer, Terms &amp; Conditions, Copyright व Contact/Grievance) संपादित करता येतात. हा अधिकार फक्त मास्टर लॉगिनकडे राखीव आहे.</p>
+                        </div>
+                        <button type="button" class="btn btn-secondary" style="padding:7px 14px; font-size:15.5px;" onclick="resetDefaultPoliciesByMaster()">मूळ मसुदा परत आणा</button>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:16px; margin-top:14px;">
+                        <div style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:18px; color:var(--primary); margin-bottom:8px;"><strong>१. गोपनीयता धोरण (Privacy Policy)</strong></div>
+                            <div class="form-group"><label>शीर्षक</label><input type="text" class="form-control" id="polTitle_privacy"></div>
+                            <div class="form-group"><label>उपशीर्षक</label><input type="text" class="form-control" id="polSub_privacy"></div>
+                            <div class="form-group" style="margin-bottom:0;"><label>सविस्तर मजकूर</label><textarea class="form-control" rows="4" id="polBody_privacy"></textarea></div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:18px; color:var(--primary); margin-bottom:8px;"><strong>२. अस्वीकरण (Disclaimer)</strong></div>
+                            <div class="form-group"><label>शीर्षक</label><input type="text" class="form-control" id="polTitle_disclaimer"></div>
+                            <div class="form-group"><label>उपशीर्षक</label><input type="text" class="form-control" id="polSub_disclaimer"></div>
+                            <div class="form-group" style="margin-bottom:0;"><label>सविस्तर मजकूर</label><textarea class="form-control" rows="4" id="polBody_disclaimer"></textarea></div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:18px; color:var(--primary); margin-bottom:8px;"><strong>३. अटी व शर्ती (Terms &amp; Conditions)</strong></div>
+                            <div class="form-group"><label>शीर्षक</label><input type="text" class="form-control" id="polTitle_terms"></div>
+                            <div class="form-group"><label>उपशीर्षक</label><input type="text" class="form-control" id="polSub_terms"></div>
+                            <div class="form-group" style="margin-bottom:0;"><label>सविस्तर मजकूर</label><textarea class="form-control" rows="4" id="polBody_terms"></textarea></div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:18px; color:var(--primary); margin-bottom:8px;"><strong>४. कॉपीराइट व श्रेय सूचना (Copyright &amp; Attribution)</strong></div>
+                            <div class="form-group"><label>शीर्षक</label><input type="text" class="form-control" id="polTitle_copyright"></div>
+                            <div class="form-group"><label>उपशीर्षक</label><input type="text" class="form-control" id="polSub_copyright"></div>
+                            <div class="form-group" style="margin-bottom:0;"><label>सविस्तर मजकूर</label><textarea class="form-control" rows="4" id="polBody_copyright"></textarea></div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color);">
+                            <div style="font-size:18px; color:var(--primary); margin-bottom:8px;"><strong>५. संपर्क व तक्रार मार्गदर्शन (Contact &amp; Grievance Redressal)</strong></div>
+                            <div class="form-group"><label>शीर्षक</label><input type="text" class="form-control" id="polTitle_grievance"></div>
+                            <div class="form-group"><label>उपशीर्षक</label><input type="text" class="form-control" id="polSub_grievance"></div>
+                            <div class="form-group" style="margin-bottom:0;"><label>सविस्तर मजकूर</label><textarea class="form-control" rows="4" id="polBody_grievance"></textarea></div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px;">
+                        <button type="button" class="btn btn-primary" onclick="savePolicyPagesByMaster()">पाचही धोरण विभाग सेव्ह करा</button>
                     </div>
                 </div>
             </div>
@@ -2275,6 +2341,33 @@
         </div>
     </div>
 
+    <!-- Modal: Legal Policy / Disclaimer / Terms Viewer -->
+    <div class="modal-backdrop" id="policyViewerModal" style="z-index: 10050; background: rgba(15, 23, 42, 0.78); backdrop-filter: blur(4px);">
+        <div class="modal-box" style="max-width: 680px; padding: 0; overflow: hidden; border: 2.5px solid var(--primary); border-radius: 16px;">
+            <div style="background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 65%, #ea580c 100%); color: #ffffff; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 10px;">
+                <div>
+                    <div id="policyModalSubtitle" style="font-size: 14.5px; opacity: 0.92;">ग्रामपंचायत पिंपळगाव निपाणी</div>
+                    <h3 id="policyModalTitle" style="font-size: 24px; margin: 2px 0 0; line-height: 1.25; color: #ffffff;">गोपनीयता धोरण</h3>
+                </div>
+                <button type="button" onclick="closeModals()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer;">✕</button>
+            </div>
+            <div style="padding: 20px 24px; max-height: 72vh; overflow-y: auto;">
+                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('privacy')">गोपनीयता धोरण</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('disclaimer')">अस्वीकरण</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('terms')">अटी व शर्ती</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('copyright')">कॉपीराइट</button>
+                    <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('grievance')">संपर्क व तक्रार</button>
+                </div>
+                <div id="policyModalContent" style="font-size: 17.5px; color: var(--text-main); line-height: 1.65; white-space: pre-line;"></div>
+                <div style="margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 14.5px; color: var(--text-muted);">
+                    <span>ग्रामपंचायत पिंपळगाव निपाणी | http://gpnipani.online</span>
+                    <button type="button" class="btn btn-primary" style="padding: 7px 18px; font-size: 16px;" onclick="closeModals()">बंद करा</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal: Tax Pay Coming Soon -->
     <div class="modal-backdrop" id="taxComingSoonModal">
         <div class="modal-box" style="text-align:center; max-width:460px;">
@@ -2392,6 +2485,33 @@
                 villageofficials: true,
                 committees: true
             },
+            policyPages: {
+                privacy: {
+                    title: 'गोपनीयता धोरण (Privacy Policy)',
+                    subtitle: 'ग्रामपंचायत पिंपळगाव निपाणी डिजिटल वेबपोर्टल — गोपनीयता व माहिती संरक्षण धोरण',
+                    content: `• माहिती संकलन: नागरिक दाखला मागणी अर्ज, तक्रार नोंदणी, चौकशी किंवा खाते नोंदणी करताना नाव, मोबाईल क्रमांक, पत्ता/प्रभाग, संबंधित कागदपत्रे किंवा फोटो देतात. ही माहिती केवळ संबंधित सेवा/तक्रार/मागोवा कार्यवाहीपुरती वापरली जाते.\n\n• माहितीची सुरक्षितता व वापर: नागरिकांनी दिलेली वैयक्तिक माहिती कोणत्याही अनधिकृत किंवा त्रयस्थ व्यावसायिक संस्थेस विकली किंवा दिली जाणार नाही. मागोवा क्रमांक (Tracking ID) व कार्यवाहीची स्थिती संबंधित अर्जाचा मागोवा घेण्यासाठी वापरली जाते.\n\n• तांत्रिक व क्लाउड प्रक्रिया: पोर्टलवरील माहिती, अपलोड केलेले दस्तऐवज आणि नोंदी पोर्टलच्या प्रणालीद्वारे तसेच कॉन्फिगर केलेल्या डेटाबेस व मीडिया सेवांद्वारे हाताळल्या जातात.\n\n• अचूकतेची जबाबदारी: चुकीची, अपूर्ण किंवा दिशाभूल करणारी माहिती अथवा कागदपत्रे आढळल्यास संबंधित अर्ज किंवा तक्रार रद्द करण्याचा अथवा कार्यवाही न करण्याचा अधिकार प्रशासनाकडे राखीव राहील.\n\n• धोरणातील बदल: कायदेशीर किंवा प्रशासकीय गरजेनुसार या गोपनीयता धोरणात वेळोवेळी बदल केले जाऊ शकतात.`
+                },
+                disclaimer: {
+                    title: 'अस्वीकरण (Disclaimer)',
+                    subtitle: 'अधिकृत अस्वीकरण व जबाबदारीची मर्यादा',
+                    content: `• केवळ माहिती व ऑनलाइन सुविधा: या वेबपोर्टलवरील मजकूर, नोटीस, विकासकामांची माहिती व ऑनलाइन पर्याय हे नागरिकांच्या सोयीसाठी आणि प्राथमिक माहितीसाठी उपलब्ध करून दिले आहेत.\n\n• अधिकृत मूळ प्रत: पोर्टलवर दाखवलेली कोणतीही प्रत, पावती, नोटीस किंवा माहिती ही अंतिम कायदेशीर/अधिकृत प्रत मानण्यापूर्वी आवश्यकतेनुसार ग्रामपंचायत कार्यालयातील मूळ दस्तऐवज, अधिकृत स्वाक्षरी व शिक्क्याची खात्री करून घ्यावी.\n\n• बाह्य दुवे (External Links): पोर्टलवर शासकीय किंवा इतर बाह्य संकेतस्थळांचे दुवे दिले असल्यास, त्या बाह्य संकेतस्थळांच्या उपलब्धतेची किंवा मजकुराची हमी या पोर्टलद्वारे घेतली जात नाही.\n\n• सेवा व तांत्रिक अडचणी: इंटरनेट, सर्व्हर किंवा तांत्रिक कारणांमुळे सेवा तात्पुरती विस्कळीत झाल्यास किंवा विलंबास कारणीभूत ठरल्यास थेट ग्रामपंचायत कार्यालयाशी संपर्क साधावा.`
+                },
+                terms: {
+                    title: 'अटी व शर्ती (Terms & Conditions)',
+                    subtitle: 'वेबपोर्टल वापराच्या अटी व शर्ती',
+                    content: `• कायदेशीर व योग्य वापर: वापरकर्त्यांनी हे पोर्टल केवळ कायदेशीर, प्रामाणिक आणि नागरिक सेवेशी संबंधित उद्देशासाठी वापरावे.\n\n• गैरवापर प्रतिबंध: पोर्टलवर खोटे अर्ज, खोटी तक्रार, स्पॅम, चुकीची माहिती किंवा प्रणालीस हानी पोहोचवणारी कोणतीही कृती करणे सक्त मनाई आहे.\n\n• कार्यवाहीचा अधिकार: अर्जावरील किंवा तक्रारीवरील कार्यवाही, तपासणी, स्थिती अद्ययावत करणे आणि अयोग्य नोंदींवर निर्णय घेण्याचे अधिकार संबंधित प्रशासकीय जबाबदारीनुसार राखीव राहतील.\n\n• अटींमध्ये बदल: पोर्टलच्या कार्यपद्धतीनुसार किंवा नियमांनुसार या अटी व शर्तींमध्ये बदल करण्याचा अधिकार राहील; अपडेट केल्यानंतर नवीन अटी लागू होतील.`
+                },
+                copyright: {
+                    title: 'कॉपीराइट व श्रेय सूचना (Copyright & Attribution)',
+                    subtitle: 'कॉपीराइट व डिझाइन श्रेय सूचना',
+                    content: `• पोर्टल डिझाइन व निर्मिती: या वेबपोर्टलचे डिझाइन व तांत्रिक निर्मिती Anil Bhaurao Tormal यांनी केली आहे.\n\n• मजकूर व संरचना: पोर्टलवरील लेआउट, रचना आणि संकलित मजकूर योग्य परवानगीशिवाय कॉपी करून व्यावसायिक किंवा अनधिकृत कामासाठी वापरू नये.\n\n• शासकीय व स्थानिक नोंदी: शासकीय योजना, कायदे, शासन निर्णय आणि स्थानिक प्रशासकीय नोंदींचा संदर्भ केवळ माहितीपुरता असून मूळ शासन/प्रशासकीय नियमच अंतिम राहतील.\n\n• वॉटरमार्क व कागदपत्रे: पोर्टलवरून उपलब्ध होणाऱ्या किंवा अपलोड होणाऱ्या कागदपत्रांवरील/फोटोंवरील वॉटरमार्क किंवा ओळखचिन्हे काढून टाकणे अथवा छेडछाड करणे अयोग्य आहे.`
+                },
+                grievance: {
+                    title: 'संपर्क व तक्रार मार्गदर्शन (Contact & Grievance Info)',
+                    subtitle: 'ग्रामपंचायत कार्यालय व मदत संपर्क माहिती',
+                    content: `• कार्यालय: ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५.\n\n• संपर्क तपशील: अधिकृत फोन/मोबाईल क्रमांक व ईमेल पोर्टलच्या हेडर/फूटरमध्ये नमूद केल्याप्रमाणे कार्यालयीन वेळेत (सकाळी ९:४५ ते सायं. ५:३०, शासकीय सुट्ट्या वगळून) उपलब्ध राहतील.\n\n• ऑनलाइन अर्ज व तक्रार मागोवा: नागरिक पोर्टलवरून दाखला अर्ज किंवा तक्रार नोंदवल्यानंतर मिळालेल्या मागोवा क्रमांकाद्वारे (Tracking ID) सद्यस्थिती तपासू शकतात.\n\n• प्रत्यक्ष कार्यालयीन भेट: विशेष पडताळणी, मूळ कागदपत्रे सादर करणे किंवा सविस्तर मार्गदर्शनासाठी नागरिकांनी प्रत्यक्ष ग्रामपंचायत कार्यालयाशी संपर्क साधावा.`
+                }
+            },
             aapleSarkarCenter: {
                 operatorName: 'संगणक परिचालक (VLE), आपले सरकार सेवा केंद्र',
                 phone: '९८२२५५६६७७',
@@ -2493,6 +2613,7 @@
         if (!appState.cloudConfig.firebaseDatabaseUrl || appState.cloudConfig.firebaseApiKey !== 'AIzaSyDiEunvQ_RerZ7FBlt0iVPXyNUXLHuEmKY') {
             appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
         }
+        if (!appState.policyPages) appState.policyPages = JSON.parse(JSON.stringify(DEFAULT_STATE.policyPages));
         if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
         if (!appState.panchayatSamitiDepts) appState.panchayatSamitiDepts = JSON.parse(JSON.stringify(DEFAULT_STATE.panchayatSamitiDepts));
         if (!appState.villageOfficials) appState.villageOfficials = JSON.parse(JSON.stringify(DEFAULT_STATE.villageOfficials));
@@ -2992,6 +3113,63 @@
         // Modals & Citizen Forms
         function closeModals() {
             document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
+        }
+
+        function openPolicyModal(policyKey) {
+            const policies = appState.policyPages || DEFAULT_STATE.policyPages;
+            const item = policies[policyKey] || DEFAULT_STATE.policyPages[policyKey] || DEFAULT_STATE.policyPages.privacy;
+            document.getElementById('policyModalTitle').textContent = item.title || '';
+            document.getElementById('policyModalSubtitle').textContent = item.subtitle || 'ग्रामपंचायत पिंपळगाव निपाणी';
+            document.getElementById('policyModalContent').textContent = item.content || '';
+            document.getElementById('policyViewerModal').classList.add('active');
+        }
+
+        function populatePolicyEditorForms() {
+            const policies = appState.policyPages || DEFAULT_STATE.policyPages;
+            ['privacy', 'disclaimer', 'terms', 'copyright', 'grievance'].forEach(k => {
+                const item = policies[k] || DEFAULT_STATE.policyPages[k];
+                const tEl = document.getElementById(`polTitle_${k}`);
+                const sEl = document.getElementById(`polSub_${k}`);
+                const bEl = document.getElementById(`polBody_${k}`);
+                if (tEl) tEl.value = item.title || '';
+                if (sEl) sEl.value = item.subtitle || '';
+                if (bEl) bEl.value = item.content || '';
+            });
+        }
+
+        function savePolicyPagesByMaster() {
+            if (currentRole !== 'developer') {
+                showToast('हा अधिकार फक्त मास्टर डॅशबोर्डसाठी राखीव आहे.');
+                return;
+            }
+            if (!appState.policyPages) appState.policyPages = JSON.parse(JSON.stringify(DEFAULT_STATE.policyPages));
+            ['privacy', 'disclaimer', 'terms', 'copyright', 'grievance'].forEach(k => {
+                const tEl = document.getElementById(`polTitle_${k}`);
+                const sEl = document.getElementById(`polSub_${k}`);
+                const bEl = document.getElementById(`polBody_${k}`);
+                if (tEl && sEl && bEl) {
+                    appState.policyPages[k] = {
+                        title: tEl.value.trim() || DEFAULT_STATE.policyPages[k].title,
+                        subtitle: sEl.value.trim() || DEFAULT_STATE.policyPages[k].subtitle,
+                        content: bEl.value.trim() || DEFAULT_STATE.policyPages[k].content
+                    };
+                }
+            });
+            logPortalActivity('फूटरमधील धोरणे, अस्वीकरण व कायदेशीर विभाग अपडेट केले.');
+            saveStateToStorage();
+            showToast('पाचही धोरण विभाग यशस्वीरित्या सेव्ह झाले!');
+        }
+
+        function resetDefaultPoliciesByMaster() {
+            if (currentRole !== 'developer') {
+                showToast('हा अधिकार फक्त मास्टर डॅशबोर्डसाठी राखीव आहे.');
+                return;
+            }
+            appState.policyPages = JSON.parse(JSON.stringify(DEFAULT_STATE.policyPages));
+            populatePolicyEditorForms();
+            logPortalActivity('धोरणे व कायदेशीर विभागांचा मूळ मसुदा पुनर्संचयित केला.');
+            saveStateToStorage();
+            showToast('पाचही विभागांचा मूळ मसुदा परत आणला गेला आहे!');
         }
 
         function openTaxComingSoonModal() {
@@ -4577,6 +4755,7 @@
 
             refreshMasterControlsUI();
             renderAdminActivityLog();
+            populatePolicyEditorForms();
 
             renderInwebDropdown('ddAdminLayout', [
                 { value: 'classic', label: 'क्लासिक शासकीय (Default)' },
@@ -5361,6 +5540,19 @@
                     appState.design.layout = customDropdownValues['ddAdminLayout'];
                 }
                 applyDesignPreferences();
+                if (!appState.policyPages) appState.policyPages = JSON.parse(JSON.stringify(DEFAULT_STATE.policyPages));
+                ['privacy', 'disclaimer', 'terms', 'copyright', 'grievance'].forEach(k => {
+                    const tEl = document.getElementById(`polTitle_${k}`);
+                    const sEl = document.getElementById(`polSub_${k}`);
+                    const bEl = document.getElementById(`polBody_${k}`);
+                    if (tEl && sEl && bEl) {
+                        appState.policyPages[k] = {
+                            title: tEl.value.trim() || DEFAULT_STATE.policyPages[k].title,
+                            subtitle: sEl.value.trim() || DEFAULT_STATE.policyPages[k].subtitle,
+                            content: bEl.value.trim() || DEFAULT_STATE.policyPages[k].content
+                        };
+                    }
+                });
             }
 
             if (Array.isArray(appState.requests)) { appState.requests.forEach((r, idx) => { const n = document.getElementById(`reqActionNote_${idx}`); const p = document.getElementById(`reqActionProof_${idx}`); if (n) r.actionNote = n.value.trim(); if (p) r.actionProof = p.value.trim(); }); }
