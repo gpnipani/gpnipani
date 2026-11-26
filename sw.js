@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gpnipani-pwa-v48';
+const CACHE_NAME = 'gpnipani-pwa-v51';
 const CORE_ASSETS = [
   './',
   './index.html',

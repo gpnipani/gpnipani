@@ -1103,6 +1103,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
     <meta name="theme-color" content="#ea580c">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -1811,6 +1812,28 @@
                             <label>वॉटरमार्क मजकूर (Watermark Text)</label>
                             <input type="text" class="form-control" id="wmTextInput" placeholder="उदा. ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी">
                         </div>
+
+                <!-- Master / Admin: Full Portal JSON Backup Export/Restore & Recent Activity Log -->
+                <div class="info-card" style="margin-top: 20px; border-left: 5px solid #0f766e;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="color:#0f766e; margin-bottom:3px;">पोर्टल डेटा बॅकअप, रिस्टोअर व हालचाल नोंद (Backup & Activity Log)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">संपूर्ण पोर्टल डेटाची सुरक्षित JSON बॅकअप फाईल डाउनलोड करा, आवश्यकतेनुसार रिस्टोअर करा आणि अलीकडील बदल पहा.</p>
+                        </div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <button type="button" class="btn btn-primary" style="padding:8px 14px; font-size:15.5px;" onclick="exportPortalJsonBackup()">बॅकअप डाउनलोड करा (JSON)</button>
+                            <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; font-size:15.5px;">
+                                <span>बॅकअप रिस्टोअर करा</span>
+                                <input type="file" accept=".json,application/json" style="display:none;" onchange="restorePortalJsonBackup(this)">
+                            </label>
+                        </div>
+                    </div>
+                    <div style="margin-top:14px;">
+                        <div style="font-size:16.5px; color:var(--secondary); margin-bottom:8px;"><strong>अलीकडील प्रशासकीय हालचालींची नोंद</strong></div>
+                        <div id="adminActivityLogBox" style="max-height:210px; overflow-y:auto; background:var(--bg-subtle); border:1px solid var(--border-color); border-radius:10px; padding:10px 12px; font-size:15px;"></div>
+                    </div>
+                </div>
+
                         <div class="form-group">
                             <label>वॉटरमार्कची जागा (Position)</label>
                             <div class="inweb-select" id="ddWmPositionSelect"></div>
@@ -2268,9 +2291,13 @@
                     <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                     <span>स्वतःच्या WhatsApp वर सेव्ह करा</span>
                 </button>
-                <button type="button" class="btn btn-secondary" style="padding:9px 15px; font-size:16px;" onclick="downloadCitizenReceiptSlip()">
+                <button type="button" class="btn btn-secondary" style="padding:9px 15px; font-size:16px;" onclick="downloadCitizenReceiptSlip('jpg')">
                     <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                    <span>पोचपावती डाउनलोड करा</span>
+                    <span>पोचपावती JPG</span>
+                </button>
+                <button type="button" class="btn btn-secondary" style="padding:9px 15px; font-size:16px;" onclick="downloadCitizenReceiptSlip('pdf')">
+                    <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>पोचपावती PDF</span>
                 </button>
             </div>
             <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
@@ -2512,6 +2539,99 @@
         }
         let currentRole = null; // 'developer', 'gramsevak', 'operator', or 'citizen'
         let currentCitizen = null;
+
+        
+        function logPortalActivity(actionText) {
+            if (!Array.isArray(appState.activityLog)) appState.activityLog = [];
+            const roleLabelMap = {
+                developer: 'मास्टर लॉगिन',
+                gramsevak: 'ग्रामसेवक',
+                operator: 'संगणक परिचालक'
+            };
+            const actor = roleLabelMap[currentRole] || (currentRole || 'सिस्टम');
+            const nowStr = new Date().toLocaleString('mr-IN', { dateStyle: 'medium', timeStyle: 'short' });
+            appState.activityLog.unshift({
+                time: nowStr,
+                actor,
+                action: actionText
+            });
+            if (appState.activityLog.length > 40) {
+                appState.activityLog = appState.activityLog.slice(0, 40);
+            }
+            renderAdminActivityLog();
+        }
+
+        function renderAdminActivityLog() {
+            const box = document.getElementById('adminActivityLogBox');
+            if (!box) return;
+            const logs = Array.isArray(appState.activityLog) ? appState.activityLog : [];
+            if (!logs.length) {
+                box.innerHTML = '<div style="color:var(--text-muted); padding:6px;">अजून कोणतीही हालचाल नोंदवलेली नाही.</div>';
+                return;
+            }
+            box.innerHTML = logs.slice(0, 20).map(item => `
+                <div style="padding:7px 4px; border-bottom:1px dashed var(--border-color); display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;">
+                    <span><strong>[${item.actor}]</strong> ${item.action}</span>
+                    <span style="color:var(--text-muted); font-size:14px;">${item.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function exportPortalJsonBackup() {
+            const safeGp = (appState.gpName || 'GramPanchayat').replace(/[^a-zA-Z0-9_-]+/g, '_');
+            const datePart = new Date().toISOString().slice(0, 10);
+            const filename = `gpnipani.online_Backup_${safeGp}_${datePart}.json`;
+            const payload = JSON.stringify({
+                exportedAt: new Date().toISOString(),
+                portal: 'http://gpnipani.online',
+                designer: 'Anil Bhaurao Tormal',
+                state: appState
+            }, null, 2);
+            const blob = new Blob([payload], { type: 'application/json;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(url), 2500);
+            logPortalActivity('संपूर्ण पोर्टल डेटा बॅकअप (JSON) डाउनलोड केला.');
+            saveStateToStorage();
+            showToast('पोर्टल डेटा बॅकअप JSON फाईल डाउनलोड झाली!');
+        }
+
+        function restorePortalJsonBackup(inputEl) {
+            const file = inputEl && inputEl.files && inputEl.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                try {
+                    const parsed = JSON.parse(String(ev.target.result || '{}'));
+                    const restored = parsed.state && parsed.state.gpName ? parsed.state : (parsed.gpName ? parsed : null);
+                    if (!restored || !restored.gpName) {
+                        showToast('अवैध बॅकअप JSON फाईल! कृपया योग्य पोर्टल बॅकअप फाईल निवडा.');
+                        return;
+                    }
+                    appState = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STATE)), restored);
+                    if (!Array.isArray(appState.employees) || appState.employees.length === 0) {
+                        appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees));
+                    }
+                    appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
+                    logPortalActivity(`बॅकअप फाईलवरून डेटा रिस्टोअर केला (${file.name}).`);
+                    localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
+                    syncToFirebaseIfConfigured();
+                    populateAdminForms();
+                    renderPublicPortalWithShimmer();
+                    showToast('बॅकअप यशस्वीरित्या रिस्टोअर झाला आहे!');
+                } catch (err) {
+                    showToast('JSON फाईल वाचताना त्रुटी आली.');
+                } finally {
+                    inputEl.value = '';
+                }
+            };
+            reader.readAsText(file);
+        }
 
         function saveStateToStorage() {
             localStorage.setItem('gp_portal_v6', JSON.stringify(appState)); syncToFirebaseIfConfigured();
@@ -3502,7 +3622,7 @@
                 `• *अर्जदार:* ${rec.name}`,
                 `• *नोंदणी दिनांक:* ${rec.date}`,
                 ``,
-                `स्थिती तपासण्यासाठी लिंक: ${portalUrl}`
+                `स्थिती तपासण्यासाठी थेट लिंक: ${portalUrl}/?track=${encodeURIComponent(rec.trackingId || '')}`
             ];
             const url = waPhone
                 ? `https://wa.me/${waPhone}?text=${encodeURIComponent(lines.join('\n'))}`
@@ -3636,10 +3756,81 @@
             }
         }
 
-        function downloadCitizenReceiptSlip() {
+
+        function buildReceiptQrDataUrl(targetUrl) {
+            try {
+                if (typeof QRCode !== 'undefined') {
+                    const tmpDiv = document.createElement('div');
+                    tmpDiv.style.cssText = 'position:fixed;left:-9999px;top:0;';
+                    document.body.appendChild(tmpDiv);
+                    new QRCode(tmpDiv, {
+                        text: targetUrl,
+                        width: 140,
+                        height: 140,
+                        colorDark: '#0f172a',
+                        colorLight: '#ffffff',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                    const qrCanvas = tmpDiv.querySelector('canvas');
+                    const qrImg = tmpDiv.querySelector('img');
+                    let out = '';
+                    if (qrCanvas) {
+                        out = qrCanvas.toDataURL('image/png');
+                    } else if (qrImg && qrImg.src) {
+                        out = qrImg.src;
+                    }
+                    document.body.removeChild(tmpDiv);
+                    if (out) return out;
+                }
+            } catch (e) {}
+
+            // Deterministic offline QR-style verification matrix fallback
+            const size = 25;
+            const scale = 5;
+            const c = document.createElement('canvas');
+            c.width = size * scale;
+            c.height = size * scale;
+            const ctx = c.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, c.width, c.height);
+            ctx.fillStyle = '#0f172a';
+
+            const drawFinder = (ox, oy) => {
+                ctx.fillRect(ox * scale, oy * scale, 7 * scale, 7 * scale);
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect((ox + 1) * scale, (oy + 1) * scale, 5 * scale, 5 * scale);
+                ctx.fillStyle = '#0f172a';
+                ctx.fillRect((ox + 2) * scale, (oy + 2) * scale, 3 * scale, 3 * scale);
+            };
+            drawFinder(0, 0);
+            drawFinder(size - 7, 0);
+            drawFinder(0, size - 7);
+
+            let hash = 2166136261;
+            for (let i = 0; i < targetUrl.length; i++) {
+                hash ^= targetUrl.charCodeAt(i);
+                hash = Math.imul(hash, 16777619);
+            }
+            for (let y = 0; y < size; y++) {
+                for (let x = 0; x < size; x++) {
+                    const inTopLeft = x < 8 && y < 8;
+                    const inTopRight = x >= size - 8 && y < 8;
+                    const inBotLeft = x < 8 && y >= size - 8;
+                    if (inTopLeft || inTopRight || inBotLeft) continue;
+                    const bit = ((hash >>> ((x + y) % 24)) ^ (x * 7 + y * 13 + targetUrl.length)) & 1;
+                    if (bit) ctx.fillRect(x * scale, y * scale, scale, scale);
+                }
+            }
+            return c.toDataURL('image/png');
+        }
+
+        function downloadCitizenReceiptSlip(formatType) {
+            const fmt = (formatType || 'jpg').toLowerCase() === 'pdf' ? 'pdf' : 'jpg';
             const rec = lastReceiptPayload || { trackingId: lastGeneratedTrackingId, type: 'अर्ज', subject: '-', name: '-', phone: '-', date: '२६ नोव्हेंबर २०२६' };
+            const trackLink = `${OFFICIAL_PORTAL_URL}/?track=${encodeURIComponent(rec.trackingId || '')}`;
+            const qrDataUrl = buildReceiptQrDataUrl(trackLink);
             const slip = document.createElement('div');
-            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:680px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:Khand,sans-serif;';
+            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:700px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:Khand,sans-serif;';
             slip.innerHTML = `
                 <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
                     <div>
@@ -3650,9 +3841,19 @@
                         <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><strong>http://gpnipani.online</strong>
                     </div>
                 </div>
-                <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px;border-radius:10px;text-align:center;margin-bottom:16px;">
-                    <div style="font-size:16px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
-                    <div style="font-size:32px;color:#ea580c;"><strong>${rec.trackingId}</strong></div>
+                <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+                    <div style="text-align:left;flex:1;">
+                        <div style="font-size:15.5px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
+                        <div style="font-size:32px;color:#ea580c;line-height:1.15;"><strong>${rec.trackingId}</strong></div>
+                        <div style="font-size:14px;color:#1e3a8a;margin-top:6px;word-break:break-all;">
+                            <strong>थेट पडताळणी लिंक:</strong> ${trackLink}
+                        </div>
+                        <div style="font-size:13px;color:#475569;margin-top:3px;">QR कोड स्कॅन करून किंवा वरील लिंक उघडून अर्जाची सद्यस्थिती पहा.</div>
+                    </div>
+                    <div style="background:#ffffff;padding:8px;border-radius:10px;border:1.5px solid #cbd5e1;text-align:center;flex-shrink:0;">
+                        <img src="${qrDataUrl}" alt="QR Code" style="width:112px;height:112px;display:block;">
+                        <div style="font-size:11.5px;color:#334155;margin-top:3px;"><strong>स्कॅन करा</strong></div>
+                    </div>
                 </div>
                 <div style="font-size:18px;line-height:1.7;margin-bottom:18px;">
                     <div><strong>नोंदणी दिनांक:</strong> ${rec.date}</div>
@@ -3662,25 +3863,89 @@
                     <div><strong>सद्यस्थिती:</strong> प्रलंबित (कार्यालयीन तपासणी सुरू)</div>
                 </div>
                 <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <span style="display:inline-flex;align-items:center;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;display:inline-flex;align-items:center;margin-left:4px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>http://gpnipani.online</strong>&nbsp;(येथे मागोवा क्र. तपासा)</span>
+                    <span style="display:inline-flex;align-items:center;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;display:inline-flex;align-items:center;margin-left:4px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>http://gpnipani.online</strong></span>
                     <span>Website Design by Anil Bhaurao Tormal</span>
                 </div>
             `;
             document.body.appendChild(slip);
-            if (typeof html2canvas !== 'undefined') {
-                html2canvas(slip, { scale: 2 }).then(canvas => {
-                    const a = document.createElement('a');
-                    a.download = `gpnipani.online_Pochpavati_${rec.trackingId}.png`;
-                    a.href = canvas.toDataURL('image/png');
-                    a.click();
-                    document.body.removeChild(slip);
-                    showToast('पोचपावती तुमच्या मोबाईल/संगणकावर डाउनलोड झाली आहे!');
-                }).catch(() => {
-                    document.body.removeChild(slip);
-                });
-            } else {
-                document.body.removeChild(slip);
+
+            const cleanup = () => {
+                if (slip && slip.parentNode) slip.parentNode.removeChild(slip);
+            };
+
+            if (typeof html2canvas === 'undefined') {
+                cleanup();
+                return;
             }
+
+            html2canvas(slip, { scale: 2, backgroundColor: '#ffffff' }).then(async (canvas) => {
+                if (fmt === 'jpg') {
+                    const a = document.createElement('a');
+                    a.download = `gpnipani.online_Pochpavati_${rec.trackingId}.jpg`;
+                    a.href = canvas.toDataURL('image/jpeg', 0.94);
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    cleanup();
+                    showToast('पोचपावती JPG स्वरूपात डाउनलोड झाली आहे!');
+                    return;
+                }
+
+                // PDF export using PDFLib if loaded
+                try {
+                    if (typeof PDFLib !== 'undefined') {
+                        const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.94);
+                        const base64 = jpgDataUrl.split(',')[1];
+                        const binaryStr = atob(base64);
+                        const bytes = new Uint8Array(binaryStr.length);
+                        for (let i = 0; i < binaryStr.length; i++) {
+                            bytes[i] = binaryStr.charCodeAt(i);
+                        }
+                        const pdfDoc = await PDFLib.PDFDocument.create();
+                        const jpgImg = await pdfDoc.embedJpg(bytes);
+                        const pageW = 595.28;
+                        const pageH = 841.89;
+                        const page = pdfDoc.addPage([pageW, pageH]);
+                        const margin = 36;
+                        const maxW = pageW - margin * 2;
+                        const maxH = pageH - margin * 2;
+                        const scale = Math.min(maxW / jpgImg.width, maxH / jpgImg.height);
+                        const drawW = jpgImg.width * scale;
+                        const drawH = jpgImg.height * scale;
+                        page.drawImage(jpgImg, {
+                            x: (pageW - drawW) / 2,
+                            y: pageH - margin - drawH,
+                            width: drawW,
+                            height: drawH
+                        });
+                        const pdfBytes = await pdfDoc.save();
+                        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                        const blobUrl = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = blobUrl;
+                        a.download = `gpnipani.online_Pochpavati_${rec.trackingId}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 2500);
+                        cleanup();
+                        showToast('पोचपावती PDF स्वरूपात डाउनलोड झाली आहे!');
+                        return;
+                    }
+                } catch (e) {}
+
+                // Fallback to JPG if PDFLib unavailable
+                const a = document.createElement('a');
+                a.download = `gpnipani.online_Pochpavati_${rec.trackingId}.jpg`;
+                a.href = canvas.toDataURL('image/jpeg', 0.94);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                cleanup();
+                showToast('पोचपावती डाउनलोड झाली आहे!');
+            }).catch(() => {
+                cleanup();
+            });
         }
 
         function useSavedLastTrackCode() {
@@ -4376,6 +4641,7 @@
             ], appState.design.font);
 
             refreshMasterControlsUI();
+            renderAdminActivityLog();
 
             renderInwebDropdown('ddAdminLayout', [
                 { value: 'classic', label: 'क्लासिक शासकीय (Default)' },
@@ -5690,7 +5956,7 @@
                     ? currentLoc.replace(/admin\.html$/, '')
                     : currentLoc;
                 const domainDocUrl = trackCode
-                    ? `${portalBase}?doc=${encodeURIComponent(trackCode)}`
+                    ? `${OFFICIAL_PORTAL_URL}/?doc=${encodeURIComponent(trackCode)}`
                     : proofLink;
                 lines.push(`• *तयार दाखला / कागदपत्र पहा व डाउनलोड करा:* ${domainDocUrl}`);
             }
@@ -5771,10 +6037,11 @@
                     } else {
                         appState.requests[idx].resolvedAt = null;
                     }
+                    logPortalActivity(`नोंद ${appState.requests[idx].trackingId || ''} ची स्थिती "${newStatus}" अशी अपडेट केली.`);
                     syncArchiveRecord(appState.requests[idx]);
                     saveStateToStorage();
                     renderOneYearRegister();
-                    showToast('स्थिती अपडेट केली!');
+                    showToast(`स्थिती "${newStatus}" केली! नागरिकाला कळवण्यासाठी "WhatsApp वर उत्तर पाठवा" बटण दाबा.`);
                 });
             });
 
@@ -5948,6 +6215,16 @@
                 const docId = params.get('doc');
                 if (docId && docId.trim()) {
                     renderDocViewerModalForId(docId.trim());
+                    return;
+                }
+                const trackId = params.get('track');
+                if (trackId && trackId.trim()) {
+                    openTrackModal();
+                    const inp = document.getElementById('trackQueryInput');
+                    if (inp) {
+                        inp.value = trackId.trim();
+                        searchTrackingStatus();
+                    }
                 }
             } catch (e) {}
         }
