@@ -3906,7 +3906,7 @@
             }
 
             showToast(`चौकशी नोंदवली गेली! मागोवा क्र.: ${newId}`);
-            openInquiryReceiptPopup(newId, ctx.cat, ctx.sub, targetName, ctx.rawPhone, name, phone, details, waUrl);
+            openInquiryReceiptPopup(newId, cat, sub, targetInfo.recipientName, targetInfo.rawPhone, name, phone, details, waUrl);
             setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 700);
         }
 
@@ -3992,7 +3992,7 @@
                 ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waLines.join('\n'))}`
                 : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
             showToast(`चौकशी नोंदवली गेली! मागोवा क्र.: ${newId}`);
-            openInquiryReceiptPopup(newId, ctx.cat, ctx.sub, targetName, ctx.rawPhone, name, phone, details, waUrl);
+            openInquiryReceiptPopup(newId, cat, sub, targetInfo.recipientName, targetInfo.rawPhone, name, phone, details, waUrl);
             setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 700);
         }
 
