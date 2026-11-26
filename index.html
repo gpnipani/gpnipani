@@ -3957,37 +3957,39 @@
             searchTrackingStatus();
         }
 
-                function toggleCitizenAttachmentPreview(boxId, attUrl) {
+                function renderSingleDocFrame(docUrl, docLabel) {
+            const safeUrl = String(docUrl || '').trim();
+            if (!safeUrl) return '';
+            const isPdf = /^data:application\/pdf/i.test(safeUrl) || /\.pdf(\?|#|$)/i.test(safeUrl);
+            const mediaHtml = isPdf
+                ? `<iframe src="${safeUrl}" style="width:100%; height:340px; border:none; border-radius:6px;"></iframe>`
+                : `<img src="${safeUrl}" alt="${docLabel}" style="max-width:100%; max-height:340px; object-fit:contain; border-radius:6px; filter:none !important;">`;
+            return `
+                <div style="border:1.5px solid var(--border-color); border-radius:10px; padding:10px; background:var(--bg-card); margin-bottom:10px; text-align:center;">
+                    <div style="font-size:15px; color:var(--secondary); margin-bottom:6px; text-align:left;"><strong>${docLabel}</strong></div>
+                    ${mediaHtml}
+                </div>
+            `;
+        }
+
+        function toggleCitizenAttachmentPreview(boxId, attUrl, aadhaarDocUrl) {
             const box = document.getElementById(boxId);
-            if (!box || !attUrl) return;
+            if (!box) return;
             if (box.style.display === 'block') {
                 box.style.display = 'none';
                 box.innerHTML = '';
                 return;
             }
-            const safeUrl = String(attUrl).trim();
-            const isPdf = /^data:application\/pdf/i.test(safeUrl) || /\.pdf(\?|#|$)/i.test(safeUrl);
-            box.style.display = 'block';
-            if (isPdf) {
-                box.innerHTML = `
-                    <div style="border:1.5px solid var(--border-color); border-radius:10px; padding:10px; background:var(--bg-card);">
-                        <iframe src="${safeUrl}" style="width:100%; height:360px; border:none; border-radius:6px;"></iframe>
-                        <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
-                            <span style="font-size:14px; color:var(--text-muted);">PDF न दिसल्यास खालील बटणाने उघडा:</span>
-                            <a href="${safeUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:5px 12px; font-size:14.5px;">नवीन टॅबमध्ये उघडा</a>
-                        </div>
-                    </div>
-                `;
-            } else {
-                box.innerHTML = `
-                    <div style="border:1.5px solid var(--border-color); border-radius:10px; padding:8px; background:var(--bg-card); text-align:center;">
-                        <img src="${safeUrl}" alt="जोडलेले कागदपत्र" style="max-width:100%; max-height:360px; object-fit:contain; border-radius:6px; filter:none !important;">
-                        <div style="margin-top:8px;">
-                            <a href="${safeUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:14px;">मोठ्या आकारात पहा</a>
-                        </div>
-                    </div>
-                `;
+            const parts = [];
+            if (attUrl && String(attUrl).trim()) {
+                parts.push(renderSingleDocFrame(attUrl, '१) अर्ज / तक्रार कागदपत्र किंवा फोटो'));
             }
+            if (aadhaarDocUrl && String(aadhaarDocUrl).trim()) {
+                parts.push(renderSingleDocFrame(aadhaarDocUrl, '२) आधार कार्ड कागदपत्र / फोटो'));
+            }
+            if (!parts.length) return;
+            box.style.display = 'block';
+            box.innerHTML = parts.join('');
         }
 
         function renderRequestTimelineCard(item) {
@@ -4003,7 +4005,7 @@
                     </div>
                     <div style="font-size:18px; color:var(--text-main);">${item.name} <span style="font-size:15px; color:var(--text-muted);">(${item.date || 'नोंदणीकृत'})</span></div>
                     <div style="font-size:16px; color:var(--text-muted); margin-bottom:8px;">तपशील: ${item.detail}</div>
-                    ${item.attachment ? `<div style="margin-bottom:8px;"><button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:15px;" onclick="toggleCitizenAttachmentPreview('citAttBox_${item.trackingId || 'idx'}', '${item.attachment.replace(/'/g, "\'")}')">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</button><div id="citAttBox_${item.trackingId || 'idx'}" style="display:none; margin-top:8px;"></div></div>` : ''}
+                    ${(item.attachment || item.aadhaarDoc) ? `<div style="margin-bottom:8px;"><a href="javascript:void(0)" style="font-size:15.5px; color:var(--primary); text-decoration:underline; font-weight:700;" onclick="toggleCitizenAttachmentPreview('citAttBox_${item.trackingId || 'idx'}', '${(item.attachment || '').replace(/'/g, "\'")}', '${(item.aadhaarDoc || '').replace(/'/g, "\'")}')">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a><div id="citAttBox_${item.trackingId || 'idx'}" style="display:none; margin-top:8px;"></div></div>` : ''}
                     <div style="background:var(--bg-card); padding:10px 12px; border-radius:8px; border:1px solid var(--border-color);">
                         <div style="font-size:15px; color:var(--secondary);">ग्रामपंचायत कार्यवाही शेरा (Action Taken):</div>
                         <div style="font-size:16px; color:var(--text-main);">${item.actionNote || 'कार्यवाही प्रक्रियेत आहे.'}</div>
