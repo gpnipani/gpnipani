@@ -3449,7 +3449,6 @@
         }
 
         
-        async 
         // Block direct right-click / long-press save & drag on website images
         (function protectWebsiteImagesFromDirectDownload() {
             document.addEventListener('contextmenu', (e) => {
@@ -3525,7 +3524,7 @@
             document.body.removeChild(a);
         }
 
-        function downloadPhotoWithDomainStamp(imgUrl, filenamePrefix) {
+        async function downloadPhotoWithDomainStamp(imgUrl, filenamePrefix) {
             if (!imgUrl) return;
             const cleanPrefix = (filenamePrefix || 'GP_Pimpalgaon_Nipani').replace(/[^a-zA-Z0-9_-]+/g, '_');
             const outName = `gpnipani.online_${cleanPrefix}_${Date.now()}.jpg`;
