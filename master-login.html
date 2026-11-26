@@ -1586,6 +1586,19 @@
                         </div>
                     </div>
                     <div id="villageOfficialsEditorGrid" class="grid-2"></div>
+                    <div id="masterAddVillageOfficialWrap" style="margin-top: 16px; display: none; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-primary" onclick="addVillageOfficialSlot()">+ इतर शासकीय कर्मचारी जोडा</button>
+                    </div>
+                </div>
+
+                <!-- Panchayat Samiti Akole Departments Editor -->
+                <div class="info-card" style="margin-top: 20px;">
+                    <h3>पंचायत समिती अकोले विभाग संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून पंचायत समिती अकोले विभागातील योजना, संपर्क अधिकारी व <strong>WhatsApp चौकशी मोबाईल क्रमांक</strong> संपादित किंवा नवीन विभाग जोडता येतात.</p>
+                    <div id="panchayatSamitiEditorGrid" class="grid-2"></div>
+                    <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addPanchayatSamitiSlot()">+ नवीन पंचायत समिती विभाग जोडा</button>
+                    </div>
                 </div>
 
                 <!-- Village Committees Editor (Gramsevak & Developer) -->
@@ -2583,9 +2596,14 @@
                 { role: 'ग्राम महसूल अधिकारी (तलाठी)', dept: 'महसूल विभाग (सज्जा पिंपळगाव निपाणी)', name: 'श्री. तलाठी साहेब (सज्जा कार्यालय)', phone: '९४२२००११००', photo: '', color: '#1e3a8a' },
                 { role: 'कृषी सहाय्यक', dept: 'कृषी विभाग (पीक पाहणी व योजना)', name: 'श्री. कृषी सहाय्यक, पिंपळगाव निपाणी', phone: '९४२२००२२००', photo: '', color: '#15803d' },
                 { role: 'पशुधन पर्यवेक्षक', dept: 'पशुसंवर्धन विभाग', name: 'डॉ. पशुधन पर्यवेक्षक, पशुवैद्यकीय दवाखाना', phone: '९४२२००३३००', photo: '', color: '#0369a1' },
-                { role: 'आरोग्य सेविका (ANM) / आशा वर्कर', dept: 'सार्वजनिक आरोग्य विभाग', name: 'श्रीमती आरोग्य सेविका (उपकेंद्र)', phone: '९४२२००४४००', photo: '', color: '#be123c' },
-                { role: 'अंगणवाडी सेविका', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. १ व २)', phone: '९४२२००५५००', photo: '', color: '#7e22ce' },
-                { role: 'महावितरण (MSEB) वायरमन', dept: 'महाराष्ट्र राज्य विद्युत वितरण कंपनी', name: 'श्री. महावितरण लाईनमन (गावांतर्गत)', phone: '१९१२ / ९४२२००६६००', photo: '', color: '#b45309' },
+                { role: 'आरोग्य सेविका (ANM)', dept: 'सार्वजनिक आरोग्य विभाग (उपकेंद्र)', name: 'श्रीमती आरोग्य सेविका (उपकेंद्र)', phone: '९४२२००४४००', photo: '', color: '#be123c' },
+                { role: 'आशा सेविका (१)', dept: 'सार्वजनिक आरोग्य विभाग (आशा वर्कर)', name: 'श्रीमती आशा सेविका (१)', phone: '९४२२००४४११', photo: '', color: '#db2777' },
+                { role: 'आशा सेविका (२)', dept: 'सार्वजनिक आरोग्य विभाग (आशा वर्कर)', name: 'श्रीमती आशा सेविका (२)', phone: '९४२२००४४२२', photo: '', color: '#e11d48' },
+                { role: 'अंगणवाडी सेविका (केंद्र क्र. १)', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. १)', phone: '९४२२००५५०१', photo: '', color: '#7e22ce' },
+                { role: 'अंगणवाडी सेविका (केंद्र क्र. २)', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. २)', phone: '९४२२००५५०२', photo: '', color: '#6d28d9' },
+                { role: 'अंगणवाडी सेविका (केंद्र क्र. ३)', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. ३)', phone: '९४२२००५५०३', photo: '', color: '#9333ea' },
+                { role: 'अंगणवाडी सेविका (केंद्र क्र. ४)', dept: 'एकात्मिक बालविकास सेवा योजना (ICDS)', name: 'श्रीमती अंगणवाडी सेविका (केंद्र क्र. ४)', phone: '९४२२००५५०४', photo: '', color: '#a855f7' },
+                { role: 'महावितरण (MSEB) वायरमन', dept: 'महाराष्ट्र राज्य विद्युत वितरण कंपनी', name: 'श्री. महावितरण लाईनमन (गावांतर्गत)', phone: '९४२२००६६००', photo: '', color: '#b45309' },
                 { role: 'स्वस्त धान्य दुकानदार (रेशन दुकान)', dept: 'अन्न व नागरी पुरवठा विभाग', name: 'अधिकृत रास्त भाव धान्य दुकान, पिंपळगाव निपाणी', phone: '९४२२००७७००', photo: '', color: '#0f766e' },
                 { role: 'मुख्याध्यापक, जि.प. प्राथमिक शाळा', dept: 'शिक्षण विभाग (जि.प. अहिल्यानगर)', name: 'श्री. मुख्याध्यापक, जि.प. शाळा पिंपळगाव निपाणी', phone: '९४२२००८८००', photo: '', color: '#4338ca' }
             ],
@@ -2868,17 +2886,52 @@
             applyTheme(cur === 'dark' ? 'light' : 'dark');
         };
 
-        document.getElementById('mobileMenuBtn').onclick = () => {
-            document.getElementById('navLinks').classList.toggle('active');
+        function closeMobileNavDrawer() {
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks) navLinks.classList.remove('active');
+            document.querySelectorAll('.nav-links > li.open').forEach(li => li.classList.remove('open'));
+        }
+
+        document.getElementById('mobileMenuBtn').onclick = (e) => {
+            e.stopPropagation();
+            const navLinks = document.getElementById('navLinks');
+            if (!navLinks) return;
+            const willOpen = !navLinks.classList.contains('active');
+            navLinks.classList.toggle('active', willOpen);
+            if (!willOpen) {
+                document.querySelectorAll('.nav-links > li.open').forEach(li => li.classList.remove('open'));
+            }
         };
 
         document.querySelectorAll('.has-dropdown > a').forEach(a => {
             a.onclick = (e) => {
                 if (window.innerWidth <= 920) {
                     e.preventDefault();
-                    a.parentElement.classList.toggle('open');
+                    e.stopPropagation();
+                    const parentLi = a.parentElement;
+                    const wasOpen = parentLi.classList.contains('open');
+                    document.querySelectorAll('.nav-links > li.open').forEach(li => {
+                        if (li !== parentLi) li.classList.remove('open');
+                    });
+                    parentLi.classList.toggle('open', !wasOpen);
                 }
             };
+        });
+
+        // Close mobile menu immediately when any actual menu option or dropdown sub-item is clicked
+        document.querySelectorAll('#navLinks li:not(.has-dropdown) > a, #navLinks .nav-dropdown a').forEach(link => {
+            link.addEventListener('click', () => {
+                closeMobileNavDrawer();
+            });
+        });
+
+        // Close mobile menu when clicking outside navbar
+        document.addEventListener('click', (e) => {
+            const nav = document.querySelector('.navbar');
+            const navLinks = document.getElementById('navLinks');
+            if (nav && navLinks && navLinks.classList.contains('active') && !nav.contains(e.target)) {
+                closeMobileNavDrawer();
+            }
         });
 
         // Apply Design Preferences
@@ -3052,7 +3105,7 @@
                         ${n.pdf ? `<p style="color: #9a3412; font-size: 14.5px; margin-top: 4px;">टीप: मूळ प्रमाणित प्रत किंवा अधिकृत स्वाक्षरी व शिक्क्यासह दस्तऐवज हवा असल्यास कृपया ग्रामपंचायत कार्यालयाशी संपर्क साधावा.</p>` : ''}
                     </div>
                     <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                        ${n.pdf ? `<a href="${n.pdf}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 14px; font-size:15px;">PDF पहा</a><button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15px;" onclick="downloadOfficialNoticeByIndex(${appState.notices.indexOf(n)})">PDF डाउनलोड करा</button>` : ''}
+                        ${n.pdf ? `<button type="button" class="btn btn-primary" style="padding:6px 14px; font-size:15px;" onclick="openNoticePdfPreview(${appState.notices.indexOf(n)})">PDF पहा</button><button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15px;" onclick="downloadOfficialNoticeByIndex(${appState.notices.indexOf(n)})">PDF डाउनलोड करा</button>` : ''}
                         <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:6px 13px; font-size:15px; gap:5px;" onclick="shareNoticeOnWhatsApp(${appState.notices.indexOf(n)})" title="ही नोटीस गावच्या WhatsApp ग्रुपवर शेअर करा">
                             <svg class="icon" style="width:15px;height:15px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
                             <span>WhatsApp शेअर</span>
@@ -3154,17 +3207,75 @@
             });
         }
 
-        // Modals & Citizen Forms
-        function closeModals() {
-            document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
+        // Modals & Citizen Forms + Mobile Hardware Back Button Support
+        let modalHistoryPushed = false;
+        let isClosingFromPopstate = false;
+
+        function hasAnyActiveModal() {
+            return Array.from(document.querySelectorAll('.modal-backdrop')).some(m => m.classList.contains('active'));
         }
+
+        function syncModalHistoryState() {
+            const anyOpen = hasAnyActiveModal();
+            if (anyOpen && !modalHistoryPushed) {
+                try {
+                    window.history.pushState({ gpModalOpen: true }, '', window.location.href);
+                    modalHistoryPushed = true;
+                } catch (e) {}
+            } else if (!anyOpen && modalHistoryPushed && !isClosingFromPopstate) {
+                modalHistoryPushed = false;
+                try {
+                    if (window.history.state && window.history.state.gpModalOpen) {
+                        window.history.back();
+                    }
+                } catch (e) {}
+            }
+        }
+
+        function closeModals(fromPopstate) {
+            const wasUrgentOpen = document.getElementById('urgentNoticeModal')?.classList.contains('active');
+            document.querySelectorAll('.modal-backdrop').forEach(m => m.classList.remove('active'));
+            if (wasUrgentOpen) {
+                sessionStorage.setItem('gp_urgent_dismissed', '1');
+            }
+            if (!fromPopstate) {
+                syncModalHistoryState();
+            }
+        }
+
+        window.addEventListener('popstate', () => {
+            if (hasAnyActiveModal()) {
+                isClosingFromPopstate = true;
+                modalHistoryPushed = false;
+                closeModals(true);
+                isClosingFromPopstate = false;
+                return;
+            }
+            const navLinks = document.getElementById('navLinks');
+            if (navLinks && navLinks.classList.contains('active')) {
+                closeMobileNavDrawer();
+            }
+        });
+
+        // Automatically track whenever any modal gains or loses the 'active' class
+        (function observeModalBackdropHistory() {
+            if (typeof MutationObserver === 'undefined') return;
+            const obs = new MutationObserver(() => {
+                syncModalHistoryState();
+            });
+            document.querySelectorAll('.modal-backdrop').forEach(m => {
+                obs.observe(m, { attributes: true, attributeFilter: ['class'] });
+            });
+        })();
 
         function openPolicyModal(policyKey) {
             const policies = appState.policyPages || DEFAULT_STATE.policyPages;
             const item = policies[policyKey] || DEFAULT_STATE.policyPages[policyKey] || DEFAULT_STATE.policyPages.privacy;
             document.getElementById('policyModalTitle').textContent = item.title || '';
             document.getElementById('policyModalSubtitle').textContent = item.subtitle || 'ग्रामपंचायत पिंपळगाव निपाणी';
-            document.getElementById('policyModalContent').textContent = item.content || '';
+            const pContentEl = document.getElementById('policyModalContent');
+            pContentEl.style.whiteSpace = 'pre-line';
+            pContentEl.textContent = item.content || '';
             document.getElementById('policyViewerModal').classList.add('active');
         }
 
@@ -3261,7 +3372,7 @@
                 showToast('Google खात्याद्वारे लॉगिन यशस्वी!');
             } catch (err) {
                 console.error(err);
-                showToast('Google साइन इन पूर्ण होऊ शकले नाही. (Firebase Console मध्ये Google Sign-In व तुमचे डोमेन चालू असल्याची खात्री करा)');
+                showToast('Google साइन इन होऊ शकले नाही. कृपया पुन्हा प्रयत्न करा.');
             }
         }
 
@@ -3575,6 +3686,49 @@
             document.getElementById('serviceFormStep1').style.display = 'block';
         }
 
+        function extractTenDigitWhatsAppPhone(rawPhone) {
+            const ascii = marathiDigitsToAscii(rawPhone || '');
+            const parts = ascii.split(/[\/,|]+/);
+            for (const part of parts) {
+                const digits = part.replace(/\D/g, '');
+                if (digits.length === 10 && /^[6-9]/.test(digits)) return '91' + digits;
+                if (digits.length === 12 && digits.startsWith('91')) return digits;
+            }
+            const allDigits = ascii.replace(/\D/g, '');
+            if (allDigits.length >= 10) {
+                const tail10 = allDigits.slice(-10);
+                if (/^[6-9]/.test(tail10)) return '91' + tail10;
+            }
+            return '';
+        }
+
+        function resolveInquiryTargetInfo(cat, sub) {
+            if (cat === 'आपले सरकार सेवा केंद्र') {
+                const csc = appState.aapleSarkarCenter || DEFAULT_STATE.aapleSarkarCenter;
+                return {
+                    recipientName: csc.operatorName || 'आपले सरकार सेवा केंद्र संचालक',
+                    recipientRole: 'आपले सरकार सेवा केंद्र (CSC)',
+                    rawPhone: csc.phone || ''
+                };
+            }
+            if (cat === 'पंचायत समिती अकोले विभाग') {
+                const list = appState.panchayatSamitiDepts || [];
+                const matched = list.find(d => d.dept === sub);
+                return {
+                    recipientName: matched ? (matched.contact || matched.dept) : 'पंचायत समिती अकोले अधिकारी',
+                    recipientRole: matched ? matched.dept : sub,
+                    rawPhone: (matched && matched.phone) ? matched.phone : ''
+                };
+            }
+            const offs = appState.villageOfficials || [];
+            const matchedOff = offs.find(o => o.role === sub);
+            return {
+                recipientName: matchedOff ? matchedOff.name : sub,
+                recipientRole: matchedOff ? matchedOff.role : sub,
+                rawPhone: (matchedOff && matchedOff.phone) ? matchedOff.phone : ''
+            };
+        }
+
         function getInquirySubjectsByCategory(cat) {
             if (cat === 'आपले सरकार सेवा केंद्र') {
                 const list = (appState.aapleSarkarCenter && appState.aapleSarkarCenter.servicesList) || [];
@@ -3585,7 +3739,7 @@
                 return list.map(d => ({ value: d.dept, label: d.dept })).concat([{ value: 'पंचायत समिती अकोले इतर योजना चौकशी', label: 'पंचायत समिती अकोले इतर योजना चौकशी' }]);
             }
             const offs = appState.villageOfficials || [];
-            return offs.map(o => ({ value: o.role, label: `${o.role} (${o.dept})` })).concat([{ value: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी', label: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी' }]);
+            return offs.map(o => ({ value: o.role, label: `${o.role} (${o.name})` })).concat([{ value: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी', label: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी' }]);
         }
 
         function openInquiryModal(defaultCategory, defaultSubject) {
@@ -3624,8 +3778,9 @@
                 showToast('कृपया तुमचे नाव, मोबाईल क्रमांक आणि चौकशीचा प्रश्न भरा.');
                 return;
             }
+            const targetInfo = resolveInquiryTargetInfo(cat, sub);
             const newId = generateNextTrackingId();
-            const todayStr = '२५ नोव्हेंबर २०२६';
+            const todayStr = '२६ नोव्हेंबर २०२६';
             const inqEntry = {
                 trackingId: newId,
                 date: todayStr,
@@ -3638,17 +3793,37 @@
                 detail: details,
                 attachment: '',
                 status: 'प्रलंबित',
-                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
+                actionNote: `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetInfo.recipientName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`,
                 actionProof: ''
             };
             appState.requests.unshift(inqEntry);
             syncArchiveRecord(inqEntry);
             saveStateToStorage();
             closeModals();
-            if (currentCitizen) {
+            if (currentCitizen && typeof renderCitizenRequestsHistory === 'function') {
                 renderCitizenRequestsHistory();
             }
-            showToast(`चौकशी यशस्वीरित्या नोंदवली गेली! मागोवा क्रमांक: ${newId}`);
+
+            const waLines = [
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'} — नागरिक चौकशी संदेश*`,
+                `मागोवा क्रमांक: *${newId}* | दिनांक: ${todayStr}`,
+                ``,
+                `*विभाग:* ${cat}`,
+                `*संबंधित पद / विभाग:* ${sub}`,
+                `*अधिकारी / कर्मचारी:* ${targetInfo.recipientName}`,
+                ``,
+                `*नागरिकाचे नाव:* ${name}`,
+                `*नागरिकाचा मोबाईल:* ${phone}`,
+                `*चौकशीचा तपशील:* ${details}`,
+                ``,
+                `पोर्टल लिंक: ${getCleanPortalUrl()}`
+            ];
+            const waNumber = extractTenDigitWhatsAppPhone(targetInfo.rawPhone);
+            const waUrl = waNumber
+                ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waLines.join('\n'))}`
+                : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
+            window.open(waUrl, '_blank', 'noopener');
+            showToast(`चौकशी नोंदवली गेली (${newId}) आणि संबंधित कर्मचाऱ्याला WhatsApp वर पाठवण्यासाठी उघडली आहे!`);
         }
 
         function openComplaintModal() {
@@ -4769,7 +4944,7 @@
         }
 
         function closeUrgentNoticeModal() {
-            document.getElementById('urgentNoticeModal').classList.remove('active');
+            closeModals();
             sessionStorage.setItem('gp_urgent_dismissed', '1');
         }
 
@@ -4947,14 +5122,23 @@
             if (document.getElementById('inpCscPhone')) document.getElementById('inpCscPhone').value = csc.phone || '';
             if (document.getElementById('inpCscDrive')) document.getElementById('inpCscDrive').value = csc.activeDrive || '';
 
+            const addWrap = document.getElementById('masterAddVillageOfficialWrap');
+            if (addWrap) addWrap.style.display = (currentRole === 'developer') ? 'flex' : 'none';
+
             const grid = document.getElementById('villageOfficialsEditorGrid');
             if (!grid) return;
             const list = appState.villageOfficials || [];
+            const isMaster = (currentRole === 'developer');
             grid.innerHTML = list.map((off, idx) => `
                 <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--secondary);">
-                    <div style="color: var(--secondary); font-size: 17px; margin-bottom: 6px;"><strong>${off.role}</strong> (${off.dept})</div>
-                    <div class="form-group"><label>अधिकारी / कर्मचाऱ्याचे नाव</label><input type="text" class="form-control" id="voName_${idx}" value="${off.name}"></div>
-                    <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="voPhone_${idx}" value="${off.phone}"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span style="color: var(--secondary); font-size: 17px;"><strong>#${idx + 1} ${off.role}</strong></span>
+                        ${isMaster && list.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removeVillageOfficialSlot(${idx})">काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>पदनाम (Role)</label><input type="text" class="form-control" id="voRole_${idx}" value="${off.role || ''}" ${isMaster ? '' : 'readonly'}></div>
+                    <div class="form-group"><label>विभाग / कार्यालय तपशील</label><input type="text" class="form-control" id="voDept_${idx}" value="${off.dept || ''}" ${isMaster ? '' : 'readonly'}></div>
+                    <div class="form-group"><label>अधिकारी / कर्मचाऱ्याचे नाव</label><input type="text" class="form-control" id="voName_${idx}" value="${off.name || ''}"></div>
+                    <div class="form-group"><label>WhatsApp / मोबाईल क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="voPhone_${idx}" value="${off.phone || ''}" placeholder="उदा. 9822001122"></div>
                     <div class="form-group" style="margin-bottom:0;">
                         <label>फोटो अपलोड करा</label>
                         <div style="display:flex; gap:8px;">
@@ -4968,6 +5152,102 @@
                     </div>
                 </div>
             `).join('');
+            renderPanchayatSamitiEditor();
+        }
+
+        function syncVillageOfficialsInputsToState() {
+            if (!Array.isArray(appState.villageOfficials)) return;
+            appState.villageOfficials.forEach((off, idx) => {
+                const rEl = document.getElementById(`voRole_${idx}`);
+                const dEl = document.getElementById(`voDept_${idx}`);
+                const nEl = document.getElementById(`voName_${idx}`);
+                const pEl = document.getElementById(`voPhone_${idx}`);
+                const phEl = document.getElementById(`voPhoto_${idx}`);
+                if (rEl && rEl.value.trim()) off.role = rEl.value.trim();
+                if (dEl) off.dept = dEl.value.trim();
+                if (nEl) off.name = nEl.value.trim();
+                if (pEl) off.phone = pEl.value.trim();
+                if (phEl) off.photo = phEl.value.trim();
+            });
+        }
+
+        function addVillageOfficialSlot() {
+            if (currentRole !== 'developer') {
+                showToast('हा अधिकार फक्त मास्टर लॉगिनसाठी राखीव आहे.');
+                return;
+            }
+            syncVillageOfficialsInputsToState();
+            const colors = ['#1e3a8a', '#15803d', '#0369a1', '#be123c', '#7e22ce', '#b45309', '#0f766e'];
+            const nextColor = colors[appState.villageOfficials.length % colors.length];
+            appState.villageOfficials.push({
+                role: 'इतर शासकीय कर्मचारी',
+                dept: 'शासकीय विभाग, पिंपळगाव निपाणी',
+                name: 'कर्मचाऱ्याचे पूर्ण नाव',
+                phone: '९८००००००००',
+                photo: '',
+                color: nextColor
+            });
+            renderVillageOfficialsEditor();
+            showToast('नवीन शासकीय कर्मचारी पद जोडले गेले! माहिती भरून खाली सेव्ह करा.');
+        }
+
+        function removeVillageOfficialSlot(idx) {
+            if (currentRole !== 'developer') return;
+            syncVillageOfficialsInputsToState();
+            appState.villageOfficials.splice(idx, 1);
+            renderVillageOfficialsEditor();
+            showToast('कर्मचारी नोंद काढली गेली.');
+        }
+
+        function renderPanchayatSamitiEditor() {
+            const grid = document.getElementById('panchayatSamitiEditorGrid');
+            if (!grid) return;
+            const list = appState.panchayatSamitiDepts || [];
+            grid.innerHTML = list.map((d, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid #0f766e;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span style="color: #0f766e; font-size: 17px;"><strong>विभाग #${idx + 1}</strong></span>
+                        ${list.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removePanchayatSamitiSlot(${idx})">काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>विभागाचे नाव</label><input type="text" class="form-control" id="psDept_${idx}" value="${d.dept || ''}"></div>
+                    <div class="form-group"><label>प्रमुख योजना व कामे</label><textarea class="form-control" rows="2" id="psScheme_${idx}">${d.scheme || ''}</textarea></div>
+                    <div class="form-group"><label>संपर्क अधिकारी पदनाम</label><input type="text" class="form-control" id="psContact_${idx}" value="${d.contact || ''}"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>WhatsApp चौकशी मोबाईल क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="psPhone_${idx}" value="${d.phone || ''}" placeholder="उदा. 9822001122"></div>
+                </div>
+            `).join('');
+        }
+
+        function syncPanchayatSamitiInputsToState() {
+            if (!Array.isArray(appState.panchayatSamitiDepts)) return;
+            appState.panchayatSamitiDepts.forEach((d, idx) => {
+                const dEl = document.getElementById(`psDept_${idx}`);
+                const sEl = document.getElementById(`psScheme_${idx}`);
+                const cEl = document.getElementById(`psContact_${idx}`);
+                const pEl = document.getElementById(`psPhone_${idx}`);
+                if (dEl && dEl.value.trim()) d.dept = dEl.value.trim();
+                if (sEl) d.scheme = sEl.value.trim();
+                if (cEl) d.contact = cEl.value.trim();
+                if (pEl) d.phone = pEl.value.trim();
+            });
+        }
+
+        function addPanchayatSamitiSlot() {
+            syncPanchayatSamitiInputsToState();
+            if (!Array.isArray(appState.panchayatSamitiDepts)) appState.panchayatSamitiDepts = [];
+            appState.panchayatSamitiDepts.push({
+                dept: 'नवीन विभाग (पं.स. अकोले)',
+                scheme: 'शासकीय योजना व नागरी सुविधा तपशील',
+                contact: 'संबंधित विस्तार / विभाग अधिकारी, अकोले',
+                phone: ''
+            });
+            renderPanchayatSamitiEditor();
+            showToast('नवीन पंचायत समिती विभाग जोडला गेला!');
+        }
+
+        function removePanchayatSamitiSlot(idx) {
+            syncPanchayatSamitiInputsToState();
+            appState.panchayatSamitiDepts.splice(idx, 1);
+            renderPanchayatSamitiEditor();
         }
 
         function renderEmployeesEditor() {
@@ -5589,16 +5869,8 @@
                     if (document.getElementById('inpCscPhone')) appState.aapleSarkarCenter.phone = document.getElementById('inpCscPhone').value.trim();
                     if (document.getElementById('inpCscDrive')) appState.aapleSarkarCenter.activeDrive = document.getElementById('inpCscDrive').value.trim();
                 }
-                if (Array.isArray(appState.villageOfficials)) {
-                    appState.villageOfficials.forEach((off, idx) => {
-                        const nEl = document.getElementById(`voName_${idx}`);
-                        const pEl = document.getElementById(`voPhone_${idx}`);
-                        const phEl = document.getElementById(`voPhoto_${idx}`);
-                        if (nEl) off.name = nEl.value.trim();
-                        if (pEl) off.phone = pEl.value.trim();
-                        if (phEl) off.photo = phEl.value.trim();
-                    });
-                }
+                syncVillageOfficialsInputsToState();
+                syncPanchayatSamitiInputsToState();
                 if (Array.isArray(appState.villageCommittees)) {
                     appState.villageCommittees.forEach((c, idx) => {
                         const pEl = document.getElementById(`cmtPres_${idx}`);
@@ -6562,6 +6834,49 @@
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
         }
 
+        function openNoticePdfPreview(idx) {
+            const n = (appState.notices || [])[idx];
+            if (!n || !n.pdf) return;
+            const rawUrl = String(n.pdf).trim();
+            const modal = document.getElementById('policyViewerModal');
+            const titleEl = document.getElementById('policyModalTitle');
+            const subEl = document.getElementById('policyModalSubtitle');
+            const bodyEl = document.getElementById('policyModalContent');
+            if (!modal || !bodyEl) return;
+
+            if (titleEl) titleEl.textContent = n.title || 'ग्रामसभा नोटीस / ठराव दस्तऐवज';
+            if (subEl) subEl.textContent = (appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी') + (n.date ? ' | दिनांक: ' + n.date : '');
+
+            const isImg = /^data:image\//i.test(rawUrl) || /\.(jpe?g|png|webp|gif)(\?|#|$)/i.test(rawUrl);
+            let renderUrl = rawUrl;
+            let createdBlobUrl = '';
+            if (!isImg && /^data:application\/pdf;base64,/i.test(rawUrl)) {
+                try {
+                    const b64 = rawUrl.split(',')[1] || '';
+                    const bin = atob(b64);
+                    const arr = new Uint8Array(bin.length);
+                    for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+                    const blob = new Blob([arr], { type: 'application/pdf' });
+                    createdBlobUrl = URL.createObjectURL(blob);
+                    renderUrl = createdBlobUrl;
+                } catch (e) {}
+            }
+
+            const mediaBlock = isImg
+                ? `<div style="text-align:center; background:var(--bg-subtle); padding:10px; border-radius:10px; border:1px solid var(--border-color);"><img src="${renderUrl}" alt="${n.title || 'नोटीस दस्तऐवज'}" style="max-width:100%; max-height:62vh; object-fit:contain; border-radius:8px;"></div>`
+                : `<div style="background:var(--bg-subtle); padding:8px; border-radius:10px; border:1px solid var(--border-color);"><iframe src="${renderUrl}" style="width:100%; height:62vh; border:none; border-radius:8px; background:#fff;"></iframe></div>`;
+
+            bodyEl.style.whiteSpace = 'normal';
+            bodyEl.innerHTML = `
+                ${mediaBlock}
+                <div style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                    <span style="font-size:15px; color:var(--text-muted);">दस्तऐवज नीट न दिसल्यास खालील बटणाने डाउनलोड करा:</span>
+                    <button type="button" class="btn btn-primary" style="padding:7px 14px; font-size:15.5px;" onclick="downloadOfficialNoticeByIndex(${idx})">PDF डाउनलोड करा</button>
+                </div>
+            `;
+            modal.classList.add('active');
+        }
+
         function shareNoticeOnWhatsApp(idx) {
             const n = (appState.notices || [])[idx];
             if (!n) return;
@@ -6574,9 +6889,14 @@
                 `${n.desc || ''}`
             ];
             if (n.pdf) {
-                lines.push(``, `संबंधित परिपत्रक / ठराव PDF: ${n.pdf}`);
+                const pdfStr = String(n.pdf).trim();
+                if (/^https?:\/\//i.test(pdfStr)) {
+                    lines.push(``, `संबंधित परिपत्रक / ठराव PDF लिंक: ${pdfStr}`);
+                } else {
+                    lines.push(``, `संबंधित परिपत्रक / ठराव पाहण्यासाठी व डाउनलोड करण्यासाठी खालील पोर्टल उघडा:`);
+                }
             }
-            lines.push(``, `अधिक माहितीसाठी पोर्टल: ${portalUrl}`);
+            lines.push(``, `पोर्टल लिंक: ${portalUrl}/#sec-notices`);
             window.open(`https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
         }
 
@@ -6584,7 +6904,7 @@
             const title = (document.getElementById('urgPopupTitle')?.textContent || '').trim();
             const msg = (document.getElementById('urgPopupMessage')?.textContent || '').trim();
             const dateStr = (document.getElementById('urgPopupDate')?.textContent || '').trim();
-            const pdfHref = document.getElementById('urgPopupPdfLink')?.getAttribute('href') || '';
+            const pdfHref = (document.getElementById('urgPopupPdfLink')?.getAttribute('href') || '').trim();
             const portalUrl = getCleanPortalUrl();
             const lines = [
                 `*📢 अती तातडीची ग्रामपंचायत सूचना*`,
@@ -6593,8 +6913,8 @@
                 `*${title}*`,
                 `${msg}`
             ];
-            if (pdfHref && pdfHref !== '#') {
-                lines.push(``, `परिपत्रक PDF: ${pdfHref}`);
+            if (pdfHref && /^https?:\/\//i.test(pdfHref)) {
+                lines.push(``, `परिपत्रक PDF लिंक: ${pdfHref}`);
             }
             lines.push(``, `पोर्टल लिंक: ${portalUrl}`);
             window.open(`https://wa.me/?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener');
