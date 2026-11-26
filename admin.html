@@ -5708,7 +5708,7 @@
         }
 
         // Firebase Realtime Database Sync (when configured by Master Developer)
-        async function syncToFirebaseIfConfigured() {
+        async async function syncToFirebaseIfConfigured() {
             const dbUrl = (appState.cloudConfig && appState.cloudConfig.firebaseDatabaseUrl || '').replace(/\/$/, '');
             if (!dbUrl) return;
             try {
