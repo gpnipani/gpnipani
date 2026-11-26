@@ -184,7 +184,7 @@
         /* Navbar & Custom In-Web Dropdowns */
         .navbar {
             background-color: var(--bg-card);
-            padding: 0 5%;
+            padding: 6px 2%;
             box-shadow: var(--shadow);
             position: sticky;
             top: 0;
@@ -192,28 +192,36 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
             border-bottom: 1px solid var(--border-color);
+            max-width: 100%;
         }
 
         .nav-links {
             list-style: none;
             display: flex;
             align-items: center;
-            gap: 4px;
+            flex-wrap: wrap;
+            gap: 2px;
+            flex: 1 1 auto;
+            min-width: 0;
         }
 
         .nav-links > li {
             position: relative;
+            flex-shrink: 0;
         }
 
         .nav-links > li > a {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
-            padding: 14px 14px;
+            gap: 4px;
+            padding: 8px 8px;
             text-decoration: none;
             color: var(--text-main);
-            font-size: 18px;
+            font-size: 15.5px;
+            white-space: nowrap;
             border-radius: 8px;
             transition: all 0.2s ease;
         }
@@ -283,8 +291,9 @@
         .nav-controls {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             margin-left: auto;
+            flex-shrink: 0;
         }
 
         .pill-theme-toggle {
@@ -1020,7 +1029,7 @@
             inset: 0;
             background: rgba(15, 23, 42, 0.35);
             backdrop-filter: blur(2px);
-            z-index: 11999;
+            z-index: 24999;
             display: none;
             opacity: 0;
             transition: opacity 0.22s ease;
@@ -1046,7 +1055,7 @@
             min-width: 290px;
             max-width: 90vw;
             box-shadow: 0 24px 50px rgba(0, 0, 0, 0.38);
-            z-index: 12000;
+            z-index: 25000;
             display: none;
         }
 
@@ -2426,7 +2435,7 @@
                 <button type="button" onclick="closeModals()" style="background: rgba(255,255,255,0.2); border: none; color: #ffffff; width: 34px; height: 34px; border-radius: 50%; font-size: 18px; cursor: pointer;">✕</button>
             </div>
             <div style="padding: 20px 24px; max-height: 72vh; overflow-y: auto;">
-                <div style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
+                <div id="policyQuickTabsBar" style="display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border-color);">
                     <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('privacy')">गोपनीयता धोरण</button>
                     <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('disclaimer')">अस्वीकरण</button>
                     <button type="button" class="btn btn-secondary" style="padding: 5px 11px; font-size: 14.5px;" onclick="openPolicyModal('terms')">अटी व शर्ती</button>
@@ -3165,17 +3174,18 @@
             // 10. Panchayat Samiti Akole Departments
             const psGrid = document.getElementById('panchayatSamitiContainer');
             if (psGrid) {
-                psGrid.innerHTML = (appState.panchayatSamitiDepts || []).map(d => `
+                psGrid.innerHTML = (appState.panchayatSamitiDepts || []).map((d, idx) => `
                     <div class="card-item" style="display:flex; flex-direction:column; justify-content:space-between; gap:10px;">
                         <div>
                             <span class="badge" style="margin-bottom:6px;">पंचायत समिती अकोले</span>
                             <h3 style="font-size:20px; margin-bottom:6px;">${d.dept}</h3>
                             <p style="font-size:15.5px; color:var(--text-main); margin-bottom:6px;"><strong>प्रमुख योजना व कामे:</strong> ${d.scheme}</p>
-                            <p style="font-size:14.5px; color:var(--text-muted); margin:0;"><strong>संपर्क अधिकारी:</strong> ${d.contact}</p>
+                            <p style="font-size:14.5px; color:var(--text-muted); margin:0;"><strong>संपर्क अधिकारी:</strong> ${d.contact}${d.phone ? ' | मोबाईल: ' + d.phone : ''}</p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="openInquiryModal('पंचायत समिती अकोले विभाग', '${d.dept.replace(/'/g, "&#39;")}')">विभाग चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="toggleInlineCardInquiry('ps_${idx}', 'पंचायत समिती अकोले विभाग', '${(d.dept || '').replace(/'/g, "&#39;")}', '${(d.contact || d.dept || '').replace(/'/g, "&#39;")}', '${(d.phone || '').replace(/'/g, "&#39;")}')">विभाग चौकशी करा</button>
                         </div>
+                        <div id="inlineInqHost_ps_${idx}" style="display:none;"></div>
                     </div>
                 `).join('');
             }
@@ -3183,7 +3193,7 @@
             // 11. Village Other Govt Officials
             const voGrid = document.getElementById('villageOfficialsContainer');
             if (voGrid) {
-                voGrid.innerHTML = (appState.villageOfficials || []).map(off => `
+                voGrid.innerHTML = (appState.villageOfficials || []).map((off, idx) => `
                     <div style="display:flex; flex-direction:column; gap:8px;">
                         ${renderPersonCard({
                             name: off.name,
@@ -3193,8 +3203,9 @@
                             subNote: off.dept
                         }, off.role)}
                         <div style="text-align:right; margin-top:-4px;">
-                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="openInquiryModal('गावातील इतर शासकीय कर्मचारी', '${off.role.replace(/'/g, "&#39;")}')">चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="toggleInlineCardInquiry('vo_${idx}', 'गावातील इतर शासकीय कर्मचारी', '${(off.role || '').replace(/'/g, "&#39;")}', '${(off.name || off.role || '').replace(/'/g, "&#39;")}', '${(off.phone || '').replace(/'/g, "&#39;")}')">चौकशी करा</button>
                         </div>
+                        <div id="inlineInqHost_vo_${idx}" style="display:none;"></div>
                     </div>
                 `).join('');
             }
@@ -3286,6 +3297,8 @@
         })();
 
         function openPolicyModal(policyKey) {
+            const tabsBar = document.getElementById('policyQuickTabsBar');
+            if (tabsBar) tabsBar.style.display = 'flex';
             const policies = appState.policyPages || DEFAULT_STATE.policyPages;
             const item = policies[policyKey] || DEFAULT_STATE.policyPages[policyKey] || DEFAULT_STATE.policyPages.privacy;
             document.getElementById('policyModalTitle').textContent = item.title || '';
@@ -3719,7 +3732,16 @@
             return '';
         }
 
+        let activeInlineInquiryContext = null;
+
         function resolveInquiryTargetInfo(cat, sub) {
+            if (activeInlineInquiryContext && activeInlineInquiryContext.sub === sub) {
+                return {
+                    recipientName: activeInlineInquiryContext.recipientName || sub,
+                    recipientRole: sub,
+                    rawPhone: activeInlineInquiryContext.rawPhone || ''
+                };
+            }
             if (cat === 'आपले सरकार सेवा केंद्र') {
                 const csc = appState.aapleSarkarCenter || DEFAULT_STATE.aapleSarkarCenter;
                 return {
@@ -3759,7 +3781,143 @@
             return offs.map(o => ({ value: o.role, label: `${o.role} (${o.name})` })).concat([{ value: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी', label: 'इतर ग्रामस्तरीय शासकीय यंत्रणा चौकशी' }]);
         }
 
+        function closeInlineCardInquiry() {
+            document.querySelectorAll('[id^="inlineInqHost_"]').forEach(el => {
+                el.style.display = 'none';
+                el.innerHTML = '';
+            });
+            activeInlineInquiryContext = null;
+        }
+
+        function toggleInlineCardInquiry(cardKey, cat, sub, recipientName, rawPhone) {
+            const host = document.getElementById(`inlineInqHost_${cardKey}`);
+            if (!host) {
+                openInquiryModal(cat, sub);
+                return;
+            }
+            const wasOpen = (host.style.display === 'block');
+            closeInlineCardInquiry();
+            if (wasOpen) return;
+
+            activeInlineInquiryContext = { cardKey, cat, sub, recipientName, rawPhone };
+            const preName = currentCitizen ? (currentCitizen.name || '') : '';
+            const prePhone = currentCitizen ? (currentCitizen.phone || '') : '';
+            const waNumber = extractTenDigitWhatsAppPhone(rawPhone);
+
+            host.innerHTML = `
+                <div style="margin-top:8px; background:var(--bg-subtle); border:2px solid var(--primary); border-radius:12px; padding:14px; box-shadow:0 8px 20px rgba(0,0,0,0.08);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; border-bottom:1px solid var(--border-color); padding-bottom:6px;">
+                        <div>
+                            <div style="font-size:17.5px; color:var(--primary);"><strong>थेट चौकशी फॉर्म — ${sub}</strong></div>
+                            <div style="font-size:14.5px; color:var(--text-muted);">संबंधित अधिकारी/कर्मचारी: <strong>${recipientName || sub}</strong>${waNumber ? ` (${rawPhone})` : ''}</div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" style="padding:3px 10px; font-size:14px;" onclick="closeInlineCardInquiry()">✕ बंद</button>
+                    </div>
+                    <div class="form-group" style="margin-bottom:9px;">
+                        <label style="font-size:15.5px;">तुमचे पूर्ण नाव <span style="color:#dc2626;">*</span></label>
+                        <input type="text" class="form-control" id="inlineInqName_${cardKey}" value="${preName}" placeholder="उदा. अनिल भाऊराव तोरमल">
+                    </div>
+                    <div class="form-group" style="margin-bottom:9px;">
+                        <label style="font-size:15.5px;">तुमचा मोबाईल क्रमांक <span style="color:#dc2626;">*</span></label>
+                        <input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inlineInqPhone_${cardKey}" value="${prePhone}" placeholder="१० अंकी मोबाईल नंबर">
+                    </div>
+                    <div class="form-group" style="margin-bottom:10px;">
+                        <label style="font-size:15.5px;">चौकशीचा तपशील / प्रश्न <span style="color:#dc2626;">*</span></label>
+                        <textarea class="form-control" rows="2" id="inlineInqDetails_${cardKey}" placeholder="तुमचा प्रश्न येथे लिहा..."></textarea>
+                    </div>
+                    <div id="inlineInqResult_${cardKey}" style="display:none; margin-bottom:10px;"></div>
+                    <div style="display:flex; gap:8px; justify-content:flex-end; flex-wrap:wrap;">
+                        <button type="button" class="btn btn-secondary" style="padding:7px 13px; font-size:15px;" onclick="closeInlineCardInquiry()">रद्द करा</button>
+                        <button type="button" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:8px 15px; font-size:15.5px;" onclick="submitInlineCardInquiry('${cardKey}')">चौकशी नोंदवा व WhatsApp वर पाठवा</button>
+                    </div>
+                </div>
+            `;
+            host.style.display = 'block';
+            setTimeout(() => {
+                host.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 60);
+        }
+
+        function submitInlineCardInquiry(cardKey) {
+            const ctx = activeInlineInquiryContext;
+            if (!ctx || ctx.cardKey !== cardKey) return;
+            const name = (document.getElementById(`inlineInqName_${cardKey}`)?.value || '').trim();
+            const phone = (document.getElementById(`inlineInqPhone_${cardKey}`)?.value || '').trim();
+            const details = (document.getElementById(`inlineInqDetails_${cardKey}`)?.value || '').trim();
+
+            if (!name || !phone || !details) {
+                showToast('कृपया तुमचे नाव, मोबाईल क्रमांक आणि चौकशीचा प्रश्न भरा.');
+                return;
+            }
+
+            const newId = generateNextTrackingId();
+            const todayStr = '२६ नोव्हेंबर २०२६';
+            const targetName = ctx.recipientName || ctx.sub;
+            const inqEntry = {
+                trackingId: newId,
+                date: todayStr,
+                createdAt: Date.now(),
+                resolvedAt: null,
+                type: 'चौकशी',
+                subject: `${ctx.cat} — ${ctx.sub}`,
+                name,
+                phone,
+                detail: details,
+                attachment: '',
+                status: 'प्रलंबित',
+                actionNote: `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`,
+                actionProof: ''
+            };
+            appState.requests.unshift(inqEntry);
+            syncArchiveRecord(inqEntry);
+            saveStateToStorage();
+            if (currentCitizen && typeof renderCitizenRequestsHistory === 'function') {
+                renderCitizenRequestsHistory();
+            }
+
+            const waLines = [
+                `*${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'} — नागरिक चौकशी संदेश*`,
+                `मागोवा क्रमांक: *${newId}* | दिनांक: ${todayStr}`,
+                ``,
+                `*विभाग:* ${ctx.cat}`,
+                `*संबंधित पद / विभाग:* ${ctx.sub}`,
+                `*अधिकारी / कर्मचारी:* ${targetName}`,
+                ``,
+                `*नागरिकाचे नाव:* ${name}`,
+                `*नागरिकाचा मोबाईल:* ${phone}`,
+                `*चौकशीचा तपशील:* ${details}`,
+                ``,
+                `पोर्टल लिंक: ${getCleanPortalUrl()}`
+            ];
+            const waNumber = extractTenDigitWhatsAppPhone(ctx.rawPhone);
+            const waUrl = waNumber
+                ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waLines.join('\n'))}`
+                : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
+
+            const resBox = document.getElementById(`inlineInqResult_${cardKey}`);
+            if (resBox) {
+                resBox.style.display = 'block';
+                resBox.innerHTML = `
+                    <div style="background:#dcfce7; border:1.5px solid #16a34a; color:#14532d; padding:10px 12px; border-radius:9px; font-size:15px;">
+                        <div><strong>✅ चौकशी यशस्वीरित्या नोंदवली गेली! (मागोवा क्र.: ${newId})</strong></div>
+                        <div style="margin-top:4px;">संबंधित अधिकारी/कर्मचारी: <strong>${targetName}</strong>${ctx.rawPhone ? ` (${ctx.rawPhone})` : ''}</div>
+                        <div style="margin-top:8px;">
+                            <a href="${waUrl}" target="_blank" rel="noopener" class="btn" style="background:#16a34a; color:#ffffff; padding:6px 13px; font-size:15px; display:inline-flex; align-items:center; gap:6px;">
+                                <span>WhatsApp मेसेज पुन्हा उघडा</span>
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+
+            showToast(`✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ${newId}`);
+            setTimeout(() => {
+                window.open(waUrl, '_blank', 'noopener');
+            }, 650);
+        }
+
         function openInquiryModal(defaultCategory, defaultSubject) {
+            closeInlineCardInquiry();
             const categories = [
                 { value: 'आपले सरकार सेवा केंद्र', label: '१. आपले सरकार सेवा केंद्र (CSC)' },
                 { value: 'पंचायत समिती अकोले विभाग', label: '२. पंचायत समिती अकोले विभाग' },
@@ -3839,8 +3997,10 @@
             const waUrl = waNumber
                 ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waLines.join('\n'))}`
                 : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
-            window.open(waUrl, '_blank', 'noopener');
-            showToast(`चौकशी नोंदवली गेली (${newId}) आणि संबंधित कर्मचाऱ्याला WhatsApp वर पाठवण्यासाठी उघडली आहे!`);
+            showToast(`✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ${newId}`);
+            setTimeout(() => {
+                window.open(waUrl, '_blank', 'noopener');
+            }, 650);
         }
 
         function openComplaintModal() {
@@ -3987,11 +4147,11 @@
             if (metaEl && lastReceiptPayload) {
                 metaEl.textContent = `${lastReceiptPayload.type}: ${lastReceiptPayload.subject} | अर्जदार: ${lastReceiptPayload.name} (${lastReceiptPayload.phone})`;
             }
-            const subLabel = kind === 'अर्ज' ? 'तुमचा दाखला मागणी अर्ज' : 'तुमची तक्रार';
-            showToast(`✅ ${subLabel} यशस्वीरित्या सबमिट झाली आहे! मागोवा क्रमांक: ${lastGeneratedTrackingId}`);
+            const formTitleMar = kind === 'अर्ज' ? 'तुमचा दाखला मागणी अर्ज' : 'तुमची तक्रार';
+            showToast(`✅ ${formTitleMar} यशस्वीरित्या सबमिट झाली आहे! मागोवा क्रमांक: ${lastGeneratedTrackingId}`);
             setTimeout(() => {
                 document.getElementById('receiptModal').classList.add('active');
-            }, 350);
+            }, 450);
         }
 
         function copyReceiptTrackingCode() {
@@ -6859,6 +7019,8 @@
             const n = (appState.notices || [])[idx];
             if (!n || !n.pdf) return;
             const rawUrl = String(n.pdf).trim();
+            const tabsBar = document.getElementById('policyQuickTabsBar');
+            if (tabsBar) tabsBar.style.display = 'none';
             const modal = document.getElementById('policyViewerModal');
             const titleEl = document.getElementById('policyModalTitle');
             const subEl = document.getElementById('policyModalSubtitle');
