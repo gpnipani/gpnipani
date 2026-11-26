@@ -844,6 +844,38 @@
             border-color: var(--primary);
         }
 
+        .unclickable-file-status {
+            flex: 1;
+            min-width: 170px;
+            padding: 9px 13px;
+            font-size: 15px;
+            border: 1.5px dashed var(--border-color);
+            border-radius: 10px;
+            background-color: var(--bg-subtle);
+            color: var(--text-muted);
+            pointer-events: none;
+            user-select: none;
+            -webkit-user-select: none;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .unclickable-file-status.uploading {
+            border-style: solid;
+            border-color: var(--primary);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .unclickable-file-status.ready {
+            border-style: solid;
+            border-color: #16a34a;
+            background-color: rgba(22, 163, 74, 0.08);
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
         /* Admin Dashboard Fullscreen View */
         .admin-shell {
             display: none;
@@ -1060,6 +1092,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="ग्रा.पं. पिंपळगाव निपाणी">
+    <link rel="canonical" href="https://gpnipani.online/">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -1291,7 +1324,7 @@
                 </div>
             </div>
             <div class="copyright-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | सर्व हक्क राखीव.</span>
+                <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | <a href="https://gpnipani.online" style="color:#fde047; text-decoration:none;">gpnipani.online</a></span>
                 <span style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
                     <span>Website Design by <strong>Anil Bhaurao Tormal</strong></span>
                     <a href="tel:+919975571585" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.14); color:#fde047; padding:3px 10px; border-radius:999px; text-decoration:none; font-size:15px;">
@@ -1317,15 +1350,15 @@
         </div>
 
         <div class="admin-tabs" id="adminTabsBar">
-            <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,operator" data-label="ताज्या सूचना व मुख्य पृष्ठ" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer" data-label="आकडेवारी, बॉडी / प्रशासक (मास्टर)" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
+            <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,gramsevak,operator" data-label="ताज्या सूचना व मुख्य पृष्ठ" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer,gramsevak" data-label="आकडेवारी, बॉडी / प्रशासक (मास्टर)" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" data-label="ग्रामपंचायत कर्मचारी माहिती" onclick="switchAdminTab('tab-employees', this)">३. ग्रामपंचायत कर्मचारी माहिती</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,operator" data-label="ग्रामसभा PDF व विकासकामे" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा PDF व विकासकामे" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">५. तक्रारी व दाखले हाताळणी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer" data-label="विभाग लपवा / दाखवा (मास्टर)" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer" data-label="डिझाइन, रंग व फॉन्ट (मास्टर)" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer,gramsevak" data-label="विभाग लपवा / दाखवा (मास्टर)" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer,gramsevak" data-label="डिझाइन, रंग व फॉन्ट (मास्टर)" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" data-label="कर्मचारी लॉगिन व पासवर्ड" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer" data-label="क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer,gramsevak" data-label="क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
@@ -1891,7 +1924,7 @@
                 </div>
                 <div class="grid-2">
                     <div class="form-group"><label>अर्जदाराचे पूर्ण नाव <span style="color:#dc2626;">*</span></label><input type="text" class="form-control" id="srvApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
-                    <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="srvApplicantPhone" placeholder="उदा. 9822001122"></div>
+                    <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="srvApplicantPhone" placeholder="उदा. 9822XXXXXX" oninput="handleMaskedPhoneInput(this)"></div>
                 </div>
                 <div class="grid-2">
                     <div class="form-group"><label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="12" class="form-control" id="srvApplicantAadhaar" placeholder="१२ अंकी आधार नंबर टाका"></div>
@@ -1905,9 +1938,10 @@
 
                 <div class="form-group">
                     <label>१) लिखित दाखला अर्ज / आवश्यक कागदपत्रे अपलोड करा (अनिवार्य - PDF / JPG / PNG) <span style="color:#dc2626;">*</span></label>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <input type="text" class="form-control" id="srvAttachmentUrl" placeholder="फाईल निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
-                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <input type="hidden" id="srvAttachmentUrl" value="">
+                        <div id="srvAttachmentNameBadge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
                             <span>अर्ज / कागदपत्र निवडा</span>
                             <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAttachmentUrl')">
                         </label>
@@ -1916,9 +1950,10 @@
 
                 <div class="form-group">
                     <label>२) अर्जदाराचा आधार कार्ड फोटो / PDF अपलोड करा (अनिवार्य) <span style="color:#dc2626;">*</span></label>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <input type="text" class="form-control" id="srvAadhaarDocUrl" placeholder="आधार कार्ड फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
-                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <input type="hidden" id="srvAadhaarDocUrl" value="">
+                        <div id="srvAadhaarDocNameBadge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                        <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
                             <span>आधार फोटो निवडा</span>
                             <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'srvAadhaarDocUrl')">
                         </label>
@@ -1996,7 +2031,7 @@
             </div>
             <div class="grid-2">
                 <div class="form-group"><label>तक्रारदाराचे पूर्ण नाव <span style="color:#dc2626;">*</span></label><input type="text" class="form-control" id="cmpName" placeholder="पूर्ण नाव"></div>
-                <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="cmpPhone" placeholder="उदा. 9822001122"></div>
+                <div class="form-group"><label>मोबाईल क्रमांक (१० अंकी) <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="cmpPhone" placeholder="उदा. 9822XXXXXX" oninput="handleMaskedPhoneInput(this)"></div>
             </div>
             <div class="form-group"><label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label><input type="text" inputmode="numeric" maxlength="12" class="form-control" id="cmpAadhaar" placeholder="१२ अंकी आधार नंबर टाका"></div>
             <div class="form-group"><label>तक्रारीचा सविस्तर तपशील <span style="color:#dc2626;">*</span></label><textarea class="form-control" rows="3" id="cmpDetails" placeholder="ठिकाण आणि समस्येचे वर्णन लिहा"></textarea></div>
@@ -2008,9 +2043,10 @@
 
             <div class="form-group">
                 <label>१) समस्येचा फोटो किंवा लिखित तक्रार अर्ज अपलोड करा (अनिवार्य - JPG / PNG / PDF) <span style="color:#dc2626;">*</span></label>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <input type="text" class="form-control" id="cmpAttachmentUrl" placeholder="तक्रार अर्ज / फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
-                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="hidden" id="cmpAttachmentUrl" value="">
+                    <div id="cmpAttachmentNameBadge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
                         <span>तक्रार अर्ज / फोटो निवडा</span>
                         <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'cmpAttachmentUrl')">
                     </label>
@@ -2019,9 +2055,10 @@
 
             <div class="form-group">
                 <label>२) तक्रारदाराचा आधार कार्ड फोटो / PDF अपलोड करा (अनिवार्य) <span style="color:#dc2626;">*</span></label>
-                <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <input type="text" class="form-control" id="cmpAadhaarDocUrl" placeholder="आधार कार्ड फोटो निवडल्यास लिंक येथे येईल (अनिवार्य)..." readonly style="flex:1; font-size:15px;">
-                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px;">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="hidden" id="cmpAadhaarDocUrl" value="">
+                    <div id="cmpAadhaarDocNameBadge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
                         <span>आधार फोटो निवडा</span>
                         <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'cmpAadhaarDocUrl')">
                     </label>
@@ -2263,7 +2300,7 @@
             requestArchiveLog: [],
             watermarkConfig: {
                 enabled: true,
-                text: 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी',
+                text: 'ग्रामपंचायत पिंपळगाव निपाणी | gpnipani.online',
                 position: 'diagonal',
                 opacity: 'medium'
             },
@@ -2966,6 +3003,72 @@
             }
         }
 
+                const maskedPhoneStore = {};
+        const fileBadgeMap = {
+            srvAttachmentUrl: 'srvAttachmentNameBadge',
+            srvAadhaarDocUrl: 'srvAadhaarDocNameBadge',
+            cmpAttachmentUrl: 'cmpAttachmentNameBadge',
+            cmpAadhaarDocUrl: 'cmpAadhaarDocNameBadge'
+        };
+
+        function formatFourDigitsCross(digits) {
+            const clean = marathiDigitsToAscii(digits || '').replace(/\D/g, '').slice(0, 10);
+            if (!clean) return '';
+            const firstFour = clean.slice(0, 4);
+            const restLen = Math.max(0, clean.length - 4);
+            return firstFour + 'X'.repeat(restLen);
+        }
+
+        function handleMaskedPhoneInput(inputEl) {
+            if (!inputEl) return;
+            const id = inputEl.id;
+            const prev = maskedPhoneStore[id] || '';
+            const typed = marathiDigitsToAscii(inputEl.value || '');
+            const typedDigits = typed.replace(/[^0-9]/g, '');
+
+            let nextDigits = '';
+            if (typedDigits.length >= 4) {
+                if (prev.length >= 4 && typedDigits.startsWith(prev.slice(0, 4))) {
+                    const extraDigits = typedDigits.slice(4);
+                    nextDigits = (prev.slice(0, 4) + extraDigits).slice(0, 10);
+                } else {
+                    nextDigits = typedDigits.slice(0, 10);
+                }
+            } else {
+                nextDigits = typedDigits;
+            }
+
+            maskedPhoneStore[id] = nextDigits;
+            inputEl.value = formatFourDigitsCross(nextDigits);
+        }
+
+        function setMaskedPhoneValue(inputId, rawPhone) {
+            const el = document.getElementById(inputId);
+            const clean = marathiDigitsToAscii(rawPhone || '').replace(/\D/g, '').slice(0, 10);
+            maskedPhoneStore[inputId] = clean;
+            if (el) el.value = formatFourDigitsCross(clean);
+        }
+
+        function getRawPhoneDigits(inputId) {
+            const el = document.getElementById(inputId);
+            const stored = maskedPhoneStore[inputId] || '';
+            const domDigits = marathiDigitsToAscii(el ? el.value : '').replace(/\D/g, '');
+            if (stored.length >= 4 && domDigits.startsWith(stored.slice(0, 4))) {
+                return stored;
+            }
+            return domDigits.length > stored.length ? domDigits.slice(0, 10) : stored;
+        }
+
+        function updateCitizenFileBadge(targetInputId, text, stateClass) {
+            const badgeId = fileBadgeMap[targetInputId];
+            if (!badgeId) return;
+            const badge = document.getElementById(badgeId);
+            if (!badge) return;
+            badge.textContent = text;
+            badge.classList.remove('uploading', 'ready');
+            if (stateClass) badge.classList.add(stateClass);
+        }
+
         function isValidIndianMobile(rawPhone) {
             const digits = marathiDigitsToAscii(rawPhone || '').replace(/\D/g, '');
             if (!/^[6-9]\d{9}$/.test(digits)) return false;
@@ -3009,7 +3112,7 @@
             if (consentEl) consentEl.checked = false;
             if (currentCitizen) {
                 document.getElementById('srvApplicantName').value = currentCitizen.name;
-                document.getElementById('srvApplicantPhone').value = currentCitizen.phone;
+                setMaskedPhoneValue('srvApplicantPhone', currentCitizen.phone);
                 document.getElementById('srvApplicantAddr').value = currentCitizen.ward;
             }
             document.getElementById('serviceModal').classList.add('active');
@@ -3020,7 +3123,7 @@
             if (hp) return;
 
             const name = document.getElementById('srvApplicantName').value.trim();
-            const phone = marathiDigitsToAscii(document.getElementById('srvApplicantPhone').value.trim()).replace(/\D/g, '');
+            const phone = getRawPhoneDigits('srvApplicantPhone');
             const aadhaar = marathiDigitsToAscii(document.getElementById('srvApplicantAadhaar').value.trim()).replace(/\D/g, '');
             const addr = document.getElementById('srvApplicantAddr').value.trim();
             const attachment = (document.getElementById('srvAttachmentUrl')?.value || '').trim();
@@ -3167,7 +3270,7 @@
             refreshFormCaptcha('cmp');
             const consentEl = document.getElementById('cmpPrivacyConsent');
             if (consentEl) consentEl.checked = false;
-            if (currentCitizen) { document.getElementById('cmpName').value = currentCitizen.name; document.getElementById('cmpPhone').value = currentCitizen.phone; }
+            if (currentCitizen) { document.getElementById('cmpName').value = currentCitizen.name; setMaskedPhoneValue('cmpPhone', currentCitizen.phone); }
             document.getElementById('complaintModal').classList.add('active');
         }
 
@@ -3182,7 +3285,7 @@
             const todayStr = '२६ नोव्हेंबर २०२६';
             if (kind === 'अर्ज') {
                 const name = document.getElementById('srvApplicantName').value.trim();
-                const phone = marathiDigitsToAscii(document.getElementById('srvApplicantPhone').value.trim()).replace(/\D/g, '');
+                const phone = getRawPhoneDigits('srvApplicantPhone');
                 const aadhaar = marathiDigitsToAscii(document.getElementById('srvApplicantAadhaar').value.trim()).replace(/\D/g, '');
                 const detail = document.getElementById('srvApplicantAddr').value.trim();
                 const attachment = (document.getElementById('srvAttachmentUrl')?.value || '').trim();
@@ -3223,17 +3326,19 @@
                 } catch (e) {}
 
                 document.getElementById('srvApplicantName').value = '';
-                document.getElementById('srvApplicantPhone').value = '';
+                setMaskedPhoneValue('srvApplicantPhone', '');
                 document.getElementById('srvApplicantAadhaar').value = '';
                 document.getElementById('srvApplicantAddr').value = '';
                 if (document.getElementById('srvAttachmentUrl')) document.getElementById('srvAttachmentUrl').value = '';
+                updateCitizenFileBadge('srvAttachmentUrl', 'कोणतीही फाईल निवडलेली नाही', '');
                 if (document.getElementById('srvAadhaarDocUrl')) document.getElementById('srvAadhaarDocUrl').value = '';
+                updateCitizenFileBadge('srvAadhaarDocUrl', 'कोणतीही फाईल निवडलेली नाही', '');
             } else {
                 const hp = (document.getElementById('cmpWebsiteHp')?.value || '').trim();
                 if (hp) return;
 
                 const name = document.getElementById('cmpName').value.trim();
-                const phone = marathiDigitsToAscii(document.getElementById('cmpPhone').value.trim()).replace(/\D/g, '');
+                const phone = getRawPhoneDigits('cmpPhone');
                 const aadhaar = marathiDigitsToAscii(document.getElementById('cmpAadhaar').value.trim()).replace(/\D/g, '');
                 const detail = document.getElementById('cmpDetails').value.trim();
                 const attachment = (document.getElementById('cmpAttachmentUrl')?.value || '').trim();
@@ -3283,11 +3388,13 @@
                 } catch (e) {}
 
                 document.getElementById('cmpName').value = '';
-                document.getElementById('cmpPhone').value = '';
+                setMaskedPhoneValue('cmpPhone', '');
                 document.getElementById('cmpAadhaar').value = '';
                 document.getElementById('cmpDetails').value = '';
                 if (document.getElementById('cmpAttachmentUrl')) document.getElementById('cmpAttachmentUrl').value = '';
+                updateCitizenFileBadge('cmpAttachmentUrl', 'कोणतीही फाईल निवडलेली नाही', '');
                 if (document.getElementById('cmpAadhaarDocUrl')) document.getElementById('cmpAadhaarDocUrl').value = '';
+                updateCitizenFileBadge('cmpAadhaarDocUrl', 'कोणतीही फाईल निवडलेली नाही', '');
             }
             saveStateToStorage();
             closeModals();
@@ -3314,7 +3421,7 @@
             const rec = lastReceiptPayload || { trackingId: lastGeneratedTrackingId, type: 'अर्ज', subject: '', name: '', phone: '', date: '२६ नोव्हेंबर २०२६' };
             const digits = marathiDigitsToAscii(rec.phone || '').replace(/\D/g, '');
             const waPhone = digits.length === 10 ? ('91' + digits) : '';
-            const portalUrl = window.location.href.split('#')[0].split('?')[0];
+            const portalUrl = OFFICIAL_PORTAL_URL;
             const lines = [
                 `*ग्रामपंचायत पिंपळगाव निपाणी — पोचपावती*`,
                 `ता. अकोले, जि. अहिल्यानगर`,
@@ -3332,14 +3439,70 @@
             window.open(url, '_blank', 'noopener');
         }
 
+        
+        async function downloadPhotoWithDomainStamp(imgUrl, filenamePrefix) {
+            if (!imgUrl) return;
+            const cleanPrefix = (filenamePrefix || 'GP_Pimpalgaon_Nipani').replace(/[^a-zA-Z0-9_-]+/g, '_');
+            const outName = `gpnipani.online_${cleanPrefix}_${Date.now()}.jpg`;
+            try {
+                const img = new Image();
+                img.crossOrigin = 'anonymous';
+                await new Promise((resolve, reject) => {
+                    img.onload = resolve;
+                    img.onerror = reject;
+                    img.src = imgUrl;
+                });
+                const canvas = document.createElement('canvas');
+                canvas.width = img.naturalWidth || img.width || 1000;
+                canvas.height = img.naturalHeight || img.height || 700;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                const barH = Math.max(36, Math.round(canvas.height * 0.055));
+                ctx.fillStyle = 'rgba(15, 23, 42, 0.86)';
+                ctx.fillRect(0, canvas.height - barH, canvas.width, barH);
+                const fSize = Math.max(15, Math.round(barH * 0.46));
+                ctx.font = `bold ${fSize}px Khand, sans-serif`;
+                ctx.fillStyle = '#ffffff';
+                ctx.textBaseline = 'middle';
+                ctx.textAlign = 'left';
+                ctx.fillText('ग्रामपंचायत पिंपळगाव निपाणी | अधिकृत वेबपोर्टल: gpnipani.online', Math.round(barH * 0.4), canvas.height - barH / 2);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#fb923c';
+                ctx.fillText('Design by Anil Bhaurao Tormal', canvas.width - Math.round(barH * 0.4), canvas.height - barH / 2);
+
+                const dataUrl = canvas.toDataURL('image/jpeg', 0.93);
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = outName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                showToast('फोटो gpnipani.online नावासह डाउनलोड झाला!');
+            } catch (e) {
+                const a = document.createElement('a');
+                a.href = imgUrl;
+                a.download = outName;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            }
+        }
+
         function downloadCitizenReceiptSlip() {
             const rec = lastReceiptPayload || { trackingId: lastGeneratedTrackingId, type: 'अर्ज', subject: '-', name: '-', phone: '-', date: '२६ नोव्हेंबर २०२६' };
             const slip = document.createElement('div');
             slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:680px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:Khand,sans-serif;';
             slip.innerHTML = `
-                <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;">
-                    <div style="font-size:24px;"><strong>ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी</strong></div>
-                    <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन पोचपावती</div>
+                <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                    <div>
+                        <div style="font-size:24px;"><strong>ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी</strong></div>
+                        <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन पोचपावती</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.16);padding:6px 12px;border-radius:8px;font-size:15px;white-space:nowrap;">
+                        <strong>gpnipani.online</strong>
+                    </div>
                 </div>
                 <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px;border-radius:10px;text-align:center;margin-bottom:16px;">
                     <div style="font-size:16px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
@@ -3352,8 +3515,8 @@
                     <div><strong>मोबाईल क्रमांक:</strong> ${rec.phone}</div>
                     <div><strong>सद्यस्थिती:</strong> प्रलंबित (कार्यालयीन तपासणी सुरू)</div>
                 </div>
-                <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;">
-                    <span>सूचना: मागोवा क्रमांकावरून वेबपोर्टलवर सद्यस्थिती पहा.</span>
+                <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span>अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">gpnipani.online</strong> (येथे मागोवा क्र. तपासा)</span>
                     <span>Website Design by Anil Bhaurao Tormal</span>
                 </div>
             `;
@@ -3361,7 +3524,7 @@
             if (typeof html2canvas !== 'undefined') {
                 html2canvas(slip, { scale: 2 }).then(canvas => {
                     const a = document.createElement('a');
-                    a.download = `Pochpavati_${rec.trackingId}.png`;
+                    a.download = `gpnipani.online_Pochpavati_${rec.trackingId}.png`;
                     a.href = canvas.toDataURL('image/png');
                     a.click();
                     document.body.removeChild(slip);
@@ -3519,37 +3682,55 @@
             showToast('तुम्ही नागरिक खात्यातून लॉगआउट झाला आहात.');
         }
 
-        function openLoginModal() {
-            if (currentRole === 'developer' || currentRole === 'gramsevak' || currentRole === 'operator') {
+        function applyLoginRoleFieldLabels(roleVal) {
+            const isCit = roleVal === 'citizen';
+            const isDev = roleVal === 'developer';
+            document.getElementById('loginUserLabel').textContent = isCit
+                ? 'नोंदणीकृत मोबाईल नंबर'
+                : (isDev ? 'मास्टर ईमेल आयडी' : 'युजर आयडी (Username)');
+            document.getElementById('loginUser').placeholder = isCit
+                ? 'नोंदणीकृत मोबाईल नंबर'
+                : (isDev ? 'अधिकृत मास्टर ईमेल आयडी टाका' : 'युजर आयडी टाका');
+            document.getElementById('citizenRegisterPrompt').style.display = isCit ? 'block' : 'none';
+        }
+
+        function isPrivateMasterUrl() {
+            const h = (window.location.hash || '').toLowerCase();
+            const q = new URLSearchParams(window.location.search || '');
+            return h === '#master-login' || h === '#master' || q.get('master') === '1';
+        }
+
+        function openLoginModal(forceMasterMode) {
+            const masterMode = Boolean(forceMasterMode || isPrivateMasterUrl());
+            if (!masterMode && (currentRole === 'developer' || currentRole === 'gramsevak' || currentRole === 'operator')) {
                 enterAdminDashboard();
                 return;
             }
-            if (currentCitizen) {
+            if (!masterMode && currentCitizen) {
                 openCitizenDashboard();
                 return;
             }
             toggleCitizenRegisterForm(false);
-            renderInwebDropdown('ddLoginRole', [
-                { value: 'citizen', label: 'नागरिक लॉगिन (Citizen Login)' },
-                { value: 'operator', label: 'संगणक परिचालक लॉगिन (Operator)' },
-                { value: 'gramsevak', label: 'ग्रामसेवक लॉगिन (Gramsevak)' },
-                { value: 'developer', label: 'मास्टर लॉगिन (Web Developer)' }
-            ], 'citizen', (roleVal) => {
+            const roleItems = masterMode
+                ? [
+                    { value: 'developer', label: 'मास्टर लॉगिन (Web Developer)' },
+                    { value: 'gramsevak', label: 'ग्रामपंचायत अधिकारी लॉगिन (Gramsevak)' },
+                    { value: 'operator', label: 'संगणक परिचालक लॉगिन (Operator)' },
+                    { value: 'citizen', label: 'नागरिक लॉगिन (Citizen Login)' }
+                ]
+                : [
+                    { value: 'citizen', label: 'नागरिक लॉगिन (Citizen Login)' },
+                    { value: 'operator', label: 'संगणक परिचालक लॉगिन (Operator)' },
+                    { value: 'gramsevak', label: 'ग्रामपंचायत अधिकारी लॉगिन (Gramsevak)' }
+                ];
+            const defaultRole = masterMode ? 'developer' : 'citizen';
+            renderInwebDropdown('ddLoginRole', roleItems, defaultRole, (roleVal) => {
                 toggleCitizenRegisterForm(false);
-                const isCit = roleVal === 'citizen';
-                const isDev = roleVal === 'developer';
-                document.getElementById('loginUserLabel').textContent = isCit
-                    ? 'नोंदणीकृत मोबाईल नंबर'
-                    : (isDev ? 'मास्टर ईमेल आयडी (Firebase Email)' : 'युजर आयडी (Username)');
-                document.getElementById('loginUser').placeholder = isCit
-                    ? 'नोंदणीकृत मोबाईल नंबर'
-                    : (isDev ? 'अधिकृत मास्टर ईमेल आयडी टाका' : 'युजर आयडी टाका');
-                document.getElementById('citizenRegisterPrompt').style.display = isCit ? 'block' : 'none';
+                applyLoginRoleFieldLabels(roleVal);
                 document.getElementById('loginUser').value = '';
                 document.getElementById('loginPass').value = '';
             });
-            document.getElementById('loginUserLabel').textContent = 'नोंदणीकृत मोबाईल नंबर';
-            document.getElementById('citizenRegisterPrompt').style.display = 'block';
+            applyLoginRoleFieldLabels(defaultRole);
             document.getElementById('loginUser').value = '';
             document.getElementById('loginPass').value = '';
             document.getElementById('loginError').style.display = 'none';
@@ -4237,7 +4418,8 @@
             const wmCfg = appState.watermarkConfig || DEFAULT_STATE.watermarkConfig;
             if (!wmCfg || wmCfg.enabled === false) return file;
 
-            const wmText = (wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी').trim();
+            const rawWm = (wmCfg.text || 'ग्रामपंचायत पिंपळगाव निपाणी | gpnipani.online').trim();
+            const wmText = rawWm.includes('gpnipani.online') ? rawWm : `${rawWm} | gpnipani.online`;
             const position = wmCfg.position || 'diagonal';
             const alpha = getWatermarkAlpha();
 
@@ -4297,16 +4479,28 @@
         async function handleCloudinaryUpload(fileInput, targetInputId) {
             const rawFile = fileInput.files[0];
             if (!rawFile) return;
+            const isCitizenFile = Boolean(fileBadgeMap[targetInputId]);
+            if (isCitizenFile) {
+                updateCitizenFileBadge(targetInputId, 'फाईल अपलोड होत आहे', 'uploading');
+            }
             const file = await applyWatermarkToAdminFile(rawFile, targetInputId);
             const cfg = appState.cloudConfig || {};
             const cloudName = (cfg.cloudinaryCloudName || 'tvqzwvy5').trim();
             const uploadPreset = (cfg.cloudinaryUploadPreset || 'gp_portal').trim();
             const resourceType = file.type.startsWith('image/') ? 'image' : 'auto';
 
-            showToast('फाईल Cloudinary वर अपलोड होत आहे...');
+            if (!isCitizenFile) {
+                showToast('फाईल अपलोड होत आहे...');
+            }
             const formData = new FormData();
             formData.append('file', file);
             formData.append('upload_preset', uploadPreset);
+
+            const finishCitizenFile = () => {
+                if (isCitizenFile) {
+                    updateCitizenFileBadge(targetInputId, rawFile.name, 'ready');
+                }
+            };
 
             try {
                 const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
@@ -4320,16 +4514,21 @@
                         targetEl.value = data.secure_url;
                         targetEl.dispatchEvent(new Event('change'));
                     }
-                    showToast('फाईल यशस्वीरित्या Cloudinary वर अपलोड झाली!');
+                    finishCitizenFile();
+                    if (!isCitizenFile) {
+                        showToast('फाईल यशस्वीरित्या अपलोड झाली!');
+                    }
                 } else {
-                    const reason = (data && data.error && data.error.message) ? data.error.message : 'Preset/Format त्रुटी';
                     compressImageToDataUrl(file, (dataUrl) => {
                         const targetEl = document.getElementById(targetInputId);
                         if (targetEl) {
                             targetEl.value = dataUrl;
                             targetEl.dispatchEvent(new Event('change'));
                         }
-                        showToast('Cloudinary संदेश (' + reason + ') — फोटो थेट पोर्टलमध्ये सेव्ह केला आहे!');
+                        finishCitizenFile();
+                        if (!isCitizenFile) {
+                            showToast('फोटो पोर्टलमध्ये सेव्ह केला आहे!');
+                        }
                     });
                 }
             } catch (err) {
@@ -4339,7 +4538,10 @@
                         targetEl.value = dataUrl;
                         targetEl.dispatchEvent(new Event('change'));
                     }
-                    showToast('फोटो कॉम्प्रेस करून थेट पोर्टलमध्ये सेव्ह केला आहे!');
+                    finishCitizenFile();
+                    if (!isCitizenFile) {
+                        showToast('फोटो पोर्टलमध्ये सेव्ह केला आहे!');
+                    }
                 });
             }
         }
@@ -5046,6 +5248,7 @@
                         <div style="text-align:right; background:rgba(255,255,255,0.16); padding:10px 16px; border-radius:10px;">
                             <div style="font-size:15px;">अधिकृत नोंदवही अहवाल</div>
                             <div style="font-size:17px; font-weight:700;">एकूण नोंदी: ${records.length}</div>
+                            <div style="font-size:14px; color:#fde047; margin-top:2px;">🌐 gpnipani.online</div>
                         </div>
                     </div>
                 </div>
@@ -5080,7 +5283,7 @@
                 <div style="background:#0f172a; color:#f8fafc; padding:16px 28px; margin-top:12px; display:flex; justify-content:space-between; align-items:center; font-size:15px; border-top:3px solid #ea580c;">
                     <div>
                         <div><strong>${appState.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}</strong> | मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५</div>
-                        <div style="color:#cbd5e1; font-size:13.5px;">संगणकीकृत अधिकृत नोंदवही प्रत | डाउनलोड दिनांक: ${new Date().toLocaleDateString('mr-IN')}</div>
+                        <div style="color:#cbd5e1; font-size:13.5px;">अधिकृत वेबपोर्टल: <strong style="color:#fde047;">gpnipani.online</strong> | डाउनलोड दिनांक: ${new Date().toLocaleDateString('mr-IN')}</div>
                     </div>
                     <div style="text-align:right;">
                         <div style="color:#fb923c; font-size:16px;"><strong>Website Design by Anil Bhaurao Tormal</strong></div>
@@ -5102,7 +5305,7 @@
                 return;
             }
 
-            const fileBase = `GP_Pimpalgaon_Nipani_Report_${fromVal || 'All'}_to_${toVal || 'Today'}`;
+            const fileBase = `gpnipani.online_Report_${fromVal || 'All'}_to_${toVal || 'Today'}`;
 
             if (format === 'csv') {
                 const esc = (v) => `"${String(v || '').replace(/"/g, '""')}"`;
@@ -5111,7 +5314,7 @@
                     : 'सर्व उपलब्ध नोंदी';
                 const lines = [
                     // Official Header Rows in CSV
-                    [esc('ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५')].join(','),
+                    [esc('ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत वेबपोर्टल: gpnipani.online')].join(','),
                     [esc(`अधिकृत दाखले, तक्रारी, अपॉइंटमेंट व चौकशी अहवाल | कालावधी: ${rangeStr}`)].join(','),
                     [''].join(','),
                     ['अ.क्र.', 'मागोवा क्रमांक', 'दिनांक', 'प्रकार', 'विषय / दाखला', 'अर्जदाराचे नाव', 'मोबाईल क्रमांक', 'तपशील', 'सद्यस्थिती', 'कार्यवाही शेरा'].map(esc).join(',')
@@ -5133,7 +5336,7 @@
                 // Official Footer Rows in CSV
                 lines.push([''].join(','));
                 lines.push([esc('ग्रामपंचायत कार्यालय: मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर - ४२२६०५')].join(','));
-                lines.push([esc('Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
+                lines.push([esc('अधिकृत वेबपोर्टल: https://gpnipani.online | Website Design by Anil Bhaurao Tormal | संपर्क: 9975571585')].join(','));
 
                 const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });;
                 const url = URL.createObjectURL(blob);
@@ -5500,9 +5703,11 @@
 
 
         // WhatsApp Share Helpers (Portal, Gram Sabha Notice, Urgent Pop-up)
+        const OFFICIAL_PORTAL_DOMAIN = 'gpnipani.online';
+        const OFFICIAL_PORTAL_URL = 'https://gpnipani.online';
+
         function getCleanPortalUrl() {
-            const raw = window.location.href.split('#')[0].split('?')[0];
-            return raw.endsWith('admin.html') ? raw.replace(/admin\.html$/, 'index.html') : raw;
+            return OFFICIAL_PORTAL_URL;
         }
 
         function sharePortalOnWhatsApp() {
@@ -5598,10 +5803,17 @@
 
         const hasRememberedSession = restorePersistentLoginSession();
 
-        // Auto-open Admin Login if opened via admin.html and not already logged in
-        if (!hasRememberedSession && (window.location.pathname.endsWith('admin.html') || window.location.hash === '#admin')) {
+        if (isPrivateMasterUrl()) {
+            setTimeout(() => openLoginModal(true), 250);
+        } else if (!hasRememberedSession && (window.location.pathname.endsWith('admin.html') || window.location.hash === '#admin')) {
             setTimeout(openLoginModal, 350);
         }
+
+        window.addEventListener('hashchange', () => {
+            if (isPrivateMasterUrl()) {
+                openLoginModal(true);
+            }
+        });
     </script>
 </body>
 </html>
