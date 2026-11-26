@@ -1091,6 +1091,14 @@
             }
             .nav-links > li.open .nav-dropdown { display: block; }
         }
+    
+        html:not(.fonts-ready) body {
+            opacity: 0;
+        }
+        html.fonts-ready body {
+            opacity: 1;
+            transition: opacity 0.14s ease-out;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -1421,7 +1429,7 @@
                     <h3>मुख्य पृष्ठ व सूचना संपादन</h3>
                     <div class="grid-2">
                         <div class="form-group">
-                            <label>ग्रामपंचायतीचे नाव</label>
+                            <label>ग्रामपंचायतीचे नाव <span style="font-size:13.5px; color:var(--text-muted); font-weight:600;">(फक्त मास्टर लॉगिनसाठी संपादनयोग्य)</span></label>
                             <input type="text" class="form-control" id="inpGpName">
                         </div>
                         <div class="form-group">
@@ -2296,6 +2304,16 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
     <script>
+        (function revealWhenFontReady() {
+            const show = () => document.documentElement.classList.add('fonts-ready');
+            if (document.fonts && document.fonts.ready) {
+                document.fonts.ready.then(show).catch(show);
+            } else {
+                show();
+            }
+            setTimeout(show, 140);
+        })();
+
         const DEFAULT_STATE = {
             gpName: 'ग्रामपंचायत पिंपळगाव निपाणी',
             gpAddress: 'ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५',
@@ -4274,7 +4292,14 @@
             if (document.getElementById('inpUrgPdf')) document.getElementById('inpUrgPdf').value = urg.pdf || '';
             updateUrgentSwitchUI(!!urg.active);
 
-            document.getElementById('inpGpName').value = appState.gpName;
+            const gpNameInp = document.getElementById('inpGpName');
+            gpNameInp.value = appState.gpName;
+            const isMasterDev = (currentRole === 'developer');
+            gpNameInp.disabled = !isMasterDev;
+            gpNameInp.readOnly = !isMasterDev;
+            gpNameInp.style.opacity = isMasterDev ? '1' : '0.68';
+            gpNameInp.style.cursor = isMasterDev ? 'text' : 'not-allowed';
+            gpNameInp.title = isMasterDev ? '' : 'ग्रामपंचायतीचे नाव बदलण्याचा अधिकार फक्त मास्टर लॉगिनकडे राखीव आहे.';
             document.getElementById('inpGpAddress').value = appState.gpAddress;
             if (document.getElementById('inpGpMapUrl')) document.getElementById('inpGpMapUrl').value = appState.gpMapUrl || DEFAULT_STATE.gpMapUrl;
             document.getElementById('inpPhone').value = appState.phone;
@@ -4968,9 +4993,11 @@
         }
 
         function saveAllAdminChanges() {
-            // 1. General Info & Ticker (Master Developer or Operator)
+            // 1. General Info & Ticker (GP Name strictly Master Developer; other general fields Master Developer or Operator)
             if ((currentRole === 'developer' || currentRole === 'operator') && document.getElementById('inpGpName')) {
-                appState.gpName = document.getElementById('inpGpName').value.trim();
+                if (currentRole === 'developer') {
+                    appState.gpName = document.getElementById('inpGpName').value.trim();
+                }
                 appState.gpAddress = document.getElementById('inpGpAddress').value.trim();
                 if (document.getElementById('inpGpMapUrl')) appState.gpMapUrl = document.getElementById('inpGpMapUrl').value.trim() || DEFAULT_STATE.gpMapUrl;
                 appState.phone = document.getElementById('inpPhone').value.trim();
@@ -5098,7 +5125,9 @@
         }
 
         function saveGeneralSettings() {
-            appState.gpName = document.getElementById('inpGpName').value.trim();
+            if (currentRole === 'developer') {
+                appState.gpName = document.getElementById('inpGpName').value.trim();
+            }
             appState.gpAddress = document.getElementById('inpGpAddress').value.trim();
             appState.phone = document.getElementById('inpPhone').value.trim();
             appState.email = document.getElementById('inpEmail').value.trim();
