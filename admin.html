@@ -3144,7 +3144,7 @@
                             <p style="font-size:15px; color:var(--text-muted); margin:0;"><strong>आवश्यक कागदपत्रे:</strong> ${srv.docs}</p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="openInquiryModal('आपले सरकार सेवा केंद्र', '${srv.name.replace(/'/g, "\'")}')">या सेवेबाबत चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="openInquiryModal('आपले सरकार सेवा केंद्र', '${srv.name.replace(/'/g, "&#39;")}')">या सेवेबाबत चौकशी करा</button>
                         </div>
                     </div>
                 `).join('');
@@ -3162,7 +3162,7 @@
                             <p style="font-size:14.5px; color:var(--text-muted); margin:0;"><strong>संपर्क अधिकारी:</strong> ${d.contact}${d.phone ? ' | मोबाईल: ' + d.phone : ''}</p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="toggleInlineCardInquiry('ps_${idx}', 'पंचायत समिती अकोले विभाग', '${(d.dept || '').replace(/'/g, "\'")}', '${(d.contact || d.dept || '').replace(/'/g, "\'")}', '${(d.phone || '').replace(/'/g, "\'")}')">विभाग चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="toggleInlineCardInquiry('ps_${idx}', 'पंचायत समिती अकोले विभाग', '${(d.dept || '').replace(/'/g, "&#39;")}', '${(d.contact || d.dept || '').replace(/'/g, "&#39;")}', '${(d.phone || '').replace(/'/g, "&#39;")}')">विभाग चौकशी करा</button>
                         </div>
                         <div id="inlineInqHost_ps_${idx}" style="display:none;"></div>
                     </div>
@@ -3182,7 +3182,7 @@
                             subNote: off.dept
                         }, off.role)}
                         <div style="text-align:right; margin-top:-4px;">
-                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="toggleInlineCardInquiry('vo_${idx}', 'गावातील इतर शासकीय कर्मचारी', '${(off.role || '').replace(/'/g, "\'")}', '${(off.name || off.role || '').replace(/'/g, "\'")}', '${(off.phone || '').replace(/'/g, "\'")}')">चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="toggleInlineCardInquiry('vo_${idx}', 'गावातील इतर शासकीय कर्मचारी', '${(off.role || '').replace(/'/g, "&#39;")}', '${(off.name || off.role || '').replace(/'/g, "&#39;")}', '${(off.phone || '').replace(/'/g, "&#39;")}')">चौकशी करा</button>
                         </div>
                         <div id="inlineInqHost_vo_${idx}" style="display:none;"></div>
                     </div>
@@ -4572,7 +4572,7 @@
                     </div>
                     <div style="font-size:18px; color:var(--text-main);">${item.name} <span style="font-size:15px; color:var(--text-muted);">(${item.date || 'नोंदणीकृत'})</span></div>
                     <div style="font-size:16px; color:var(--text-muted); margin-bottom:8px;">तपशील: ${item.detail}</div>
-                    ${(item.attachment || item.aadhaarDoc) ? `<div style="margin-bottom:8px;"><a href="javascript:void(0)" style="font-size:15.5px; color:var(--primary); text-decoration:underline; font-weight:700;" onclick="toggleCitizenAttachmentPreview('citAttBox_${item.trackingId || 'idx'}', '${(item.attachment || '').replace(/'/g, "\'")}', '${(item.aadhaarDoc || '').replace(/'/g, "\'")}')">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a><div id="citAttBox_${item.trackingId || 'idx'}" style="display:none; margin-top:8px;"></div></div>` : ''}
+                    ${(item.attachment || item.aadhaarDoc) ? `<div style="margin-bottom:8px;"><a href="javascript:void(0)" style="font-size:15.5px; color:var(--primary); text-decoration:underline; font-weight:700;" onclick="toggleCitizenAttachmentPreview('citAttBox_${item.trackingId || 'idx'}', '${(item.attachment || '').replace(/'/g, "&#39;")}', '${(item.aadhaarDoc || '').replace(/'/g, "&#39;")}')">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a><div id="citAttBox_${item.trackingId || 'idx'}" style="display:none; margin-top:8px;"></div></div>` : ''}
                     <div style="background:var(--bg-card); padding:10px 12px; border-radius:8px; border:1px solid var(--border-color);">
                         <div style="font-size:15px; color:var(--secondary);">ग्रामपंचायत कार्यवाही शेरा (Action Taken):</div>
                         <div style="font-size:16px; color:var(--text-main);">${item.actionNote || 'कार्यवाही प्रक्रियेत आहे.'}</div>
