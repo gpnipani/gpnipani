@@ -3808,7 +3808,7 @@
             const trackLink = `${OFFICIAL_PORTAL_URL}/?track=${encodeURIComponent(rec.trackingId || '')}`;
             const qrDataUrl = buildReceiptQrDataUrl(trackLink);
             const slip = document.createElement('div');
-            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:700px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:Khand,sans-serif;';
+            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:720px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:"Noto Sans Devanagari",sans-serif;font-weight:700;letter-spacing:0;line-height:1.5;';
             slip.innerHTML = `
                 <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
                     <div>
@@ -3821,12 +3821,12 @@
                 </div>
                 <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
                     <div style="text-align:left;flex:1;">
-                        <div style="font-size:15.5px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
-                        <div style="font-size:32px;color:#ea580c;line-height:1.15;"><strong>${rec.trackingId}</strong></div>
-                        <div style="font-size:14px;color:#1e3a8a;margin-top:6px;word-break:break-all;">
+                        <div style="font-size:15px;color:#475569;font-family:'Poppins',sans-serif;">मागोवा क्रमांक (Tracking ID)</div>
+                        <div style="font-size:30px;color:#ea580c;line-height:1.2;font-family:'Poppins',sans-serif;"><strong>${rec.trackingId}</strong></div>
+                        <div style="font-size:13.5px;color:#1e3a8a;margin-top:6px;word-break:break-all;font-family:'Poppins',sans-serif;">
                             <strong>थेट पडताळणी लिंक:</strong> ${trackLink}
                         </div>
-                        <div style="font-size:13px;color:#475569;margin-top:3px;">QR कोड स्कॅन करून किंवा वरील लिंक उघडून अर्जाची सद्यस्थिती पहा.</div>
+                        <div style="font-size:13px;color:#475569;margin-top:4px;">QR कोड स्कॅन करून किंवा वरील लिंक उघडून अर्जाची सद्यस्थिती पहा.</div>
                     </div>
                     <div style="background:#ffffff;padding:8px;border-radius:10px;border:1.5px solid #cbd5e1;text-align:center;flex-shrink:0;">
                         <img src="${qrDataUrl}" alt="QR Code" style="width:112px;height:112px;display:block;">
@@ -3957,6 +3957,39 @@
             searchTrackingStatus();
         }
 
+                function toggleCitizenAttachmentPreview(boxId, attUrl) {
+            const box = document.getElementById(boxId);
+            if (!box || !attUrl) return;
+            if (box.style.display === 'block') {
+                box.style.display = 'none';
+                box.innerHTML = '';
+                return;
+            }
+            const safeUrl = String(attUrl).trim();
+            const isPdf = /^data:application\/pdf/i.test(safeUrl) || /\.pdf(\?|#|$)/i.test(safeUrl);
+            box.style.display = 'block';
+            if (isPdf) {
+                box.innerHTML = `
+                    <div style="border:1.5px solid var(--border-color); border-radius:10px; padding:10px; background:var(--bg-card);">
+                        <iframe src="${safeUrl}" style="width:100%; height:360px; border:none; border-radius:6px;"></iframe>
+                        <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center; gap:8px; flex-wrap:wrap;">
+                            <span style="font-size:14px; color:var(--text-muted);">PDF न दिसल्यास खालील बटणाने उघडा:</span>
+                            <a href="${safeUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:5px 12px; font-size:14.5px;">नवीन टॅबमध्ये उघडा</a>
+                        </div>
+                    </div>
+                `;
+            } else {
+                box.innerHTML = `
+                    <div style="border:1.5px solid var(--border-color); border-radius:10px; padding:8px; background:var(--bg-card); text-align:center;">
+                        <img src="${safeUrl}" alt="जोडलेले कागदपत्र" style="max-width:100%; max-height:360px; object-fit:contain; border-radius:6px; filter:none !important;">
+                        <div style="margin-top:8px;">
+                            <a href="${safeUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:14px;">मोठ्या आकारात पहा</a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
         function renderRequestTimelineCard(item) {
             const statusClass = item.status === 'पूर्ण झाले' ? 'status-done' : (item.status === 'काम सुरू' ? 'status-progress' : 'status-pending');
             return `
@@ -3970,7 +4003,7 @@
                     </div>
                     <div style="font-size:18px; color:var(--text-main);">${item.name} <span style="font-size:15px; color:var(--text-muted);">(${item.date || 'नोंदणीकृत'})</span></div>
                     <div style="font-size:16px; color:var(--text-muted); margin-bottom:8px;">तपशील: ${item.detail}</div>
-                    ${item.attachment ? `<div style="margin-bottom:8px;"><a href="${item.attachment}" target="_blank" rel="noopener" style="font-size:15px; color:var(--primary);">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</a></div>` : ''}
+                    ${item.attachment ? `<div style="margin-bottom:8px;"><button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:15px;" onclick="toggleCitizenAttachmentPreview('citAttBox_${item.trackingId || 'idx'}', '${item.attachment.replace(/'/g, "\'")}')">नागरिकाने जोडलेले कागदपत्र / फोटो पहा</button><div id="citAttBox_${item.trackingId || 'idx'}" style="display:none; margin-top:8px;"></div></div>` : ''}
                     <div style="background:var(--bg-card); padding:10px 12px; border-radius:8px; border:1px solid var(--border-color);">
                         <div style="font-size:15px; color:var(--secondary);">ग्रामपंचायत कार्यवाही शेरा (Action Taken):</div>
                         <div style="font-size:16px; color:var(--text-main);">${item.actionNote || 'कार्यवाही प्रक्रियेत आहे.'}</div>
