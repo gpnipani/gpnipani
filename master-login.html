@@ -1116,34 +1116,93 @@
             image-rendering: auto;
         }
 
-        /* Protocol Horizontal Scrolling Strip (Dignitaries & GP Officials/Employees) */
+        /* Sleek Auto-Scrolling Protocol Strip & Vertical Portrait Cards */
         .protocol-scroll-strip {
             display: flex;
             flex-wrap: nowrap;
             gap: 14px;
             overflow-x: auto;
-            padding: 6px 4px 14px;
-            scroll-snap-type: x mandatory;
+            padding: 8px 6px 12px;
             -webkit-overflow-scrolling: touch;
-            scrollbar-width: thin;
-            scrollbar-color: var(--primary) var(--bg-subtle);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
-        .protocol-scroll-strip::-webkit-scrollbar { height: 6px; }
-        .protocol-scroll-strip::-webkit-scrollbar-track { background: var(--bg-subtle); border-radius: 999px; }
-        .protocol-scroll-strip::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 999px; }
-        .protocol-scroll-strip > * {
-            flex: 0 0 265px;
-            min-width: 265px;
-            max-width: 280px;
-            scroll-snap-align: start;
+        .protocol-scroll-strip::-webkit-scrollbar { display: none; }
+        .scroll-profile-card {
+            flex: 0 0 210px;
+            min-width: 210px;
+            max-width: 220px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            border-top: 4px solid var(--primary);
+            border-radius: 14px;
+            padding: 16px 12px 14px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
         }
-        .protocol-scroll-strip.members-scroll-strip > * {
-            flex: 0 0 300px;
-            min-width: 300px;
-            max-width: 320px;
+        .scroll-profile-avatar {
+            width: 84px;
+            height: 84px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 30px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(15, 23, 42, 0.14);
+        }
+        .scroll-profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top center;
+        }
+        .scroll-profile-badge {
+            display: inline-block;
+            background: rgba(234, 88, 12, 0.12);
+            color: var(--primary-dark);
+            border: 1px solid rgba(234, 88, 12, 0.35);
+            border-radius: 8px;
+            padding: 3px 9px;
+            font-size: 13.5px;
+            line-height: 1.25;
+            max-width: 100%;
+            word-break: break-word;
+        }
+        [data-theme="dark"] .scroll-profile-badge {
+            background: rgba(251, 146, 60, 0.18);
+            color: #fdba74;
+        }
+        .scroll-profile-name {
+            font-size: 18.5px;
+            color: var(--text-main);
+            line-height: 1.22;
+            margin: 0;
+        }
+        .scroll-profile-sub {
+            font-size: 13.5px;
+            color: var(--primary);
+            line-height: 1.25;
+            margin: 0;
+        }
+        .scroll-profile-phone {
+            font-size: 14.5px;
+            color: var(--text-muted);
+            margin: 0;
         }
         @media (max-width: 600px) {
-            .protocol-scroll-strip > * { flex: 0 0 235px; min-width: 235px; }
+            .scroll-profile-card { flex: 0 0 185px; min-width: 185px; max-width: 195px; padding: 14px 10px 12px; }
+            .scroll-profile-avatar { width: 76px; height: 76px; }
+            .scroll-profile-name { font-size: 17.5px; }
+        }
             .protocol-scroll-strip.members-scroll-strip > * { flex: 0 0 270px; min-width: 270px; }
         }
 
@@ -1359,7 +1418,7 @@
                 <!-- ६. पदाधिकारी व कर्मचारी -->
         <section class="section-wrap" id="sec-members">
             <h2 class="section-heading">ग्रामपंचायत पदाधिकारी व कर्मचारी</h2>
-            <div class="protocol-scroll-strip members-scroll-strip" id="membersContainer"></div>
+            <div id="membersContainer"></div>
         </section>
 
         <!-- ७. गावातील विकासकामे -->
@@ -3466,11 +3525,27 @@
                 `;
             }
 
-            let governanceHtml = '';
+            function renderScrollProfileCard(person, badgeText) {
+                const initials = (person.name || 'ग्रा').replace(/^(मा\.|श्री\.|सौ\.|कु\.|श्रीमती|डॉ\.)\s*/g, '').trim().charAt(0) || 'ग्रा';
+                const avatarHtml = person.photo
+                    ? `<img src="${person.photo}" alt="${person.name}" onerror="this.style.display='none';this.parentElement.textContent='${initials}'">`
+                    : initials;
+                return `
+                    <div class="scroll-profile-card">
+                        <div class="scroll-profile-avatar" style="background-color: ${person.color || '#ea580c'};">${avatarHtml}</div>
+                        <span class="scroll-profile-badge">${badgeText || ''}</span>
+                        <h3 class="scroll-profile-name">${person.name || ''}</h3>
+                        ${person.subNote ? `<p class="scroll-profile-sub">${person.subNote}</p>` : ''}
+                        ${person.phone ? `<p class="scroll-profile-phone">संपर्क: ${person.phone}</p>` : ''}
+                    </div>
+                `;
+            }
+
+            let governanceStripHtml = '';
             if (isAdminPeriod) {
-                governanceHtml = `
-                    <div style="grid-column: 1 / -1; max-width: 480px; margin: 0 auto; width: 100%;">
-                        ${renderPersonCard({
+                governanceStripHtml = `
+                    <div style="display:flex; justify-content:center; margin-bottom:16px;">
+                        ${renderScrollProfileCard({
                             name: adminInfo.name,
                             phone: adminInfo.phone,
                             photo: adminInfo.photo,
@@ -3487,27 +3562,29 @@
                         badgeText: `सदस्य (${m.ward || 'प्रभाग ' + (idx + 1)})`
                     }))
                 ];
-                governanceHtml = bodyPeople.map(p => renderPersonCard(p, p.badgeText)).join('');
+                governanceStripHtml = `<div class="protocol-scroll-strip auto-scroll-strip">${bodyPeople.map(p => renderScrollProfileCard(p, p.badgeText)).join('')}</div>`;
             }
 
             if (!Array.isArray(appState.employees) || appState.employees.length === 0) { appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees)); }
             const empList = appState.employees;
             const employeesHtml = empList.length ? `
-                <div style="grid-column: 1 / -1; margin-top: 26px;">
-                    <h3 style="text-align: center; font-size: 26px; color: var(--secondary); margin-bottom: 18px;">ग्रामपंचायत अधिकारी व कर्मचारी वृंद</h3>
-                    <div class="cards-grid">
-                        ${empList.map(emp => renderPersonCard(emp, emp.role)).join('')}
+                <div style="margin-top: 22px;">
+                    <h3 style="text-align: center; font-size: 24px; color: var(--secondary); margin-bottom: 12px;">ग्रामपंचायत अधिकारी व कर्मचारी वृंद</h3>
+                    <div class="protocol-scroll-strip auto-scroll-strip">
+                        ${empList.map(emp => renderScrollProfileCard(emp, emp.role)).join('')}
                     </div>
                 </div>
             ` : '';
 
-            document.getElementById('membersContainer').innerHTML = governanceHtml + employeesHtml;
+            document.getElementById('membersContainer').innerHTML = governanceStripHtml + employeesHtml;
             applyFooterConfigToPortal();
             const digContainer = document.getElementById('dignitariesContainer');
             if (digContainer) {
                 const digList = Array.isArray(appState.dignitaries) && appState.dignitaries.length ? appState.dignitaries : DEFAULT_STATE.dignitaries;
-                digContainer.innerHTML = digList.map(d => renderPersonCard({ name: d.name, phone: '', photo: d.photo, color: d.color || '#1e3a8a', subNote: '' }, d.role)).join('').replace(/<p style="color: var\(--text-muted\); font-size: 16px; margin: 0;">संपर्क: <\/p>/g, '');
+                digContainer.classList.add('auto-scroll-strip');
+                digContainer.innerHTML = digList.map(d => renderScrollProfileCard({ name: d.name, phone: '', photo: d.photo, color: d.color || '#1e3a8a', subNote: '' }, d.role)).join('');
             }
+            initAutoScrollStrips();
 
             document.getElementById('worksContainer').innerHTML = appState.works.map(w => `
                 <div class="card-item" style="overflow:hidden; display:flex; flex-direction:column;">
@@ -3946,6 +4023,42 @@
             syncCscServicesInputs();
             appState.aapleSarkarCenter.servicesList.splice(idx, 1);
             renderCscServicesEditor();
+        }
+
+        let autoScrollTimers = [];
+        function initAutoScrollStrips() {
+            autoScrollTimers.forEach(t => clearInterval(t));
+            autoScrollTimers = [];
+            document.querySelectorAll('.auto-scroll-strip').forEach(strip => {
+                if (!strip || strip.dataset.autoBound === '1') return;
+                strip.dataset.autoBound = '1';
+                let paused = false;
+                let resumeTimer = null;
+                const pause = () => {
+                    paused = true;
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                };
+                const resumeLater = () => {
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                    resumeTimer = setTimeout(() => { paused = false; }, 1800);
+                };
+                strip.addEventListener('mouseenter', pause);
+                strip.addEventListener('mouseleave', () => { paused = false; });
+                strip.addEventListener('touchstart', pause, { passive: true });
+                strip.addEventListener('touchend', resumeLater, { passive: true });
+
+                const timer = setInterval(() => {
+                    if (paused) return;
+                    const maxScroll = strip.scrollWidth - strip.clientWidth;
+                    if (maxScroll <= 4) return;
+                    if (strip.scrollLeft >= maxScroll - 2) {
+                        strip.scrollTo({ left: 0, behavior: 'smooth' });
+                    } else {
+                        strip.scrollLeft += 1;
+                    }
+                }, 26);
+                autoScrollTimers.push(timer);
+            });
         }
 
         function renderDignitariesEditor() {
