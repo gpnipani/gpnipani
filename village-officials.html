@@ -360,16 +360,29 @@
                 <h1>गावातील इतर शासकीय कर्मचारी व यंत्रणा</h1>
                 <p>पिंपळगाव निपाणी गावातील महसूल (तलाठी), कृषी, पशुसंवर्धन, आरोग्य, अंगणवाडी, महावितरण (MSEB), रास्त भाव धान्य दुकान व जिल्हा परिषद शाळेचे शासकीय अधिकारी व संपर्क.</p>
             </div>
-            <a href="#dedicatedInquiryBox" class="btn btn-primary" style="background:#fff; color:#1e3a8a;">शासकीय कर्मचारी / विभाग चौकशी करा</a>
+            <a href="javascript:void(0)" onclick="openDedicatedInquiryModal()" class="btn btn-primary" style="background:#fff; color:#1e3a8a;">शासकीय कर्मचारी / विभाग चौकशी करा</a>
         </div>
 
         <div class="cards-grid" id="voCardsGrid"></div>
 
-        <div class="inquiry-box" id="dedicatedInquiryBox">
+        <div style="margin-top: 28px; text-align: center;">
+            <a href="index.html" class="btn btn-primary" style="padding: 11px 24px; font-size: 18px;" title="मुख्य पृष्ठावर जा">
+                <svg class="icon" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>मुख्य पृष्ठावर जा</span>
+            </a>
+        </div>
+    </main>
+
+    
+            <!-- Modal: Dedicated Inquiry Form Pop-up -->
+    <div class="modal-backdrop" id="dedicatedInquiryModal" onclick="if(event.target===this) closeDedicatedInquiryModal();">
+        <div class="modal-box" style="max-width: 640px; position: relative; text-align: left;">
+            <button type="button" onclick="closeDedicatedInquiryModal()" aria-label="बंद करा" style="position:absolute; top:14px; right:14px; width:34px; height:34px; border-radius:50%; border:1.5px solid var(--border-color); background:var(--bg-subtle); color:var(--text-main); font-size:18px; cursor:pointer; display:flex; align-items:center; justify-content:center;">✕</button>
+
             <h2 style="font-size: 25px; color: var(--primary); margin-bottom: 6px;">गावातील शासकीय कर्मचारी व यंत्रणा — चौकशी</h2>
             <p style="font-size: 16px; color: var(--text-muted); margin-bottom: 16px;">तलाठी कार्यालय, कृषी सहाय्यक, आरोग्य उपकेंद्र, अंगणवाडी, महावितरण किंवा रेशन दुकानाबाबत चौकशी नोंदवण्यासाठी खालील माहिती भरा.</p>
-                            <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-left:5px solid #d97706; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:15.5px; color:#78350f; line-height:1.45;">
-                    <strong>महत्त्वाची सूचना:</strong> सादर करण्यात येणारा कोणताही दाखला अर्ज, तक्रार किंवा चौकशी फॉर्म हा आवश्यक कागदपत्रांसह योग्य व अधिकृत फॉरमॅटमध्येच असावा. अन्यथा सदरचा अर्ज, तक्रार किंवा चौकशी फॉर्म फेटाळण्याचे अथवा नाकारण्याचे पूर्ण अधिकार ग्रामपंचायतीकडे राखीव असतील.
+                            <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-left:5px solid #d97706; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:15px; color:#78350f; line-height:1.45;">
+                    <strong>कायदेशीर व गोपनीयता सूचना:</strong> सादर केलेला अर्ज, तक्रार किंवा चौकशी फॉर्म आवश्यक कागदपत्रांसह योग्य फॉरमॅटमध्ये असणे अनिवार्य आहे; माहिती अपूर्ण किंवा चुकीची आढळल्यास तो नाकारण्याचे पूर्ण अधिकार ग्रामपंचायतीकडे राहतील. तुमची वैयक्तिक माहिती व कागदपत्रे केवळ अधिकृत शासकीय कार्यवाहीसाठी गोपनीयरीत्या वापरली जातील.
                 </div>
             <div id="inqSuccessBanner" style="display:none; background:#dcfce7; color:#166534; padding:12px 16px; border-radius:10px; margin-bottom:14px; border:1.5px solid #22c55e;"></div>
             <div class="grid-2">
@@ -433,7 +446,6 @@
 
             <!-- Legal Privacy & Data Protection Disclaimer -->
             <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 14px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
-                <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित शासकीय चौकशी / सेवा कार्यवाही व अधिकृत पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत. तसेच, अर्जदाराचे नाव, लेखी अर्ज अथवा आधार कार्ड तपशील चुकीचे किंवा अपूर्ण आढळल्यास सदर चौकशी अर्ज फेटाळण्याचा व रद्द करण्याचा पूर्ण अधिकार ग्रामपंचायतीकडे राखीव राहील.</div>
                 <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
                     <input type="checkbox" id="inqPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
                     <span>मी वरील अटी वाचल्या असून माझी माहिती व आधार कागदपत्रे शासकीय कार्यवाहीसाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
@@ -441,18 +453,11 @@
             </div>
 
             <button type="button" class="btn btn-primary" onclick="submitDedicatedInquiry('गावातील इतर शासकीय कर्मचारी')">चौकशी सबमिट करा</button>
-        </div>
 
-        <div style="margin-top: 28px; text-align: center;">
-            <a href="index.html" class="btn btn-primary" style="padding: 11px 24px; font-size: 18px;" title="मुख्य पृष्ठावर जा">
-                <svg class="icon" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-                <span>मुख्य पृष्ठावर जा</span>
-            </a>
         </div>
-    </main>
+    </div>
 
-    
-        <!-- Modal: Inquiry Service Temporarily Paused -->
+    <!-- Modal: Inquiry Service Temporarily Paused -->
     <div class="modal-backdrop" id="inqPausedModal" style="z-index: 11050;">
         <div class="modal-box" style="text-align:center; max-width:480px; border:2.5px solid #dc2626;">
             <div style="width:62px; height:62px; border-radius:50%; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; border:2px solid #dc2626;">
@@ -592,11 +597,19 @@
             el.style.display = 'block';
             setTimeout(() => { el.style.display = 'none'; }, 4500);
         }
-        function selectInquiryItem(val) {
-            if (subpageDropdownOptions.length) renderInwebDropdown('ddInqSubject', subpageDropdownOptions, val);
-            const box = document.getElementById('dedicatedInquiryBox');
-            if (box) box.scrollIntoView({ behavior: 'smooth' });
+        function openDedicatedInquiryModal(val) {
+            if (typeof checkSubpageInquiryPaused === 'function' && checkSubpageInquiryPaused()) return;
+            if (val && subpageDropdownOptions.length) {
+                renderInwebDropdown('ddInqSubject', subpageDropdownOptions, val);
+            }
+            const m = document.getElementById('dedicatedInquiryModal');
+            if (m) m.classList.add('active');
         }
+        function closeDedicatedInquiryModal() {
+            const m = document.getElementById('dedicatedInquiryModal');
+            if (m) m.classList.remove('active');
+        }
+        function selectInquiryItem(val) { openDedicatedInquiryModal(val); }
 
         function marathiToAsciiDigits(str) {
             const m = {'०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9'};
@@ -1016,6 +1029,7 @@
             if (metaEl) metaEl.textContent = `चौकशी: ${subject} | अर्जदार: ${name} (${phone})`;
             if (waBtn) { waBtn.href = waUrl; waBtn.style.display = cachedInquiryForwardEnabled ? 'inline-flex' : 'none'; }
 
+            closeDedicatedInquiryModal();
             showToast('✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ' + trackingId);
             setTimeout(() => {
                 const modal = document.getElementById('inqReceiptModal');
