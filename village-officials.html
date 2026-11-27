@@ -323,6 +323,18 @@
     </main>
 
     
+        <!-- Modal: Inquiry Service Temporarily Paused -->
+    <div class="modal-backdrop" id="inqPausedModal" style="z-index: 11050;">
+        <div class="modal-box" style="text-align:center; max-width:480px; border:2.5px solid #dc2626;">
+            <div style="width:62px; height:62px; border-radius:50%; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; border:2px solid #dc2626;">
+                <svg class="icon" viewBox="0 0 24 24" style="width:32px;height:32px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 style="font-size: 24px; color: #b91c1c; margin-bottom: 8px;">चौकशी फॉर्म सेवा तात्पुरती बंद आहे</h3>
+            <p id="inqPausedReasonText" style="font-size: 18px; color: var(--text-main); margin-bottom: 18px; line-height: 1.55; white-space: pre-line;"></p>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('inqPausedModal').classList.remove('active')">ठीक आहे</button>
+        </div>
+    </div>
+
     <!-- Modal: Instant Inquiry Receipt with Tracking ID, JPG/PDF Download & WhatsApp Forward -->
     <div class="modal-backdrop" id="inqReceiptModal">
         <div class="modal-box" style="text-align:center; max-width: 560px; border: 2.5px solid #16a34a;">
@@ -695,7 +707,32 @@
             }).catch(cleanup);
         }
 
+                let cachedInquiryControl = { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे.' };
+        (async function loadInquiryFormControl() {
+            try {
+                const local = JSON.parse(localStorage.getItem('gp_portal_v6') || '{}');
+                if (local.formControls && local.formControls.inquiry) cachedInquiryControl = local.formControls.inquiry;
+            } catch (e) {}
+            try {
+                const res = await fetch(`${FB_DB_URL}/grampanchayatPortal/formControls/inquiry.json`);
+                const remote = await res.json();
+                if (remote && typeof remote === 'object') cachedInquiryControl = remote;
+            } catch (e) {}
+        })();
+
+        function checkSubpageInquiryPaused() {
+            if (cachedInquiryControl && cachedInquiryControl.enabled === false) {
+                const rEl = document.getElementById('inqPausedReasonText');
+                if (rEl) rEl.textContent = cachedInquiryControl.reason || 'सदर चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे.';
+                const m = document.getElementById('inqPausedModal');
+                if (m) m.classList.add('active');
+                return true;
+            }
+            return false;
+        }
+
         async function submitDedicatedInquiry(categoryLabel) {
+            if (checkSubpageInquiryPaused()) return;
             const hp = (document.getElementById('inqWebsiteHp')?.value || '').trim();
             if (hp) return;
 

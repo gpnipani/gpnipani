@@ -1412,15 +1412,24 @@
 
         <div class="admin-tabs" id="adminTabsBar">
             <button type="button" class="admin-tab-btn active" data-tab="tab-general" data-roles="developer,gramsevak,operator" data-label="ताज्या सूचना व मुख्य पृष्ठ" onclick="switchAdminTab('tab-general', this)">१. ताज्या सूचना व मुख्य पृष्ठ</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer,gramsevak" data-label="आकडेवारी, बॉडी / प्रशासक (मास्टर)" onclick="switchAdminTab('tab-members', this)">२. आकडेवारी, बॉडी / प्रशासक (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" data-label="ग्रामपंचायत कर्मचारी माहिती" onclick="switchAdminTab('tab-employees', this)">३. ग्रामपंचायत कर्मचारी माहिती</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा PDF व विकासकामे" onclick="switchAdminTab('tab-works', this)">४. ग्रामसभा PDF व विकासकामे</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">५. तक्रारी व दाखले हाताळणी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer,gramsevak" data-label="विभाग लपवा / दाखवा (मास्टर)" onclick="switchAdminTab('tab-visibility', this)">६. विभाग लपवा / दाखवा (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer,gramsevak" data-label="डिझाइन, रंग व फॉन्ट (मास्टर)" onclick="switchAdminTab('tab-design', this)">७. डिझाइन, रंग व फॉन्ट (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" data-label="कर्मचारी लॉगिन व पासवर्ड" onclick="switchAdminTab('tab-users', this)">८. कर्मचारी लॉगिन व पासवर्ड</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer,gramsevak" data-label="क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)" onclick="switchAdminTab('tab-cloud', this)">९. क्लाउड व वॉटरमार्क सेटिंग्ज (मास्टर)</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="धोरणे, अस्वीकरण व अटी (मास्टर)" onclick="switchAdminTab('tab-policies', this)">१०. धोरणे, अस्वीकरण व अटी (मास्टर)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-stats" data-roles="developer,gramsevak" data-label="गावाची आकडेवारी" onclick="switchAdminTab('tab-stats', this)">२. गावाची आकडेवारी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer,gramsevak" data-label="बॉडी / प्रशासक माहिती" onclick="switchAdminTab('tab-members', this)">३. बॉडी / प्रशासक माहिती</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" data-label="ग्रामपंचायत कर्मचारी" onclick="switchAdminTab('tab-employees', this)">४. ग्रामपंचायत कर्मचारी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-aaple-sarkar" data-roles="developer,gramsevak" data-label="आपले सरकार सेवा केंद्र" onclick="switchAdminTab('tab-aaple-sarkar', this)">५. आपले सरकार सेवा केंद्र</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-village-officials" data-roles="developer,gramsevak" data-label="इतर शासकीय कर्मचारी" onclick="switchAdminTab('tab-village-officials', this)">६. इतर शासकीय कर्मचारी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-panchayat-samiti" data-roles="developer,gramsevak" data-label="पंचायत समिती अकोले विभाग" onclick="switchAdminTab('tab-panchayat-samiti', this)">६. पंचायत समिती अकोले विभाग</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-committees" data-roles="developer,gramsevak" data-label="महत्त्वाच्या समित्या" onclick="switchAdminTab('tab-committees', this)">७. महत्त्वाच्या समित्या</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="गावातील विकासकामे" onclick="switchAdminTab('tab-works', this)">८. गावातील विकासकामे</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-notices" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा नोटीस व ठराव" onclick="switchAdminTab('tab-notices', this)">९. ग्रामसभा नोटीस व ठराव</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">१०. तक्रारी व दाखले हाताळणी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-form-controls" data-roles="developer,gramsevak" data-label="अर्ज व फॉर्म सेवा नियंत्रण" onclick="switchAdminTab('tab-form-controls', this)">१२. अर्ज व फॉर्म सेवा नियंत्रण</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer,gramsevak" data-label="विभाग लपवा / दाखवा" onclick="switchAdminTab('tab-visibility', this)">१३. विभाग लपवा / दाखवा</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer,gramsevak" data-label="डिझाइन, रंग व फॉन्ट" onclick="switchAdminTab('tab-design', this)">१२. डिझाइन, रंग व फॉन्ट</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-users" data-roles="developer,gramsevak" data-label="कर्मचारी लॉगिन व पासवर्ड" onclick="switchAdminTab('tab-users', this)">१३. कर्मचारी लॉगिन व पासवर्ड</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer,gramsevak" data-label="क्लाउड सेटिंग्ज" onclick="switchAdminTab('tab-cloud', this)">१४. क्लाउड सेटिंग्ज</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-watermark" data-roles="developer,gramsevak" data-label="वॉटरमार्क सेटिंग्ज" onclick="switchAdminTab('tab-watermark', this)">१५. वॉटरमार्क सेटिंग्ज</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-backup" data-roles="developer,gramsevak" data-label="बॅकअप व हालचाल नोंद" onclick="switchAdminTab('tab-backup', this)">१६. बॅकअप व हालचाल नोंद</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="धोरणे, अस्वीकरण व अटी" onclick="switchAdminTab('tab-policies', this)">१७. धोरणे, अस्वीकरण व अटी</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
@@ -1471,9 +1480,9 @@
                 </div>
             </div>
 
-            <!-- Tab 2: Master Developer - Stats & Governance Mode (Elected Body vs Administrator Period) -->
-            <div class="admin-tab-pane" id="tab-members">
-                <div class="info-card" style="margin-bottom: 22px;">
+            <!-- Tab 2: Village Stats -->
+            <div class="admin-tab-pane" id="tab-stats">
+                <div class="info-card">
                     <h3>गावाची आकडेवारी संपादन</h3>
                     <div class="grid-2">
                         <div class="form-group"><label>एकूण लोकसंख्या</label><input type="text" class="form-control" id="inpStatPop"></div>
@@ -1481,8 +1490,14 @@
                         <div class="form-group"><label>एकूण क्षेत्रफळ</label><input type="text" class="form-control" id="inpStatArea"></div>
                         <div class="form-group"><label>साक्षरता दर</label><input type="text" class="form-control" id="inpStatLit"></div>
                     </div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">आकडेवारी सेव्ह करा</button>
+                    </div>
                 </div>
+            </div>
 
+            <!-- Tab 3: Governance Mode (Elected Body vs Administrator Period) -->
+            <div class="admin-tab-pane" id="tab-members">
                 <div class="info-card" style="margin-bottom: 22px;">
                     <h3>ग्रामपंचायत कार्यकारिणी स्थिती (निवडून आलेली बॉडी किंवा प्रशासक कालावधी)</h3>
                     <p style="font-size:16px; color:var(--text-muted); margin-bottom:12px;">जर सध्या सरपंच, उपसरपंच व सदस्य कमिटी अस्तित्वात नसेल आणि प्रशासक नेमलेला असेल, तर खालील ड्रॉप-डाउनमधून <strong>'प्रशासक कालावधी सुरू'</strong> निवडा.</p>
@@ -1535,6 +1550,9 @@
 
                         <div id="structuredMembersEditor" class="grid-2"></div>
                     </div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">बॉडी / प्रशासक माहिती सेव्ह करा</button>
+                    </div>
                 </div>
             </div>
 
@@ -1544,58 +1562,82 @@
                     <h3>ग्रामपंचायत अधिकारी व कर्मचारी माहिती संपादन</h3>
                     <p style="font-size:16px; color:var(--text-muted); margin-bottom:16px;">येथून ग्रामपंचायत अधिकारी, लिपिक (क्लार्क), दोन पाणीपुरवठा कर्मचारी, संगणक परिचालक व ग्रामरोजगार सेवक यांची नावे, संपर्क व फोटो अपडेट करता येतात.</p>
                     <div id="employeesEditorGrid" class="grid-2"></div>
-                    <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
+                    <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
                         <button type="button" class="btn btn-secondary" onclick="addEmployeeSlot()">+ नवीन कर्मचारी पद जोडा</button>
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">कर्मचारी माहिती सेव्ह करा</button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Village Other Govt Officials & Aaple Sarkar Center Editor -->
-                <div class="info-card" style="margin-top: 20px;">
-                    <h3>गावातील इतर शासकीय कर्मचारी व आपले सरकार केंद्र संपादन</h3>
-                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून तलाठी, कृषी सहाय्यक, पशुधन पर्यवेक्षक, आरोग्य सेविका, अंगणवाडी सेविका, महावितरण वायरमन, रेशन दुकानदार आणि आपले सरकार सेवा केंद्राची माहिती अपडेट करता येते.</p>
+            <!-- Tab: Aaple Sarkar Seva Kendra -->
+            <div class="admin-tab-pane" id="tab-aaple-sarkar">
+                <div class="info-card">
+                    <h3>आपले सरकार सेवा केंद्र (CSC) माहिती संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून आपले सरकार सेवा केंद्राची वेळ, संपर्क/WhatsApp क्रमांक व विशेष मोहीम/सूचना अपडेट करता येतात.</p>
                     <div class="grid-2" style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; margin-bottom: 16px;">
                         <div class="form-group" style="margin-bottom:8px;">
                             <label>आपले सरकार केंद्र वेळ</label>
                             <input type="text" class="form-control" id="inpCscTiming">
                         </div>
                         <div class="form-group" style="margin-bottom:8px;">
-                            <label>आपले सरकार केंद्र संपर्क क्रमांक</label>
-                            <input type="text" class="form-control" id="inpCscPhone">
+                            <label>आपले सरकार केंद्र संपर्क / WhatsApp क्रमांक</label>
+                            <input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inpCscPhone" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)">
                         </div>
                         <div class="form-group" style="grid-column: 1 / -1; margin-bottom:0;">
                             <label>आपले सरकार केंद्र विशेष मोहीम / सूचना</label>
                             <input type="text" class="form-control" id="inpCscDrive">
                         </div>
                     </div>
-                    <div id="villageOfficialsEditorGrid" class="grid-2"></div>
-                    <div id="masterAddVillageOfficialWrap" style="margin-top: 16px; display: none; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" class="btn btn-primary" onclick="addVillageOfficialSlot()">+ इतर शासकीय कर्मचारी जोडा</button>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">आपले सरकार केंद्र माहिती सेव्ह करा</button>
                     </div>
-                </div>
-
-                <!-- Panchayat Samiti Akole Departments Editor -->
-                <div class="info-card" style="margin-top: 20px;">
-                    <h3>पंचायत समिती अकोले विभाग संपादन</h3>
-                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून पंचायत समिती अकोले विभागातील योजना, संपर्क अधिकारी व <strong>WhatsApp चौकशी मोबाईल क्रमांक</strong> संपादित किंवा नवीन विभाग जोडता येतात.</p>
-                    <div id="panchayatSamitiEditorGrid" class="grid-2"></div>
-                    <div style="margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap;">
-                        <button type="button" class="btn btn-secondary" onclick="addPanchayatSamitiSlot()">+ नवीन पंचायत समिती विभाग जोडा</button>
-                    </div>
-                </div>
-
-                <!-- Village Committees Editor (Gramsevak & Developer) -->
-                <div class="info-card" style="margin-top: 20px;">
-                    <h3>महत्त्वाच्या ग्रामपंचायत समित्या संपादन (committees.html)</h3>
-                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून ग्राम आरोग्य व पाणीपुरवठा समिती, शालेय व्यवस्थापन समिती (SMC), महात्मा गांधी तंटामुक्त गाव समिती व दक्षता समितीचे अध्यक्ष, सचिव व सदस्य अपडेट करता येतात.</p>
-                    <div id="committeesEditorGrid" class="grid-2"></div>
                 </div>
             </div>
 
-            <!-- Tab 3: Gramsabha & Development Works -->
+            <!-- Tab: Village Other Govt Officials -->
+            <div class="admin-tab-pane" id="tab-village-officials">
+                <div class="info-card">
+                    <h3>गावातील इतर शासकीय कर्मचारी संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून तलाठी, कृषी सहाय्यक, पशुधन पर्यवेक्षक, आरोग्य सेविका, आशा व अंगणवाडी सेविका, महावितरण वायरमन आणि रेशन दुकानदार यांची माहिती व व्हॉट्सअॅप क्रमांक अपडेट करता येतात.</p>
+                    <div id="villageOfficialsEditorGrid" class="grid-2"></div>
+                    <div id="masterAddVillageOfficialWrap" style="margin-top: 16px; display: none; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addVillageOfficialSlot()">+ इतर शासकीय कर्मचारी जोडा</button>
+                    </div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">इतर शासकीय कर्मचारी माहिती सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Panchayat Samiti Akole Departments -->
+            <div class="admin-tab-pane" id="tab-panchayat-samiti">
+                <div class="info-card">
+                    <h3>पंचायत समिती अकोले विभाग संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून पंचायत समिती अकोले विभागातील योजना, संपर्क अधिकारी व <strong>WhatsApp चौकशी मोबाईल क्रमांक</strong> संपादित किंवा नवीन विभाग जोडता येतात.</p>
+                    <div id="panchayatSamitiEditorGrid" class="grid-2"></div>
+                    <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addPanchayatSamitiSlot()">+ नवीन पंचायत समिती विभाग जोडा</button>
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">पंचायत समिती विभाग सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Village Committees Editor -->
+            <div class="admin-tab-pane" id="tab-committees">
+                <div class="info-card">
+                    <h3>महत्त्वाच्या ग्रामपंचायत समित्या संपादन (committees.html)</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून ग्राम आरोग्य व पाणीपुरवठा समिती, शालेय व्यवस्थापन समिती (SMC), महात्मा गांधी तंटामुक्त गाव समिती व दक्षता समितीचे अध्यक्ष, सचिव व सदस्य अपडेट करता येतात.</p>
+                    <div id="committeesEditorGrid" class="grid-2"></div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">महत्त्वाच्या समित्या माहिती सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Development Works -->
             <div class="admin-tab-pane" id="tab-works">
-                <div class="grid-2">
-                    <div class="info-card">
-                        <h3>नवीन विकासकाम जोडा</h3>
+                <div class="info-card">
+                    <h3>नवीन विकासकाम जोडा व व्यवस्थापन</h3>
                         <div class="form-group"><label>कामाचे नाव</label><input type="text" class="form-control" id="newWorkTitle" placeholder="उदा. सिमेंट काँक्रीट रस्ता बांधकाम"></div>
                         <div class="form-group"><label>योजना व मंजूर निधी</label><input type="text" class="form-control" id="newWorkFund" placeholder="उदा. १५ वा वित्त आयोग - ₹५,००,०००"></div>
                         <div class="form-group">
@@ -1615,10 +1657,13 @@
                         </div>
                         <button type="button" class="btn btn-primary" onclick="addNewWork()">विकासकाम जोडा</button>
                         <div id="adminWorksList" style="margin-top: 18px;"></div>
-                    </div>
+                </div>
+            </div>
 
-                    <div class="info-card">
-                        <h3>नवीन ग्रामसभा नोटीस / ठराव जोडा</h3>
+            <!-- Tab: Gramsabha Notices & Resolutions -->
+            <div class="admin-tab-pane" id="tab-notices">
+                <div class="info-card">
+                    <h3>नवीन ग्रामसभा नोटीस / ठराव जोडा</h3>
                         <div class="form-group"><label>नोटीस / ठराव शीर्षक</label><input type="text" class="form-control" id="newNoticeTitle" placeholder="उदा. मासिक ग्रामसभा नोटीस"></div>
                         <div class="form-group"><label>दिनांक</label><input type="text" class="form-control" id="newNoticeDate" placeholder="उदा. ३० नोव्हेंबर २०२६"></div>
                         <div class="form-group"><label>तपशील</label><input type="text" class="form-control" id="newNoticeDesc" placeholder="सकाळी १०:०० वाजता ग्रामपंचायत कार्यालय"></div>
@@ -1635,7 +1680,6 @@
                         </div>
                         <button type="button" class="btn btn-primary" onclick="addNewNotice()">नोटीस प्रसिद्ध करा</button>
                         <div id="adminNoticesList" style="margin-top: 18px;"></div>
-                    </div>
                 </div>
             </div>
 
@@ -1718,12 +1762,71 @@
                 </div>
             </div>
 
+            <!-- Tab: Form Pause / Temporary Disable Controls -->
+            <div class="admin-tab-pane" id="tab-form-controls">
+                <div class="info-card" style="border-left: 5px solid #dc2626;">
+                    <h3 style="color:#b91c1c;">दाखला अर्ज, तक्रार अर्ज व चौकशी फॉर्म तात्पुरते बंद / चालू नियंत्रण</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:16px;">कोणतीही ऑनलाइन फॉर्म सेवा तात्पुरती बंद (OFF) केल्यास, नागरिकांनी त्या बटनावर क्लिक करताच खाली लिहिलेले कारण पॉप-अप (Pop-up) मध्ये दिसेल.</p>
+
+                    <div style="display:flex; flex-direction:column; gap:16px;">
+                        <div style="background:var(--bg-subtle); padding:15px; border-radius:12px; border:1.5px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                                <strong style="font-size:19px; color:var(--secondary);">१. ऑनलाइन दाखला मागणी अर्ज सेवा</strong>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span id="lblFcService" style="font-size:16px; color:#15803d;">सुरू (ON)</span>
+                                    <button type="button" class="inweb-switch on" id="swFcService" onclick="toggleFormControlSwitch('service')"><span class="inweb-switch-knob"></span></button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>सेवा बंद असल्यास नागरिकांना दिसणारे कारण (Pop-up सूचना)</label>
+                                <textarea class="form-control" rows="2" id="inpFcServiceReason" placeholder="उदा. तांत्रिक देखभाल / कार्यालयीन कारणामुळे ऑनलाइन दाखला मागणी अर्ज सेवा तात्पुरती बंद ठेवण्यात आली आहे."></textarea>
+                            </div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:15px; border-radius:12px; border:1.5px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                                <strong style="font-size:19px; color:var(--secondary);">२. ऑनलाइन तक्रार निवारण अर्ज सेवा</strong>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span id="lblFcComplaint" style="font-size:16px; color:#15803d;">सुरू (ON)</span>
+                                    <button type="button" class="inweb-switch on" id="swFcComplaint" onclick="toggleFormControlSwitch('complaint')"><span class="inweb-switch-knob"></span></button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>सेवा बंद असल्यास नागरिकांना दिसणारे कारण (Pop-up सूचना)</label>
+                                <textarea class="form-control" rows="2" id="inpFcComplaintReason" placeholder="उदा. तांत्रिक देखभाल / कार्यालयीन कारणामुळे ऑनलाइन तक्रार नोंदणी सेवा तात्पुरती बंद ठेवण्यात आली आहे."></textarea>
+                            </div>
+                        </div>
+
+                        <div style="background:var(--bg-subtle); padding:15px; border-radius:12px; border:1.5px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                                <strong style="font-size:19px; color:var(--secondary);">३. विभाग व शासकीय कर्मचारी चौकशी फॉर्म सेवा</strong>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span id="lblFcInquiry" style="font-size:16px; color:#15803d;">सुरू (ON)</span>
+                                    <button type="button" class="inweb-switch on" id="swFcInquiry" onclick="toggleFormControlSwitch('inquiry')"><span class="inweb-switch-knob"></span></button>
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>सेवा बंद असल्यास नागरिकांना दिसणारे कारण (Pop-up सूचना)</label>
+                                <textarea class="form-control" rows="2" id="inpFcInquiryReason" placeholder="उदा. तांत्रिक देखभाल / कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveFormControlsSettings()">अर्ज व फॉर्म सेवा नियंत्रण सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
             <!-- Tab 5: Show/Hide Sections (Animated In-Web Toggles) -->
             <div class="admin-tab-pane" id="tab-visibility">
                 <div class="info-card">
                     <h3>मुख्य वेब पृष्ठावरील विभाग लपवा किंवा दाखवा</h3>
                     <p>कोणताही विभाग तात्पुरता बंद (OFF) केल्यास तो मुख्य वेबसाईटवरून आणि मेनूमधून लपवला जाईल.</p>
                     <div id="visibilityTogglesList" class="grid-2" style="margin-top: 16px;"></div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">विभाग दृश्यमानता सेटिंग्ज सेव्ह करा</button>
+                    </div>
                 </div>
             </div>
 
@@ -1782,11 +1885,14 @@
                             <div class="form-group"><label>Firebase मास्टर पासवर्ड बदला (किमान ६ अक्षरे)</label><input type="password" class="form-control" id="mstDevPass" placeholder="नवीन पासवर्ड टाका (ऐच्छिक)"></div>
                             <button type="button" class="btn btn-secondary" style="padding:7px 14px; font-size:15px;" onclick="changeFirebaseMasterPassword()">Firebase पासवर्ड अपडेट करा</button>
                         </div>
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">ग्रामसेवक व खाते सेटिंग्ज सेव्ह करा</button>
+                    </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Tab 8: Master Cloud Settings (Auto-hides form once configured) -->
+            <!-- Tab: Cloud Settings -->
             <div class="admin-tab-pane" id="tab-cloud">
                 <div class="info-card">
                     <h3>क्लाउड डेटाबेस व मीडिया स्टोरेज (Firebase + Cloudinary)</h3>
@@ -1811,9 +1917,11 @@
                         <button type="button" class="btn btn-primary" onclick="saveAndLockCloudKeys()">Keys सेव्ह करा व बॉक्स लपवा</button>
                     </div>
                 </div>
+            </div>
 
-                <!-- Master Login ONLY: Default Document & Photo Watermark Settings -->
-                <div class="info-card" style="margin-top: 20px; border-left: 5px solid var(--secondary);">
+            <!-- Tab: Watermark Settings -->
+            <div class="admin-tab-pane" id="tab-watermark">
+                <div class="info-card" style="border-left: 5px solid var(--secondary);">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
                         <div>
                             <h3 style="color:var(--secondary); margin-bottom:3px;">दस्तऐवज व फोटो स्वयंचलित वॉटरमार्क सेटिंग्ज (मास्टर नियंत्रण)</h3>
@@ -1829,9 +1937,25 @@
                             <label>वॉटरमार्क मजकूर (Watermark Text)</label>
                             <input type="text" class="form-control" id="wmTextInput" placeholder="उदा. ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी">
                         </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्कची जागा (Position)</label>
+                            <div class="inweb-select" id="ddWmPositionSelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्क गडदपणा (Opacity)</label>
+                            <div class="inweb-select" id="ddWmOpacitySelect"></div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; justify-content:space-between;">
+                        <button type="button" class="btn btn-danger" onclick="resetAllRecordsToZeroByMaster()">सर्व चाचणी नोंदी पुसून ० पासून सुरू करा</button>
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveWatermarkSettingsByMaster()">वॉटरमार्क सेटिंग्ज सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
 
-                <!-- Master / Admin: Full Portal JSON Backup Export/Restore & Recent Activity Log -->
-                <div class="info-card" style="margin-top: 20px; border-left: 5px solid #0f766e;">
+            <!-- Tab: Backup & Activity Log -->
+            <div class="admin-tab-pane" id="tab-backup">
+                <div class="info-card" style="border-left: 5px solid #0f766e;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
                         <div>
                             <h3 style="color:#0f766e; margin-bottom:3px;">पोर्टल डेटा बॅकअप, रिस्टोअर व हालचाल नोंद (Backup & Activity Log)</h3>
@@ -1847,22 +1971,7 @@
                     </div>
                     <div style="margin-top:14px;">
                         <div style="font-size:16.5px; color:var(--secondary); margin-bottom:8px;"><strong>अलीकडील प्रशासकीय हालचालींची नोंद</strong></div>
-                        <div id="adminActivityLogBox" style="max-height:210px; overflow-y:auto; background:var(--bg-subtle); border:1px solid var(--border-color); border-radius:10px; padding:10px 12px; font-size:15px;"></div>
-                    </div>
-                </div>
-
-                        <div class="form-group">
-                            <label>वॉटरमार्कची जागा (Position)</label>
-                            <div class="inweb-select" id="ddWmPositionSelect"></div>
-                        </div>
-                        <div class="form-group">
-                            <label>वॉटरमार्क गडदपणा (Opacity)</label>
-                            <div class="inweb-select" id="ddWmOpacitySelect"></div>
-                        </div>
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:8px;">
-                        <button type="button" class="btn btn-primary" onclick="saveWatermarkSettingsByMaster()">वॉटरमार्क सेटिंग्ज सेव्ह करा</button>
-                        <button type="button" class="btn btn-danger" onclick="resetAllRecordsToZeroByMaster()">सर्व चाचणी नोंदी पुसून ० पासून सुरू करा</button>
+                        <div id="adminActivityLogBox" style="max-height:280px; overflow-y:auto; background:var(--bg-subtle); border:1px solid var(--border-color); border-radius:10px; padding:10px 12px; font-size:15px;"></div>
                     </div>
                 </div>
             </div>
@@ -1986,20 +2095,6 @@
             </div>
         </div>
 
-        <!-- Sticky Bottom Save Bar -->
-        <div class="admin-sticky-footer">
-            <div style="display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 16px;">
-                <svg class="icon" viewBox="0 0 24 24" style="color: var(--primary);"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-                <span>सर्व विभागांतील केलेले बदल एकत्र सुरक्षित करण्यासाठी उजवीकडील बटण दाबा.</span>
-            </div>
-            <div style="display: flex; gap: 10px; align-items: center;">
-                <button type="button" class="btn btn-secondary" onclick="exitAdminToPortal()">पोर्टल पहा</button>
-                <button type="button" class="btn btn-primary" style="padding: 12px 28px; font-size: 19px; box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);" onclick="saveAllAdminChanges()">
-                    <svg class="icon" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                    बदल सेव्ह करा
-                </button>
-            </div>
-        </div>
     </div>
 
     <!-- Modal: Official Document / Certificate Viewer (?doc=GP-2026-...) -->
@@ -2407,6 +2502,18 @@
         </div>
     </div>
 
+    <!-- Modal: Service Temporarily Paused Notice -->
+    <div class="modal-backdrop" id="servicePausedModal" style="z-index: 10070;">
+        <div class="modal-box" style="text-align:center; max-width:480px; border:2.5px solid #dc2626;">
+            <div style="width:62px; height:62px; border-radius:50%; background:#fee2e2; color:#b91c1c; display:flex; align-items:center; justify-content:center; margin:0 auto 12px; border:2px solid #dc2626;">
+                <svg class="icon" viewBox="0 0 24 24" style="width:32px;height:32px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            </div>
+            <h3 id="pausedModalTitle" style="font-size: 24px; color: #b91c1c; margin-bottom: 8px;">सदर सेवा तात्पुरती बंद आहे</h3>
+            <p id="pausedModalReason" style="font-size: 18px; color: var(--text-main); margin-bottom: 18px; line-height: 1.55; white-space: pre-line;"></p>
+            <button type="button" class="btn btn-primary" onclick="closeModals()">ठीक आहे</button>
+        </div>
+    </div>
+
     <!-- Modal: Tax Pay Coming Soon -->
     <div class="modal-backdrop" id="taxComingSoonModal">
         <div class="modal-box" style="text-align:center; max-width:460px;">
@@ -2509,6 +2616,11 @@
                 message: 'सर्व ग्रामस्थांना कळविण्यात येते की, ग्रामपंचायत पिंपळगाव निपाणी अंतर्गत तातडीच्या शासकीय कामकाजासाठी व ग्रामसभेसाठी दिलेल्या वेळेत उपस्थित राहावे.',
                 photo: '',
                 pdf: ''
+            },
+            formControls: {
+                service: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन दाखला मागणी अर्ज सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' },
+                complaint: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन तक्रार निवारण सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' },
+                inquiry: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' }
             },
             visibility: {
                 ticker: true,
@@ -2671,6 +2783,7 @@
         if (!appState.villageCommittees) appState.villageCommittees = JSON.parse(JSON.stringify(DEFAULT_STATE.villageCommittees));
         if (!appState.watermarkConfig) appState.watermarkConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.watermarkConfig));
         if (!appState.urgentNotice) appState.urgentNotice = JSON.parse(JSON.stringify(DEFAULT_STATE.urgentNotice));
+        if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
         if (!Array.isArray(appState.requestArchiveLog)) appState.requestArchiveLog = JSON.parse(JSON.stringify(DEFAULT_STATE.requestArchiveLog));
         appState.administrator = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.administrator)), appState.administrator || {});
         if (Array.isArray(appState.requests)) { appState.requests.forEach((r, i) => { if (!r.trackingId) r.trackingId = 'GP-2026-' + (1001 + i); if (!r.date) r.date = 'नोव्हेंबर २०२६'; if (r.actionNote === undefined) r.actionNote = ''; if (r.actionProof === undefined) r.actionProof = ''; }); }
@@ -3378,6 +3491,68 @@
             showToast('पाचही विभागांचा मूळ मसुदा परत आणला गेला आहे!');
         }
 
+        function getFormControlConfig(key) {
+            const def = DEFAULT_STATE.formControls[key] || { enabled: true, reason: 'सदर सेवा तात्पुरती बंद ठेवण्यात आली आहे.' };
+            const cur = (appState.formControls && appState.formControls[key]) ? appState.formControls[key] : def;
+            return {
+                enabled: cur.enabled !== false,
+                reason: (cur.reason && cur.reason.trim()) ? cur.reason.trim() : def.reason
+            };
+        }
+
+        function showServicePausedPopup(title, reason) {
+            const tEl = document.getElementById('pausedModalTitle');
+            const rEl = document.getElementById('pausedModalReason');
+            if (tEl) tEl.textContent = title || 'सदर सेवा तात्पुरती बंद आहे';
+            if (rEl) rEl.textContent = reason || 'सदर सेवा तात्पुरती बंद ठेवण्यात आली आहे.';
+            const m = document.getElementById('servicePausedModal');
+            if (m) m.classList.add('active');
+        }
+
+        function updateFormControlSwitchUI(key, isOn) {
+            const map = { service: ['swFcService', 'lblFcService'], complaint: ['swFcComplaint', 'lblFcComplaint'], inquiry: ['swFcInquiry', 'lblFcInquiry'] };
+            const pair = map[key];
+            if (!pair) return;
+            const sw = document.getElementById(pair[0]);
+            const lbl = document.getElementById(pair[1]);
+            if (sw) sw.classList.toggle('on', !!isOn);
+            if (lbl) {
+                lbl.textContent = isOn ? 'सुरू (ON)' : 'तात्पुरती बंद (OFF)';
+                lbl.style.color = isOn ? '#15803d' : '#dc2626';
+            }
+        }
+
+        function populateFormControlsEditor() {
+            if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
+            ['service', 'complaint', 'inquiry'].forEach(k => {
+                const cfg = getFormControlConfig(k);
+                updateFormControlSwitchUI(k, cfg.enabled);
+                const idMap = { service: 'inpFcServiceReason', complaint: 'inpFcComplaintReason', inquiry: 'inpFcInquiryReason' };
+                const inp = document.getElementById(idMap[k]);
+                if (inp) inp.value = cfg.reason;
+            });
+        }
+
+        function toggleFormControlSwitch(key) {
+            if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
+            if (!appState.formControls[key]) appState.formControls[key] = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls[key]));
+            appState.formControls[key].enabled = !(appState.formControls[key].enabled !== false);
+            updateFormControlSwitchUI(key, appState.formControls[key].enabled);
+        }
+
+        function saveFormControlsSettings() {
+            if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
+            const idMap = { service: 'inpFcServiceReason', complaint: 'inpFcComplaintReason', inquiry: 'inpFcInquiryReason' };
+            ['service', 'complaint', 'inquiry'].forEach(k => {
+                if (!appState.formControls[k]) appState.formControls[k] = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls[k]));
+                const inp = document.getElementById(idMap[k]);
+                if (inp) appState.formControls[k].reason = inp.value.trim() || DEFAULT_STATE.formControls[k].reason;
+            });
+            logPortalActivity('अर्ज व फॉर्म सेवा तात्पुरती बंद/चालू नियंत्रण सेटिंग्ज अपडेट केल्या.');
+            saveStateToStorage();
+            showToast('अर्ज व फॉर्म सेवा नियंत्रण सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
+        }
+
         function openTaxComingSoonModal() {
             document.getElementById('taxComingSoonModal').classList.add('active');
         }
@@ -3651,6 +3826,8 @@
         }
 
         function openServiceModal(defaultType) {
+            const fc = getFormControlConfig('service');
+            if (!fc.enabled) { showServicePausedPopup('दाखला मागणी अर्ज सेवा तात्पुरती बंद आहे', fc.reason); return; }
             document.getElementById('serviceModalTitle').textContent = defaultType || 'ऑनलाइन दाखला मागणी अर्ज';
             const certOptions = Object.keys(RTS_CERTIFICATES_DATA).map(name => ({
                 value: name,
@@ -3811,6 +3988,8 @@
         }
 
         function toggleInlineCardInquiry(cardKey, cat, sub, recipientName, rawPhone) {
+            const fc = getFormControlConfig('inquiry');
+            if (!fc.enabled) { showServicePausedPopup('चौकशी फॉर्म सेवा तात्पुरती बंद आहे', fc.reason); return; }
             const host = document.getElementById(`inlineInqHost_${cardKey}`);
             if (!host) {
                 openInquiryModal(cat, sub);
@@ -3938,6 +4117,8 @@
         }
 
         function openInquiryModal(defaultCategory, defaultSubject) {
+            const fc = getFormControlConfig('inquiry');
+            if (!fc.enabled) { showServicePausedPopup('चौकशी फॉर्म सेवा तात्पुरती बंद आहे', fc.reason); return; }
             closeInlineCardInquiry();
             const categories = [
                 { value: 'आपले सरकार सेवा केंद्र', label: '१. आपले सरकार सेवा केंद्र (CSC)' },
@@ -4025,6 +4206,8 @@
         }
 
         function openComplaintModal() {
+            const fc = getFormControlConfig('complaint');
+            if (!fc.enabled) { showServicePausedPopup('तक्रार निवारण सेवा तात्पुरती बंद आहे', fc.reason); return; }
             renderInwebDropdown('ddComplaintDept', [
                 { value: 'पाणीपुरवठा विभाग', label: 'पाणीपुरवठा विभाग' },
                 { value: 'दिवाबत्ती / स्ट्रीट लाईट', label: 'दिवाबत्ती / स्ट्रीट लाईट' },
@@ -4884,7 +5067,7 @@
             };
             document.getElementById('roleBadgeDisplay').textContent = roleTitles[currentRole];
 
-            const marNums = ['१','२','३','४','५','६','७','८','९','१०'];
+            const marNums = ['१','२','३','४','५','६','७','८','९','१०','११','१२','१३','१४','१५','१६','१७','१८','१९','२०'];
             let visibleSeq = 0;
             let firstVisibleTabBtn = null;
             document.querySelectorAll('#adminTabsBar .admin-tab-btn').forEach(btn => {
@@ -5162,6 +5345,7 @@
 
             renderAdminWorksAndNotices();
             renderAdminRequests();
+            populateFormControlsEditor();
             renderVisibilityToggles();
 
             renderInwebDropdown('ddAdminPalette', [
