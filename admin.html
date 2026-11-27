@@ -1206,6 +1206,48 @@
             .protocol-scroll-strip.members-scroll-strip > * { flex: 0 0 270px; min-width: 270px; }
         }
 
+
+        /* Compact Stats Cards (2 per row on mobile, 4 per row on desktop) */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+        .stat-card {
+            padding: 14px 10px !important;
+            border-radius: 12px !important;
+        }
+        .stat-card .stat-icon, .stat-card .icon-box {
+            width: 38px !important;
+            height: 38px !important;
+            margin: 0 auto 8px !important;
+        }
+        .stat-card h3 {
+            font-size: 26px !important;
+            line-height: 1.15 !important;
+            margin-bottom: 3px !important;
+        }
+        .stat-card p {
+            font-size: 15px !important;
+            line-height: 1.25 !important;
+            margin: 0 !important;
+        }
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 10px !important;
+            }
+            .stat-card {
+                padding: 12px 8px !important;
+            }
+            .stat-card h3 {
+                font-size: 22px !important;
+            }
+            .stat-card p {
+                font-size: 14px !important;
+            }
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -3988,32 +4030,48 @@
             autoScrollTimers = [];
             document.querySelectorAll('.auto-scroll-strip').forEach(strip => {
                 if (!strip) return;
-                // Duplicate cards once for seamless infinite loop without getting stuck at the end
                 if (strip.dataset.cloned !== '1' && strip.children.length >= 2) {
                     const origHtml = strip.innerHTML;
                     strip.innerHTML = origHtml + origHtml;
                     strip.dataset.cloned = '1';
                 }
-                let paused = false;
-                let resumeTimer = null;
+                strip._autoPaused = false;
                 if (strip.dataset.autoBound !== '1') {
                     strip.dataset.autoBound = '1';
-                    const pause = () => {
-                        paused = true;
-                        if (resumeTimer) clearTimeout(resumeTimer);
+                    const pauseStrip = () => {
+                        strip._autoPaused = true;
+                        if (strip._resumeTimer) {
+                            clearTimeout(strip._resumeTimer);
+                            strip._resumeTimer = null;
+                        }
+                    };
+                    const resumeNow = () => {
+                        if (strip._resumeTimer) {
+                            clearTimeout(strip._resumeTimer);
+                            strip._resumeTimer = null;
+                        }
+                        strip._autoPaused = false;
                     };
                     const resumeLater = () => {
-                        if (resumeTimer) clearTimeout(resumeTimer);
-                        resumeTimer = setTimeout(() => { paused = false; }, 1600);
+                        if (strip._resumeTimer) clearTimeout(strip._resumeTimer);
+                        strip._resumeTimer = setTimeout(() => { strip._autoPaused = false; }, 2500);
                     };
-                    strip.addEventListener('mouseenter', pause);
-                    strip.addEventListener('mouseleave', () => { paused = false; });
-                    strip.addEventListener('touchstart', pause, { passive: true });
+                    strip.addEventListener('mouseenter', pauseStrip);
+                    strip.addEventListener('mouseover', pauseStrip);
+                    strip.addEventListener('mouseleave', resumeNow);
+                    strip.addEventListener('pointerenter', pauseStrip);
+                    strip.addEventListener('pointerleave', resumeNow);
+                    strip.addEventListener('pointerdown', pauseStrip, { passive: true });
+                    strip.addEventListener('pointerup', resumeLater, { passive: true });
+                    strip.addEventListener('touchstart', pauseStrip, { passive: true });
+                    strip.addEventListener('touchmove', pauseStrip, { passive: true });
                     strip.addEventListener('touchend', resumeLater, { passive: true });
+                    strip.addEventListener('touchcancel', resumeLater, { passive: true });
+                    strip.addEventListener('wheel', () => { pauseStrip(); resumeLater(); }, { passive: true });
                 }
 
                 const timer = setInterval(() => {
-                    if (paused) return;
+                    if (strip._autoPaused || strip.matches(':hover')) return;
                     if (strip.dataset.cloned !== '1') return;
                     const halfWidth = strip.scrollWidth / 2;
                     if (halfWidth <= 10 || strip.scrollWidth <= strip.clientWidth + 4) return;
