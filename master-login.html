@@ -2693,7 +2693,14 @@
             }
         };
 
-        let savedRaw = JSON.parse(localStorage.getItem('gp_portal_v6'));
+        let savedRaw = null;
+        try {
+            const rawStr = localStorage.getItem('gp_portal_v6');
+            if (rawStr) savedRaw = JSON.parse(rawStr);
+        } catch (e) {
+            savedRaw = null;
+            try { localStorage.removeItem('gp_portal_v6'); } catch (e2) {}
+        }
         let appState = savedRaw ? Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE)), savedRaw) : JSON.parse(JSON.stringify(DEFAULT_STATE));
         appState.accounts = Object.assign(JSON.parse(JSON.stringify(DEFAULT_STATE.accounts)), appState.accounts || {});
         appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
@@ -2796,7 +2803,7 @@
                     }
                     appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
                     logPortalActivity(`बॅकअप फाईलवरून डेटा रिस्टोअर केला (${file.name}).`);
-                    localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
+                    normalizeAppStateArrays(); safeLocalStorageSet('gp_portal_v6', JSON.stringify(appState));
                     syncToFirebaseIfConfigured();
                     populateAdminForms();
                     renderPublicPortalWithShimmer();
@@ -2810,8 +2817,66 @@
             reader.readAsText(file);
         }
 
+
+        function ensureArrayField(val, fallbackArr) {
+            if (Array.isArray(val)) return val;
+            if (val && typeof val === 'object') return Object.values(val);
+            return Array.isArray(fallbackArr) ? JSON.parse(JSON.stringify(fallbackArr)) : [];
+        }
+
+        function normalizeAppStateArrays() {
+            appState.requests = ensureArrayField(appState.requests, []);
+            appState.requestArchiveLog = ensureArrayField(appState.requestArchiveLog, []);
+            appState.works = ensureArrayField(appState.works, DEFAULT_STATE.works);
+            appState.notices = ensureArrayField(appState.notices, DEFAULT_STATE.notices);
+            appState.leadership = ensureArrayField(appState.leadership, DEFAULT_STATE.leadership);
+            appState.wardMembers = ensureArrayField(appState.wardMembers, DEFAULT_STATE.wardMembers);
+            appState.employees = ensureArrayField(appState.employees, DEFAULT_STATE.employees);
+            if (!appState.employees.length) appState.employees = JSON.parse(JSON.stringify(DEFAULT_STATE.employees));
+            appState.panchayatSamitiDepts = ensureArrayField(appState.panchayatSamitiDepts, DEFAULT_STATE.panchayatSamitiDepts);
+            appState.villageOfficials = ensureArrayField(appState.villageOfficials, DEFAULT_STATE.villageOfficials);
+            appState.villageCommittees = ensureArrayField(appState.villageCommittees, DEFAULT_STATE.villageCommittees);
+            if (!appState.accounts) appState.accounts = JSON.parse(JSON.stringify(DEFAULT_STATE.accounts));
+            appState.accounts.staffList = ensureArrayField(appState.accounts.staffList, DEFAULT_STATE.accounts.staffList);
+            appState.accounts.citizens = ensureArrayField(appState.accounts.citizens, DEFAULT_STATE.accounts.citizens);
+            appState.activityLog = ensureArrayField(appState.activityLog, []);
+        }
+
+        function safeLocalStorageSet(key, val) {
+            try {
+                localStorage.setItem(key, val);
+                return true;
+            } catch (err) {
+                try {
+                    // Strip heavy inline base64 data URLs before caching locally so QuotaExceededError never breaks submission
+                    const lite = JSON.parse(val);
+                    if (Array.isArray(lite.requests)) {
+                        lite.requests = lite.requests.map(r => Object.assign({}, r, {
+                            attachment: (r.attachment && r.attachment.startsWith('data:')) ? '' : r.attachment,
+                            aadhaarDoc: (r.aadhaarDoc && r.aadhaarDoc.startsWith('data:')) ? '' : r.aadhaarDoc,
+                            actionProof: (r.actionProof && r.actionProof.startsWith('data:')) ? '' : r.actionProof
+                        }));
+                    }
+                    if (Array.isArray(lite.requestArchiveLog)) {
+                        lite.requestArchiveLog = lite.requestArchiveLog.map(r => Object.assign({}, r, {
+                            aadhaarDoc: (r.aadhaarDoc && r.aadhaarDoc.startsWith('data:')) ? '' : r.aadhaarDoc,
+                            actionProof: (r.actionProof && r.actionProof.startsWith('data:')) ? '' : r.actionProof
+                        }));
+                    }
+                    localStorage.setItem(key, JSON.stringify(lite));
+                    return true;
+                } catch (e2) {
+                    return false;
+                }
+            }
+        }
+
+        normalizeAppStateArrays();
+
         function saveStateToStorage() {
-            localStorage.setItem('gp_portal_v6', JSON.stringify(appState)); syncToFirebaseIfConfigured();
+            normalizeAppStateArrays();
+            safeLocalStorageSet('gp_portal_v6', JSON.stringify(appState));
+            syncToFirebaseIfConfigured();
         }
 
         let activeToastTimer = null;
@@ -3868,7 +3933,7 @@
                 actionNote: `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`,
                 actionProof: ''
             };
-            appState.requests.unshift(inqEntry);
+            if (!Array.isArray(appState.requests)) appState.requests = []; appState.requests.unshift(inqEntry);
             syncArchiveRecord(inqEntry);
             saveStateToStorage();
             if (currentCitizen && typeof renderCitizenRequestsHistory === 'function') {
@@ -3971,7 +4036,7 @@
                 actionNote: `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetInfo.recipientName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`,
                 actionProof: ''
             };
-            appState.requests.unshift(inqEntry);
+            if (!Array.isArray(appState.requests)) appState.requests = []; appState.requests.unshift(inqEntry);
             syncArchiveRecord(inqEntry);
             saveStateToStorage();
             closeModals();
@@ -4059,7 +4124,7 @@
                     actionNote: 'अर्ज प्राप्त झाला असून पडताळणीसाठी संबंधित कर्मचाऱ्यांकडे वर्ग केला आहे.',
                     actionProof: ''
                 };
-                appState.requests.unshift(reqEntry);
+                if (!Array.isArray(appState.requests)) appState.requests = []; appState.requests.unshift(reqEntry);
                 syncArchiveRecord(reqEntry);
                 lastReceiptPayload = reqEntry;
                 lastGeneratedTrackingId = newId;
@@ -4121,7 +4186,7 @@
                     actionNote: 'तक्रार नोंदवली गेली असून ग्रामपंचायत प्रशासनाकडून पाहणी सुरू आहे.',
                     actionProof: ''
                 };
-                appState.requests.unshift(cmpEntry);
+                if (!Array.isArray(appState.requests)) appState.requests = []; appState.requests.unshift(cmpEntry);
                 syncArchiveRecord(cmpEntry);
                 lastReceiptPayload = cmpEntry;
                 lastGeneratedTrackingId = newId;
@@ -5829,7 +5894,8 @@
                     }
                     appState.cloudConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.cloudConfig));
                     appState.accounts.developer = { masterEmail: 'aniltormal2@gmail.com' };
-                    localStorage.setItem('gp_portal_v6', JSON.stringify(appState));
+                    normalizeAppStateArrays();
+                    safeLocalStorageSet('gp_portal_v6', JSON.stringify(appState));
                     enforceRequestRetentionPolicy();
                     populateActualPortalContent();
                     checkAndOpenDocFromQueryParam();
@@ -7130,7 +7196,12 @@
 
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').catch(() => {});
+                navigator.serviceWorker.getRegistrations().then(regs => {
+                    regs.forEach(r => r.unregister().catch(() => {}));
+                }).catch(() => {});
+                if (window.caches && caches.keys) {
+                    caches.keys().then(keys => keys.forEach(k => caches.delete(k).catch(() => {}))).catch(() => {});
+                }
             });
         }
 
