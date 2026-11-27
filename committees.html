@@ -162,7 +162,7 @@
             img { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; -webkit-user-drag: none; }
     
         html:not(.fonts-ready) body {
-            opacity: 0;
+            opacity: 1;
         }
         html.fonts-ready body {
             opacity: 1;
@@ -383,80 +383,174 @@
                         <p style="font-size: 15.5px; color: var(--primary);"><strong>संपर्क:</strong> <a href="tel:${c.phone}" style="color:inherit; text-decoration:none;">${c.phone}</a></p>
                     </div>
                     <div style="border-top: 1px solid var(--border-color); padding-top: 10px;">
-                        <button type="button" class="btn btn-secondary" style="padding: 6px 14px; font-size: 15.5px;" onclick="selectCommitteeInquiry('${c.name.replace(/'/g, "\'")}')">या समितीबाबत चौकशी करा</button>
+                        <button type="button" class="btn btn-secondary" style="padding: 6px 14px; font-size: 15.5px;" onclick="selectCommitteeInquiry('${c.name.replace(/'/g, "&#39;")}')">या समितीबाबत चौकशी करा</button>
                     </div>
                 </div>
             `).join('');
             const ddOpts = list.map(c => ({ value: c.name, label: c.name }));
             renderInwebDropdown('ddInqSubject', ddOpts, customDropdownValues['ddInqSubject'] || ddOpts[0].value);
         }
-        async function submitCommitteeInquiry() {
+
+        function marathiToAsciiDigits(str) {
+            const m = {'०':'0','१':'1','२':'2','३':'3','४':'4','५':'5','६':'6','७':'7','८':'8','९':'9'};
+            return String(str || '').replace(/[०-९]/g, d => m[d] || d);
+        }
+        function extractWaNumber(rawPhone) {
+            const ascii = marathiToAsciiDigits(rawPhone || '');
+            const parts = ascii.split(/[\/,|]+/);
+            for (const part of parts) {
+                const digits = part.replace(/\D/g, '');
+                if (digits.length === 10 && /^[6-9]/.test(digits)) return '91' + digits;
+                if (digits.length === 12 && digits.startsWith('91')) return digits;
+            }
+            const allDigits = ascii.replace(/\D/g, '');
+            if (allDigits.length >= 10) {
+                const tail = allDigits.slice(-10);
+                if (/^[6-9]/.test(tail)) return '91' + tail;
+            }
+            return '';
+        }
+        function safeCachePortalState(stateObj) {
+            try {
+                localStorage.setItem('gp_portal_v6', JSON.stringify(stateObj));
+            } catch (e) {
+                // Ignore QuotaExceededError so form submission never fails
+            }
+        }
+        function resolveSubpageWhatsAppTarget(categoryLabel, subject, stateObj) {
+            let targetName = subject || categoryLabel;
+            let targetPhone = '';
+            if (categoryLabel === 'आपले सरकार सेवा केंद्र') {
+                const csc = (stateObj && stateObj.aapleSarkarCenter) || (typeof DEFAULT_CSC !== 'undefined' ? DEFAULT_CSC : {});
+                targetName = csc.operatorName || 'संगणक परिचालक (VLE), आपले सरकार सेवा केंद्र';
+                targetPhone = csc.phone || '';
+            } else if (categoryLabel === 'पंचायत समिती अकोले विभाग') {
+                const list = (stateObj && Array.isArray(stateObj.panchayatSamitiDepts) && stateObj.panchayatSamitiDepts.length)
+                    ? stateObj.panchayatSamitiDepts : (typeof DEFAULT_PS !== 'undefined' ? DEFAULT_PS : []);
+                const m = list.find(d => d.dept === subject);
+                if (m) { targetName = m.contact || m.dept; targetPhone = m.phone || ''; }
+            } else if (categoryLabel === 'गावातील इतर शासकीय कर्मचारी') {
+                const list = (stateObj && Array.isArray(stateObj.villageOfficials) && stateObj.villageOfficials.length)
+                    ? stateObj.villageOfficials : (typeof DEFAULT_VO !== 'undefined' ? DEFAULT_VO : []);
+                const m = list.find(o => o.role === subject);
+                if (m) { targetName = m.name || m.role; targetPhone = m.phone || ''; }
+            } else if (categoryLabel === 'महत्त्वाच्या समित्या') {
+                const list = (stateObj && Array.isArray(stateObj.villageCommittees) && stateObj.villageCommittees.length)
+                    ? stateObj.villageCommittees : (typeof DEFAULT_COMMITTEES !== 'undefined' ? DEFAULT_COMMITTEES : []);
+                const m = list.find(c => c.name === subject);
+                if (m) { targetName = m.president || m.name; targetPhone = m.phone || ''; }
+            }
+            return { targetName, targetPhone };
+        }
+
+        async function submitDedicatedInquiry(categoryLabel) {
             const subject = customDropdownValues['ddInqSubject'] || '';
             const name = document.getElementById('inqName').value.trim();
-            const phone = document.getElementById('inqPhone').value.trim();
+            const phone = marathiToAsciiDigits(document.getElementById('inqPhone').value.trim()).replace(/\D/g, '');
             const detail = document.getElementById('inqDetail').value.trim();
-            if (!name || !phone || !detail) {
-                showToast('कृपया तुमचे नाव, मोबाईल क्रमांक आणि चौकशीचा तपशील भरा.');
+            if (!name || phone.length < 10 || !detail) {
+                showToast('कृपया तुमचे नाव, १०-अंकी मोबाईल क्रमांक आणि चौकशीचा तपशील भरा.');
                 return;
             }
             const trackingId = 'GP-2026-' + Math.floor(1000 + Math.random() * 9000);
             const nowMs = Date.now();
+            const todayStr = new Date().toLocaleDateString('mr-IN', { day: 'numeric', month: 'long', year: 'numeric' });
             const newReq = {
                 trackingId,
-                date: '२५ नोव्हेंबर २०२६',
+                date: todayStr,
                 createdAt: nowMs,
                 resolvedAt: null,
                 type: 'चौकशी',
-                subject: 'महत्त्वाच्या समित्या — ' + subject,
+                subject: categoryLabel + ' — ' + subject,
                 name,
                 phone,
                 detail,
                 attachment: '',
                 status: 'प्रलंबित',
-                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित समितीकडून लवकरच उत्तर दिले जाईल.',
+                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
                 actionProof: ''
             };
 
-            let stateObj = null;
+            let stateObj = {};
             try {
                 const raw = localStorage.getItem('gp_portal_v6');
-                if (raw) stateObj = JSON.parse(raw);
-            } catch (e) {}
+                if (raw) stateObj = JSON.parse(raw) || {};
+            } catch (e) { stateObj = {}; }
+
+            let reqList = Array.isArray(stateObj.requests) ? stateObj.requests : [];
+            let archList = Array.isArray(stateObj.requestArchiveLog) ? stateObj.requestArchiveLog : [];
 
             try {
-                const res = await fetch(`${FB_DB_URL}/grampanchayatPortal.json`);
-                const remote = await res.json();
-                if (remote && remote.gpName) stateObj = remote;
+                const [rRes, aRes] = await Promise.all([
+                    fetch(`${FB_DB_URL}/grampanchayatPortal/requests.json`),
+                    fetch(`${FB_DB_URL}/grampanchayatPortal/requestArchiveLog.json`)
+                ]);
+                const rData = await rRes.json();
+                const aData = await aRes.json();
+                if (Array.isArray(rData)) reqList = rData;
+                else if (rData && typeof rData === 'object') reqList = Object.values(rData);
+                if (Array.isArray(aData)) archList = aData;
+                else if (aData && typeof aData === 'object') archList = Object.values(aData);
             } catch (e) {}
 
-            if (stateObj) {
-                if (!Array.isArray(stateObj.requests)) stateObj.requests = [];
-                if (!Array.isArray(stateObj.requestArchiveLog)) stateObj.requestArchiveLog = [];
-                stateObj.requests.unshift(newReq);
-                stateObj.requestArchiveLog.unshift({
-                    trackingId: newReq.trackingId,
-                    date: newReq.date,
-                    createdAt: nowMs,
-                    type: newReq.type,
-                    subject: newReq.subject,
-                    name: newReq.name,
-                    phone: newReq.phone,
-                    detail: newReq.detail,
-                    status: newReq.status,
-                    actionNote: newReq.actionNote,
-                    isDeleted: false,
-                    deletedDate: '',
-                    deletedBy: ''
-                });
-                localStorage.setItem('gp_portal_v6', JSON.stringify(stateObj));
-                try {
-                    await fetch(`${FB_DB_URL}/grampanchayatPortal.json`, {
+            const targetInfo = resolveSubpageWhatsAppTarget(categoryLabel, subject, stateObj);
+            newReq.actionNote = `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetInfo.targetName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`;
+
+            reqList.unshift(newReq);
+            archList.unshift({
+                trackingId: newReq.trackingId,
+                date: newReq.date,
+                createdAt: nowMs,
+                type: newReq.type,
+                subject: newReq.subject,
+                name: newReq.name,
+                phone: newReq.phone,
+                detail: newReq.detail,
+                status: newReq.status,
+                actionNote: newReq.actionNote,
+                isDeleted: false,
+                deletedDate: '',
+                deletedBy: ''
+            });
+
+            stateObj.requests = reqList;
+            stateObj.requestArchiveLog = archList;
+            safeCachePortalState(stateObj);
+            try { localStorage.setItem('gp_last_tracking_id', trackingId); } catch (e) {}
+
+            try {
+                await Promise.all([
+                    fetch(`${FB_DB_URL}/grampanchayatPortal/requests.json`, {
                         method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(stateObj)
-                    });
-                } catch (e) {}
-            }
+                        body: JSON.stringify(reqList)
+                    }),
+                    fetch(`${FB_DB_URL}/grampanchayatPortal/requestArchiveLog.json`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(archList)
+                    })
+                ]);
+            } catch (e) {}
+
+            const waLines = [
+                '*ग्रामपंचायत पिंपळगाव निपाणी — नागरिक चौकशी संदेश*',
+                `मागोवा क्रमांक: *${trackingId}* | दिनांक: ${todayStr}`,
+                '',
+                `*विभाग:* ${categoryLabel}`,
+                `*संबंधित सेवा / विभाग:* ${subject}`,
+                `*अधिकारी / कर्मचारी:* ${targetInfo.targetName}`,
+                '',
+                `*नागरिकाचे नाव:* ${name}`,
+                `*नागरिकाचा मोबाईल:* ${phone}`,
+                `*चौकशीचा तपशील:* ${detail}`,
+                '',
+                'अधिकृत पोर्टल: http://gpnipani.online'
+            ];
+            const waNum = extractWaNumber(targetInfo.targetPhone);
+            const waUrl = waNum
+                ? `https://wa.me/${waNum}?text=${encodeURIComponent(waLines.join('\n'))}`
+                : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
 
             document.getElementById('inqName').value = '';
             document.getElementById('inqPhone').value = '';
@@ -464,10 +558,16 @@
             const resBox = document.getElementById('inqSuccessBanner');
             if (resBox) {
                 resBox.style.display = 'block';
-                resBox.innerHTML = `तुमची चौकशी यशस्वीरित्या नोंदवली गेली आहे! तुमचा मागोवा क्रमांक (Tracking ID): <strong>${trackingId}</strong>`;
+                resBox.innerHTML = `
+                    <div style="font-size:18px; margin-bottom:6px;"><strong>✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे!</strong></div>
+                    <div style="margin-bottom:8px;">मागोवा क्रमांक (Tracking ID): <strong>${trackingId}</strong> | संबंधित: <strong>${targetInfo.targetName}</strong>${targetInfo.targetPhone ? ' (' + targetInfo.targetPhone + ')' : ''}</div>
+                    <a href="${waUrl}" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:8px 16px; font-size:16.5px; border-radius:10px;">संबंधित कर्मचाऱ्याच्या WhatsApp वर फॉरवर्ड करा</a>
+                `;
             }
-            showToast('चौकशी नोंदवली गेली! मागोवा क्रमांक: ' + trackingId);
+            showToast('✅ चौकशी यशस्वीरित्या सबमिट झाली! मागोवा क्र.: ' + trackingId);
+            setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 700);
         }
+        function submitCommitteeInquiry() { return submitDedicatedInquiry('महत्त्वाच्या समित्या'); }
 
         applySavedTheme();
         (async function initCommittees() {
