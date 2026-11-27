@@ -1248,6 +1248,40 @@
             }
         }
 
+
+        .req-subtabs-bar {
+            display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;
+            background: var(--bg-subtle); padding: 8px; border-radius: 12px; border: 1px solid var(--border-color);
+        }
+        .req-subtab-btn {
+            padding: 7px 14px; border-radius: 9px; border: 1.5px solid var(--border-color);
+            background: var(--bg-card); color: var(--text-main); font-size: 15.5px; cursor: pointer;
+        }
+        .req-subtab-btn.active {
+            background: var(--secondary); color: #ffffff; border-color: var(--secondary);
+        }
+        .req-filter-bar {
+            display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px;
+        }
+        .req-filter-btn {
+            padding: 5px 12px; border-radius: 999px; border: 1.5px solid var(--border-color);
+            background: var(--bg-card); color: var(--text-main); font-size: 14.5px; cursor: pointer;
+        }
+        .req-filter-btn.active {
+            background: var(--primary); color: #ffffff; border-color: var(--primary);
+        }
+        .compact-export-card { padding: 14px !important; }
+        .compact-export-card .grid-2 { gap: 10px !important; }
+        .compact-export-card .form-group { margin-bottom: 8px !important; }
+        .compact-req-card {
+            background: var(--bg-subtle); padding: 11px 12px; border-radius: 10px;
+            margin-bottom: 10px; border-left: 4px solid var(--primary); font-size: 15px;
+        }
+        @media (max-width: 600px) {
+            .req-subtab-btn { font-size: 14.5px; padding: 6px 10px; flex: 1; text-align: center; }
+            .compact-req-card { padding: 10px; font-size: 14.5px; }
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -1751,7 +1785,7 @@
             <div class="admin-tab-pane" id="tab-village-officials">
                 <div class="info-card">
                     <h3>गावातील इतर शासकीय कर्मचारी संपादन</h3>
-                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून तलाठी, कृषी सहाय्यक, पशुधन पर्यवेक्षक, आरोग्य सेविका, आशा व अंगणवाडी सेविका, महावितरण वायरमन आणि रेशन दुकानदार यांची माहिती व व्हॉट्सअॅप क्रमांक अपडेट करता येतात.</p>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून तलाठी, कृषी सहाय्यक, पशुधन पर्यवेक्षक, आरोग्य सेविका, आशा व अंगणवाडी सेविका, महावितरण वायरमन आणि रेशन दुकानदार यांची माहिती व WhatsApp क्रमांक अपडेट करता येतात.</p>
                     <div id="villageOfficialsEditorGrid" class="grid-2"></div>
                     <div id="masterAddVillageOfficialWrap" style="margin-top: 16px; display: none; gap: 10px; flex-wrap: wrap;">
                         <button type="button" class="btn btn-secondary" onclick="addVillageOfficialSlot()">+ इतर शासकीय कर्मचारी जोडा</button>
@@ -1809,7 +1843,7 @@
                                 </label>
                             </div>
                         </div>
-                        <button type="button" class="btn btn-primary" onclick="addNewWork()">विकासकाम जोडा</button>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;"><button type="button" class="btn btn-primary" id="btnSaveWork" onclick="addNewWork()">विकासकाम जोडा</button><button type="button" class="btn btn-secondary" id="btnCancelEditWork" style="display:none;" onclick="cancelEditWork()">रद्द करा</button></div>
                         <div id="adminWorksList" style="margin-top: 18px;"></div>
                 </div>
             </div>
@@ -1839,8 +1873,63 @@
 
             <!-- Tab 4: Citizen Requests & Complaints -->
             <div class="admin-tab-pane" id="tab-requests">
-                <!-- Master Login ONLY: Clean Zero Reset before Public Launch -->
-                <div id="masterZeroResetBox" class="info-card" style="display:none; margin-bottom: 18px; border-left: 5px solid #dc2626; background: #fef2f2;">
+                <div class="req-subtabs-bar">
+                    <button type="button" class="req-subtab-btn active" onclick="switchReqSubTab('reqSubPane_list', this)">१. नागरिक नोंदी व हाताळणी</button>
+                    <button type="button" class="req-subtab-btn" onclick="switchReqSubTab('reqSubPane_export', this)">२. अहवाल Export व १ वर्षाचे रजिस्टर</button>
+                    <button type="button" class="req-subtab-btn" id="btnReqSubReset" onclick="switchReqSubTab('reqSubPane_reset', this)">३. मास्टर झिरो रिसेट</button>
+                </div>
+
+                <div class="req-subpane" id="reqSubPane_list">
+                    <div class="info-card">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="margin-bottom:4px;">नागरिकांचे ऑनलाइन दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">टीप: फक्त 'पूर्ण झाले' अशी कार्यवाही पूर्ण झालेल्या दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी ३० दिवसांनंतर येथून आपोआप डिलीट होतील; 'प्रलंबित' किंवा 'काम सुरू' असलेल्या नोंदी तशाच शिल्लक राहतील.</p>
+                        </div>
+                    </div>
+                    <div id="requestsBulkBar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--bg-subtle); padding:10px 14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
+                        <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:17px; margin:0;">
+                            <input type="checkbox" id="chkSelectAllReqs" onchange="toggleSelectAllRequests(this.checked)" style="width:18px; height:18px; accent-color:var(--primary);">
+                            <span>सर्व नोंदी निवडा (Select All)</span>
+                        </label>
+                        <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:16px;" onclick="deleteSelectedRequests()">निवडलेल्या नोंदी डिलीट करा</button>
+                    </div>
+                    <div class="req-filter-bar" id="reqStatusFilterBar">
+                        <button type="button" class="req-filter-btn active" onclick="setReqStatusFilter('all', this)">सर्व</button>
+                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('प्रलंबित', this)">प्रलंबित</button>
+                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('काम सुरू', this)">काम सुरू</button>
+                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('पूर्ण झाले', this)">पूर्ण झाले</button>
+                    </div>
+                    <div id="adminRequestsList"></div>
+                </div>
+                </div>
+
+                <div class="req-subpane" id="reqSubPane_export" style="display:none;">
+                    <div class="info-card compact-export-card" style="margin-bottom: 14px; border-left: 5px solid #15803d;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                        <div>
+                            <h3 style="color:#15803d; margin-bottom:3px;">अहवाल Export करा (तारीख निवडून JPG / PDF / CSV डाउनलोड)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">ठराविक तारीख (Date Range) निवडून सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी अधिकृत हेडर व फूटरसह डाउनलोड करा.</p>
+                        </div>
+                    </div>
+                    <div class="info-card" id="oneYearRegisterBox" style="display:none; margin-top:14px; border-left:5px solid var(--secondary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+                        <div>
+                            <h3 style="color:var(--secondary); margin-bottom:4px;">१ वर्षाचे संपूर्ण रजिस्टर व डिलीट केलेल्या नोंदी (फक्त मास्टर व ग्रामसेवक ॲडमिनसाठी)</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">मागील १ वर्षात (३६५ दिवस) रजिस्टर झालेले सर्व दाखले, तक्रारी, अपॉइंटमेंट, चौकशी फॉर्म आणि डिलीट केलेल्या सर्व नोंदींची माहिती येथे सुरक्षित राहते.</p>
+                        </div>
+                        <span class="badge" id="oneYearCountBadge" style="font-size:15px;">एकूण नोंदी: ०</span>
+                    </div>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
+                        <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:220px;">
+                        <div class="inweb-select" id="ddSelArchiveFilter" style="width:auto; min-width:230px;"></div>
+                    </div>
+                    <div id="oneYearRegisterList"></div>
+                </div>
+                </div>
+
+                <div class="req-subpane" id="reqSubPane_reset" style="display:none;">
+                    <div id="masterZeroResetBox" class="info-card" style="display:none; margin-bottom: 18px; border-left: 5px solid #dc2626; background: #fef2f2;">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
                         <div>
                             <h3 style="color:#b91c1c; margin-bottom:4px;">मास्टर नियंत्रण: लाइव्ह करण्यापूर्वी सर्व चाचणी नोंदी पुसणे (Zero Reset)</h3>
@@ -1875,44 +1964,6 @@
                             <div class="inweb-select" id="ddExpDataSource"></div>
                         </div>
                     </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#b91c1c,#dc2626);" onclick="exportRequestsReport('pdf')">PDF डाउनलोड करा (.pdf)</button>
-                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8);" onclick="exportRequestsReport('jpg')">JPG फोटो डाउनलोड करा (.jpg)</button>
-                        <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#15803d,#16a34a);" onclick="exportRequestsReport('csv')">CSV / Excel डाउनलोड करा (.csv)</button>
-                    </div>
-                </div>
-
-                <div class="info-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
-                        <div>
-                            <h3 style="margin-bottom:4px;">नागरिकांचे ऑनलाइन दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">टीप: फक्त 'पूर्ण झाले' अशी कार्यवाही पूर्ण झालेल्या दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी ३० दिवसांनंतर येथून आपोआप डिलीट होतील; 'प्रलंबित' किंवा 'काम सुरू' असलेल्या नोंदी तशाच शिल्लक राहतील.</p>
-                        </div>
-                    </div>
-                    <div id="requestsBulkBar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--bg-subtle); padding:10px 14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
-                        <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:17px; margin:0;">
-                            <input type="checkbox" id="chkSelectAllReqs" onchange="toggleSelectAllRequests(this.checked)" style="width:18px; height:18px; accent-color:var(--primary);">
-                            <span>सर्व नोंदी निवडा (Select All)</span>
-                        </label>
-                        <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:16px;" onclick="deleteSelectedRequests()">निवडलेल्या नोंदी डिलीट करा</button>
-                    </div>
-                    <div id="adminRequestsList"></div>
-                </div>
-
-                <!-- 1-Year Master & Gramsevak Complete Register (Visible ONLY to Master Admin & Gramsevak Admin) -->
-                <div class="info-card" id="oneYearRegisterBox" style="display:none; margin-top:22px; border-left:5px solid var(--secondary);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <div>
-                            <h3 style="color:var(--secondary); margin-bottom:4px;">१ वर्षाचे संपूर्ण रजिस्टर व डिलीट केलेल्या नोंदी (फक्त मास्टर व ग्रामसेवक ॲडमिनसाठी)</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">मागील १ वर्षात (३६५ दिवस) रजिस्टर झालेले सर्व दाखले, तक्रारी, अपॉइंटमेंट, चौकशी फॉर्म आणि डिलीट केलेल्या सर्व नोंदींची माहिती येथे सुरक्षित राहते.</p>
-                        </div>
-                        <span class="badge" id="oneYearCountBadge" style="font-size:15px;">एकूण नोंदी: ०</span>
-                    </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-                        <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:220px;">
-                        <div class="inweb-select" id="ddSelArchiveFilter" style="width:auto; min-width:230px;"></div>
-                    </div>
-                    <div id="oneYearRegisterList"></div>
                 </div>
             </div>
 
@@ -2179,8 +2230,16 @@
                             <div class="inweb-select" id="ddWmPositionSelect"></div>
                         </div>
                         <div class="form-group">
-                            <label>वॉटरमार्क गडदपणा (Opacity)</label>
+                            <label>वॉटरमार्क गडदपणा (Opacity: १०% ते ९०%)</label>
                             <div class="inweb-select" id="ddWmOpacitySelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्क फॉन्ट (Font Family)</label>
+                            <div class="inweb-select" id="ddWmFontFamilySelect"></div>
+                        </div>
+                        <div class="form-group">
+                            <label>वॉटरमार्क फॉन्ट साइज (Font Size)</label>
+                            <div class="inweb-select" id="ddWmFontSizeSelect"></div>
                         </div>
                     </div>
                     <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; justify-content:space-between;">
@@ -3896,8 +3955,13 @@
         }
 
         function renderFooterConfigEditor() {
-            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.footerConfig));
+            const defFc = DEFAULT_STATE.footerConfig;
+            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(defFc));
             const fc = appState.footerConfig;
+            ['officeTitle','officeTiming','govLinksTitle','emergencyTitle','emergencyLine1','emergencyLine2','copyrightText','designerCredit','designerPhone'].forEach(k => {
+                if (!fc[k]) fc[k] = defFc[k];
+            });
+            if (!Array.isArray(fc.govLinks) || fc.govLinks.length === 0) fc.govLinks = JSON.parse(JSON.stringify(defFc.govLinks));
             const setV = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
             setV('ftOfficeTitle', fc.officeTitle);
             setV('ftOfficeTiming', fc.officeTiming);
@@ -3986,7 +4050,7 @@
             const grid = document.getElementById('cscServicesEditorGrid');
             if (!grid) return;
             if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
-            if (!Array.isArray(appState.aapleSarkarCenter.servicesList)) appState.aapleSarkarCenter.servicesList = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter.servicesList));
+            if (!Array.isArray(appState.aapleSarkarCenter.servicesList) || appState.aapleSarkarCenter.servicesList.length === 0) appState.aapleSarkarCenter.servicesList = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter.servicesList));
             const list = appState.aapleSarkarCenter.servicesList;
             grid.innerHTML = list.map((s, idx) => `
                 <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
@@ -5860,8 +5924,13 @@
         function switchAdminTab(tabId, btnEl) {
             document.querySelectorAll('.admin-tab-pane').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.admin-tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(tabId).classList.add('active');
+            const pane = document.getElementById(tabId);
+            if (pane) pane.classList.add('active');
             if (btnEl) btnEl.classList.add('active');
+            if (tabId === 'tab-aaple-sarkar') renderCscServicesEditor();
+            if (tabId === 'tab-committees') renderCommitteesEditor();
+            if (tabId === 'tab-policies') renderFooterConfigEditor();
+            if (tabId === 'tab-requests') renderAdminRequests();
         }
 
         function updateUrgentSwitchUI(isOn) {
@@ -6163,7 +6232,8 @@
         function renderCommitteesEditor() {
             const grid = document.getElementById('committeesEditorGrid');
             if (!grid) return;
-            const list = appState.villageCommittees || [];
+            if (!Array.isArray(appState.villageCommittees) || appState.villageCommittees.length === 0) appState.villageCommittees = JSON.parse(JSON.stringify(DEFAULT_STATE.villageCommittees));
+            const list = appState.villageCommittees;
             grid.innerHTML = list.map((c, idx) => {
                 const memArr = getCommitteeMembersArray(c);
                 c.membersList = memArr;
@@ -6218,7 +6288,7 @@
                     <div class="form-group"><label>विभाग / कार्यालय तपशील</label><input type="text" class="form-control" id="voDept_${idx}" value="${off.dept || ''}" ${isMaster ? '' : 'readonly'}></div>
                     <div class="form-group"><label>अधिकारी / कर्मचाऱ्याचे नाव</label><input type="text" class="form-control" id="voName_${idx}" value="${off.name || ''}"></div>
                     <div class="form-group"><label>संपर्क मोबाईल क्रमांक</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="voPhone_${idx}" value="${off.phone || ''}" placeholder="उदा. 9822001122" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
-                    <div class="form-group"><label>व्हॉट्सअॅप (WhatsApp) क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="voWhatsapp_${idx}" value="${off.whatsapp || off.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
+                    <div class="form-group"><label>WhatsApp क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="voWhatsapp_${idx}" value="${off.whatsapp || off.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
                     <div class="form-group" style="margin-bottom:0;">
                         <label>फोटो अपलोड करा</label>
                         <div style="display:flex; gap:8px;">
@@ -6297,7 +6367,7 @@
                     <div class="form-group"><label>प्रमुख योजना व कामे</label><textarea class="form-control" rows="2" id="psScheme_${idx}">${d.scheme || ''}</textarea></div>
                     <div class="form-group"><label>संपर्क अधिकारी पदनाम</label><input type="text" class="form-control" id="psContact_${idx}" value="${d.contact || ''}"></div>
                     <div class="form-group"><label>संपर्क मोबाईल क्रमांक</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="psPhone_${idx}" value="${d.phone || ''}" placeholder="उदा. 9822001122" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label>व्हॉट्सअॅप (WhatsApp) क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="psWhatsapp_${idx}" value="${d.whatsapp || d.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>WhatsApp क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="psWhatsapp_${idx}" value="${d.whatsapp || d.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
                 </div>
             `).join('');
         }
@@ -6457,7 +6527,9 @@
                 enabled: document.getElementById('swWatermarkEnabled')?.classList.contains('on') !== false,
                 text: (document.getElementById('wmTextInput')?.value || '').trim() || 'ग्रामपंचायत पिंपळगाव निपाणी — केवळ माहितीसाठी',
                 position: customDropdownValues['ddWmPositionSelect'] || 'diagonal',
-                opacity: customDropdownValues['ddWmOpacitySelect'] || 'medium'
+                opacity: customDropdownValues['ddWmOpacitySelect'] || '0.30',
+                fontFamily: customDropdownValues['ddWmFontFamilySelect'] || 'Khand',
+                fontSize: customDropdownValues['ddWmFontSizeSelect'] || '18'
             };
             saveStateToStorage();
             showToast('वॉटरमार्क सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
@@ -7095,12 +7167,15 @@
         function renderAdminWorksAndNotices() {
             const isSuper = (currentRole === 'developer');
             document.getElementById('adminWorksList').innerHTML = appState.works.map((w, idx) => `
-                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border-color);gap:10px;">
-                    <div style="display:flex;align-items:center;gap:10px;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border-color);gap:10px;flex-wrap:wrap;">
+                    <div style="display:flex;align-items:center;gap:10px;flex:1;min-width:200px;">
                         ${w.photo ? `<img src="${w.photo}" alt="${w.title}" style="width:54px;height:44px;object-fit:cover;border-radius:6px;border:1px solid var(--border-color);">` : ''}
                         <div><strong>${w.title}</strong><div style="font-size:15px;color:var(--text-muted);">${w.fund} (${w.status})</div></div>
                     </div>
-                    ${isSuper ? `<button type="button" class="btn btn-danger" style="padding:5px 10px;font-size:15px;" onclick="deleteWork(${idx})">काढा</button>` : ''}
+                    <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 11px;font-size:14.5px;" onclick="editWork(${idx})">एडिट करा</button>
+                        ${isSuper ? `<button type="button" class="btn btn-danger" style="padding:5px 10px;font-size:14.5px;" onclick="deleteWork(${idx})">काढा</button>` : ''}
+                    </div>
                 </div>
             `).join('');
 
@@ -7112,22 +7187,61 @@
             `).join('');
         }
 
-        function addNewWork() {
-            const title = document.getElementById('newWorkTitle').value.trim();
-            const fund = document.getElementById('newWorkFund').value.trim();
-            const status = customDropdownValues['ddNewWorkStatus'] || 'काम सुरू';
-            const photo = document.getElementById('newWorkPhoto') ? document.getElementById('newWorkPhoto').value.trim() : '';
-            if (!title) return;
-            appState.works.unshift({ title, fund: fund || 'ग्रामपंचायत निधी', status, photo });
+        let editingWorkIndex = -1;
+        function editWork(idx) {
+            const w = appState.works[idx];
+            if (!w) return;
+            editingWorkIndex = idx;
+            document.getElementById('newWorkTitle').value = w.title || '';
+            document.getElementById('newWorkFund').value = w.fund || '';
+            renderInwebDropdown('ddNewWorkStatus', [
+                { value: 'काम सुरू', label: 'काम सुरू' },
+                { value: 'पूर्ण झाले', label: 'पूर्ण झाले' },
+                { value: 'प्रस्तावित', label: 'प्रस्तावित' }
+            ], w.status || 'काम सुरू');
+            if (document.getElementById('newWorkPhoto')) {
+                document.getElementById('newWorkPhoto').value = w.photo || '';
+                updateAdminFileStatusLabel('newWorkPhoto', w.photo ? getCleanUploadedFileLabel(w.photo) : 'कोणतीही फाईल निवडलेली नाही', w.photo ? 'ready' : '');
+            }
+            const btn = document.getElementById('btnSaveWork');
+            const cBtn = document.getElementById('btnCancelEditWork');
+            if (btn) btn.textContent = 'विकासकाम अपडेट करा';
+            if (cBtn) cBtn.style.display = 'inline-flex';
+            document.getElementById('newWorkTitle').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        function cancelEditWork() {
+            editingWorkIndex = -1;
             document.getElementById('newWorkTitle').value = '';
             document.getElementById('newWorkFund').value = '';
             if (document.getElementById('newWorkPhoto')) {
                 document.getElementById('newWorkPhoto').value = '';
                 updateAdminFileStatusLabel('newWorkPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
             }
-            saveStateToStorage();
-            renderAdminWorksAndNotices();
-            showToast('नवीन विकासकाम जोडले गेले!');
+            const btn = document.getElementById('btnSaveWork');
+            const cBtn = document.getElementById('btnCancelEditWork');
+            if (btn) btn.textContent = 'विकासकाम जोडा';
+            if (cBtn) cBtn.style.display = 'none';
+        }
+        function addNewWork() {
+            const title = document.getElementById('newWorkTitle').value.trim();
+            const fund = document.getElementById('newWorkFund').value.trim();
+            const status = customDropdownValues['ddNewWorkStatus'] || 'काम सुरू';
+            const photo = document.getElementById('newWorkPhoto') ? document.getElementById('newWorkPhoto').value.trim() : '';
+            if (!title) { showToast('कृपया कामाचे नाव भरा.'); return; }
+            const workObj = { title, fund: fund || 'ग्रामपंचायत निधी', status, photo };
+            if (editingWorkIndex >= 0 && appState.works[editingWorkIndex]) {
+                appState.works[editingWorkIndex] = workObj;
+                cancelEditWork();
+                saveStateToStorage();
+                renderAdminWorksAndNotices();
+                showToast('विकासकाम यशस्वीरित्या अपडेट झाले!');
+            } else {
+                appState.works.unshift(workObj);
+                cancelEditWork();
+                saveStateToStorage();
+                renderAdminWorksAndNotices();
+                showToast('नवीन विकासकाम जोडले गेले!');
+            }
         }
 
         function deleteWork(idx) {
@@ -7635,20 +7749,42 @@
             window.open(waUrl, '_blank', 'noopener');
         }
 
+        let activeReqStatusFilter = 'all';
+        function switchReqSubTab(paneId, btnEl) {
+            document.querySelectorAll('.req-subpane').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('.req-subtab-btn').forEach(b => b.classList.remove('active'));
+            const p = document.getElementById(paneId);
+            if (p) p.style.display = 'block';
+            if (btnEl) btnEl.classList.add('active');
+            if (paneId === 'reqSubPane_export') renderOneYearRegister();
+        }
+        function setReqStatusFilter(st, btnEl) {
+            activeReqStatusFilter = st || 'all';
+            document.querySelectorAll('#reqStatusFilterBar .req-filter-btn').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            renderAdminRequests();
+        }
         function renderAdminRequests() {
             enforceRequestRetentionPolicy();
+            const resetBtn = document.getElementById('btnReqSubReset');
+            if (resetBtn) resetBtn.style.display = (currentRole === 'developer') ? 'inline-flex' : 'none';
             const container = document.getElementById('adminRequestsList');
             const selectAllEl = document.getElementById('chkSelectAllReqs');
             if (selectAllEl) selectAllEl.checked = false;
 
-            if (!appState.requests.length) {
-                container.innerHTML = `<div style="padding:18px; text-align:center; color:var(--text-muted); background:var(--bg-subtle); border-radius:12px;">सध्या कोणतेही सक्रिय किंवा प्रलंबित अर्ज, तक्रारी, अपॉइंटमेंट किंवा चौकशी नोंदी नाहीत.</div>`;
+            const filteredPairs = appState.requests.map((r, idx) => ({ r, idx })).filter(({ r }) => {
+                if (activeReqStatusFilter === 'all') return true;
+                return (r.status || 'प्रलंबित') === activeReqStatusFilter;
+            });
+
+            if (!filteredPairs.length) {
+                container.innerHTML = `<div style="padding:14px; text-align:center; color:var(--text-muted); background:var(--bg-subtle); border-radius:10px; font-size:15px;">निवडलेल्या फिल्टरनुसार सध्या कोणतीही नोंद उपलब्ध नाही.</div>`;
                 renderOneYearRegister();
                 return;
             }
 
-            container.innerHTML = appState.requests.map((r, idx) => `
-                <div style="background:var(--bg-subtle);padding:16px;border-radius:12px;margin-bottom:14px;border-left:5px solid var(--primary);">
+            container.innerHTML = filteredPairs.map(({ r, idx }) => `
+                <div class="compact-req-card">
                     <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;margin-bottom:10px;">
                         <div style="display:flex; align-items:flex-start; gap:10px; flex:1; min-width:240px;">
                             <input type="checkbox" class="req-row-chk" data-idx="${idx}" style="width:19px; height:19px; margin-top:4px; accent-color:var(--primary); cursor:pointer;">
