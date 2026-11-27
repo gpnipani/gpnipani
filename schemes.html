@@ -35,71 +35,144 @@
         footer { background: #0f172a; color: #e2e8f0; padding: 24px 20px; margin-top: 40px; text-align: center; font-size: 15.5px; }
         footer a { color: #fb923c; text-decoration: none; }
 
-        .full-main-header {
-            background: var(--bg-card); padding: 12px 4%; border-bottom: 3px solid var(--primary);
-            display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+        .gp-top-bar {
+            background: #1e3a8a; color: #ffffff; padding: 8px 14px; font-size: 15px;
+            border-bottom: 2px solid #ea580c;
         }
-        .full-logo-box { display: flex; align-items: center; gap: 12px; text-decoration: none; }
-        .full-logo-emblem {
-            width: 48px; height: 48px; border-radius: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        .gp-top-bar-inner {
+            max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 4px;
+        }
+        .gp-top-row {
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        }
+        .gp-top-row a { color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+        .gp-brand-header {
+            background: var(--bg-card); padding: 12px 14px; border-bottom: 2.5px solid #ea580c;
+        }
+        .gp-brand-inner {
+            max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+        }
+        .gp-logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .gp-logo-box {
+            width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, #ea580c, #c2410c);
             color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
         }
-        .full-logo-text h1 { font-size: 24px; color: var(--secondary); line-height: 1.15; margin: 0; }
-        .full-logo-text p { font-size: 14px; color: var(--text-muted); margin: 0; }
-        .full-navbar {
-            background: var(--secondary); position: sticky; top: 0; z-index: 950;
-            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+        .gp-logo-title { font-size: 27px; color: #ea580c; line-height: 1.1; font-weight: 700; }
+        .gp-logo-sub { font-size: 15.5px; color: var(--text-main); line-height: 1.25; }
+        .gp-action-navbar {
+            background: var(--bg-card); border-bottom: 2.5px solid #1e3a8a; position: sticky; top: 0; z-index: 950;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
         }
-        .full-nav-inner {
-            max-width: 1220px; margin: 0 auto; padding: 0 12px;
-            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;
+        .gp-action-inner {
+            max-width: 1180px; margin: 0 auto; padding: 8px 12px;
+            display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
         }
-        .full-nav-links {
-            list-style: none; display: flex; align-items: center; flex-wrap: wrap; gap: 2px; margin: 0; padding: 4px 0;
+        .gp-action-pills {
+            display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: nowrap; width: 100%;
         }
-        .full-nav-links a {
-            color: #ffffff; text-decoration: none; padding: 7px 11px; border-radius: 8px;
-            font-size: 15.5px; display: inline-flex; align-items: center; gap: 5px; transition: background 0.18s;
-            white-space: nowrap;
+        .gp-pill-outline {
+            display: inline-flex; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 999px;
+            border: 1.5px solid #ea580c; background: var(--bg-card); color: #ea580c; font-size: 15.5px;
+            cursor: pointer; text-decoration: none; white-space: nowrap;
         }
-        .full-nav-links a:hover, .full-nav-links a.active-page { background: var(--primary); color: #ffffff; }
-        .full-mobile-bar {
-            display: none; width: 100%; padding: 8px 4px; justify-content: space-between; align-items: center; color: #fff;
+        .gp-pill-solid {
+            display: inline-flex; align-items: center; gap: 5px; padding: 6px 15px; border-radius: 999px;
+            border: none; background: linear-gradient(135deg, #ea580c, #c2410c); color: #ffffff; font-size: 15.5px;
+            cursor: pointer; text-decoration: none; white-space: nowrap;
         }
-        @media (max-width: 820px) {
-            .full-mobile-bar { display: flex; }
-            .full-nav-links { display: none; flex-direction: column; width: 100%; align-items: stretch; padding-bottom: 10px; }
-            .full-nav-links.open { display: flex; }
-            .full-nav-links a { padding: 9px 12px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .gp-theme-pill {
+            display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 6px; border-radius: 999px;
+            border: 1.5px solid var(--border-color); background: var(--bg-subtle); color: var(--text-main);
+            font-size: 15.5px; cursor: pointer; white-space: nowrap;
+        }
+        .gp-theme-track {
+            width: 36px; height: 20px; border-radius: 999px; background: #ea580c; position: relative; display: inline-block;
+        }
+        .gp-theme-knob {
+            width: 16px; height: 16px; border-radius: 50%; background: #ffffff; position: absolute; top: 2px; left: 2px;
+            transition: transform 0.2s ease;
+        }
+        [data-theme="dark"] .gp-theme-knob { transform: translateX(16px); }
+        .gp-hamburger-btn {
+            width: 40px; height: 36px; border-radius: 10px; border: none; background: #ea580c; color: #ffffff;
+            display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 20px;
+        }
+        .gp-nav-menu {
+            list-style: none; display: none; flex-direction: column; width: 100%; margin-top: 8px;
+            background: #1e3a8a; border-radius: 12px; padding: 6px; gap: 2px;
+        }
+        .gp-nav-menu.open { display: flex; }
+        .gp-nav-menu a {
+            color: #ffffff; text-decoration: none; padding: 9px 12px; border-radius: 8px; font-size: 16px;
+            display: block;
+        }
+        .gp-nav-menu a:hover, .gp-nav-menu a.active-page { background: #ea580c; }
+        @media (min-width: 900px) {
+            .gp-top-bar-inner { flex-direction: row; justify-content: space-between; align-items: center; }
+            .gp-action-pills { width: auto; order: 2; }
+            .gp-hamburger-btn { display: none; }
+            .gp-nav-menu {
+                display: flex !important; flex-direction: row; flex-wrap: wrap; width: auto; margin-top: 0;
+                background: transparent; padding: 0; gap: 3px; order: 1;
+            }
+            .gp-nav-menu a { color: var(--secondary); padding: 6px 10px; font-size: 15.5px; }
+            .gp-nav-menu a:hover, .gp-nav-menu a.active-page { background: #ea580c; color: #ffffff; }
+        }
+        @media (max-width: 480px) {
+            .gp-logo-title { font-size: 22px; }
+            .gp-logo-sub { font-size: 13.5px; }
+            .gp-pill-outline, .gp-pill-solid, .gp-theme-pill { font-size: 14px; padding: 5px 10px; }
         }
 
     </style>
 
 </head>
 <body>
-    <div class="top-bar"><div class="top-bar-inner"><span>ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर</span><span>राज्य व केंद्र शासनाच्या लोककल्याणकारी योजना</span></div></div>
-    <header class="full-main-header">
-        <a href="index.html" class="full-logo-box">
-            <div class="full-logo-emblem">
-                <svg class="icon" viewBox="0 0 24 24" style="width:26px;height:26px;"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M12 3 2 8h20L12 3z"/></svg>
+    <div class="gp-top-bar">
+        <div class="gp-top-bar-inner">
+            <div class="gp-top-row">
+                <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M12 3 2 8h20L12 3z"/></svg>
+                <span>महाराष्ट्र शासन | ग्रामविकास व पंचायतराज विभाग</span>
             </div>
-            <div class="full-logo-text">
-                <h1>ग्रामपंचायत पिंपळगाव निपाणी</h1>
-                <p>ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</p>
+            <div class="gp-top-row">
+                <a href="tel:+919975571585"><svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +91 9975571585</a>
+                <span>|</span>
+                <a href="mailto:contact.gpnipani@gmail.com"><svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> contact.gpnipani@gmail.com</a>
             </div>
-        </a>
-        <div style="display:flex; align-items:center; gap:8px;">
-            <button type="button" class="btn btn-secondary" onclick="togglePageTheme()" id="themeBtn" style="padding:6px 12px; font-size:15px;">डार्क मोड</button>
+        </div>
+    </div>
+    <header class="gp-brand-header">
+        <div class="gp-brand-inner">
+            <a href="index.html" class="gp-logo-link">
+                <div class="gp-logo-box">
+                    <svg class="icon" style="width:28px;height:28px;" viewBox="0 0 24 24"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M12 3 2 8h20L12 3z"/></svg>
+                </div>
+                <div>
+                    <div class="gp-logo-title">ग्रामपंचायत पिंपळगाव निपाणी</div>
+                    <div class="gp-logo-sub">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
+                </div>
+            </a>
         </div>
     </header>
-    <nav class="full-navbar">
-        <div class="full-nav-inner">
-            <div class="full-mobile-bar">
-                <span style="font-size:16.5px;">मेनू निवडा</span>
-                <button type="button" class="btn btn-primary" style="padding:5px 12px; font-size:15px;" onclick="document.getElementById('subNavLinks').classList.toggle('open')">☰ मेनू</button>
+    <nav class="gp-action-navbar">
+        <div class="gp-action-inner">
+            <div class="gp-action-pills">
+                <a href="index.html" class="gp-pill-outline" title="मोबाईल App इन्स्टॉल करा">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span>App इन्स्टॉल</span>
+                </a>
+                <a href="admin.html" class="gp-pill-solid">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <span>लॉगिन</span>
+                </a>
+                <button type="button" class="gp-theme-pill" onclick="togglePageTheme()">
+                    <span class="gp-theme-track"><span class="gp-theme-knob"></span></span>
+                    <span id="themeBtn">लाईट</span>
+                </button>
+                <button type="button" class="gp-hamburger-btn" onclick="document.getElementById('subNavLinks').classList.toggle('open')" aria-label="मेनू">☰</button>
             </div>
-            <ul class="full-nav-links" id="subNavLinks">
+            <ul class="gp-nav-menu" id="subNavLinks">
                 <li><a href="index.html">मुख्य पृष्ठ</a></li>
                 <li><a href="index.html#sec-about">गावाविषयी</a></li>
                 <li><a href="index.html#sec-services">ऑनलाइन सेवा</a></li>
@@ -135,7 +208,7 @@
         function applySavedTheme() {
             const t = localStorage.getItem('gp_theme_v5') || 'light';
             document.documentElement.setAttribute('data-theme', t);
-            document.getElementById('themeBtn').textContent = t === 'dark' ? 'लाईट मोड' : 'डार्क मोड';
+            document.getElementById('themeBtn').textContent = t === 'dark' ? 'डार्क' : 'लाईट';
         }
         function togglePageTheme() {
             const next = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark';

@@ -1486,7 +1486,7 @@
                 <a href="javascript:void(0)" onclick="openPolicyModal('grievance')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">संपर्क व तक्रार मार्गदर्शन</a>
             </div>
             <div class="copyright-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span id="ftPublicCopyrightText">© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span></span><span> | <a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
+                <span style="display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap;"><span id="ftPublicCopyrightText">© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span></span><span>|</span><a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
                 <span style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
                     <span id="ftPublicDesignerCredit">Website Design by <strong>Anil Bhaurao Tormal</strong></span>
                     <a id="ftPublicDesignerPhoneLink" href="tel:+919975571585" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.14); color:#fde047; padding:3px 10px; border-radius:999px; text-decoration:none; font-size:15px;">
@@ -1563,7 +1563,7 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-aaple-sarkar" data-roles="developer,gramsevak,operator" data-label="आपले सरकार सेवा केंद्र" onclick="switchAdminTab('tab-aaple-sarkar', this)">५. आपले सरकार सेवा केंद्र</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-village-officials" data-roles="developer,gramsevak,operator" data-label="इतर शासकीय कर्मचारी" onclick="switchAdminTab('tab-village-officials', this)">६. इतर शासकीय कर्मचारी</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-panchayat-samiti" data-roles="developer,gramsevak,operator" data-label="पंचायत समिती अकोले विभाग" onclick="switchAdminTab('tab-panchayat-samiti', this)">६. पंचायत समिती अकोले विभाग</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-committees" data-roles="developer,gramsevak" data-label="महत्त्वाच्या समित्या" onclick="switchAdminTab('tab-committees', this)">७. महत्त्वाच्या समित्या</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-committees" data-roles="developer,gramsevak,operator" data-label="महत्त्वाच्या समित्या" onclick="switchAdminTab('tab-committees', this)">७. महत्त्वाच्या समित्या</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="गावातील विकासकामे" onclick="switchAdminTab('tab-works', this)">८. गावातील विकासकामे</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-notices" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा नोटीस व ठराव" onclick="switchAdminTab('tab-notices', this)">९. ग्रामसभा नोटीस व ठराव</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">१०. तक्रारी व दाखले हाताळणी</button>
@@ -1783,7 +1783,8 @@
                     <h3>महत्त्वाच्या ग्रामपंचायत समित्या संपादन (committees.html)</h3>
                     <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून ग्राम आरोग्य व पाणीपुरवठा समिती, शालेय व्यवस्थापन समिती (SMC), महात्मा गांधी तंटामुक्त गाव समिती व दक्षता समितीचे अध्यक्ष, सचिव व सदस्य अपडेट करता येतात.</p>
                     <div id="committeesEditorGrid" class="grid-2"></div>
-                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
+                    <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addNewCommitteeSlot()">+ नवीन समिती जोडा</button>
                         <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">महत्त्वाच्या समित्या माहिती सेव्ह करा</button>
                     </div>
                 </div>
@@ -4030,33 +4031,40 @@
             autoScrollTimers.forEach(t => clearInterval(t));
             autoScrollTimers = [];
             document.querySelectorAll('.auto-scroll-strip').forEach(strip => {
-                if (!strip || strip.dataset.autoBound === '1') return;
-                strip.dataset.autoBound = '1';
+                if (!strip) return;
+                // Duplicate cards once for seamless infinite loop without getting stuck at the end
+                if (strip.dataset.cloned !== '1' && strip.children.length >= 2) {
+                    const origHtml = strip.innerHTML;
+                    strip.innerHTML = origHtml + origHtml;
+                    strip.dataset.cloned = '1';
+                }
                 let paused = false;
                 let resumeTimer = null;
-                const pause = () => {
-                    paused = true;
-                    if (resumeTimer) clearTimeout(resumeTimer);
-                };
-                const resumeLater = () => {
-                    if (resumeTimer) clearTimeout(resumeTimer);
-                    resumeTimer = setTimeout(() => { paused = false; }, 1800);
-                };
-                strip.addEventListener('mouseenter', pause);
-                strip.addEventListener('mouseleave', () => { paused = false; });
-                strip.addEventListener('touchstart', pause, { passive: true });
-                strip.addEventListener('touchend', resumeLater, { passive: true });
+                if (strip.dataset.autoBound !== '1') {
+                    strip.dataset.autoBound = '1';
+                    const pause = () => {
+                        paused = true;
+                        if (resumeTimer) clearTimeout(resumeTimer);
+                    };
+                    const resumeLater = () => {
+                        if (resumeTimer) clearTimeout(resumeTimer);
+                        resumeTimer = setTimeout(() => { paused = false; }, 1600);
+                    };
+                    strip.addEventListener('mouseenter', pause);
+                    strip.addEventListener('mouseleave', () => { paused = false; });
+                    strip.addEventListener('touchstart', pause, { passive: true });
+                    strip.addEventListener('touchend', resumeLater, { passive: true });
+                }
 
                 const timer = setInterval(() => {
                     if (paused) return;
-                    const maxScroll = strip.scrollWidth - strip.clientWidth;
-                    if (maxScroll <= 4) return;
-                    if (strip.scrollLeft >= maxScroll - 2) {
-                        strip.scrollTo({ left: 0, behavior: 'smooth' });
-                    } else {
-                        strip.scrollLeft += 1;
+                    const halfWidth = strip.scrollWidth / 2;
+                    if (halfWidth <= 10 || strip.scrollWidth <= strip.clientWidth + 4) return;
+                    strip.scrollLeft += 1;
+                    if (strip.scrollLeft >= halfWidth) {
+                        strip.scrollLeft = strip.scrollLeft - halfWidth;
                     }
-                }, 26);
+                }, 22);
                 autoScrollTimers.push(timer);
             });
         }
@@ -6153,19 +6161,108 @@
             if (bodyBox) bodyBox.style.display = isAdm ? 'none' : 'block';
         }
 
+        function getCommitteeMembersArray(c) {
+            if (Array.isArray(c.membersList) && c.membersList.length) return c.membersList;
+            if (c.members && typeof c.members === 'string' && c.members.trim()) {
+                return c.members.split(/,|व/).map(s => s.trim()).filter(Boolean);
+            }
+            return ['सदस्य १'];
+        }
+
+        function syncCommitteesInputsToState() {
+            if (!Array.isArray(appState.villageCommittees)) return;
+            appState.villageCommittees.forEach((c, idx) => {
+                const nameEl = document.getElementById(`cmtName_${idx}`);
+                const presEl = document.getElementById(`cmtPres_${idx}`);
+                const secEl = document.getElementById(`cmtSec_${idx}`);
+                const phEl = document.getElementById(`cmtPhone_${idx}`);
+                if (nameEl && nameEl.value.trim()) c.name = nameEl.value.trim();
+                if (presEl) c.president = presEl.value.trim();
+                if (secEl) c.secretary = secEl.value.trim();
+                if (phEl) c.phone = phEl.value.trim();
+                const memInputs = document.querySelectorAll(`[id^="cmtMemItem_${idx}_"]`);
+                if (memInputs.length) {
+                    const arr = Array.from(memInputs).map(el => el.value.trim()).filter(Boolean);
+                    c.membersList = arr;
+                    c.members = arr.join(', ');
+                }
+            });
+        }
+
+        function addCommitteeMemberSlot(cmtIdx) {
+            syncCommitteesInputsToState();
+            const c = appState.villageCommittees[cmtIdx];
+            if (!c) return;
+            if (!Array.isArray(c.membersList)) c.membersList = getCommitteeMembersArray(c);
+            c.membersList.push('');
+            c.members = c.membersList.filter(Boolean).join(', ');
+            renderCommitteesEditor();
+        }
+
+        function removeCommitteeMemberSlot(cmtIdx, memIdx) {
+            syncCommitteesInputsToState();
+            const c = appState.villageCommittees[cmtIdx];
+            if (!c || !Array.isArray(c.membersList)) return;
+            c.membersList.splice(memIdx, 1);
+            c.members = c.membersList.filter(Boolean).join(', ');
+            renderCommitteesEditor();
+        }
+
+        function addNewCommitteeSlot() {
+            syncCommitteesInputsToState();
+            if (!Array.isArray(appState.villageCommittees)) appState.villageCommittees = [];
+            appState.villageCommittees.push({
+                name: 'नवीन ग्रामपंचायत समिती',
+                badge: 'ग्रामपंचायत समिती',
+                president: 'समिती अध्यक्ष',
+                secretary: 'समिती सचिव',
+                membersList: ['सदस्य १', 'सदस्य २'],
+                members: 'सदस्य १, सदस्य २',
+                phone: ''
+            });
+            renderCommitteesEditor();
+        }
+
+        function removeCommitteeSlot(cmtIdx) {
+            syncCommitteesInputsToState();
+            if (!Array.isArray(appState.villageCommittees) || appState.villageCommittees.length <= 1) return;
+            appState.villageCommittees.splice(cmtIdx, 1);
+            renderCommitteesEditor();
+        }
+
         function renderCommitteesEditor() {
             const grid = document.getElementById('committeesEditorGrid');
             if (!grid) return;
             const list = appState.villageCommittees || [];
-            grid.innerHTML = list.map((c, idx) => `
+            grid.innerHTML = list.map((c, idx) => {
+                const memArr = getCommitteeMembersArray(c);
+                c.membersList = memArr;
+                return `
                 <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
-                    <div style="color: var(--primary); font-size: 18px; margin-bottom: 6px;"><strong>${c.name}</strong></div>
-                    <div class="form-group"><label>अध्यक्ष (President)</label><input type="text" class="form-control" id="cmtPres_${idx}" value="${c.president || ''}"></div>
-                    <div class="form-group"><label>सचिव (Secretary)</label><input type="text" class="form-control" id="cmtSec_${idx}" value="${c.secretary || ''}"></div>
-                    <div class="form-group"><label>सदस्य (Members)</label><input type="text" class="form-control" id="cmtMem_${idx}" value="${c.members || ''}"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label>संपर्क क्रमांक</label><input type="text" class="form-control" id="cmtPhone_${idx}" value="${c.phone || ''}"></div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px;">
+                        <span style="color: var(--primary); font-size: 18px;"><strong>समिती #${idx + 1}</strong></span>
+                        ${list.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removeCommitteeSlot(${idx})">समिती काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>समितीचे नाव</label><input type="text" class="form-control" id="cmtName_${idx}" value="${(c.name || '').replace(/"/g, '&quot;')}"></div>
+                    <div class="form-group"><label>अध्यक्ष (President)</label><input type="text" class="form-control" id="cmtPres_${idx}" value="${(c.president || '').replace(/"/g, '&quot;')}"></div>
+                    <div class="form-group"><label>सचिव (Secretary)</label><input type="text" class="form-control" id="cmtSec_${idx}" value="${(c.secretary || '').replace(/"/g, '&quot;')}"></div>
+                    <div class="form-group">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                            <label style="margin:0;">इतर सदस्य (${memArr.length})</label>
+                            <button type="button" class="btn btn-secondary" style="padding:3px 10px; font-size:14px;" onclick="addCommitteeMemberSlot(${idx})">+ सदस्य जोडा</button>
+                        </div>
+                        <div style="display:flex; flex-direction:column; gap:6px;">
+                            ${memArr.map((mName, mIdx) => `
+                                <div style="display:flex; gap:6px; align-items:center;">
+                                    <input type="text" class="form-control" id="cmtMemItem_${idx}_${mIdx}" value="${(mName || '').replace(/"/g, '&quot;')}" placeholder="सदस्य #${mIdx + 1} चे नाव / पदनाम">
+                                    ${memArr.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:6px 10px; font-size:14px; flex-shrink:0;" onclick="removeCommitteeMemberSlot(${idx}, ${mIdx})">काढा</button>` : ''}
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0;"><label>संपर्क क्रमांक</label><input type="text" class="form-control" id="cmtPhone_${idx}" value="${(c.phone || '').replace(/"/g, '&quot;')}"></div>
                 </div>
-            `).join('');
+            `;}).join('');
         }
 
         function renderVillageOfficialsEditor() {
@@ -6293,6 +6390,7 @@
 
         function addPanchayatSamitiSlot() {
             syncPanchayatSamitiInputsToState();
+            syncCommitteesInputsToState();
             if (!Array.isArray(appState.panchayatSamitiDepts)) appState.panchayatSamitiDepts = [];
             appState.panchayatSamitiDepts.push({
                 dept: 'नवीन विभाग (पं.स. अकोले)',
@@ -6306,6 +6404,7 @@
 
         function removePanchayatSamitiSlot(idx) {
             syncPanchayatSamitiInputsToState();
+            syncCommitteesInputsToState();
             appState.panchayatSamitiDepts.splice(idx, 1);
             renderPanchayatSamitiEditor();
         }
@@ -6933,6 +7032,7 @@
                 syncVillageOfficialsInputsToState();
             syncCscServicesInputs();
                 syncPanchayatSamitiInputsToState();
+            syncCommitteesInputsToState();
                 if (Array.isArray(appState.villageCommittees)) {
                     appState.villageCommittees.forEach((c, idx) => {
                         const pEl = document.getElementById(`cmtPres_${idx}`);
