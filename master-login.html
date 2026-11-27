@@ -1654,7 +1654,7 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-watermark" data-roles="developer,gramsevak" data-label="वॉटरमार्क सेटिंग्ज" onclick="switchAdminTab('tab-watermark', this)">१५. वॉटरमार्क सेटिंग्ज</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-backup" data-roles="developer,gramsevak" data-label="बॅकअप व हालचाल नोंद" onclick="switchAdminTab('tab-backup', this)">१६. बॅकअप व हालचाल नोंद</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="फूटर, धोरणे व अस्वीकरण" onclick="switchAdminTab('tab-policies', this)">१७. फूटर, धोरणे व अस्वीकरण</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="developer,gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
         <div class="admin-panel-body">
@@ -1923,89 +1923,90 @@
                     <button type="button" class="req-subtab-btn" id="btnReqSubReset" onclick="switchReqSubTab('reqSubPane_reset', this)">३. मास्टर झिरो रिसेट</button>
                 </div>
 
+                <!-- Sub-tab 1: Active Citizen Requests, Complaints, Appointments & Inquiries -->
                 <div class="req-subpane" id="reqSubPane_list">
                     <div class="info-card">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
-                        <div>
-                            <h3 style="margin-bottom:4px;">नागरिकांचे ऑनलाइन दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">टीप: फक्त 'पूर्ण झाले' अशी कार्यवाही पूर्ण झालेल्या दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी ३० दिवसांनंतर येथून आपोआप डिलीट होतील; 'प्रलंबित' किंवा 'काम सुरू' असलेल्या नोंदी तशाच शिल्लक राहतील.</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="margin-bottom:4px;">नागरिकांचे ऑनलाइन दाखले, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी</h3>
+                                <p style="font-size:15px; color:var(--text-muted); margin:0;">टीप: फक्त 'पूर्ण झाले' अशी कार्यवाही पूर्ण झालेल्या नोंदी ३० दिवसांनंतर येथून आपोआप डिलीट होतील; 'प्रलंबित' किंवा 'काम सुरू' असलेल्या नोंदी तशाच शिल्लक राहतील.</p>
+                            </div>
                         </div>
+                        <div id="requestsBulkBar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--bg-subtle); padding:9px 12px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:12px;">
+                            <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:16px; margin:0;">
+                                <input type="checkbox" id="chkSelectAllReqs" onchange="toggleSelectAllRequests(this.checked)" style="width:18px; height:18px; accent-color:var(--primary);">
+                                <span>सर्व नोंदी निवडा (Select All)</span>
+                            </label>
+                            <button type="button" class="btn btn-danger" style="padding:6px 13px; font-size:15px;" onclick="deleteSelectedRequests()">निवडलेल्या नोंदी डिलीट करा</button>
+                        </div>
+                        <div class="req-filter-bar" id="reqStatusFilterBar">
+                            <button type="button" class="req-filter-btn active" onclick="setReqStatusFilter('all', this)">सर्व</button>
+                            <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('प्रलंबित', this)">प्रलंबित</button>
+                            <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('काम सुरू', this)">काम सुरू</button>
+                            <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('पूर्ण झाले', this)">पूर्ण झाले</button>
+                        </div>
+                        <div id="adminRequestsList"></div>
                     </div>
-                    <div id="requestsBulkBar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; background:var(--bg-subtle); padding:10px 14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
-                        <label style="display:inline-flex; align-items:center; gap:8px; cursor:pointer; font-size:17px; margin:0;">
-                            <input type="checkbox" id="chkSelectAllReqs" onchange="toggleSelectAllRequests(this.checked)" style="width:18px; height:18px; accent-color:var(--primary);">
-                            <span>सर्व नोंदी निवडा (Select All)</span>
-                        </label>
-                        <button type="button" class="btn btn-danger" style="padding:7px 14px; font-size:16px;" onclick="deleteSelectedRequests()">निवडलेल्या नोंदी डिलीट करा</button>
-                    </div>
-                    <div class="req-filter-bar" id="reqStatusFilterBar">
-                        <button type="button" class="req-filter-btn active" onclick="setReqStatusFilter('all', this)">सर्व</button>
-                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('प्रलंबित', this)">प्रलंबित</button>
-                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('काम सुरू', this)">काम सुरू</button>
-                        <button type="button" class="req-filter-btn" onclick="setReqStatusFilter('पूर्ण झाले', this)">पूर्ण झाले</button>
-                    </div>
-                    <div id="adminRequestsList"></div>
-                </div>
                 </div>
 
+                <!-- Sub-tab 2: Compact Date-Range Report Export + 1-Year Complete Register -->
                 <div class="req-subpane" id="reqSubPane_export" style="display:none;">
                     <div class="info-card compact-export-card" style="margin-bottom: 14px; border-left: 5px solid #15803d;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-                        <div>
-                            <h3 style="color:#15803d; margin-bottom:3px;">अहवाल Export करा (तारीख निवडून JPG / PDF / CSV डाउनलोड)</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">ठराविक तारीख (Date Range) निवडून सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी अधिकृत हेडर व फूटरसह डाउनलोड करा.</p>
+                        <div style="margin-bottom:8px;">
+                            <h3 style="color:#15803d; margin-bottom:2px; font-size:20px;">अहवाल Export करा (तारीख निवडून JPG / PDF / CSV डाउनलोड)</h3>
+                            <p style="font-size:14.5px; color:var(--text-muted); margin:0;">ठराविक तारीख निवडून सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी अधिकृत हेडर व फूटरसह डाउनलोड करा.</p>
+                        </div>
+                        <div class="grid-2" style="background:var(--bg-subtle); padding:11px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:10px;">
+                            <div class="form-group" style="margin-bottom:4px;">
+                                <label>तारीख पासून (From Date)</label>
+                                <input type="date" class="form-control" id="expFromDate">
+                            </div>
+                            <div class="form-group" style="margin-bottom:4px;">
+                                <label>तारीख पर्यंत (To Date)</label>
+                                <input type="date" class="form-control" id="expToDate">
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>नोंदीचा प्रकार निवडा</label>
+                                <div class="inweb-select" id="ddExpRecordType"></div>
+                            </div>
+                            <div class="form-group" style="margin-bottom:0;">
+                                <label>डेटा स्रोत निवडा</label>
+                                <div class="inweb-select" id="ddExpDataSource"></div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#b91c1c,#dc2626); padding:8px 14px; font-size:15.5px;" onclick="exportRequestsReport('pdf')">PDF डाउनलोड (.pdf)</button>
+                            <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#1e3a8a,#1d4ed8); padding:8px 14px; font-size:15.5px;" onclick="exportRequestsReport('jpg')">JPG फोटो (.jpg)</button>
+                            <button type="button" class="btn btn-primary" style="background:linear-gradient(135deg,#15803d,#16a34a); padding:8px 14px; font-size:15.5px;" onclick="exportRequestsReport('csv')">CSV / Excel (.csv)</button>
                         </div>
                     </div>
+
+                    <!-- 1-Year Master & Gramsevak Complete Register -->
                     <div class="info-card" id="oneYearRegisterBox" style="display:none; margin-top:14px; border-left:5px solid var(--secondary);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-                        <div>
-                            <h3 style="color:var(--secondary); margin-bottom:4px;">१ वर्षाचे संपूर्ण रजिस्टर व डिलीट केलेल्या नोंदी (फक्त मास्टर व ग्रामसेवक ॲडमिनसाठी)</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">मागील १ वर्षात (३६५ दिवस) रजिस्टर झालेले सर्व दाखले, तक्रारी, अपॉइंटमेंट, चौकशी फॉर्म आणि डिलीट केलेल्या सर्व नोंदींची माहिती येथे सुरक्षित राहते.</p>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:10px;">
+                            <div>
+                                <h3 style="color:var(--secondary); margin-bottom:3px; font-size:20px;">१ वर्षाचे संपूर्ण रजिस्टर व डिलीट केलेल्या नोंदी (फक्त मास्टर व ग्रामसेवक ॲडमिनसाठी)</h3>
+                                <p style="font-size:14.5px; color:var(--text-muted); margin:0;">मागील १ वर्षात (३६५ दिवस) रजिस्टर झालेले सर्व दाखले, तक्रारी, अपॉइंटमेंट, चौकशी फॉर्म आणि डिलीट केलेल्या नोंदी येथे सुरक्षित राहतात.</p>
+                            </div>
+                            <span class="badge" id="oneYearCountBadge" style="font-size:14.5px;">एकूण नोंदी: ०</span>
                         </div>
-                        <span class="badge" id="oneYearCountBadge" style="font-size:15px;">एकूण नोंदी: ०</span>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                            <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:200px;">
+                            <div class="inweb-select" id="ddSelArchiveFilter" style="width:auto; min-width:210px;"></div>
+                        </div>
+                        <div id="oneYearRegisterList"></div>
                     </div>
-                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-                        <input type="text" class="form-control" id="inpArchiveSearch" placeholder="नाव, मोबाईल नंबर किंवा मागोवा क्रमांक (GP-2026-...) शोधा..." oninput="renderOneYearRegister()" style="flex:1; min-width:220px;">
-                        <div class="inweb-select" id="ddSelArchiveFilter" style="width:auto; min-width:230px;"></div>
-                    </div>
-                    <div id="oneYearRegisterList"></div>
-                </div>
                 </div>
 
+                <!-- Sub-tab 3: Master Login ONLY Zero Reset -->
                 <div class="req-subpane" id="reqSubPane_reset" style="display:none;">
-                    <div id="masterZeroResetBox" class="info-card" style="display:none; margin-bottom: 18px; border-left: 5px solid #dc2626; background: #fef2f2;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                        <div>
-                            <h3 style="color:#b91c1c; margin-bottom:4px;">मास्टर नियंत्रण: लाइव्ह करण्यापूर्वी सर्व चाचणी नोंदी पुसणे (Zero Reset)</h3>
-                            <p style="font-size:15.5px; color:#7f1d1d; margin:0;">पोर्टल नागरिकांसाठी लाइव्ह करण्यापूर्वी आतापर्यंतच्या सर्व चाचणी नोंदी (अर्ज, तक्रारी, चौकशी व १ वर्षाचे रजिस्टर) कायमच्या डिलीट करून ० पासून सुरू करा.</p>
-                        </div>
-                        <button type="button" class="btn btn-danger" style="padding:10px 18px; font-size:17px;" onclick="resetAllRecordsToZeroByMaster()">सर्व नोंदी पुसून ० पासून सुरू करा</button>
-                    </div>
-                </div>
-                <!-- Date Range Export Panel (JPG / PDF / CSV with Official Header & Footer) -->
-                <div class="info-card" style="margin-bottom: 18px; border-left: 5px solid #15803d;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-                        <div>
-                            <h3 style="color:#15803d; margin-bottom:3px;">अहवाल Export करा (तारीख निवडून JPG / PDF / CSV डाउनलोड)</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">ठराविक तारीख (Date Range) निवडून सर्व दाखले अर्ज, तक्रारी, अपॉइंटमेंट व चौकशी नोंदी अधिकृत हेडर व फूटरसह डाउनलोड करा.</p>
-                        </div>
-                    </div>
-                    <div class="grid-2" style="background:var(--bg-subtle); padding:14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:12px;">
-                        <div class="form-group" style="margin-bottom:6px;">
-                            <label>तारीख पासून (From Date)</label>
-                            <input type="date" class="form-control" id="expFromDate">
-                        </div>
-                        <div class="form-group" style="margin-bottom:6px;">
-                            <label>तारीख पर्यंत (To Date)</label>
-                            <input type="date" class="form-control" id="expToDate">
-                        </div>
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label>नोंदीचा प्रकार निवडा</label>
-                            <div class="inweb-select" id="ddExpRecordType"></div>
-                        </div>
-                        <div class="form-group" style="margin-bottom:0;">
-                            <label>डेटा स्रोत निवडा</label>
-                            <div class="inweb-select" id="ddExpDataSource"></div>
+                    <div id="masterZeroResetBox" class="info-card" style="display:block; margin-bottom: 14px; border-left: 5px solid #dc2626; background: #fef2f2;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                            <div>
+                                <h3 style="color:#b91c1c; margin-bottom:4px;">मास्टर नियंत्रण: लाइव्ह करण्यापूर्वी सर्व चाचणी नोंदी पुसणे (Zero Reset)</h3>
+                                <p style="font-size:15.5px; color:#7f1d1d; margin:0;">पोर्टल नागरिकांसाठी लाइव्ह करण्यापूर्वी आतापर्यंतच्या सर्व चाचणी नोंदी (अर्ज, तक्रारी, चौकशी व १ वर्षाचे रजिस्टर) कायमच्या डिलीट करून ० पासून सुरू करा.</p>
+                            </div>
+                            <button type="button" class="btn btn-danger" style="padding:10px 18px; font-size:17px;" onclick="resetAllRecordsToZeroByMaster()">सर्व नोंदी पुसून ० पासून सुरू करा</button>
                         </div>
                     </div>
                 </div>
@@ -7885,7 +7886,13 @@
             const p = document.getElementById(paneId);
             if (p) p.style.display = 'block';
             if (btnEl) btnEl.classList.add('active');
-            if (paneId === 'reqSubPane_export') renderOneYearRegister();
+            if (paneId === 'reqSubPane_export') {
+                renderOneYearRegister();
+            }
+            if (paneId === 'reqSubPane_reset') {
+                const zBox = document.getElementById('masterZeroResetBox');
+                if (zBox) zBox.style.display = (currentRole === 'developer') ? 'block' : 'none';
+            }
         }
         function setReqStatusFilter(st, btnEl) {
             activeReqStatusFilter = st || 'all';
