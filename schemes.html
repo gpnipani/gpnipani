@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="mr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>विविध शासकीय योजना | ग्रामपंचायत पिंपळगाव निपाणी</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ea580c; --primary-dark: #c2410c; --secondary: #1e3a8a; --bg-body: #f8fafc; --bg-card: #ffffff; --bg-subtle: #f1f5f9; --text-main: #0f172a; --text-muted: #475569; --border-color: #e2e8f0; --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06); --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08); }
+        [data-theme="dark"] { --primary: #fb923c; --primary-dark: #f97316; --secondary: #93c5fd; --bg-body: #0b1120; --bg-card: #111827; --bg-subtle: #1e293b; --text-main: #f8fafc; --text-muted: #cbd5e1; --border-color: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Khand', sans-serif; font-weight: 700; }
+        body { background: var(--bg-body); color: var(--text-main); line-height: 1.55; font-size: 18px; }
+        .icon { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+        .top-bar { background: var(--secondary); color: #fff; padding: 10px 20px; font-size: 15.5px; }
+        .top-bar-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .page-header { background: var(--bg-card); border-bottom: 2.5px solid var(--primary); padding: 8px 14px; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .brand-title { font-size: 19px; color: var(--secondary); line-height: 1.15; }
+        .brand-sub { font-size: 12.5px; color: var(--text-muted); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 16px; border-radius: 10px; border: none; cursor: pointer; font-size: 16.5px; text-decoration: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
+        .btn-secondary { background: var(--bg-subtle); color: var(--text-main); border: 1.5px solid var(--border-color); }
+        .container { max-width: 1180px; margin: 0 auto; padding: 28px 20px 48px; }
+        .page-hero { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #ea580c 100%); color: #fff; border-radius: 16px; padding: 26px 28px; margin-bottom: 24px; box-shadow: var(--shadow-md); }
+        .page-hero h1 { font-size: 32px; line-height: 1.25; margin-bottom: 6px; }
+        .page-hero p { font-size: 17.5px; opacity: 0.95; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+        .card-item { background: var(--bg-card); border: 1.5px solid var(--border-color); border-top: 4px solid var(--primary); border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+        .badge { display: inline-block; background: rgba(234, 88, 12, 0.12); color: var(--primary-dark); padding: 3px 12px; border-radius: 999px; font-size: 14.5px; margin-bottom: 6px; width: fit-content; }
+        footer { background: #0f172a; color: #e2e8f0; padding: 24px 20px; margin-top: 40px; text-align: center; font-size: 15.5px; }
+        footer a { color: #fb923c; text-decoration: none; }
+    </style>
+
+</head>
+<body>
+    <div class="top-bar"><div class="top-bar-inner"><span>ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर</span><span>राज्य व केंद्र शासनाच्या लोककल्याणकारी योजना</span></div></div>
+    <header class="page-header">
+        <div class="header-inner">
+            <div><div class="brand-title">ग्रामपंचायत पिंपळगाव निपाणी</div><div class="brand-sub">विविध शासकीय योजना व पात्रता माहिती</div></div>
+            <div style="display:flex; gap:6px;">
+                <button type="button" class="btn btn-secondary" onclick="togglePageTheme()" id="themeBtn">डार्क मोड</button>
+                <a href="index.html" class="btn btn-primary">मुख्य पृष्ठ</a>
+            </div>
+        </div>
+    </header>
+    <main class="container">
+        <div class="page-hero">
+            <h1>विविध शासकीय योजना (Government Schemes)</h1>
+            <p>ग्रामीण नागरिक, शेतकरी, महिला व विद्यार्थ्यांसाठी राज्य व केंद्र शासनाच्या प्रमुख योजनांची माहिती, पात्रता व आवश्यक कागदपत्रे.</p>
+        </div>
+        <div class="cards-grid" id="schemesGrid"></div>
+    </main>
+    <footer>
+        <div>मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
+        <div style="margin-top:6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी | <a href="http://gpnipani.online">http://gpnipani.online</a> | Website Design by <strong>Anil Bhaurao Tormal</strong></div>
+    </footer>
+    <script>
+        const FB_DB_URL = 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app';
+        const DEFAULT_SCH = [
+            { title: 'प्रधानमंत्री आवास योजना (ग्रामीण) व रमाई/शबरी घरकुल योजना', category: 'घरकुल व निवारा', benefit: 'पात्र बेघर व कच्चे घर असलेल्या ग्रामीण कुटुंबांना पक्के घर बांधण्यासाठी शासकीय अनुदान.', docs: 'आधार कार्ड, रेशन कार्ड, जॉब कार्ड, बँक पासबुक, जागेचा उतारा', url: 'https://pmayg.nic.in/', pdf: '' },
+            { title: 'मुख्यमंत्री माझी लाडकी बहीण योजना', category: 'महिला व बालकल्याण', benefit: 'पात्र महिलांना दरमहा थेट बँक खात्यात आर्थिक सहाय्य.', docs: 'आधार कार्ड, उत्पन्न दाखला / पिवळे-केशरी रेशन कार्ड, बँक पासबुक', url: 'https://ladakibahin.maharashtra.gov.in/', pdf: '' },
+            { title: 'महाडीबीटी (MahaDBT) कृषी यांत्रिकीकरण व ठिबक सिंचन अनुदान', category: 'कृषी विभाग', benefit: 'शेतकऱ्यांना ट्रॅक्टर, कृषी औजारे, ठिबक/तुषार सिंचन व फळबाग लागवडीसाठी थेट अनुदान.', docs: '७/१२ व ८-अ उतारा, आधार कार्ड, बँक पासबुक, शेतकरी आयडी', url: 'https://mahadbt.maharashtra.gov.in/', pdf: '' },
+            { title: 'आयुष्मान भारत व महात्मा फुले जन आरोग्य योजना', category: 'सार्वजनिक आरोग्य', benefit: 'पात्र कुटुंबांना सूचीबद्ध रुग्णालयांमध्ये ₹५ लाखांपर्यंत मोफत उपचार.', docs: 'आधार कार्ड, रेशन कार्ड, मोबाईल क्रमांक', url: 'https://beneficiary.nha.gov.in/', pdf: '' }
+        ];
+        function applySavedTheme() {
+            const t = localStorage.getItem('gp_theme_v5') || 'light';
+            document.documentElement.setAttribute('data-theme', t);
+            document.getElementById('themeBtn').textContent = t === 'dark' ? 'लाईट मोड' : 'डार्क मोड';
+        }
+        function togglePageTheme() {
+            const next = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('gp_theme_v5', next);
+            applySavedTheme();
+        }
+        function renderSchemes(list) {
+            const grid = document.getElementById('schemesGrid');
+            if (!list || !list.length) { grid.innerHTML = '<p>अद्याप कोणतीही योजना उपलब्ध नाही.</p>'; return; }
+            grid.innerHTML = list.map(sc => `
+                <div class="card-item">
+                    <div>
+                        <span class="badge">${sc.category || 'शासकीय योजना'}</span>
+                        <h3 style="font-size:21px; color:var(--secondary); margin-bottom:6px;">${sc.title}</h3>
+                        <p style="font-size:16px; margin-bottom:6px;"><strong>लाभ व पात्रता:</strong> ${sc.benefit || ''}</p>
+                        ${sc.docs ? `<p style="font-size:15px; color:var(--text-muted);"><strong>आवश्यक कागदपत्रे:</strong> ${sc.docs}</p>` : ''}
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        ${sc.url ? `<a href="${sc.url}" target="_blank" rel="noopener" class="btn btn-primary" style="flex:1;">अधिकृत पोर्टल पहा</a>` : ''}
+                        ${sc.pdf ? `<a href="${sc.pdf}" target="_blank" rel="noopener" class="btn btn-secondary" style="flex:1;">शासन निर्णय PDF</a>` : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+        applySavedTheme();
+        (async function initSch() {
+            let list = DEFAULT_SCH;
+            try { const local = JSON.parse(localStorage.getItem('gp_portal_v6') || '{}'); if (Array.isArray(local.govtSchemes) && local.govtSchemes.length) list = local.govtSchemes; } catch (e) {}
+            renderSchemes(list);
+            try { const res = await fetch(`${FB_DB_URL}/grampanchayatPortal/govtSchemes.json`); const remote = await res.json(); if (Array.isArray(remote) && remote.length) renderSchemes(remote); } catch (e) {}
+        })();
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gpnipani-pwa-v56';
+const CACHE_NAME = 'gpnipani-pwa-v57';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const CORE_ASSETS = [
   './aaple-sarkar.html',
   './panchayat-samiti.html',
   './village-officials.html',
+  './sample-forms.html',
+  './schemes.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'

@@ -1206,6 +1206,8 @@
                     </ul>
                 </li>
                 <li data-nav-sec="notices"><a href="#sec-notices"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ग्रामसभा व ठराव</a></li>
+                                <li data-nav-sec="sampleforms"><a href="sample-forms.html"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><polyline points="9 15 12 18 15 15"/></svg> नमुना अर्ज</a></li>
+                <li data-nav-sec="schemes"><a href="schemes.html"><svg class="icon" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg> शासकीय योजना</a></li>
                 <li data-nav-sec="aaplesarkar"><a href="aaple-sarkar.html"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> आपले सरकार केंद्र</a></li>
                 <li class="has-dropdown" data-nav-sec="panchayatsamiti">
                     <a href="panchayat-samiti.html"><svg class="icon" viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg> शासकीय विभाग <svg class="icon nav-chevron" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></a>
@@ -1314,6 +1316,12 @@
                     <button type="button" class="btn btn-primary" onclick="openTaxComingSoonModal()">कर भरा</button>
                 </div>
             </div>
+        </section>
+
+                <!-- माननीय मंत्री व पदाधिकारी -->
+        <section class="section-wrap" id="sec-dignitaries" style="padding-top: 10px;">
+            <h2 class="section-heading">माननीय मंत्री व पदाधिकारी</h2>
+            <div class="cards-grid" id="dignitariesContainer"></div>
         </section>
 
         <!-- ६. पदाधिकारी व कर्मचारी -->
@@ -1466,6 +1474,9 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="गावातील विकासकामे" onclick="switchAdminTab('tab-works', this)">८. गावातील विकासकामे</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-notices" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा नोटीस व ठराव" onclick="switchAdminTab('tab-notices', this)">९. ग्रामसभा नोटीस व ठराव</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-requests" data-roles="developer,gramsevak,operator" data-label="तक्रारी व दाखले हाताळणी" onclick="switchAdminTab('tab-requests', this)">१०. तक्रारी व दाखले हाताळणी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-dignitaries" data-roles="developer,gramsevak" data-label="माननीय मंत्री व पदाधिकारी" onclick="switchAdminTab('tab-dignitaries', this)">माननीय मंत्री व पदाधिकारी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-sample-forms" data-roles="developer,gramsevak,operator" data-label="नमुना अर्ज अपलोड" onclick="switchAdminTab('tab-sample-forms', this)">नमुना अर्ज अपलोड</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-schemes" data-roles="developer,gramsevak,operator" data-label="शासकीय योजना व्यवस्थापन" onclick="switchAdminTab('tab-schemes', this)">शासकीय योजना व्यवस्थापन</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-form-controls" data-roles="developer,gramsevak" data-label="अर्ज व फॉर्म सेवा नियंत्रण" onclick="switchAdminTab('tab-form-controls', this)">१२. अर्ज व फॉर्म सेवा नियंत्रण</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-visibility" data-roles="developer,gramsevak" data-label="विभाग लपवा / दाखवा" onclick="switchAdminTab('tab-visibility', this)">१३. विभाग लपवा / दाखवा</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-design" data-roles="developer,gramsevak" data-label="डिझाइन, रंग व फॉन्ट" onclick="switchAdminTab('tab-design', this)">१२. डिझाइन, रंग व फॉन्ट</button>
@@ -1806,6 +1817,79 @@
                 </div>
             </div>
 
+            <!-- Tab: Hon. Dignitaries -->
+            <div class="admin-tab-pane" id="tab-dignitaries">
+                <div class="info-card">
+                    <h3>माननीय मंत्री व पदाधिकारी विभाग संपादन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">मुख्य पृष्ठावर दिसणारे माननीय मुख्यमंत्री, उपमुख्यमंत्री, ग्रामविकास मंत्री, पालकमंत्री, खासदार, आमदार इ. यांची नावे, पदनाम व फोटो येथून अपडेट करता येतात.</p>
+                    <div id="dignitariesEditorGrid" class="grid-2"></div>
+                    <div style="margin-top: 16px; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;">
+                        <button type="button" class="btn btn-secondary" onclick="addDignitarySlot()">+ नवीन माननीय पदाधिकारी जोडा</button>
+                        <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveDignitariesSettings()">माननीय मंत्री व पदाधिकारी सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Sample Forms Upload -->
+            <div class="admin-tab-pane" id="tab-sample-forms">
+                <div class="info-card">
+                    <h3>नमुना अर्ज (Sample Forms) अपलोड व व्यवस्थापन</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">नागरिकांसाठी विविध दाखले व अर्जांचे कोरे नमुने (PDF / फोटो) येथून अपलोड करा; ते थेट 'नमुना अर्ज' पेजवर डाउनलोडसाठी उपलब्ध होतील.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>नमुना अर्जाचे शीर्षक *</label><input type="text" class="form-control" id="newSfTitle" placeholder="उदा. जन्म नोंद दाखला नमुना अर्ज"></div>
+                        <div class="form-group"><label>विभाग / प्रकार</label><input type="text" class="form-control" id="newSfCategory" placeholder="उदा. ग्रामपंचायत दाखले / कर विभाग"></div>
+                    </div>
+                    <div class="form-group"><label>संक्षिप्त माहिती / आवश्यक कागदपत्रे</label><input type="text" class="form-control" id="newSfDesc" placeholder="उदा. या अर्जासोबत आधार कार्ड व रेशन कार्डची प्रत जोडावी."></div>
+                    <div class="form-group">
+                        <label>नमुना अर्ज PDF / फोटो अपलोड करा *</label>
+                        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                            <input type="hidden" id="newSfFile" value="">
+                            <div id="newSfFile_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                            <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                                <span>PDF / फोटो निवडा</span>
+                                <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'newSfFile')">
+                            </label>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding:10px 24px; font-size:18px;" onclick="addNewSampleForm()">नमुना अर्ज अपलोड व सेव्ह करा</button>
+                    </div>
+                    <div id="adminSampleFormsList" style="margin-top: 18px;"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Govt Schemes Management -->
+            <div class="admin-tab-pane" id="tab-schemes">
+                <div class="info-card">
+                    <h3>विविध शासकीय योजना व्यवस्थापन (schemes.html)</h3>
+                    <p style="font-size:16px; color:var(--text-muted); margin-bottom:14px;">येथून राज्य व केंद्र शासनाच्या विविध योजनांची माहिती, पात्रता, आवश्यक कागदपत्रे व अधिकृत लिंक / शासन निर्णय PDF जोडता येते.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>योजनेचे नाव *</label><input type="text" class="form-control" id="newSchTitle" placeholder="उदा. प्रधानमंत्री आवास योजना (ग्रामीण)"></div>
+                        <div class="form-group"><label>विभाग / श्रेणी</label><input type="text" class="form-control" id="newSchCategory" placeholder="उदा. घरकुल / कृषी / महिला व बालकल्याण"></div>
+                    </div>
+                    <div class="form-group"><label>योजनेचा लाभ व पात्रता *</label><textarea class="form-control" rows="2" id="newSchBenefit" placeholder="योजनेचा मुख्य लाभ व पात्रतेचे निकष लिहा"></textarea></div>
+                    <div class="form-group"><label>आवश्यक कागदपत्रे</label><input type="text" class="form-control" id="newSchDocs" placeholder="उदा. आधार कार्ड, ७/१२ उतारा, उत्पन्न दाखला, बँक पासबुक"></div>
+                    <div class="grid-2">
+                        <div class="form-group"><label>अधिकृत वेबसाईट लिंक (ऐच्छिक)</label><input type="url" class="form-control" id="newSchUrl" placeholder="https://..."></div>
+                        <div class="form-group">
+                            <label>शासन निर्णय / माहिती PDF (ऐच्छिक)</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="hidden" id="newSchPdf" value="">
+                                <div id="newSchPdf_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                                    <span>PDF निवडा</span>
+                                    <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'newSchPdf')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display:flex; justify-content:flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding:10px 24px; font-size:18px;" onclick="addNewGovtScheme()">नवीन योजना जोडा व सेव्ह करा</button>
+                    </div>
+                    <div id="adminSchemesList" style="margin-top: 18px;"></div>
+                </div>
+            </div>
+
             <!-- Tab: Form Pause / Temporary Disable Controls -->
             <div class="admin-tab-pane" id="tab-form-controls">
                 <div class="info-card" style="border-left: 5px solid #dc2626;">
@@ -1853,6 +1937,16 @@
                                 <label>सेवा बंद असल्यास नागरिकांना दिसणारे कारण (Pop-up सूचना)</label>
                                 <textarea class="form-control" rows="2" id="inpFcInquiryReason" placeholder="उदा. तांत्रिक देखभाल / कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे."></textarea>
                             </div>
+                        </div>
+                        <div style="background:var(--bg-subtle); padding:15px; border-radius:12px; border:1.5px solid var(--border-color);">
+                            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:6px;">
+                                <strong style="font-size:19px; color:var(--secondary);">४. चौकशी WhatsApp वर फॉरवर्ड करण्याची सुविधा (Forward Button)</strong>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span id="lblFcInquiryForward" style="font-size:16px; color:#15803d;">सुरू (ON)</span>
+                                    <button type="button" class="inweb-switch on" id="swFcInquiryForward" onclick="toggleFormControlSwitch('inquiryForward')"><span class="inweb-switch-knob"></span></button>
+                                </div>
+                            </div>
+                            <p style="font-size:15px; color:var(--text-muted); margin:0;">ही सुविधा बंद (OFF) केल्यास चौकशी फॉर्म सबमिट होईल व पोचपावती मिळेल, पण संबंधित अधिकाऱ्याला WhatsApp वर फॉरवर्ड करण्याचे बटण तात्पुरते लपवले जाईल.</p>
                         </div>
                     </div>
 
@@ -2213,6 +2307,9 @@
                 <span class="badge" style="margin:0; font-size:14px;">महाराष्ट्र लोकसेवा हक्क अधिनियम - २०१५</span>
             </div>
             <div id="serviceFormStep1">
+                <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-left:5px solid #d97706; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:15.5px; color:#78350f; line-height:1.45;">
+                    <strong>महत्त्वाची सूचना:</strong> सादर करण्यात येणारा कोणताही दाखला अर्ज, तक्रार किंवा चौकशी फॉर्म हा आवश्यक कागदपत्रांसह योग्य व अधिकृत फॉरमॅटमध्येच असावा. अन्यथा सदरचा अर्ज, तक्रार किंवा चौकशी फॉर्म फेटाळण्याचे अथवा नाकारण्याचे पूर्ण अधिकार ग्रामपंचायतीकडे राखीव असतील.
+                </div>
                 <div class="form-group">
                     <label>अधिसूचित लोकसेवा / दाखल्याचा प्रकार निवडा <span style="color:#dc2626;">*</span></label>
                     <div class="inweb-select" id="ddServiceType"></div>
@@ -2298,6 +2395,9 @@
                 <h3 style="font-size: 24px; color: var(--primary); margin:0;">सेवा व विभाग चौकशी / पूर्वनोंदणी</h3>
                 <span class="badge" style="margin:0;">ऑनलाइन नागरिक मदत कक्ष</span>
             </div>
+                <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-left:5px solid #d97706; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:15.5px; color:#78350f; line-height:1.45;">
+                    <strong>महत्त्वाची सूचना:</strong> सादर करण्यात येणारा कोणताही दाखला अर्ज, तक्रार किंवा चौकशी फॉर्म हा आवश्यक कागदपत्रांसह योग्य व अधिकृत फॉरमॅटमध्येच असावा. अन्यथा सदरचा अर्ज, तक्रार किंवा चौकशी फॉर्म फेटाळण्याचे अथवा नाकारण्याचे पूर्ण अधिकार ग्रामपंचायतीकडे राखीव असतील.
+                </div>
             <div class="form-group">
                 <label>चौकशीचा विभाग निवडा</label>
                 <div class="inweb-select" id="ddInquiryCategory"></div>
@@ -2320,6 +2420,9 @@
     <div class="modal-backdrop" id="complaintModal">
         <div class="modal-box" style="max-width: 660px;">
             <h3 style="font-size: 24px; color: var(--primary); margin-bottom: 12px;">ऑनलाइन तक्रार नोंदणी</h3>
+                <div style="background:#fffbeb; border:1.5px solid #f59e0b; border-left:5px solid #d97706; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:15.5px; color:#78350f; line-height:1.45;">
+                    <strong>महत्त्वाची सूचना:</strong> सादर करण्यात येणारा कोणताही दाखला अर्ज, तक्रार किंवा चौकशी फॉर्म हा आवश्यक कागदपत्रांसह योग्य व अधिकृत फॉरमॅटमध्येच असावा. अन्यथा सदरचा अर्ज, तक्रार किंवा चौकशी फॉर्म फेटाळण्याचे अथवा नाकारण्याचे पूर्ण अधिकार ग्रामपंचायतीकडे राखीव असतील.
+                </div>
             <div class="form-group">
                 <label>तक्रारीचा विभाग निवडा <span style="color:#dc2626;">*</span></label>
                 <div class="inweb-select" id="ddComplaintDept"></div>
@@ -2661,10 +2764,28 @@
                 photo: '',
                 pdf: ''
             },
+            dignitaries: [
+                { role: 'मा. मुख्यमंत्री, महाराष्ट्र राज्य', name: 'मा. श्री. देवेंद्र फडणवीस', photo: '', color: '#ea580c' },
+                { role: 'मा. उपमुख्यमंत्री, महाराष्ट्र राज्य', name: 'मा. श्री. एकनाथ शिंदे', photo: '', color: '#1e3a8a' },
+                { role: 'मा. उपमुख्यमंत्री, महाराष्ट्र राज्य', name: 'मा. श्री. अजित पवार', photo: '', color: '#15803d' },
+                { role: 'मा. ग्रामविकास व पंचायतराज मंत्री', name: 'मा. ग्रामविकास मंत्री, महाराष्ट्र शासन', photo: '', color: '#0f766e' }
+            ],
+            sampleForms: [
+                { title: 'जन्म / मृत्यू / विवाह नोंद दाखला नमुना अर्ज', category: 'ग्रामपंचायत दाखले', desc: 'ग्रामपंचायत कार्यालयात सादर करण्यासाठी प्रमाणित नमुना अर्ज (आधार कार्ड प्रत जोडावी).', file: '' },
+                { title: 'नमुना क्र. ८-अ उतारा व येणे बाकी नसल्याचा दाखला अर्ज', category: 'कर व मालमत्ता विभाग', desc: 'घरपट्टी व पाणीपट्टी भरल्याच्या पावतीसह सादर करावयाचा नमुना अर्ज.', file: '' },
+                { title: 'रहिवासी व दारिद्र्य रेषेखालील (BPL) दाखला नमुना अर्ज', category: 'नागरिक सेवा', desc: 'आधार कार्ड व रेशन कार्डच्या सत्यप्रतीसह अर्ज सादर करावा.', file: '' }
+            ],
+            govtSchemes: [
+                { title: 'प्रधानमंत्री आवास योजना (ग्रामीण) व रमाई/शबरी घरकुल योजना', category: 'घरकुल व निवारा', benefit: 'पात्र बेघर व कच्चे घर असलेल्या ग्रामीण कुटुंबांना पक्के घर बांधण्यासाठी शासकीय अनुदान.', docs: 'आधार कार्ड, रेशन कार्ड, जॉब कार्ड, बँक पासबुक, जागेचा उतारा', url: 'https://pmayg.nic.in/', pdf: '' },
+                { title: 'मुख्यमंत्री माझी लाडकी बहीण योजना', category: 'महिला व बालकल्याण', benefit: 'पात्र महिलांना दरमहा थेट बँक खात्यात आर्थिक सहाय्य.', docs: 'आधार कार्ड, उत्पन्न दाखला / पिवळे-केशरी रेशन कार्ड, बँक पासबुक', url: 'https://ladakibahin.maharashtra.gov.in/', pdf: '' },
+                { title: 'महाडीबीटी (MahaDBT) कृषी यांत्रिकीकरण व ठिबक सिंचन अनुदान', category: 'कृषी विभाग', benefit: 'शेतकऱ्यांना ट्रॅक्टर, कृषी औजारे, ठिबक/तुषार सिंचन व फळबाग लागवडीसाठी थेट अनुदान.', docs: '७/१२ व ८-अ उतारा, आधार कार्ड, बँक पासबुक, शेतकरी आयडी', url: 'https://mahadbt.maharashtra.gov.in/', pdf: '' },
+                { title: 'आयुष्मान भारत व महात्मा फुले जन आरोग्य योजना', category: 'सार्वजनिक आरोग्य', benefit: 'पात्र कुटुंबांना सूचीबद्ध रुग्णालयांमध्ये ₹५ लाखांपर्यंत मोफत उपचार.', docs: 'आधार कार्ड, रेशन कार्ड, मोबाईल क्रमांक', url: 'https://beneficiary.nha.gov.in/', pdf: '' }
+            ],
             formControls: {
                 service: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन दाखला मागणी अर्ज सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' },
                 complaint: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन तक्रार निवारण सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' },
-                inquiry: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' }
+                inquiry: { enabled: true, reason: 'तांत्रिक देखभाल किंवा कार्यालयीन कारणामुळे ऑनलाइन चौकशी फॉर्म सेवा तात्पुरती बंद ठेवण्यात आली आहे. कृपया थोड्या काळाने पुन्हा प्रयत्न करा किंवा ग्रामपंचायत कार्यालयाशी संपर्क साधा.' },
+                inquiryForward: { enabled: true, reason: '' }
             },
             visibility: {
                 ticker: true,
@@ -2678,7 +2799,10 @@
                 aaplesarkar: true,
                 panchayatsamiti: true,
                 villageofficials: true,
-                committees: true
+                committees: true,
+                dignitaries: true,
+                sampleforms: true,
+                schemes: true
             },
             policyPages: {
                 privacy: {
@@ -3289,6 +3413,11 @@
             ` : '';
 
             document.getElementById('membersContainer').innerHTML = governanceHtml + employeesHtml;
+            const digContainer = document.getElementById('dignitariesContainer');
+            if (digContainer) {
+                const digList = Array.isArray(appState.dignitaries) && appState.dignitaries.length ? appState.dignitaries : DEFAULT_STATE.dignitaries;
+                digContainer.innerHTML = digList.map(d => renderPersonCard({ name: d.name, phone: '', photo: d.photo, color: d.color || '#1e3a8a', subNote: '' }, d.role)).join('').replace(/<p style="color: var\(--text-muted\); font-size: 16px; margin: 0;">संपर्क: <\/p>/g, '');
+            }
 
             document.getElementById('worksContainer').innerHTML = appState.works.map(w => `
                 <div class="card-item" style="overflow:hidden; display:flex; flex-direction:column;">
@@ -3401,7 +3530,10 @@
                 notices: 'sec-notices',
                 aaplesarkar: 'sec-aaplesarkar',
                 panchayatsamiti: 'sec-panchayatsamiti',
-                villageofficials: 'sec-villageofficials'
+                villageofficials: 'sec-villageofficials',
+                dignitaries: 'sec-dignitaries',
+                sampleforms: 'sec-sampleforms',
+                schemes: 'sec-schemes'
             };
             Object.keys(map).forEach(key => {
                 const isVis = appState.visibility[key] !== false;
@@ -3554,7 +3686,7 @@
         }
 
         function updateFormControlSwitchUI(key, isOn) {
-            const map = { service: ['swFcService', 'lblFcService'], complaint: ['swFcComplaint', 'lblFcComplaint'], inquiry: ['swFcInquiry', 'lblFcInquiry'] };
+            const map = { service: ['swFcService', 'lblFcService'], complaint: ['swFcComplaint', 'lblFcComplaint'], inquiry: ['swFcInquiry', 'lblFcInquiry'], inquiryForward: ['swFcInquiryForward', 'lblFcInquiryForward'] };
             const pair = map[key];
             if (!pair) return;
             const sw = document.getElementById(pair[0]);
@@ -3568,7 +3700,7 @@
 
         function populateFormControlsEditor() {
             if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
-            ['service', 'complaint', 'inquiry'].forEach(k => {
+            ['service', 'complaint', 'inquiry', 'inquiryForward'].forEach(k => {
                 const cfg = getFormControlConfig(k);
                 updateFormControlSwitchUI(k, cfg.enabled);
                 const idMap = { service: 'inpFcServiceReason', complaint: 'inpFcComplaintReason', inquiry: 'inpFcInquiryReason' };
@@ -3587,7 +3719,7 @@
         function saveFormControlsSettings() {
             if (!appState.formControls) appState.formControls = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls));
             const idMap = { service: 'inpFcServiceReason', complaint: 'inpFcComplaintReason', inquiry: 'inpFcInquiryReason' };
-            ['service', 'complaint', 'inquiry'].forEach(k => {
+            ['service', 'complaint', 'inquiry', 'inquiryForward'].forEach(k => {
                 if (!appState.formControls[k]) appState.formControls[k] = JSON.parse(JSON.stringify(DEFAULT_STATE.formControls[k]));
                 const inp = document.getElementById(idMap[k]);
                 if (inp) appState.formControls[k].reason = inp.value.trim() || DEFAULT_STATE.formControls[k].reason;
@@ -3595,6 +3727,155 @@
             logPortalActivity('अर्ज व फॉर्म सेवा तात्पुरती बंद/चालू नियंत्रण सेटिंग्ज अपडेट केल्या.');
             saveStateToStorage();
             showToast('अर्ज व फॉर्म सेवा नियंत्रण सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
+        }
+
+        function renderDignitariesEditor() {
+            const grid = document.getElementById('dignitariesEditorGrid');
+            if (!grid) return;
+            if (!Array.isArray(appState.dignitaries)) appState.dignitaries = JSON.parse(JSON.stringify(DEFAULT_STATE.dignitaries));
+            grid.innerHTML = appState.dignitaries.map((d, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+                        <span style="color: var(--primary); font-size: 17.5px;"><strong>पदाधिकारी #${idx + 1}</strong></span>
+                        ${appState.dignitaries.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removeDignitarySlot(${idx})">काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>पदनाम (Designation)</label><input type="text" class="form-control" id="digRole_${idx}" value="${d.role || ''}"></div>
+                    <div class="form-group"><label>माननीय नाव</label><input type="text" class="form-control" id="digName_${idx}" value="${d.name || ''}"></div>
+                    <div class="form-group" style="margin-bottom:0;">
+                        <label>फोटो अपलोड करा</label>
+                        <div style="display:flex; gap:8px;">
+                            <input type="hidden" id="digPhoto_${idx}" value="${d.photo || ''}">
+                            <div id="digPhoto_${idx}_status" class="unclickable-file-status ${d.photo ? 'ready' : ''}" aria-hidden="true">${getCleanUploadedFileLabel(d.photo)}</div>
+                            <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 12px; flex-shrink:0;">
+                                <span>फोटो निवडा</span>
+                                <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'digPhoto_${idx}')">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        function syncDignitariesInputs() {
+            if (!Array.isArray(appState.dignitaries)) return;
+            appState.dignitaries.forEach((d, idx) => {
+                const r = document.getElementById(`digRole_${idx}`);
+                const n = document.getElementById(`digName_${idx}`);
+                const p = document.getElementById(`digPhoto_${idx}`);
+                if (r) d.role = r.value.trim();
+                if (n) d.name = n.value.trim();
+                if (p) d.photo = p.value.trim();
+            });
+        }
+        function addDignitarySlot() {
+            syncDignitariesInputs();
+            if (!Array.isArray(appState.dignitaries)) appState.dignitaries = [];
+            appState.dignitaries.push({ role: 'मा. पदाधिकारी / लोकप्रतिनिधी', name: 'पूर्ण नाव', photo: '', color: '#1e3a8a' });
+            renderDignitariesEditor();
+        }
+        function removeDignitarySlot(idx) {
+            syncDignitariesInputs();
+            appState.dignitaries.splice(idx, 1);
+            renderDignitariesEditor();
+        }
+        function saveDignitariesSettings() {
+            syncDignitariesInputs();
+            logPortalActivity('माननीय मंत्री व पदाधिकारी विभाग अपडेट केला.');
+            saveStateToStorage();
+            showToast('माननीय मंत्री व पदाधिकारी माहिती यशस्वीरित्या सेव्ह झाली!');
+        }
+
+        function renderAdminSampleForms() {
+            const listEl = document.getElementById('adminSampleFormsList');
+            if (!listEl) return;
+            if (!Array.isArray(appState.sampleForms)) appState.sampleForms = JSON.parse(JSON.stringify(DEFAULT_STATE.sampleForms));
+            if (!appState.sampleForms.length) {
+                listEl.innerHTML = '<p style="color:var(--text-muted);">अद्याप कोणताही नमुना अर्ज अपलोड केलेला नाही.</p>';
+                return;
+            }
+            listEl.innerHTML = appState.sampleForms.map((sf, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; background:var(--bg-subtle); border-radius:10px; margin-bottom:8px; flex-wrap:wrap;">
+                    <div>
+                        <span class="badge" style="margin:0 6px 0 0;">${sf.category || 'नमुना अर्ज'}</span>
+                        <strong>${sf.title}</strong>
+                        <div style="font-size:14.5px; color:var(--text-muted);">${sf.desc || ''} ${sf.file ? ' | ✅ फाईल जोडली आहे' : ' | (फाईल नाही)'}</div>
+                    </div>
+                    <button type="button" class="btn btn-danger" style="padding:5px 12px; font-size:14.5px;" onclick="deleteSampleForm(${idx})">काढा</button>
+                </div>
+            `).join('');
+        }
+        function addNewSampleForm() {
+            const title = (document.getElementById('newSfTitle')?.value || '').trim();
+            const category = (document.getElementById('newSfCategory')?.value || '').trim() || 'ग्रामपंचायत दाखले';
+            const desc = (document.getElementById('newSfDesc')?.value || '').trim();
+            const file = (document.getElementById('newSfFile')?.value || '').trim();
+            if (!title) { showToast('कृपया नमुना अर्जाचे शीर्षक भरा.'); return; }
+            if (!Array.isArray(appState.sampleForms)) appState.sampleForms = [];
+            appState.sampleForms.unshift({ title, category, desc, file });
+            document.getElementById('newSfTitle').value = '';
+            document.getElementById('newSfCategory').value = '';
+            document.getElementById('newSfDesc').value = '';
+            document.getElementById('newSfFile').value = '';
+            updateAdminFileStatusLabel('newSfFile', 'कोणतीही फाईल निवडलेली नाही', '');
+            logPortalActivity('नवीन नमुना अर्ज अपलोड केला: ' + title);
+            saveStateToStorage();
+            renderAdminSampleForms();
+            showToast('नमुना अर्ज यशस्वीरित्या अपलोड व सेव्ह झाला!');
+        }
+        function deleteSampleForm(idx) {
+            if (!Array.isArray(appState.sampleForms)) return;
+            appState.sampleForms.splice(idx, 1);
+            saveStateToStorage();
+            renderAdminSampleForms();
+            showToast('नमुना अर्ज काढला गेला.');
+        }
+
+        function renderAdminSchemes() {
+            const listEl = document.getElementById('adminSchemesList');
+            if (!listEl) return;
+            if (!Array.isArray(appState.govtSchemes)) appState.govtSchemes = JSON.parse(JSON.stringify(DEFAULT_STATE.govtSchemes));
+            if (!appState.govtSchemes.length) {
+                listEl.innerHTML = '<p style="color:var(--text-muted);">अद्याप कोणतीही योजना नोंदवलेली नाही.</p>';
+                return;
+            }
+            listEl.innerHTML = appState.govtSchemes.map((sc, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding:10px 12px; background:var(--bg-subtle); border-radius:10px; margin-bottom:8px; flex-wrap:wrap;">
+                    <div style="flex:1; min-width:220px;">
+                        <span class="badge" style="margin:0 6px 0 0;">${sc.category || 'शासकीय योजना'}</span>
+                        <strong>${sc.title}</strong>
+                        <div style="font-size:14.5px; color:var(--text-muted);">${sc.benefit || ''}</div>
+                    </div>
+                    <button type="button" class="btn btn-danger" style="padding:5px 12px; font-size:14.5px;" onclick="deleteGovtScheme(${idx})">काढा</button>
+                </div>
+            `).join('');
+        }
+        function addNewGovtScheme() {
+            const title = (document.getElementById('newSchTitle')?.value || '').trim();
+            const category = (document.getElementById('newSchCategory')?.value || '').trim() || 'शासकीय योजना';
+            const benefit = (document.getElementById('newSchBenefit')?.value || '').trim();
+            const docs = (document.getElementById('newSchDocs')?.value || '').trim();
+            const url = (document.getElementById('newSchUrl')?.value || '').trim();
+            const pdf = (document.getElementById('newSchPdf')?.value || '').trim();
+            if (!title || !benefit) { showToast('कृपया योजनेचे नाव आणि लाभ/पात्रता भरा.'); return; }
+            if (!Array.isArray(appState.govtSchemes)) appState.govtSchemes = [];
+            appState.govtSchemes.unshift({ title, category, benefit, docs, url, pdf });
+            document.getElementById('newSchTitle').value = '';
+            document.getElementById('newSchCategory').value = '';
+            document.getElementById('newSchBenefit').value = '';
+            document.getElementById('newSchDocs').value = '';
+            document.getElementById('newSchUrl').value = '';
+            document.getElementById('newSchPdf').value = '';
+            updateAdminFileStatusLabel('newSchPdf', 'कोणतीही फाईल निवडलेली नाही', '');
+            logPortalActivity('नवीन शासकीय योजना जोडली: ' + title);
+            saveStateToStorage();
+            renderAdminSchemes();
+            showToast('नवीन शासकीय योजना यशस्वीरित्या सेव्ह झाली!');
+        }
+        function deleteGovtScheme(idx) {
+            if (!Array.isArray(appState.govtSchemes)) return;
+            appState.govtSchemes.splice(idx, 1);
+            saveStateToStorage();
+            renderAdminSchemes();
+            showToast('शासकीय योजना काढली गेली.');
         }
 
         function openTaxComingSoonModal() {
@@ -4155,9 +4436,9 @@
             }
 
             showToast(`✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ${newId}`);
-            setTimeout(() => {
-                window.open(waUrl, '_blank', 'noopener');
-            }, 650);
+            if (getFormControlConfig('inquiryForward').enabled) {
+                setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 650);
+            }
         }
 
         function openInquiryModal(defaultCategory, defaultSubject) {
@@ -4244,9 +4525,9 @@
                 ? `https://wa.me/${waNumber}?text=${encodeURIComponent(waLines.join('\n'))}`
                 : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
             showToast(`✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ${newId}`);
-            setTimeout(() => {
-                window.open(waUrl, '_blank', 'noopener');
-            }, 650);
+            if (getFormControlConfig('inquiryForward').enabled) {
+                setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 650);
+            }
         }
 
         function openComplaintModal() {
@@ -5190,7 +5471,7 @@
             };
             document.getElementById('roleBadgeDisplay').textContent = roleTitles[currentRole];
 
-            const marNums = ['१','२','३','४','५','६','७','८','९','१०','११','१२','१३','१४','१५','१६','१७','१८','१९','२०'];
+            const marNums = ['१','२','३','४','५','६','७','८','९','१०','११','१२','१३','१४','१५','१६','१७','१८','१९','२०','२१','२२','२३','२४','२५'];
             let visibleSeq = 0;
             let firstVisibleTabBtn = null;
             document.querySelectorAll('#adminTabsBar .admin-tab-btn').forEach(btn => {
@@ -5475,6 +5756,9 @@
             renderAdminWorksAndNotices();
             renderAdminRequests();
             populateFormControlsEditor();
+            renderDignitariesEditor();
+            renderAdminSampleForms();
+            renderAdminSchemes();
             renderVisibilityToggles();
 
             renderInwebDropdown('ddAdminPalette', [
