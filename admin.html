@@ -1115,6 +1115,38 @@
             -webkit-filter: none !important;
             image-rendering: auto;
         }
+
+        /* Protocol Horizontal Scrolling Strip (Dignitaries & GP Officials/Employees) */
+        .protocol-scroll-strip {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 6px 4px 14px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-subtle);
+        }
+        .protocol-scroll-strip::-webkit-scrollbar { height: 6px; }
+        .protocol-scroll-strip::-webkit-scrollbar-track { background: var(--bg-subtle); border-radius: 999px; }
+        .protocol-scroll-strip::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 999px; }
+        .protocol-scroll-strip > * {
+            flex: 0 0 265px;
+            min-width: 265px;
+            max-width: 280px;
+            scroll-snap-align: start;
+        }
+        .protocol-scroll-strip.members-scroll-strip > * {
+            flex: 0 0 300px;
+            min-width: 300px;
+            max-width: 320px;
+        }
+        @media (max-width: 600px) {
+            .protocol-scroll-strip > * { flex: 0 0 235px; min-width: 235px; }
+            .protocol-scroll-strip.members-scroll-strip > * { flex: 0 0 270px; min-width: 270px; }
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -1277,6 +1309,12 @@
             </div>
         </section>
 
+        <!-- माननीय मंत्री व पदाधिकारी (प्रोटोकॉल स्क्रोलिंग पट्टी) -->
+        <section class="section-wrap" id="sec-dignitaries" style="padding-top: 14px; padding-bottom: 6px;">
+            <h2 class="section-heading" style="margin-bottom: 12px;">माननीय मंत्री व पदाधिकारी</h2>
+            <div class="protocol-scroll-strip" id="dignitariesContainer"></div>
+        </section>
+
         <!-- ३. गावाची आकडेवारी -->
         <section class="section-wrap" id="sec-stats">
             <div class="stats-grid" id="statsContainer"></div>
@@ -1318,16 +1356,10 @@
             </div>
         </section>
 
-                <!-- माननीय मंत्री व पदाधिकारी -->
-        <section class="section-wrap" id="sec-dignitaries" style="padding-top: 10px;">
-            <h2 class="section-heading">माननीय मंत्री व पदाधिकारी</h2>
-            <div class="cards-grid" id="dignitariesContainer"></div>
-        </section>
-
-        <!-- ६. पदाधिकारी व कर्मचारी -->
+                <!-- ६. पदाधिकारी व कर्मचारी -->
         <section class="section-wrap" id="sec-members">
             <h2 class="section-heading">ग्रामपंचायत पदाधिकारी व कर्मचारी</h2>
-            <div class="cards-grid" id="membersContainer"></div>
+            <div class="protocol-scroll-strip members-scroll-strip" id="membersContainer"></div>
         </section>
 
         <!-- ७. गावातील विकासकामे -->
@@ -1346,9 +1378,9 @@
         <footer>
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h3>ग्रामपंचायत कार्यालय</h3>
+                    <h3 id="ftPublicOfficeTitle">ग्रामपंचायत कार्यालय</h3>
                     <p id="footerAddress">मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर, महाराष्ट्र - ४२२६०५</p>
-                    <p>कार्यालयीन वेळ: सकाळी ९:४५ ते सायं. ५:३०</p>
+                    <p id="ftPublicOfficeTiming">कार्यालयीन वेळ: सकाळी ९:४५ ते सायं. ५:३०</p>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:10px;">
                         <a id="footerMapLink" href="https://maps.app.goo.gl/FDPEea25Kr4XeSDCA?g_st=ac" target="_blank" rel="noopener" class="btn" style="background:#ea580c; color:#ffffff; padding:7px 13px; font-size:15.5px; border-radius:8px; display:inline-flex; align-items:center; gap:6px;">
                             <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -1365,7 +1397,8 @@
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h3>महत्त्वाचे शासकीय दुवे</h3>
+                    <h3 id="ftPublicGovLinksTitle">महत्त्वाचे शासकीय दुवे</h3>
+                    <div id="ftPublicGovLinksList" style="display:flex; flex-direction:column;">
                     <a href="https://gr.maharashtra.gov.in/" target="_blank" rel="noopener">महाराष्ट्र शासन निर्णय (GR पोर्टल)</a>
                     <a href="https://bhulekh.mahabhumi.gov.in/" target="_blank" rel="noopener">महाभुलेख (७/१२ व ८-अ उतारा)</a>
                     <a href="https://aaplesarkar.mahaonline.gov.in/" target="_blank" rel="noopener">आपले सरकार सेवा पोर्टल</a>
@@ -1374,11 +1407,12 @@
                     <a href="https://mahadbt.maharashtra.gov.in/" target="_blank" rel="noopener">महाडीबीटी (MahaDBT योजना)</a>
                     <a href="https://pmayg.nic.in/" target="_blank" rel="noopener">प्रधानमंत्री आवास योजना (ग्रामीण)</a>
                     <a href="https://rtionline.maharashtra.gov.in/" target="_blank" rel="noopener">महाराष्ट्र ऑनलाइन माहिती अधिकार (RTI)</a>
+                    </div>
                 </div>
                 <div class="footer-col">
-                    <h3>तात्काळ मदत संपर्क</h3>
-                    <p>रुग्णवाहिका: १०८ | पोलीस मदत: ११२</p>
-                    <p>महावितरण तक्रार: १९१२ | आपत्ती व्यवस्थापन: १०७७</p>
+                    <h3 id="ftPublicEmergencyTitle">तात्काळ मदत संपर्क</h3>
+                    <p id="ftPublicEmergencyLine1">रुग्णवाहिका: १०८ | पोलीस मदत: ११२</p>
+                    <p id="ftPublicEmergencyLine2">महावितरण तक्रार: १९१२ | आपत्ती व्यवस्थापन: १०७७</p>
                 </div>
             </div>
             <div style="border-top: 1px solid #334155; padding: 14px 0 12px; margin-top: 8px; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px 18px; font-size: 16px;">
@@ -1393,12 +1427,12 @@
                 <a href="javascript:void(0)" onclick="openPolicyModal('grievance')" style="color: #fde047; text-decoration: none; display: inline-flex; align-items: center; gap: 5px;">संपर्क व तक्रार मार्गदर्शन</a>
             </div>
             <div class="copyright-bar" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <span>© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span> | <a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
+                <span id="ftPublicCopyrightText">© २०२६ <span id="footerGpName">ग्रामपंचायत पिंपळगाव निपाणी</span></span><span> | <a href="http://gpnipani.online" style="color:#fde047; text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a></span>
                 <span style="display:inline-flex; align-items:center; gap:8px; flex-wrap:wrap;">
-                    <span>Website Design by <strong>Anil Bhaurao Tormal</strong></span>
-                    <a href="tel:+919975571585" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.14); color:#fde047; padding:3px 10px; border-radius:999px; text-decoration:none; font-size:15px;">
+                    <span id="ftPublicDesignerCredit">Website Design by <strong>Anil Bhaurao Tormal</strong></span>
+                    <a id="ftPublicDesignerPhoneLink" href="tel:+919975571585" style="display:inline-flex; align-items:center; gap:5px; background:rgba(255,255,255,0.14); color:#fde047; padding:3px 10px; border-radius:999px; text-decoration:none; font-size:15px;">
                         <svg class="icon" viewBox="0 0 24 24" style="width:15px;height:15px;"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-                        <span>संपर्क करा: 9975571585</span>
+                        <span id="ftPublicDesignerPhoneText">संपर्क करा: 9975571585</span>
                     </a>
                 </span>
             </div>
@@ -1423,9 +1457,9 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-stats" data-roles="developer,gramsevak" data-label="गावाची आकडेवारी" onclick="switchAdminTab('tab-stats', this)">२. गावाची आकडेवारी</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-members" data-roles="developer,gramsevak" data-label="बॉडी / प्रशासक माहिती" onclick="switchAdminTab('tab-members', this)">३. बॉडी / प्रशासक माहिती</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-employees" data-roles="developer,gramsevak" data-label="ग्रामपंचायत कर्मचारी" onclick="switchAdminTab('tab-employees', this)">४. ग्रामपंचायत कर्मचारी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-aaple-sarkar" data-roles="developer,gramsevak" data-label="आपले सरकार सेवा केंद्र" onclick="switchAdminTab('tab-aaple-sarkar', this)">५. आपले सरकार सेवा केंद्र</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-village-officials" data-roles="developer,gramsevak" data-label="इतर शासकीय कर्मचारी" onclick="switchAdminTab('tab-village-officials', this)">६. इतर शासकीय कर्मचारी</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-panchayat-samiti" data-roles="developer,gramsevak" data-label="पंचायत समिती अकोले विभाग" onclick="switchAdminTab('tab-panchayat-samiti', this)">६. पंचायत समिती अकोले विभाग</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-aaple-sarkar" data-roles="developer,gramsevak,operator" data-label="आपले सरकार सेवा केंद्र" onclick="switchAdminTab('tab-aaple-sarkar', this)">५. आपले सरकार सेवा केंद्र</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-village-officials" data-roles="developer,gramsevak,operator" data-label="इतर शासकीय कर्मचारी" onclick="switchAdminTab('tab-village-officials', this)">६. इतर शासकीय कर्मचारी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-panchayat-samiti" data-roles="developer,gramsevak,operator" data-label="पंचायत समिती अकोले विभाग" onclick="switchAdminTab('tab-panchayat-samiti', this)">६. पंचायत समिती अकोले विभाग</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-committees" data-roles="developer,gramsevak" data-label="महत्त्वाच्या समित्या" onclick="switchAdminTab('tab-committees', this)">७. महत्त्वाच्या समित्या</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="गावातील विकासकामे" onclick="switchAdminTab('tab-works', this)">८. गावातील विकासकामे</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-notices" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा नोटीस व ठराव" onclick="switchAdminTab('tab-notices', this)">९. ग्रामसभा नोटीस व ठराव</button>
@@ -1440,7 +1474,7 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-cloud" data-roles="developer,gramsevak" data-label="क्लाउड सेटिंग्ज" onclick="switchAdminTab('tab-cloud', this)">१४. क्लाउड सेटिंग्ज</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-watermark" data-roles="developer,gramsevak" data-label="वॉटरमार्क सेटिंग्ज" onclick="switchAdminTab('tab-watermark', this)">१५. वॉटरमार्क सेटिंग्ज</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-backup" data-roles="developer,gramsevak" data-label="बॅकअप व हालचाल नोंद" onclick="switchAdminTab('tab-backup', this)">१६. बॅकअप व हालचाल नोंद</button>
-            <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="धोरणे, अस्वीकरण व अटी" onclick="switchAdminTab('tab-policies', this)">१७. धोरणे, अस्वीकरण व अटी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-policies" data-roles="developer" data-label="फूटर, धोरणे व अस्वीकरण" onclick="switchAdminTab('tab-policies', this)">१७. फूटर, धोरणे व अस्वीकरण</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-urgent" data-roles="gramsevak,operator" data-label="अती तातडीची सूचना Pop-up" onclick="switchAdminTab('tab-urgent', this)">अती तातडीची सूचना Pop-up</button>
         </div>
 
@@ -1598,6 +1632,13 @@
                             <label>आपले सरकार केंद्र विशेष मोहीम / सूचना</label>
                             <input type="text" class="form-control" id="inpCscDrive">
                         </div>
+                    </div>
+                    <div style="margin-top:16px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <strong style="font-size:18px; color:var(--secondary);">आपले सरकार केंद्रातील दाखले व सेवा यादी संपादन</strong>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 14px; font-size:15.5px;" onclick="addCscServiceSlot()">+ नवीन दाखला / सेवा जोडा</button>
+                        </div>
+                        <div id="cscServicesEditorGrid" class="grid-2"></div>
                     </div>
                     <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end;">
                         <button type="button" class="btn btn-primary" style="padding: 10px 24px; font-size: 18px;" onclick="saveAllAdminChanges()">आपले सरकार केंद्र माहिती सेव्ह करा</button>
@@ -2072,6 +2113,33 @@
 
             <!-- Tab: Legal Policy Pages Editor (STRICTLY Master Developer Only) -->
             <div class="admin-tab-pane" id="tab-policies">
+                <!-- Master Only: Full Footer Text & Links Editor -->
+                <div class="info-card" style="border-left: 5px solid var(--primary); margin-bottom: 20px;">
+                    <h3 style="color:var(--primary); margin-bottom:4px;">संपूर्ण फूटर मजकूर व शासकीय दुवे (Links) संपादन (फक्त मास्टरसाठी)</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">येथून पोर्टलच्या तळाला (Footer) दिसणारी कार्यालयीन वेळ, तात्काळ संपर्क, कॉपीराइट ओळ, डिझायनर क्रेडिट व सर्व शासकीय दुवे संपादित, जोडता किंवा काढता येतात.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>कार्यालय विभाग शीर्षक</label><input type="text" class="form-control" id="ftOfficeTitle"></div>
+                        <div class="form-group"><label>कार्यालयीन वेळ</label><input type="text" class="form-control" id="ftOfficeTiming"></div>
+                        <div class="form-group"><label>तात्काळ मदत विभाग शीर्षक</label><input type="text" class="form-control" id="ftEmergencyTitle"></div>
+                        <div class="form-group"><label>तात्काळ मदत ओळ १</label><input type="text" class="form-control" id="ftEmergencyLine1"></div>
+                        <div class="form-group"><label>तात्काळ मदत ओळ २</label><input type="text" class="form-control" id="ftEmergencyLine2"></div>
+                        <div class="form-group"><label>शासकीय दुवे विभाग शीर्षक</label><input type="text" class="form-control" id="ftGovLinksTitle"></div>
+                        <div class="form-group"><label>कॉपीराइट मजकूर</label><input type="text" class="form-control" id="ftCopyrightText"></div>
+                        <div class="form-group"><label>डिझायनर क्रेडिट मजकूर</label><input type="text" class="form-control" id="ftDesignerCredit"></div>
+                        <div class="form-group"><label>डिझायनर संपर्क क्रमांक</label><input type="text" class="form-control" id="ftDesignerPhone"></div>
+                    </div>
+                    <div style="margin-top:10px; background:var(--bg-subtle); padding:14px; border-radius:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            <strong style="font-size:17.5px; color:var(--secondary);">फूटरमधील महत्त्वाचे शासकीय दुवे (Links)</strong>
+                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:15px;" onclick="addFooterGovLinkSlot()">+ नवीन लिंक जोडा</button>
+                        </div>
+                        <div id="footerGovLinksEditor" style="display:flex; flex-direction:column; gap:10px;"></div>
+                    </div>
+                    <div style="margin-top:16px; display:flex; justify-content:flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding:10px 24px; font-size:18px;" onclick="saveFooterConfigByMaster()">फूटर मजकूर व लिंक्स सेव्ह करा</button>
+                    </div>
+                </div>
+
                 <div class="info-card" style="border-left: 5px solid var(--secondary);">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
                         <div>
@@ -2719,6 +2787,27 @@
                 message: 'सर्व ग्रामस्थांना कळविण्यात येते की, ग्रामपंचायत पिंपळगाव निपाणी अंतर्गत तातडीच्या शासकीय कामकाजासाठी व ग्रामसभेसाठी दिलेल्या वेळेत उपस्थित राहावे.',
                 photo: '',
                 pdf: ''
+            },
+            footerConfig: {
+                officeTitle: 'ग्रामपंचायत कार्यालय',
+                officeTiming: 'कार्यालयीन वेळ: सकाळी ९:४५ ते सायं. ५:३०',
+                govLinksTitle: 'महत्त्वाचे शासकीय दुवे',
+                govLinks: [
+                    { label: 'महाराष्ट्र शासन निर्णय (GR पोर्टल)', url: 'https://gr.maharashtra.gov.in/' },
+                    { label: 'महाभुलेख (७/१२ व ८-अ उतारा)', url: 'https://bhulekh.mahabhumi.gov.in/' },
+                    { label: 'आपले सरकार सेवा पोर्टल', url: 'https://aaplesarkar.mahaonline.gov.in/' },
+                    { label: 'ई-ग्रामस्वराज (eGramSwaraj)', url: 'https://egramswaraj.gov.in/' },
+                    { label: 'ग्रामविकास विभाग, महाराष्ट्र शासन', url: 'https://rdd.maharashtra.gov.in/' },
+                    { label: 'महाडीबीटी (MahaDBT योजना)', url: 'https://mahadbt.maharashtra.gov.in/' },
+                    { label: 'प्रधानमंत्री आवास योजना (ग्रामीण)', url: 'https://pmayg.nic.in/' },
+                    { label: 'महाराष्ट्र ऑनलाइन माहिती अधिकार (RTI)', url: 'https://rtionline.maharashtra.gov.in/' }
+                ],
+                emergencyTitle: 'तात्काळ मदत संपर्क',
+                emergencyLine1: 'रुग्णवाहिका: १०८ | पोलीस मदत: ११२',
+                emergencyLine2: 'महावितरण तक्रार: १९१२ | आपत्ती व्यवस्थापन: १०७७',
+                copyrightText: '© २०२६ ग्रामपंचायत पिंपळगाव निपाणी',
+                designerCredit: 'Website Design by Anil Bhaurao Tormal',
+                designerPhone: '9975571585'
             },
             dignitaries: [
                 { role: 'मा. मुख्यमंत्री, महाराष्ट्र राज्य', name: 'मा. श्री. देवेंद्र फडणवीस', photo: '', color: '#ea580c' },
@@ -3369,6 +3458,7 @@
             ` : '';
 
             document.getElementById('membersContainer').innerHTML = governanceHtml + employeesHtml;
+            applyFooterConfigToPortal();
             const digContainer = document.getElementById('dignitariesContainer');
             if (digContainer) {
                 const digList = Array.isArray(appState.dignitaries) && appState.dignitaries.length ? appState.dignitaries : DEFAULT_STATE.dignitaries;
@@ -3685,6 +3775,135 @@
             showToast('अर्ज व फॉर्म सेवा नियंत्रण सेटिंग्ज यशस्वीरित्या सेव्ह झाल्या!');
         }
 
+        function renderFooterConfigEditor() {
+            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.footerConfig));
+            const fc = appState.footerConfig;
+            const setV = (id, val) => { const el = document.getElementById(id); if (el) el.value = val || ''; };
+            setV('ftOfficeTitle', fc.officeTitle);
+            setV('ftOfficeTiming', fc.officeTiming);
+            setV('ftEmergencyTitle', fc.emergencyTitle);
+            setV('ftEmergencyLine1', fc.emergencyLine1);
+            setV('ftEmergencyLine2', fc.emergencyLine2);
+            setV('ftGovLinksTitle', fc.govLinksTitle);
+            setV('ftCopyrightText', fc.copyrightText);
+            setV('ftDesignerCredit', fc.designerCredit);
+            setV('ftDesignerPhone', fc.designerPhone);
+
+            const linksHost = document.getElementById('footerGovLinksEditor');
+            if (!linksHost) return;
+            const links = Array.isArray(fc.govLinks) ? fc.govLinks : [];
+            linksHost.innerHTML = links.map((lk, idx) => `
+                <div style="display:grid; grid-template-columns: 1fr 1fr auto; gap:8px; align-items:center;">
+                    <input type="text" class="form-control" id="ftLinkLbl_${idx}" value="${(lk.label || '').replace(/"/g, '&quot;')}" placeholder="लिंकचे नाव">
+                    <input type="url" class="form-control" id="ftLinkUrl_${idx}" value="${(lk.url || '').replace(/"/g, '&quot;')}" placeholder="https://...">
+                    <button type="button" class="btn btn-danger" style="padding:6px 12px; font-size:14.5px;" onclick="removeFooterGovLinkSlot(${idx})">काढा</button>
+                </div>
+            `).join('');
+        }
+        function syncFooterGovLinksInputs() {
+            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.footerConfig));
+            const links = Array.isArray(appState.footerConfig.govLinks) ? appState.footerConfig.govLinks : [];
+            links.forEach((lk, idx) => {
+                const lEl = document.getElementById(`ftLinkLbl_${idx}`);
+                const uEl = document.getElementById(`ftLinkUrl_${idx}`);
+                if (lEl) lk.label = lEl.value.trim();
+                if (uEl) lk.url = uEl.value.trim();
+            });
+        }
+        function addFooterGovLinkSlot() {
+            syncFooterGovLinksInputs();
+            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.footerConfig));
+            if (!Array.isArray(appState.footerConfig.govLinks)) appState.footerConfig.govLinks = [];
+            appState.footerConfig.govLinks.push({ label: 'नवीन शासकीय दुवा', url: 'https://' });
+            renderFooterConfigEditor();
+        }
+        function removeFooterGovLinkSlot(idx) {
+            syncFooterGovLinksInputs();
+            appState.footerConfig.govLinks.splice(idx, 1);
+            renderFooterConfigEditor();
+        }
+        function saveFooterConfigByMaster() {
+            if (!appState.footerConfig) appState.footerConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.footerConfig));
+            syncFooterGovLinksInputs();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            appState.footerConfig.officeTitle = getV('ftOfficeTitle') || 'ग्रामपंचायत कार्यालय';
+            appState.footerConfig.officeTiming = getV('ftOfficeTiming');
+            appState.footerConfig.emergencyTitle = getV('ftEmergencyTitle') || 'तात्काळ मदत संपर्क';
+            appState.footerConfig.emergencyLine1 = getV('ftEmergencyLine1');
+            appState.footerConfig.emergencyLine2 = getV('ftEmergencyLine2');
+            appState.footerConfig.govLinksTitle = getV('ftGovLinksTitle') || 'महत्त्वाचे शासकीय दुवे';
+            appState.footerConfig.copyrightText = getV('ftCopyrightText');
+            appState.footerConfig.designerCredit = getV('ftDesignerCredit');
+            appState.footerConfig.designerPhone = getV('ftDesignerPhone');
+            appState.footerConfig.govLinks = (appState.footerConfig.govLinks || []).filter(l => l.label && l.url);
+            logPortalActivity('फूटरमधील मजकूर व शासकीय दुवे अपडेट केले.');
+            saveStateToStorage();
+            applyFooterConfigToPortal();
+            showToast('फूटर मजकूर व शासकीय दुवे यशस्वीरित्या सेव्ह झाले!');
+        }
+        function applyFooterConfigToPortal() {
+            const fc = appState.footerConfig || DEFAULT_STATE.footerConfig;
+            const setT = (id, v) => { const el = document.getElementById(id); if (el && v !== undefined) el.textContent = v; };
+            setT('ftPublicOfficeTitle', fc.officeTitle);
+            setT('ftPublicOfficeTiming', fc.officeTiming);
+            setT('ftPublicGovLinksTitle', fc.govLinksTitle);
+            setT('ftPublicEmergencyTitle', fc.emergencyTitle);
+            setT('ftPublicEmergencyLine1', fc.emergencyLine1);
+            setT('ftPublicEmergencyLine2', fc.emergencyLine2);
+            setT('ftPublicCopyrightText', fc.copyrightText);
+            setT('ftPublicDesignerCredit', fc.designerCredit);
+            const phEl = document.getElementById('ftPublicDesignerPhoneLink');
+            const phTxt = document.getElementById('ftPublicDesignerPhoneText');
+            if (phEl && fc.designerPhone) phEl.href = 'tel:+91' + fc.designerPhone.replace(/\D/g, '');
+            if (phTxt && fc.designerPhone) phTxt.textContent = 'संपर्क करा: ' + fc.designerPhone;
+            const linksEl = document.getElementById('ftPublicGovLinksList');
+            if (linksEl && Array.isArray(fc.govLinks)) {
+                linksEl.innerHTML = fc.govLinks.map(l => `<a href="${l.url}" target="_blank" rel="noopener">${l.label}</a>`).join('');
+            }
+        }
+
+        function renderCscServicesEditor() {
+            const grid = document.getElementById('cscServicesEditorGrid');
+            if (!grid) return;
+            if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
+            if (!Array.isArray(appState.aapleSarkarCenter.servicesList)) appState.aapleSarkarCenter.servicesList = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter.servicesList));
+            const list = appState.aapleSarkarCenter.servicesList;
+            grid.innerHTML = list.map((s, idx) => `
+                <div style="background: var(--bg-subtle); padding: 14px; border-radius: 10px; border-left: 4px solid var(--primary);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:6px;">
+                        <span style="color: var(--primary); font-size: 17px;"><strong>दाखला / सेवा #${idx + 1}</strong></span>
+                        ${list.length > 1 ? `<button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:14px;" onclick="removeCscServiceSlot(${idx})">काढा</button>` : ''}
+                    </div>
+                    <div class="form-group"><label>दाखला / सेवेचे नाव</label><input type="text" class="form-control" id="cscSrvName_${idx}" value="${(s.name || '').replace(/"/g, '&quot;')}"></div>
+                    <div class="form-group"><label>शासनमान्य शुल्क / दर</label><input type="text" class="form-control" id="cscSrvFee_${idx}" value="${(s.fee || '').replace(/"/g, '&quot;')}"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>आवश्यक कागदपत्रे</label><textarea class="form-control" rows="2" id="cscSrvDocs_${idx}">${s.docs || ''}</textarea></div>
+                </div>
+            `).join('');
+        }
+        function syncCscServicesInputs() {
+            if (!appState.aapleSarkarCenter || !Array.isArray(appState.aapleSarkarCenter.servicesList)) return;
+            appState.aapleSarkarCenter.servicesList.forEach((s, idx) => {
+                const n = document.getElementById(`cscSrvName_${idx}`);
+                const f = document.getElementById(`cscSrvFee_${idx}`);
+                const d = document.getElementById(`cscSrvDocs_${idx}`);
+                if (n && n.value.trim()) s.name = n.value.trim();
+                if (f) s.fee = f.value.trim();
+                if (d) s.docs = d.value.trim();
+            });
+        }
+        function addCscServiceSlot() {
+            syncCscServicesInputs();
+            if (!appState.aapleSarkarCenter) appState.aapleSarkarCenter = JSON.parse(JSON.stringify(DEFAULT_STATE.aapleSarkarCenter));
+            if (!Array.isArray(appState.aapleSarkarCenter.servicesList)) appState.aapleSarkarCenter.servicesList = [];
+            appState.aapleSarkarCenter.servicesList.push({ name: 'नवीन आपले सरकार दाखला / सेवा', fee: 'शासनमान्य दर', docs: 'आधार कार्ड, रेशन कार्ड व मोबाईल क्रमांक' });
+            renderCscServicesEditor();
+        }
+        function removeCscServiceSlot(idx) {
+            syncCscServicesInputs();
+            appState.aapleSarkarCenter.servicesList.splice(idx, 1);
+            renderCscServicesEditor();
+        }
+
         function renderDignitariesEditor() {
             const grid = document.getElementById('dignitariesEditorGrid');
             if (!grid) return;
@@ -3727,6 +3946,8 @@
             if (!Array.isArray(appState.dignitaries)) appState.dignitaries = [];
             appState.dignitaries.push({ role: 'मा. पदाधिकारी / लोकप्रतिनिधी', name: 'पूर्ण नाव', photo: '', color: '#1e3a8a' });
             renderDignitariesEditor();
+            renderFooterConfigEditor();
+            renderCscServicesEditor();
         }
         function removeDignitarySlot(idx) {
             syncDignitariesInputs();
@@ -5769,6 +5990,7 @@
                 return;
             }
             syncVillageOfficialsInputsToState();
+            syncCscServicesInputs();
             const colors = ['#1e3a8a', '#15803d', '#0369a1', '#be123c', '#7e22ce', '#b45309', '#0f766e'];
             const nextColor = colors[appState.villageOfficials.length % colors.length];
             appState.villageOfficials.push({
@@ -5786,6 +6008,7 @@
         function removeVillageOfficialSlot(idx) {
             if (currentRole !== 'developer') return;
             syncVillageOfficialsInputsToState();
+            syncCscServicesInputs();
             appState.villageOfficials.splice(idx, 1);
             renderVillageOfficialsEditor();
             showToast('कर्मचारी नोंद काढली गेली.');
@@ -6466,6 +6689,7 @@
                     if (document.getElementById('inpCscDrive')) appState.aapleSarkarCenter.activeDrive = document.getElementById('inpCscDrive').value.trim();
                 }
                 syncVillageOfficialsInputsToState();
+            syncCscServicesInputs();
                 syncPanchayatSamitiInputsToState();
                 if (Array.isArray(appState.villageCommittees)) {
                     appState.villageCommittees.forEach((c, idx) => {
