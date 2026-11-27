@@ -2212,7 +2212,7 @@
                 <div class="inweb-select" id="ddInquirySubject"></div>
             </div>
             <div class="form-group"><label>चौकशी करणाऱ्याचे पूर्ण नाव</label><input type="text" class="form-control" id="inqApplicantName" placeholder="उदा. अनिल भाऊराव तोरमल"></div>
-            <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" class="form-control" id="inqApplicantPhone" placeholder="१० अंकी मोबाईल नंबर"></div>
+            <div class="form-group"><label>मोबाईल क्रमांक</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inqApplicantPhone" placeholder="फक्त १० अंकी मोबाईल नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
             <div class="form-group"><label>तुमचा प्रश्न / आवश्यक माहितीचा तपशील</label><textarea class="form-control" rows="3" id="inqDetails" placeholder="उदा. उत्पन्नाच्या दाखल्यासाठी कोणती कागदपत्रे लागतील? किंवा घरकुल योजनेबाबत माहिती हवी आहे."></textarea></div>
             <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 16px;">
                 <button type="button" class="btn btn-secondary" onclick="closeModals()">रद्द करा</button>
@@ -3248,7 +3248,7 @@
                             <p style="font-size:14.5px; color:var(--text-muted); margin:0;"><strong>संपर्क अधिकारी:</strong> ${d.contact}${d.phone ? ' | मोबाईल: ' + d.phone : ''}</p>
                         </div>
                         <div>
-                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="toggleInlineCardInquiry('ps_${idx}', 'पंचायत समिती अकोले विभाग', '${(d.dept || '').replace(/'/g, "&#39;")}', '${(d.contact || d.dept || '').replace(/'/g, "&#39;")}', '${(d.phone || '').replace(/'/g, "&#39;")}')">विभाग चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;" onclick="toggleInlineCardInquiry('ps_${idx}', 'पंचायत समिती अकोले विभाग', '${(d.dept || '').replace(/'/g, "&#39;")}', '${(d.contact || d.dept || '').replace(/'/g, "&#39;")}', '${(d.whatsapp || d.phone || '').replace(/'/g, "&#39;")}')">विभाग चौकशी करा</button>
                         </div>
                         <div id="inlineInqHost_ps_${idx}" style="display:none;"></div>
                     </div>
@@ -3268,7 +3268,7 @@
                             subNote: off.dept
                         }, off.role)}
                         <div style="text-align:right; margin-top:-4px;">
-                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="toggleInlineCardInquiry('vo_${idx}', 'गावातील इतर शासकीय कर्मचारी', '${(off.role || '').replace(/'/g, "&#39;")}', '${(off.name || off.role || '').replace(/'/g, "&#39;")}', '${(off.phone || '').replace(/'/g, "&#39;")}')">चौकशी करा</button>
+                            <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14.5px;" onclick="toggleInlineCardInquiry('vo_${idx}', 'गावातील इतर शासकीय कर्मचारी', '${(off.role || '').replace(/'/g, "&#39;")}', '${(off.name || off.role || '').replace(/'/g, "&#39;")}', '${(off.whatsapp || off.phone || '').replace(/'/g, "&#39;")}')">चौकशी करा</button>
                         </div>
                         <div id="inlineInqHost_vo_${idx}" style="display:none;"></div>
                     </div>
@@ -3821,7 +3821,7 @@
                 return {
                     recipientName: matched ? (matched.contact || matched.dept) : 'पंचायत समिती अकोले अधिकारी',
                     recipientRole: matched ? matched.dept : sub,
-                    rawPhone: (matched && matched.phone) ? matched.phone : ''
+                    rawPhone: (matched && (matched.whatsapp || matched.phone)) ? (matched.whatsapp || matched.phone) : ''
                 };
             }
             const offs = appState.villageOfficials || [];
@@ -3829,7 +3829,7 @@
             return {
                 recipientName: matchedOff ? matchedOff.name : sub,
                 recipientRole: matchedOff ? matchedOff.role : sub,
-                rawPhone: (matchedOff && matchedOff.phone) ? matchedOff.phone : ''
+                rawPhone: (matchedOff && (matchedOff.whatsapp || matchedOff.phone)) ? (matchedOff.whatsapp || matchedOff.phone) : ''
             };
         }
 
@@ -3884,7 +3884,7 @@
                     </div>
                     <div class="form-group" style="margin-bottom:9px;">
                         <label style="font-size:15.5px;">तुमचा मोबाईल क्रमांक <span style="color:#dc2626;">*</span></label>
-                        <input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inlineInqPhone_${cardKey}" value="${prePhone}" placeholder="१० अंकी मोबाईल नंबर">
+                        <input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inlineInqPhone_${cardKey}" value="${prePhone}" placeholder="फक्त १० अंकी मोबाईल नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)">
                     </div>
                     <div class="form-group" style="margin-bottom:10px;">
                         <label style="font-size:15.5px;">चौकशीचा तपशील / प्रश्न <span style="color:#dc2626;">*</span></label>
@@ -4487,6 +4487,9 @@
                 <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
                     <span style="display:inline-flex;align-items:center;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;display:inline-flex;align-items:center;margin-left:4px;"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:4px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>http://gpnipani.online</strong></span>
                     <span>Website Design by Anil Bhaurao Tormal</span>
+                </div>
+                <div style="margin-top:10px;padding:8px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12.5px;color:#334155;line-height:1.45;text-align:center;">
+                    <strong>कायदेशीर सूचना:</strong> ही पोचपावती संगणक प्रणालीद्वारे (Computer Generated) तयार केलेली असून केवळ अर्ज / तक्रार नोंदणीच्या संदर्भासाठी आहे; यासाठी प्रत्यक्ष स्वाक्षरी किंवा शिक्क्याची आवश्यकता नाही. अधिकृत मूळ दाखला व अंतिम कार्यवाहीसाठी ग्रामपंचायत कार्यालयाची पडताळणी व नियम बंधनकारक राहतील.
                 </div>
             `;
             document.body.appendChild(slip);
@@ -5385,7 +5388,8 @@
                     <div class="form-group"><label>पदनाम (Role)</label><input type="text" class="form-control" id="voRole_${idx}" value="${off.role || ''}" ${isMaster ? '' : 'readonly'}></div>
                     <div class="form-group"><label>विभाग / कार्यालय तपशील</label><input type="text" class="form-control" id="voDept_${idx}" value="${off.dept || ''}" ${isMaster ? '' : 'readonly'}></div>
                     <div class="form-group"><label>अधिकारी / कर्मचाऱ्याचे नाव</label><input type="text" class="form-control" id="voName_${idx}" value="${off.name || ''}"></div>
-                    <div class="form-group"><label>WhatsApp / मोबाईल क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="voPhone_${idx}" value="${off.phone || ''}" placeholder="उदा. 9822001122"></div>
+                    <div class="form-group"><label>संपर्क मोबाईल क्रमांक</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="voPhone_${idx}" value="${off.phone || ''}" placeholder="उदा. 9822001122" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
+                    <div class="form-group"><label>व्हॉट्सअॅप (WhatsApp) क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="voWhatsapp_${idx}" value="${off.whatsapp || off.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
                     <div class="form-group" style="margin-bottom:0;">
                         <label>फोटो अपलोड करा</label>
                         <div style="display:flex; gap:8px;">
@@ -5409,11 +5413,13 @@
                 const dEl = document.getElementById(`voDept_${idx}`);
                 const nEl = document.getElementById(`voName_${idx}`);
                 const pEl = document.getElementById(`voPhone_${idx}`);
+                const waEl = document.getElementById(`voWhatsapp_${idx}`);
                 const phEl = document.getElementById(`voPhoto_${idx}`);
                 if (rEl && rEl.value.trim()) off.role = rEl.value.trim();
                 if (dEl) off.dept = dEl.value.trim();
                 if (nEl) off.name = nEl.value.trim();
                 if (pEl) off.phone = pEl.value.trim();
+                if (waEl) off.whatsapp = marathiDigitsToAscii(waEl.value.trim()).replace(/\D/g, '').slice(0, 10);
                 if (phEl) off.photo = phEl.value.trim();
             });
         }
@@ -5459,7 +5465,8 @@
                     <div class="form-group"><label>विभागाचे नाव</label><input type="text" class="form-control" id="psDept_${idx}" value="${d.dept || ''}"></div>
                     <div class="form-group"><label>प्रमुख योजना व कामे</label><textarea class="form-control" rows="2" id="psScheme_${idx}">${d.scheme || ''}</textarea></div>
                     <div class="form-group"><label>संपर्क अधिकारी पदनाम</label><input type="text" class="form-control" id="psContact_${idx}" value="${d.contact || ''}"></div>
-                    <div class="form-group" style="margin-bottom:0;"><label>WhatsApp चौकशी मोबाईल क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="psPhone_${idx}" value="${d.phone || ''}" placeholder="उदा. 9822001122"></div>
+                    <div class="form-group"><label>संपर्क मोबाईल क्रमांक</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="psPhone_${idx}" value="${d.phone || ''}" placeholder="उदा. 9822001122" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
+                    <div class="form-group" style="margin-bottom:0;"><label>व्हॉट्सअॅप (WhatsApp) क्रमांक (१० अंकी - चौकशी फॉरवर्डसाठी)</label><input type="text" inputmode="numeric" maxlength="10" class="form-control" id="psWhatsapp_${idx}" value="${d.whatsapp || d.phone || ''}" placeholder="फक्त १० अंकी WhatsApp नंबर" oninput="this.value=marathiDigitsToAscii(this.value).replace(/\D/g,'').slice(0,10)"></div>
                 </div>
             `).join('');
         }
@@ -5471,10 +5478,12 @@
                 const sEl = document.getElementById(`psScheme_${idx}`);
                 const cEl = document.getElementById(`psContact_${idx}`);
                 const pEl = document.getElementById(`psPhone_${idx}`);
+                const waEl = document.getElementById(`psWhatsapp_${idx}`);
                 if (dEl && dEl.value.trim()) d.dept = dEl.value.trim();
                 if (sEl) d.scheme = sEl.value.trim();
                 if (cEl) d.contact = cEl.value.trim();
                 if (pEl) d.phone = pEl.value.trim();
+                if (waEl) d.whatsapp = marathiDigitsToAscii(waEl.value.trim()).replace(/\D/g, '').slice(0, 10);
             });
         }
 

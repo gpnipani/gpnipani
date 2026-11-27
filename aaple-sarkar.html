@@ -255,7 +255,7 @@
                 </div>
                 <div class="form-group">
                     <label>मोबाईल क्रमांक</label>
-                    <input type="text" class="form-control" id="inqPhone" placeholder="१० अंकी मोबाईल नंबर">
+                    <input type="text" inputmode="numeric" maxlength="10" class="form-control" id="inqPhone" placeholder="फक्त १० अंकी मोबाईल नंबर" oninput="this.value=marathiToAsciiDigits(this.value).replace(/\D/g,'').slice(0,10)">
                 </div>
                 <div class="form-group">
                     <label>तुमचा प्रश्न / चौकशी तपशील</label>
@@ -265,7 +265,7 @@
             
             <div class="form-group">
                 <label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label>
-                <input type="text" inputmode="numeric" maxlength="12" class="form-control" id="inqAadhaar" placeholder="१२ अंकी आधार नंबर टाका">
+                <input type="text" inputmode="numeric" maxlength="12" class="form-control" id="inqAadhaar" placeholder="१२ अंकी आधार नंबर टाका" oninput="this.value=marathiToAsciiDigits(this.value).replace(/\D/g,'').slice(0,12)">
             </div>
 
             <!-- Invisible Anti-Spam Honeypot -->
@@ -495,12 +495,12 @@
                 const list = (stateObj && Array.isArray(stateObj.panchayatSamitiDepts) && stateObj.panchayatSamitiDepts.length)
                     ? stateObj.panchayatSamitiDepts : (typeof DEFAULT_PS !== 'undefined' ? DEFAULT_PS : []);
                 const m = list.find(d => d.dept === subject);
-                if (m) { targetName = m.contact || m.dept; targetPhone = m.phone || ''; }
+                if (m) { targetName = m.contact || m.dept; targetPhone = m.whatsapp || m.phone || ''; }
             } else if (categoryLabel === 'गावातील इतर शासकीय कर्मचारी') {
                 const list = (stateObj && Array.isArray(stateObj.villageOfficials) && stateObj.villageOfficials.length)
                     ? stateObj.villageOfficials : (typeof DEFAULT_VO !== 'undefined' ? DEFAULT_VO : []);
                 const m = list.find(o => o.role === subject);
-                if (m) { targetName = m.name || m.role; targetPhone = m.phone || ''; }
+                if (m) { targetName = m.name || m.role; targetPhone = m.whatsapp || m.phone || ''; }
             } else if (categoryLabel === 'महत्त्वाच्या समित्या') {
                 const list = (stateObj && Array.isArray(stateObj.villageCommittees) && stateObj.villageCommittees.length)
                     ? stateObj.villageCommittees : (typeof DEFAULT_COMMITTEES !== 'undefined' ? DEFAULT_COMMITTEES : []);
@@ -651,6 +651,9 @@
                 <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
                     <span style="font-family:Arial,sans-serif;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">http://gpnipani.online</strong></span>
                     <span style="font-family:Arial,sans-serif;">Website Design by Anil Bhaurao Tormal</span>
+                </div>
+                <div style="margin-top:10px;padding:8px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12.5px;color:#334155;line-height:1.45;text-align:center;">
+                    <strong>कायदेशीर सूचना:</strong> ही पोचपावती संगणक प्रणालीद्वारे (Computer Generated) तयार केलेली असून केवळ चौकशी नोंदणीच्या संदर्भासाठी आहे; यासाठी प्रत्यक्ष स्वाक्षरी किंवा शिक्क्याची आवश्यकता नाही. अंतिम माहिती व अधिकृत कार्यवाहीसाठी संबंधित शासकीय कार्यालय / ग्रामपंचायतीची पडताळणी अंतिम राहील.
                 </div>
             `;
             document.body.appendChild(slip);
