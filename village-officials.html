@@ -172,12 +172,36 @@
             opacity: 1;
             transition: opacity 0.14s ease-out;
         }
+    
+        .unclickable-file-status {
+            flex: 1; min-width: 170px; padding: 9px 13px; font-size: 15px;
+            border: 1.5px dashed var(--border-color); border-radius: 10px;
+            background-color: var(--bg-subtle); color: var(--text-muted);
+            pointer-events: none; user-select: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .unclickable-file-status.uploading { border-style: solid; border-color: var(--primary); color: var(--primary); font-weight: 600; }
+        .unclickable-file-status.ready { border-style: solid; border-color: #16a34a; background-color: rgba(22, 163, 74, 0.08); color: var(--text-main); font-weight: 600; }
+        .modal-backdrop {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.72);
+            display: none; align-items: center; justify-content: center; padding: 16px; z-index: 11000;
+        }
+        .modal-backdrop.active { display: flex; }
+        .modal-box {
+            background-color: var(--bg-card); color: var(--text-main);
+            border: 1px solid var(--border-color); border-top: 5px solid var(--primary);
+            border-radius: 14px; width: 100%; max-width: 560px; padding: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35); max-height: 92vh; overflow-y: auto;
+        }
+
     </style>
     <meta name="theme-color" content="#ea580c">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <link rel="canonical" href="http://gpnipani.online/village-officials.html">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
 </head>
 <body>
     <div class="top-bar">
@@ -237,6 +261,56 @@
                     <input type="text" class="form-control" id="inqDetail" placeholder="उदा. पीक पाहणी किंवा ७/१२ फेरफार बाबत चौकशी">
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label>पूर्ण १२-अंकी आधार क्रमांक <span style="color:#dc2626;">*</span></label>
+                <input type="text" inputmode="numeric" maxlength="12" class="form-control" id="inqAadhaar" placeholder="१२ अंकी आधार नंबर टाका">
+            </div>
+
+            <!-- Invisible Anti-Spam Honeypot -->
+            <div style="position:absolute; left:-9999px; opacity:0; height:0; overflow:hidden;" aria-hidden="true">
+                <input type="text" id="inqWebsiteHp" tabindex="-1" autocomplete="off" placeholder="Leave blank">
+            </div>
+
+            <div class="form-group">
+                <label>१) लिखित चौकशी अर्ज / आवश्यक कागदपत्र अपलोड करा (अनिवार्य - PDF / JPG / PNG) <span style="color:#dc2626;">*</span></label>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="hidden" id="inqAttachmentUrl" value="">
+                    <div id="inqAttachmentUrl_badge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                        <span>अर्ज / कागदपत्र निवडा</span>
+                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleSubpageFileUpload(this, 'inqAttachmentUrl')">
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>२) अर्जदाराचा आधार कार्ड फोटो / PDF अपलोड करा (अनिवार्य) <span style="color:#dc2626;">*</span></label>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="hidden" id="inqAadhaarDocUrl" value="">
+                    <div id="inqAadhaarDocUrl_badge" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                        <span>आधार फोटो निवडा</span>
+                        <input type="file" accept=".pdf,image/*" style="display:none;" onchange="handleSubpageFileUpload(this, 'inqAadhaarDocUrl')">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Anti-Spam Math Captcha -->
+            <div class="form-group" style="background: var(--bg-subtle); padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border-color);">
+                <label style="margin-bottom:6px; color: var(--secondary);">स्पॅम सुरक्षा पडताळणी: <span id="inqCaptchaQuestion" style="color:var(--primary); font-size:19px;">५ + ३ = किती?</span> <span style="color:#dc2626;">*</span></label>
+                <input type="text" inputmode="numeric" class="form-control" id="inqCaptchaInput" placeholder="वरील बेरजेचे उत्तर अंकात लिहा">
+            </div>
+
+            <!-- Legal Privacy & Data Protection Disclaimer -->
+            <div style="background: #eff6ff; border: 1.5px solid #93c5fd; border-radius: 10px; padding: 11px 14px; margin-bottom: 14px; font-size: 15px; color: #1e3a8a; line-height: 1.45;">
+                <div style="margin-bottom: 6px;"><strong>कायदेशीर गोपनीयता व माहिती संरक्षण सूचना (Privacy Disclaimer):</strong> नागरिकांची वैयक्तिक माहिती, मोबाईल क्रमांक, आधार क्रमांक व कागदपत्रे केवळ संबंधित शासकीय चौकशी / सेवा कार्यवाही व अधिकृत पडताळणीसाठीच गोपनीयरीत्या साठवली जातात आणि कोणत्याही त्रयस्थ संस्थेस दिली जाणार नाहीत. तसेच, अर्जदाराचे नाव, लेखी अर्ज अथवा आधार कार्ड तपशील चुकीचे किंवा अपूर्ण आढळल्यास सदर चौकशी अर्ज फेटाळण्याचा व रद्द करण्याचा पूर्ण अधिकार ग्रामपंचायतीकडे राखीव राहील.</div>
+                <label style="display:flex; align-items:flex-start; gap:8px; cursor:pointer; color:#0f172a; font-size:15.5px;">
+                    <input type="checkbox" id="inqPrivacyConsent" style="width:18px; height:18px; margin-top:3px; accent-color:var(--primary);">
+                    <span>मी वरील अटी वाचल्या असून माझी माहिती व आधार कागदपत्रे शासकीय कार्यवाहीसाठी वापरण्यास संमती देत आहे. <span style="color:#dc2626;">*</span></span>
+                </label>
+            </div>
+
             <button type="button" class="btn btn-primary" onclick="submitDedicatedInquiry('गावातील इतर शासकीय कर्मचारी')">चौकशी सबमिट करा</button>
         </div>
 
@@ -247,6 +321,46 @@
             </a>
         </div>
     </main>
+
+    
+    <!-- Modal: Instant Inquiry Receipt with Tracking ID, JPG/PDF Download & WhatsApp Forward -->
+    <div class="modal-backdrop" id="inqReceiptModal">
+        <div class="modal-box" style="text-align:center; max-width: 560px; border: 2.5px solid #16a34a;">
+            <div style="width:62px; height:62px; border-radius:50%; background:#dcfce7; color:#166534; display:flex; align-items:center; justify-content:center; margin:0 auto 10px;">
+                <svg class="icon" viewBox="0 0 24 24" style="width:34px;height:34px;"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <h3 style="font-size: 25px; color: #166534; margin-bottom: 6px;">तुमची चौकशी यशस्वीरित्या नोंदवली गेली आहे!</h3>
+            <div style="background:#fef2f2; border:1.5px solid #fca5a5; color:#991b1b; padding:10px 14px; border-radius:10px; font-size:15.5px; margin-bottom:12px; line-height:1.4;">
+                <strong>महत्त्वाची सूचना:</strong> भविष्यात तुमच्या चौकशीची सद्यस्थिती तपासण्यासाठी खालील <strong>मागोवा क्रमांक</strong> अवश्य नोंद करून ठेवा किंवा पोचपावती डाउनलोड करा!
+            </div>
+            <div style="background:var(--bg-subtle); border:2.5px dashed var(--primary); padding:12px 16px; border-radius:12px; margin-bottom:14px;">
+                <div style="font-size:15px; color:var(--text-muted);">तुमचा अधिकृत मागोवा क्रमांक (Tracking ID)</div>
+                <div id="inqReceiptTrackingCode" style="font-size:30px; color:var(--primary); letter-spacing:1px;">GP-2026-1001</div>
+                <div id="inqReceiptSummaryMeta" style="font-size:15.5px; color:var(--text-main); margin-top:4px;"></div>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-bottom:12px;">
+                <a id="inqReceiptWaForwardBtn" href="#" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:9px 16px; font-size:16.5px; width:100%;">
+                    <svg class="icon" style="width:18px;height:18px;" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+                    <span>संबंधित कर्मचाऱ्याच्या WhatsApp वर फॉरवर्ड करा</span>
+                </a>
+                <button type="button" class="btn btn-secondary" style="padding:9px 14px; font-size:15.5px;" onclick="copyInqTrackingCode()">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    <span>क्रमांक कॉपी करा</span>
+                </button>
+                <button type="button" class="btn btn-secondary" style="padding:9px 14px; font-size:15.5px;" onclick="downloadInqReceiptSlip('jpg')">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                    <span>पोचपावती JPG</span>
+                </button>
+                <button type="button" class="btn btn-secondary" style="padding:9px 14px; font-size:15.5px;" onclick="downloadInqReceiptSlip('pdf')">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <span>पोचपावती PDF</span>
+                </button>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+                <button type="button" class="btn btn-primary" onclick="closeInqReceiptModal()">ठीक आहे</button>
+            </div>
+        </div>
+    </div>
 
     <div class="toast" id="toastMsg"></div>
 
@@ -395,15 +509,216 @@
             return { targetName, targetPhone };
         }
 
+
+        let inqCaptchaAnswer = 8;
+        let lastInqReceiptPayload = null;
+
+        function refreshInqCaptcha() {
+            const a = Math.floor(2 + Math.random() * 8);
+            const b = Math.floor(1 + Math.random() * 8);
+            const marDigits = ['०','१','२','३','४','५','६','७','८','९'];
+            const toMar = (n) => String(n).split('').map(d => marDigits[Number(d)] || d).join('');
+            inqCaptchaAnswer = a + b;
+            const qEl = document.getElementById('inqCaptchaQuestion');
+            const iEl = document.getElementById('inqCaptchaInput');
+            if (qEl) qEl.textContent = `${toMar(a)} + ${toMar(b)} = किती?`;
+            if (iEl) iEl.value = '';
+        }
+        refreshInqCaptcha();
+
+        function isValidIndianMobileSub(rawPhone) {
+            const digits = marathiToAsciiDigits(rawPhone || '').replace(/\D/g, '');
+            if (!/^[6-9]\d{9}$/.test(digits)) return false;
+            if (/^(\d)\1{9}$/.test(digits)) return false;
+            if (digits === '1234567890' || digits === '9876543210') return false;
+            return true;
+        }
+        function isValidAadhaarSub(rawAadhaar) {
+            const digits = marathiToAsciiDigits(rawAadhaar || '').replace(/\D/g, '');
+            if (!/^[2-9]\d{11}$/.test(digits)) return false;
+            if (/^(\d)\1{11}$/.test(digits)) return false;
+            return true;
+        }
+        function updateSubpageFileBadge(inputId, text, stateClass) {
+            const badge = document.getElementById(inputId + '_badge');
+            if (!badge) return;
+            badge.textContent = text;
+            badge.classList.remove('uploading', 'ready');
+            if (stateClass) badge.classList.add(stateClass);
+        }
+        async function handleSubpageFileUpload(fileInput, targetInputId) {
+            const rawFile = fileInput && fileInput.files && fileInput.files[0];
+            if (!rawFile) return;
+            updateSubpageFileBadge(targetInputId, 'फाईल अपलोड होत आहे...', 'uploading');
+            const cloudName = 'tvqzwvy5';
+            const uploadPreset = 'gp_portal';
+            const resourceType = rawFile.type.startsWith('image/') ? 'image' : 'auto';
+            const formData = new FormData();
+            formData.append('file', rawFile);
+            formData.append('upload_preset', uploadPreset);
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/${resourceType}/upload`, {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await res.json();
+                if (data && data.secure_url) {
+                    const el = document.getElementById(targetInputId);
+                    if (el) el.value = data.secure_url;
+                    updateSubpageFileBadge(targetInputId, rawFile.name, 'ready');
+                    return;
+                }
+            } catch (e) {}
+            // Fallback to local base64 dataURL
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const el = document.getElementById(targetInputId);
+                if (el) el.value = ev.target.result;
+                updateSubpageFileBadge(targetInputId, rawFile.name, 'ready');
+            };
+            reader.readAsDataURL(rawFile);
+        }
+
+        function closeInqReceiptModal() {
+            const m = document.getElementById('inqReceiptModal');
+            if (m) m.classList.remove('active');
+        }
+        function copyInqTrackingCode() {
+            const code = (document.getElementById('inqReceiptTrackingCode')?.textContent || '').trim();
+            if (!code) return;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).then(() => showToast(`मागोवा क्रमांक (${code}) कॉपी झाला आहे!`));
+            } else {
+                showToast(`तुमचा मागोवा क्रमांक: ${code}`);
+            }
+        }
+        function buildInqQrDataUrl(targetUrl) {
+            try {
+                if (typeof QRCode !== 'undefined') {
+                    const tmpDiv = document.createElement('div');
+                    tmpDiv.style.cssText = 'position:fixed;left:-9999px;top:0;';
+                    document.body.appendChild(tmpDiv);
+                    new QRCode(tmpDiv, {
+                        text: targetUrl, width: 140, height: 140,
+                        colorDark: '#0f172a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.M
+                    });
+                    const qrCanvas = tmpDiv.querySelector('canvas');
+                    const qrImg = tmpDiv.querySelector('img');
+                    const out = qrCanvas ? qrCanvas.toDataURL('image/png') : (qrImg ? qrImg.src : '');
+                    document.body.removeChild(tmpDiv);
+                    if (out) return out;
+                }
+            } catch (e) {}
+            return '';
+        }
+        function downloadInqReceiptSlip(formatType) {
+            const fmt = (formatType || 'jpg').toLowerCase() === 'pdf' ? 'pdf' : 'jpg';
+            const rec = lastInqReceiptPayload || { trackingId: 'GP-2026-1001', type: 'चौकशी', subject: '-', name: '-', phone: '-', date: 'आज' };
+            const trackLink = `http://gpnipani.online/?track=${encodeURIComponent(rec.trackingId || '')}`;
+            const qrDataUrl = buildInqQrDataUrl(trackLink);
+            const slip = document.createElement('div');
+            slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:720px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:"Noto Sans Devanagari",sans-serif;font-weight:700;letter-spacing:0;line-height:1.5;';
+            slip.innerHTML = `
+                <div style="background:#1e3a8a;color:#fff;padding:14px 18px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+                    <div>
+                        <div style="font-size:24px;"><strong>ग्रामपंचायत कार्यालय, पिंपळगाव निपाणी</strong></div>
+                        <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन चौकशी पोचपावती</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.16);padding:6px 12px;border-radius:8px;font-size:14px;white-space:nowrap;font-family:Arial,sans-serif;">
+                        <strong>http://gpnipani.online</strong>
+                    </div>
+                </div>
+                <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
+                    <div style="text-align:left;flex:1;">
+                        <div style="font-size:15px;color:#475569;">मागोवा क्रमांक (Tracking ID)</div>
+                        <div style="font-size:30px;color:#ea580c;line-height:1.2;font-family:Arial,sans-serif;"><strong>${rec.trackingId}</strong></div>
+                        <div style="font-size:13.5px;color:#1e3a8a;margin-top:6px;letter-spacing:0;word-spacing:0;">
+                            <strong>थेट पडताळणी लिंक:</strong>
+                            <div style="font-family:Arial,Helvetica,sans-serif;font-weight:700;font-size:13px;letter-spacing:0;word-spacing:0;margin-top:2px;color:#1e3a8a;white-space:nowrap;">${trackLink}</div>
+                        </div>
+                        <div style="font-size:13px;color:#475569;margin-top:4px;">QR कोड स्कॅन करून किंवा वरील लिंक उघडून चौकशीची सद्यस्थिती पहा.</div>
+                    </div>
+                    ${qrDataUrl ? `<div style="background:#ffffff;padding:8px;border-radius:10px;border:1.5px solid #cbd5e1;text-align:center;flex-shrink:0;"><img src="${qrDataUrl}" alt="QR" style="width:112px;height:112px;display:block;"><div style="font-size:11.5px;color:#334155;margin-top:3px;"><strong>स्कॅन करा</strong></div></div>` : ''}
+                </div>
+                <div style="font-size:18px;line-height:1.7;margin-bottom:18px;">
+                    <div><strong>नोंदणी दिनांक:</strong> ${rec.date}</div>
+                    <div><strong>प्रकार व विषय:</strong> ${rec.type} — ${rec.subject}</div>
+                    <div><strong>अर्जदाराचे नाव:</strong> ${rec.name}</div>
+                    <div><strong>मोबाईल क्रमांक:</strong> ${rec.phone}</div>
+                    <div><strong>सद्यस्थिती:</strong> प्रलंबित (संबंधित अधिकारी/कर्मचाऱ्याकडे वर्ग)</div>
+                </div>
+                <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
+                    <span style="font-family:Arial,sans-serif;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">http://gpnipani.online</strong></span>
+                    <span style="font-family:Arial,sans-serif;">Website Design by Anil Bhaurao Tormal</span>
+                </div>
+            `;
+            document.body.appendChild(slip);
+            const cleanup = () => { if (slip && slip.parentNode) slip.parentNode.removeChild(slip); };
+            if (typeof html2canvas === 'undefined') { cleanup(); return; }
+            html2canvas(slip, { scale: 2, backgroundColor: '#ffffff' }).then(async (canvas) => {
+                if (fmt === 'jpg') {
+                    const a = document.createElement('a');
+                    a.download = `gpnipani.online_Chaukashi_${rec.trackingId}.jpg`;
+                    a.href = canvas.toDataURL('image/jpeg', 0.94);
+                    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                    cleanup();
+                    showToast('पोचपावती JPG स्वरूपात डाउनलोड झाली आहे!');
+                    return;
+                }
+                try {
+                    if (typeof PDFLib !== 'undefined') {
+                        const jpgDataUrl = canvas.toDataURL('image/jpeg', 0.94);
+                        const bin = atob(jpgDataUrl.split(',')[1]);
+                        const bytes = new Uint8Array(bin.length);
+                        for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+                        const pdfDoc = await PDFLib.PDFDocument.create();
+                        const jpgImg = await pdfDoc.embedJpg(bytes);
+                        const pageW = 595.28, pageH = 841.89, margin = 36;
+                        const page = pdfDoc.addPage([pageW, pageH]);
+                        const scale = Math.min((pageW - margin * 2) / jpgImg.width, (pageH - margin * 2) / jpgImg.height);
+                        page.drawImage(jpgImg, { x: (pageW - jpgImg.width * scale) / 2, y: pageH - margin - jpgImg.height * scale, width: jpgImg.width * scale, height: jpgImg.height * scale });
+                        const pdfBytes = await pdfDoc.save();
+                        const blobUrl = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
+                        const a = document.createElement('a');
+                        a.href = blobUrl; a.download = `gpnipani.online_Chaukashi_${rec.trackingId}.pdf`;
+                        document.body.appendChild(a); a.click(); document.body.removeChild(a);
+                        setTimeout(() => URL.revokeObjectURL(blobUrl), 2500);
+                        cleanup();
+                        showToast('पोचपावती PDF स्वरूपात डाउनलोड झाली आहे!');
+                        return;
+                    }
+                } catch (e) {}
+                cleanup();
+            }).catch(cleanup);
+        }
+
         async function submitDedicatedInquiry(categoryLabel) {
+            const hp = (document.getElementById('inqWebsiteHp')?.value || '').trim();
+            if (hp) return;
+
             const subject = customDropdownValues['ddInqSubject'] || '';
             const name = document.getElementById('inqName').value.trim();
             const phone = marathiToAsciiDigits(document.getElementById('inqPhone').value.trim()).replace(/\D/g, '');
+            const aadhaar = marathiToAsciiDigits(document.getElementById('inqAadhaar')?.value.trim() || '').replace(/\D/g, '');
             const detail = document.getElementById('inqDetail').value.trim();
-            if (!name || phone.length < 10 || !detail) {
-                showToast('कृपया तुमचे नाव, १०-अंकी मोबाईल क्रमांक आणि चौकशीचा तपशील भरा.');
+            const attachment = (document.getElementById('inqAttachmentUrl')?.value || '').trim();
+            const aadhaarDoc = (document.getElementById('inqAadhaarDocUrl')?.value || '').trim();
+            const captchaAns = Number(marathiToAsciiDigits(document.getElementById('inqCaptchaInput')?.value || '').replace(/\D/g, ''));
+            const consentOk = document.getElementById('inqPrivacyConsent')?.checked;
+
+            if (!name || name.length < 3) { showToast('कृपया अर्जदाराचे पूर्ण नाव (किमान ३ अक्षरे) भरा.'); return; }
+            if (!isValidIndianMobileSub(phone)) { showToast('कृपया वैध १०-अंकी मोबाईल क्रमांक टाका.'); return; }
+            if (!isValidAadhaarSub(aadhaar)) { showToast('कृपया वैध १२-अंकी आधार क्रमांक टाका.'); return; }
+            if (!detail || detail.length < 4) { showToast('कृपया चौकशीचा सविस्तर तपशील भरा.'); return; }
+            if (!attachment) { showToast('कृपया लिखित चौकशी अर्ज / आवश्यक कागदपत्र अपलोड करणे अनिवार्य आहे.'); return; }
+            if (!aadhaarDoc) { showToast('कृपया अर्जदाराचा आधार कार्ड फोटो / PDF अपलोड करणे अनिवार्य आहे.'); return; }
+            if (captchaAns !== inqCaptchaAnswer) {
+                showToast('स्पॅम सुरक्षा पडताळणी (गणिती उत्तर) चुकीचे आहे. कृपया बरोबर उत्तर टाका.');
+                refreshInqCaptcha();
                 return;
             }
+            if (!consentOk) { showToast('कृपया गोपनीयता व माहिती संरक्षण संमती बॉक्सवर टिक करा.'); return; }
+
             const trackingId = 'GP-2026-' + Math.floor(1000 + Math.random() * 9000);
             const nowMs = Date.now();
             const todayStr = new Date().toLocaleDateString('mr-IN', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -416,8 +731,10 @@
                 subject: categoryLabel + ' — ' + subject,
                 name,
                 phone,
+                aadhaar,
                 detail,
-                attachment: '',
+                attachment,
+                aadhaarDoc,
                 status: 'प्रलंबित',
                 actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
                 actionProof: ''
@@ -457,6 +774,8 @@
                 subject: newReq.subject,
                 name: newReq.name,
                 phone: newReq.phone,
+                aadhaar: newReq.aadhaar,
+                aadhaarDoc: newReq.aadhaarDoc,
                 detail: newReq.detail,
                 status: newReq.status,
                 actionNote: newReq.actionNote,
@@ -504,20 +823,32 @@
                 ? `https://wa.me/${waNum}?text=${encodeURIComponent(waLines.join('\n'))}`
                 : `https://wa.me/?text=${encodeURIComponent(waLines.join('\n'))}`;
 
+            // Clear form fields
             document.getElementById('inqName').value = '';
             document.getElementById('inqPhone').value = '';
+            if (document.getElementById('inqAadhaar')) document.getElementById('inqAadhaar').value = '';
             document.getElementById('inqDetail').value = '';
-            const resBox = document.getElementById('inqSuccessBanner');
-            if (resBox) {
-                resBox.style.display = 'block';
-                resBox.innerHTML = `
-                    <div style="font-size:18px; margin-bottom:6px;"><strong>✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे!</strong></div>
-                    <div style="margin-bottom:8px;">मागोवा क्रमांक (Tracking ID): <strong>${trackingId}</strong> | संबंधित: <strong>${targetInfo.targetName}</strong>${targetInfo.targetPhone ? ' (' + targetInfo.targetPhone + ')' : ''}</div>
-                    <a href="${waUrl}" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff; padding:8px 16px; font-size:16.5px; border-radius:10px;">संबंधित कर्मचाऱ्याच्या WhatsApp वर फॉरवर्ड करा</a>
-                `;
-            }
-            showToast('✅ चौकशी यशस्वीरित्या सबमिट झाली! मागोवा क्र.: ' + trackingId);
-            setTimeout(() => { window.open(waUrl, '_blank', 'noopener'); }, 700);
+            if (document.getElementById('inqAttachmentUrl')) document.getElementById('inqAttachmentUrl').value = '';
+            updateSubpageFileBadge('inqAttachmentUrl', 'कोणतीही फाईल निवडलेली नाही', '');
+            if (document.getElementById('inqAadhaarDocUrl')) document.getElementById('inqAadhaarDocUrl').value = '';
+            updateSubpageFileBadge('inqAadhaarDocUrl', 'कोणतीही फाईल निवडलेली नाही', '');
+            if (document.getElementById('inqPrivacyConsent')) document.getElementById('inqPrivacyConsent').checked = false;
+            refreshInqCaptcha();
+
+            // Populate & open Receipt Pop-up Modal (just like दाखला / तक्रार अर्ज)
+            lastInqReceiptPayload = newReq;
+            const codeEl = document.getElementById('inqReceiptTrackingCode');
+            const metaEl = document.getElementById('inqReceiptSummaryMeta');
+            const waBtn = document.getElementById('inqReceiptWaForwardBtn');
+            if (codeEl) codeEl.textContent = trackingId;
+            if (metaEl) metaEl.textContent = `चौकशी: ${subject} | अर्जदार: ${name} (${phone})`;
+            if (waBtn) waBtn.href = waUrl;
+
+            showToast('✅ तुमची चौकशी यशस्वीरित्या सबमिट झाली आहे! मागोवा क्र.: ' + trackingId);
+            setTimeout(() => {
+                const modal = document.getElementById('inqReceiptModal');
+                if (modal) modal.classList.add('active');
+            }, 350);
         }
         applySavedTheme();
         
