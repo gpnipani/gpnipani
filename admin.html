@@ -1418,6 +1418,69 @@
             letter-spacing: 0.4px;
         }
 
+
+        /* v17: Mobile Top-Bar Fix, Overflow Guard, Multi-Photo Thumbnails & Safe Doc Modal */
+        html, body { max-width: 100%; overflow-x: hidden; }
+        .top-bar-item { flex-wrap: wrap; row-gap: 4px; }
+        #topPhone, #topEmail { white-space: nowrap; }
+        .font-size-controls { flex-shrink: 0; white-space: nowrap; }
+        @media (max-width: 768px) {
+            .top-bar {
+                padding: 7px 10px !important;
+                font-size: 13.5px !important;
+                gap: 6px !important;
+                justify-content: flex-start !important;
+            }
+            .top-bar-item {
+                width: 100%;
+                display: flex !important;
+                flex-wrap: wrap;
+                align-items: center;
+                gap: 5px 8px !important;
+            }
+            .font-size-controls {
+                margin-left: auto !important;
+                padding: 2px 5px !important;
+            }
+            .font-size-btn {
+                font-size: 12.5px !important;
+                padding: 1px 5px !important;
+            }
+        }
+        .gal-thumbs-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .gal-thumb-chip {
+            position: relative;
+            width: 72px;
+            height: 58px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-subtle);
+        }
+        .gal-thumb-chip img { width: 100%; height: 100%; object-fit: cover; }
+        .gal-thumb-del {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(220, 38, 38, 0.92);
+            color: #fff;
+            font-size: 13px;
+            line-height: 1;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -2585,23 +2648,20 @@
                     </div>
                 </div>
             </div>
-            <!-- Tab: Tax & UPI QR -->
+            <!-- Tab: Tax & UPI QR (Multi-Bank Accounts v17) -->
             <div class="admin-tab-pane" id="tab-tax">
                 <div class="info-card" style="border-left: 5px solid #16a34a;">
-                    <h3 style="color:#15803d; margin-bottom:4px;">घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (UPI / QR) व्यवस्थापन</h3>
-                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">येथून ग्रामपंचायतीचा अधिकृत बँक तपशील, UPI आयडी, QR कोड फोटो आणि कर भरणा पावती पाठवण्यासाठीचा WhatsApp क्रमांक अपडेट करता येतो.</p>
+                    <h3 style="color:#15803d; margin-bottom:4px;">घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (एकापेक्षा जास्त बँक खाती व QR)</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">ग्रामपंचायतीचे घरपट्टी खाते, पाणीपट्टी खाते किंवा ग्रामनिधी खाते अशी एकापेक्षा जास्त बँक खाती व त्यांचे स्वतंत्र UPI QR कोड येथे जोडा किंवा एडिट करा.</p>
                     <div class="grid-2">
+                        <div class="form-group"><label>खात्याचा प्रकार / शीर्षक</label><input type="text" class="form-control" id="taxAccLabel" placeholder="उदा. घरपट्टी खाते / पाणीपट्टी खाते / ग्रामनिधी"></div>
                         <div class="form-group"><label>बँकेचे नाव</label><input type="text" class="form-control" id="taxBankName" placeholder="उदा. स्टेट बँक ऑफ इंडिया / जिल्हा मध्यवर्ती बँक"></div>
                         <div class="form-group"><label>खातेदाराचे नाव</label><input type="text" class="form-control" id="taxAccName" placeholder="उदा. ग्रामपंचायत फंड, पिंपळगाव निपाणी"></div>
                         <div class="form-group"><label>खाते क्रमांक (Account No.)</label><input type="text" class="form-control" id="taxAccNo" placeholder="खाते क्रमांक भरा"></div>
                         <div class="form-group"><label>IFSC कोड</label><input type="text" class="form-control" id="taxIfsc" placeholder="उदा. SBIN0001234"></div>
                         <div class="form-group"><label>UPI ID</label><input type="text" class="form-control" id="taxUpiId" placeholder="उदा. gpnipani@sbi"></div>
                         <div class="form-group"><label>पावती पाठवण्यासाठी WhatsApp क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="taxWhatsapp" placeholder="उदा. 9975571585"></div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
-                            <label>नागरिकांसाठी कर भरणा सूचना</label>
-                            <textarea class="form-control" rows="2" id="taxNote" placeholder="उदा. घरपट्टी व पाणीपट्टी भरल्यानंतर पेमेंटचा स्क्रीनशॉट व घर क्रमांक खालील WhatsApp बटनावर पाठवावा."></textarea>
-                        </div>
-                        <div class="form-group" style="grid-column: 1 / -1;">
+                        <div class="form-group">
                             <label>अधिकृत UPI QR कोड फोटो अपलोड करा</label>
                             <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
                                 <input type="hidden" id="taxQrPhoto" value="">
@@ -2612,10 +2672,16 @@
                                 </label>
                             </div>
                         </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>नागरिकांसाठी कर भरणा सूचना</label>
+                            <textarea class="form-control" rows="2" id="taxNote" placeholder="उदा. घरपट्टी व पाणीपट्टी भरल्यानंतर पेमेंटचा स्क्रीनशॉट व घर क्रमांक खालील WhatsApp बटनावर पाठवावा."></textarea>
+                        </div>
                     </div>
-                    <div style="margin-top:14px; display:flex; justify-content:flex-end;">
-                        <button type="button" class="btn btn-primary" style="padding:10px 24px; font-size:18px;" onclick="saveTaxConfigAdmin()">घरपट्टी व QR माहिती सेव्ह करा</button>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveTaxAccount" onclick="addOrUpdateTaxAccount()">बँक खाते व QR जोडा</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelTaxAccount" style="display:none;" onclick="cancelEditTaxAccount()">रद्द करा</button>
                     </div>
+                    <div id="adminTaxAccountsList"></div>
                 </div>
             </div>
 
@@ -2659,26 +2725,27 @@
                 </div>
             </div>
 
-            <!-- Tab: Photo & Video Gallery -->
+            <!-- Tab: Photo & Video Gallery (Multi-Photo Upload v17) -->
             <div class="admin-tab-pane" id="tab-gallery">
                 <div class="info-card" style="border-left: 5px solid #ea580c;">
-                    <h3 style="color:#ea580c; margin-bottom:4px;">फोटो व व्हिडिओ गॅलरी व्यवस्थापन</h3>
-                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">गावातील कार्यक्रम, स्वच्छता मोहीम, वृक्षारोपण, पुरस्कार व विकासकामांचे फोटो किंवा YouTube व्हिडिओ लिंक येथे जोडा.</p>
+                    <h3 style="color:#ea580c; margin-bottom:4px;">फोटो व व्हिडिओ गॅलरी व्यवस्थापन (एकापेक्षा जास्त फोटो अपलोड)</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">गावातील कार्यक्रम, स्वच्छता मोहीम, वृक्षारोपण व विकासकामांचे एकाच वेळी अनेक फोटो (Multi-Photo) किंवा YouTube व्हिडिओ लिंक येथे जोडा.</p>
                     <div class="grid-2">
                         <div class="form-group"><label>शीर्षक / कार्यक्रमाचे नाव</label><input type="text" class="form-control" id="galTitle" placeholder="उदा. स्वातंत्र्य दिन ध्वजारोहण सोहळा"></div>
                         <div class="form-group"><label>विभाग / तारीख</label><input type="text" class="form-control" id="galTag" placeholder="उदा. कार्यक्रम | १५ ऑगस्ट"></div>
-                        <div class="form-group">
-                            <label>फोटो अपलोड करा (Cloudinary)</label>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>फोटो अपलोड करा (एकावेळी एक किंवा अनेक फोटो निवडा)</label>
                             <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
                                 <input type="hidden" id="galPhoto" value="">
-                                <div id="galPhoto_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                                <div id="galPhoto_status" class="unclickable-file-status" aria-hidden="true">कोणतेही फोटो निवडलेले नाहीत</div>
                                 <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
-                                    <span>फोटो निवडा</span>
-                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'galPhoto')">
+                                    <span>एकापेक्षा जास्त फोटो निवडा</span>
+                                    <input type="file" accept="image/*" multiple style="display:none;" onchange="handleMultiGalleryUpload(this)">
                                 </label>
                             </div>
+                            <div id="galDraftPhotosPreview" class="gal-thumbs-preview"></div>
                         </div>
-                        <div class="form-group"><label>YouTube / व्हिडिओ लिंक (ऐच्छिक)</label><input type="url" class="form-control" id="galVideoUrl" placeholder="https://youtube.com/..."></div>
+                        <div class="form-group" style="grid-column: 1 / -1;"><label>YouTube / व्हिडिओ लिंक (ऐच्छिक)</label><input type="url" class="form-control" id="galVideoUrl" placeholder="https://youtube.com/..."></div>
                     </div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
                         <button type="button" class="btn btn-primary" id="btnSaveGallery" onclick="addOrUpdateGalleryItem()">गॅलरीमध्ये जोडा</button>
@@ -2710,6 +2777,10 @@
                         </div>
                         <div class="form-group"><label>PDF / बाह्य लिंक URL (ऐच्छिक)</label><input type="url" class="form-control" id="csLinkUrl" placeholder="https://..."></div>
                         <div class="form-group"><label>लिंक बटनाचे नाव (ऐच्छिक)</label><input type="text" class="form-control" id="csLinkLabel" placeholder="उदा. सविस्तर PDF पहा"></div>
+                        <div class="form-group" style="display:flex; align-items:center; gap:10px; padding-top:24px;">
+                            <input type="checkbox" id="csShowInMenu" checked style="width:20px; height:20px; accent-color:var(--primary); cursor:pointer;">
+                            <label for="csShowInMenu" style="margin:0; cursor:pointer; font-size:16.5px; color:var(--secondary);">मुख्य मेनूमध्ये स्वतंत्र दाखवा (Show in Menu)</label>
+                        </div>
                     </div>
                     <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
                         <button type="button" class="btn btn-primary" id="btnSaveCustomSec" onclick="addOrUpdateCustomSection()">नवीन विभाग जोडा</button>
@@ -4498,8 +4569,97 @@
             });
         }
 
+
+        // --- v17: Safe Lightweight Admin Document / Aadhaar Viewer (Prevents Mobile Browser Freeze/Crash) ---
+        let activeSafeDocBlobUrl = null;
+        function optimizeCloudinaryPreviewUrl(url) {
+            if (!url || typeof url !== 'string') return '';
+            if (url.includes('res.cloudinary.com') && url.includes('/image/upload/') && !url.includes('/w_1200,')) {
+                return url.replace('/image/upload/', '/image/upload/w_1200,q_auto,f_auto/');
+            }
+            return url;
+        }
+        function dataUrlToBlobUrl(dataUrl) {
+            try {
+                const parts = dataUrl.split(',');
+                const mime = (parts[0].match(/:(.*?);/) || [])[1] || 'application/octet-stream';
+                const bin = atob(parts[1] || '');
+                const len = bin.length;
+                const u8 = new Uint8Array(len);
+                for (let i = 0; i < len; i++) u8[i] = bin.charCodeAt(i);
+                return URL.createObjectURL(new Blob([u8], { type: mime }));
+            } catch (e) {
+                return '';
+            }
+        }
+        function closeSafeAdminDocModal() {
+            const modal = document.getElementById('safeAdminDocModal');
+            const body = document.getElementById('safeDocModalBody');
+            if (modal) modal.classList.remove('active');
+            if (body) body.innerHTML = '';
+            if (activeSafeDocBlobUrl) {
+                try { URL.revokeObjectURL(activeSafeDocBlobUrl); } catch (e) {}
+                activeSafeDocBlobUrl = null;
+            }
+        }
+        function openAdminReqDoc(reqIdx, fieldKey) {
+            const req = (appState.requests || [])[reqIdx];
+            if (!req) return;
+            const rawUrl = (fieldKey === 'aadhaarDoc') ? req.aadhaarDoc : req.attachment;
+            const label = (fieldKey === 'aadhaarDoc')
+                ? `आधार कार्ड कागदपत्र — ${req.name || ''}`
+                : `अर्ज / तक्रार कागदपत्र — ${req.trackingId || ''}`;
+            openSafeAdminDocPreview(rawUrl, label);
+        }
+        function openSafeAdminDocPreview(rawUrl, titleText) {
+            if (!rawUrl) { showToast('कागदपत्र उपलब्ध नाही.'); return; }
+            closeSafeAdminDocModal();
+            const modal = document.getElementById('safeAdminDocModal');
+            const titleEl = document.getElementById('safeDocModalTitle');
+            const bodyEl = document.getElementById('safeDocModalBody');
+            if (!modal || !bodyEl) return;
+            if (titleEl) titleEl.textContent = titleText || 'कागदपत्र तपासणी';
+
+            const lower = String(rawUrl).toLowerCase();
+            const isPdf = lower.includes('.pdf') || lower.startsWith('data:application/pdf') || lower.includes('/raw/upload/');
+            const isDataUrl = lower.startsWith('data:');
+
+            if (isPdf) {
+                const openUrl = isDataUrl ? dataUrlToBlobUrl(rawUrl) : rawUrl;
+                if (isDataUrl && openUrl) activeSafeDocBlobUrl = openUrl;
+                bodyEl.innerHTML = `
+                    <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:22px 16px;">
+                        <p style="font-size:17px; margin-bottom:14px; color:var(--text-main);">मोबाईल ब्राउझर सुरक्षित व वेगवान राहण्यासाठी PDF फाईल थेट उघडा किंवा डाउनलोड करा:</p>
+                        <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                            ${openUrl ? `<a href="${openUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:10px 18px; font-size:16.5px;">नवीन टॅबमध्ये PDF उघडा ↗</a>` : ''}
+                            ${openUrl ? `<a href="${openUrl}" download="document.pdf" class="btn btn-secondary" style="padding:10px 18px; font-size:16.5px;">PDF डाउनलोड करा ⬇</a>` : ''}
+                        </div>
+                    </div>
+                `;
+            } else {
+                const previewUrl = optimizeCloudinaryPreviewUrl(rawUrl);
+                const fullOpenUrl = isDataUrl ? dataUrlToBlobUrl(rawUrl) : rawUrl;
+                if (isDataUrl && fullOpenUrl) activeSafeDocBlobUrl = fullOpenUrl;
+                bodyEl.innerHTML = `
+                    <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:10px; margin-bottom:12px;">
+                        <img src="${previewUrl}" alt="Document Preview" loading="lazy" decoding="async" style="max-width:100%; max-height:62vh; width:auto; height:auto; border-radius:8px; display:block; margin:0 auto;" onerror="this.alt='फोटो लोड झाला नाही, कृपया खालील बटनावरून उघडा.';">
+                    </div>
+                    <div style="display:flex; justify-content:center; gap:10px; flex-wrap:wrap;">
+                        ${fullOpenUrl ? `<a href="${fullOpenUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:8px 16px; font-size:15.5px;">मूळ साईझमध्ये उघडा ↗</a>` : ''}
+                        <button type="button" class="btn btn-primary" style="padding:8px 18px; font-size:15.5px;" onclick="closeSafeAdminDocModal()">बंद करा</button>
+                    </div>
+                `;
+            }
+            modal.classList.add('active');
+        }
+
+
         function ensureV13StateDefaults() {
             if (!appState.taxConfig) appState.taxConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.taxConfig));
+            if (!Array.isArray(appState.taxAccounts) || !appState.taxAccounts.length) {
+                const base = Object.assign({ label: 'घरपट्टी व पाणीपट्टी खाते' }, appState.taxConfig || {});
+                appState.taxAccounts = [base];
+            }
             if (!Array.isArray(appState.budgetItems)) appState.budgetItems = JSON.parse(JSON.stringify(DEFAULT_STATE.budgetItems));
             if (!Array.isArray(appState.villageDirectory)) appState.villageDirectory = JSON.parse(JSON.stringify(DEFAULT_STATE.villageDirectory));
             if (!Array.isArray(appState.galleryItems)) appState.galleryItems = JSON.parse(JSON.stringify(DEFAULT_STATE.galleryItems));
@@ -4508,18 +4668,16 @@
 
         function renderNewV13Sections() {
             ensureV13StateDefaults();
-            // Ensure every custom section has a stable unique id
             appState.customSections.forEach((cs, idx) => {
                 if (cs && !cs.id) cs.id = 'cs_' + (idx + 1);
             });
-            // Dynamically render independent top-level menu items for all visible custom sections
             const navUl = document.getElementById('navLinks');
             if (navUl) {
                 navUl.querySelectorAll('.dynamic-custom-nav-item').forEach(el => el.remove());
                 const allowCs = !appState.visibility || appState.visibility.customsections !== false;
                 if (allowCs) {
                     appState.customSections.forEach((cs, idx) => {
-                        if (!cs || cs.visible === false || !cs.title) return;
+                        if (!cs || cs.visible === false || cs.showInMenu === false || !cs.title) return;
                         const cid = cs.id || ('cs_' + (idx + 1));
                         const li = document.createElement('li');
                         li.className = 'dynamic-custom-nav-item';
@@ -4530,11 +4688,34 @@
             }
         }
 
-        // --- Admin Editors for v13 Sections ---
+        // --- Admin Editors for v17 Sections (Multi-Bank Tax, Budget, Directory, Multi-Photo Gallery, Custom Sections w/ Show in Menu) ---
+        let editingTaxIdx = -1;
         function renderTaxEditor() {
             ensureV13StateDefaults();
-            const tx = appState.taxConfig;
+            const host = document.getElementById('adminTaxAccountsList');
+            if (!host) return;
+            host.innerHTML = appState.taxAccounts.map((tx, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:12px; border:1px solid var(--border-color); border-radius:10px; margin-bottom:8px; background:var(--bg-subtle);">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        ${tx.qrPhoto ? `<img src="${optimizeCloudinaryPreviewUrl(tx.qrPhoto)}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;border:1px solid var(--border-color);">` : ''}
+                        <div>
+                            <strong>${tx.label || 'बँक खाते'} — ${tx.accName || ''}</strong>
+                            <div style="font-size:14.5px; color:var(--text-muted);">${tx.bankName || '-'} | खाते क्र.: ${tx.accNo || '-'} | UPI: ${tx.upiId || '-'}</div>
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editTaxAccount(${idx})">एडिट</button>
+                        <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteTaxAccount(${idx})">काढा</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:var(--text-muted);">सध्या कोणतेही बँक खाते जोडलेले नाही.</p>';
+        }
+        function editTaxAccount(idx) {
+            ensureV13StateDefaults();
+            const tx = appState.taxAccounts[idx]; if (!tx) return;
+            editingTaxIdx = idx;
             const setV = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+            setV('taxAccLabel', tx.label);
             setV('taxBankName', tx.bankName);
             setV('taxAccName', tx.accName);
             setV('taxAccNo', tx.accNo);
@@ -4544,13 +4725,36 @@
             setV('taxNote', tx.note);
             setV('taxQrPhoto', tx.qrPhoto);
             updateAdminFileStatusLabel('taxQrPhoto', tx.qrPhoto ? getCleanUploadedFileLabel(tx.qrPhoto) : 'कोणतीही फाईल निवडलेली नाही', tx.qrPhoto ? 'ready' : '');
+            const btnSave = document.getElementById('btnSaveTaxAccount');
+            const btnCan = document.getElementById('btnCancelTaxAccount');
+            if (btnSave) btnSave.textContent = 'बँक खाते अपडेट करा';
+            if (btnCan) btnCan.style.display = 'inline-flex';
         }
-        function saveTaxConfigAdmin() {
+        function cancelEditTaxAccount() {
+            editingTaxIdx = -1;
+            ['taxAccLabel','taxBankName','taxAccName','taxAccNo','taxIfsc','taxUpiId','taxWhatsapp','taxNote','taxQrPhoto'].forEach(id => {
+                const el = document.getElementById(id); if (el) el.value = '';
+            });
+            updateAdminFileStatusLabel('taxQrPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
+            const btnSave = document.getElementById('btnSaveTaxAccount');
+            const btnCan = document.getElementById('btnCancelTaxAccount');
+            if (btnSave) btnSave.textContent = 'बँक खाते व QR जोडा';
+            if (btnCan) btnCan.style.display = 'none';
+        }
+        function addOrUpdateTaxAccount() {
             ensureV13StateDefaults();
             const getV = (id) => (document.getElementById(id)?.value || '').trim();
-            appState.taxConfig = {
-                bankName: getV('taxBankName'),
-                accName: getV('taxAccName'),
+            const label = getV('taxAccLabel') || 'घरपट्टी व पाणीपट्टी खाते';
+            const bankName = getV('taxBankName');
+            const accName = getV('taxAccName');
+            if (!bankName && !accName && !getV('taxUpiId')) {
+                showToast('कृपया किमान बँकेचे नाव, खातेदाराचे नाव किंवा UPI ID भरा.');
+                return;
+            }
+            const obj = {
+                label,
+                bankName,
+                accName,
                 accNo: getV('taxAccNo'),
                 ifsc: getV('taxIfsc'),
                 upiId: getV('taxUpiId'),
@@ -4558,10 +4762,22 @@
                 note: getV('taxNote'),
                 qrPhoto: getV('taxQrPhoto')
             };
-            logPortalActivity('घरपट्टी व पाणीपट्टी (UPI/QR) माहिती अपडेट केली.');
+            if (editingTaxIdx >= 0) appState.taxAccounts[editingTaxIdx] = obj;
+            else appState.taxAccounts.push(obj);
+            if (appState.taxAccounts.length) appState.taxConfig = appState.taxAccounts[0];
+            cancelEditTaxAccount();
+            logPortalActivity('घरपट्टी व पाणीपट्टी बँक खाते / QR माहिती अपडेट केली.');
             saveStateToStorage();
-            renderNewV13Sections();
-            showToast('घरपट्टी व QR माहिती यशस्वीरित्या सेव्ह झाली!');
+            renderTaxEditor();
+            showToast('बँक खाते व QR माहिती यशस्वीरित्या सेव्ह झाली!');
+        }
+        function deleteTaxAccount(idx) {
+            ensureV13StateDefaults();
+            appState.taxAccounts.splice(idx, 1);
+            if (appState.taxAccounts.length) appState.taxConfig = appState.taxAccounts[0];
+            saveStateToStorage();
+            renderTaxEditor();
+            showToast('बँक खाते काढले गेले.');
         }
 
         let editingBudgetIdx = -1;
@@ -4673,38 +4889,92 @@
         }
 
         let editingGalIdx = -1;
+        let galDraftPhotos = [];
+        function renderGalDraftPhotos() {
+            const box = document.getElementById('galDraftPhotosPreview');
+            const statusEl = document.getElementById('galPhoto_status');
+            if (statusEl) {
+                statusEl.textContent = galDraftPhotos.length ? `${galDraftPhotos.length} फोटो जोडलेले आहेत` : 'कोणतेही फोटो निवडलेले नाहीत';
+            }
+            if (!box) return;
+            box.innerHTML = galDraftPhotos.map((u, i) => `
+                <div class="gal-thumb-chip">
+                    <img src="${optimizeCloudinaryPreviewUrl(u)}" alt="Photo ${i+1}">
+                    <button type="button" class="gal-thumb-del" onclick="removeGalDraftPhoto(${i})" title="हा फोटो काढा">×</button>
+                </div>
+            `).join('');
+        }
+        function removeGalDraftPhoto(i) {
+            galDraftPhotos.splice(i, 1);
+            renderGalDraftPhotos();
+        }
+        async function handleMultiGalleryUpload(fileInput) {
+            const files = Array.from(fileInput.files || []);
+            if (!files.length) return;
+            const cfg = appState.cloudConfig || {};
+            const cloudName = (cfg.cloudinaryCloudName || 'tvqzwvy5').trim();
+            const uploadPreset = (cfg.cloudinaryUploadPreset || 'gp_portal').trim();
+            updateAdminFileStatusLabel('galPhoto', `${files.length} फोटो अपलोड होत आहेत...`, 'uploading');
+            showToast(`${files.length} फोटो अपलोड होत आहेत...`);
+            let uploadedCount = 0;
+            for (const rawFile of files) {
+                try {
+                    const file = await applyWatermarkToAdminFile(rawFile, 'galPhoto');
+                    const fd = new FormData();
+                    fd.append('file', file);
+                    fd.append('upload_preset', uploadPreset);
+                    const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, { method: 'POST', body: fd });
+                    const data = await res.json();
+                    if (data && data.secure_url) {
+                        galDraftPhotos.push(data.secure_url);
+                        uploadedCount++;
+                    }
+                } catch (e) {}
+            }
+            fileInput.value = '';
+            renderGalDraftPhotos();
+            if (uploadedCount > 0) showToast(`${uploadedCount} फोटो यशस्वीरित्या अपलोड झाले!`);
+            else showToast('फोटो अपलोड करताना त्रुटी आली. कृपया पुन्हा प्रयत्न करा.');
+        }
         function renderGalleryEditor() {
             ensureV13StateDefaults();
             const host = document.getElementById('adminGalleryList');
             if (!host) return;
-            host.innerHTML = appState.galleryItems.map((g, idx) => `
+            host.innerHTML = appState.galleryItems.map((g, idx) => {
+                const photosArr = Array.isArray(g.photos) && g.photos.length ? g.photos : (g.photo ? [g.photo] : []);
+                const cover = photosArr[0] || '';
+                return `
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        ${g.photo ? `<img src="${g.photo}" style="width:52px;height:42px;object-fit:cover;border-radius:6px;">` : ''}
-                        <div><strong>${g.title}</strong><div style="font-size:14.5px; color:var(--text-muted);">${g.tag || ''}${g.videoUrl ? ' | व्हिडिओ लिंक' : ''}</div></div>
+                        ${cover ? `<img src="${optimizeCloudinaryPreviewUrl(cover)}" style="width:56px;height:44px;object-fit:cover;border-radius:6px;">` : ''}
+                        <div>
+                            <strong>${g.title}</strong>
+                            <div style="font-size:14.5px; color:var(--text-muted);">${g.tag || ''}${photosArr.length ? ' | ' + photosArr.length + ' फोटो' : ''}${g.videoUrl ? ' | व्हिडिओ लिंक' : ''}</div>
+                        </div>
                     </div>
                     <div style="display:flex; gap:6px;">
                         <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editGalleryItem(${idx})">एडिट</button>
                         <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteGalleryItem(${idx})">काढा</button>
                     </div>
                 </div>
-            `).join('') || '<p style="color:var(--text-muted);">गॅलरीमध्ये कोणतीही नोंद नाही.</p>';
+            `;}).join('') || '<p style="color:var(--text-muted);">गॅलरीमध्ये कोणतीही नोंद नाही.</p>';
         }
         function editGalleryItem(idx) {
             const g = appState.galleryItems[idx]; if (!g) return;
             editingGalIdx = idx;
             document.getElementById('galTitle').value = g.title || '';
             document.getElementById('galTag').value = g.tag || '';
-            document.getElementById('galPhoto').value = g.photo || '';
             document.getElementById('galVideoUrl').value = g.videoUrl || '';
-            updateAdminFileStatusLabel('galPhoto', g.photo ? getCleanUploadedFileLabel(g.photo) : 'कोणतीही फाईल निवडलेली नाही', g.photo ? 'ready' : '');
+            galDraftPhotos = Array.isArray(g.photos) && g.photos.length ? g.photos.slice() : (g.photo ? [g.photo] : []);
+            renderGalDraftPhotos();
             document.getElementById('btnSaveGallery').textContent = 'गॅलरी अपडेट करा';
             document.getElementById('btnCancelGallery').style.display = 'inline-flex';
         }
         function cancelEditGallery() {
             editingGalIdx = -1;
+            galDraftPhotos = [];
             ['galTitle','galTag','galPhoto','galVideoUrl'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
-            updateAdminFileStatusLabel('galPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
+            renderGalDraftPhotos();
             document.getElementById('btnSaveGallery').textContent = 'गॅलरीमध्ये जोडा';
             document.getElementById('btnCancelGallery').style.display = 'none';
         }
@@ -4713,20 +4983,19 @@
             const getV = (id) => (document.getElementById(id)?.value || '').trim();
             const title = getV('galTitle');
             if (!title) { showToast('कृपया फोटो/व्हिडिओचे शीर्षक भरा.'); return; }
-            const obj = { title, tag: getV('galTag') || 'गॅलरी', photo: getV('galPhoto'), videoUrl: getV('galVideoUrl') };
+            const photosCopy = galDraftPhotos.slice();
+            const obj = { title, tag: getV('galTag') || 'गॅलरी', photo: photosCopy[0] || '', photos: photosCopy, videoUrl: getV('galVideoUrl') };
             if (editingGalIdx >= 0) appState.galleryItems[editingGalIdx] = obj;
             else appState.galleryItems.unshift(obj);
             cancelEditGallery();
             saveStateToStorage();
             renderGalleryEditor();
-            renderNewV13Sections();
             showToast('गॅलरीमध्ये यशस्वीरित्या सेव्ह झाले!');
         }
         function deleteGalleryItem(idx) {
             appState.galleryItems.splice(idx, 1);
             saveStateToStorage();
             renderGalleryEditor();
-            renderNewV13Sections();
             showToast('गॅलरी नोंद काढली गेली.');
         }
 
@@ -4737,12 +5006,14 @@
             if (!host) return;
             host.innerHTML = appState.customSections.map((cs, idx) => {
                 const isOn = cs.visible !== false;
+                const inMenu = cs.showInMenu !== false;
                 return `
                 <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color); opacity:${isOn ? '1' : '0.68'};">
                     <div style="flex:1; min-width:200px;">
                         <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
                             <strong>${cs.title}</strong>
                             <span style="font-size:13px; padding:2px 8px; border-radius:999px; background:${isOn ? '#dcfce7' : '#fee2e2'}; color:${isOn ? '#166534' : '#991b1b'};">${isOn ? 'दाखवत आहे (ON)' : 'लपवले आहे (OFF)'}</span>
+                            <span style="font-size:13px; padding:2px 8px; border-radius:999px; background:${inMenu ? '#dbeafe' : '#f1f5f9'}; color:${inMenu ? '#1e40af' : '#475569'};">${inMenu ? 'मेनूत: होय' : 'मेनूत: नाही'}</span>
                         </div>
                         <div style="font-size:14.5px; color:var(--text-muted);">${(cs.content || '').slice(0, 80)}${(cs.content || '').length > 80 ? '...' : ''}</div>
                     </div>
@@ -4750,6 +5021,7 @@
                         <button type="button" class="inweb-switch ${isOn ? 'on' : ''}" onclick="toggleCustomSectionVis(${idx})" title="${isOn ? 'हा विभाग लपवा' : 'हा विभाग दाखवा'}">
                             <span class="inweb-switch-knob"></span>
                         </button>
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:13.5px;" onclick="toggleCustomSectionMenu(${idx})">${inMenu ? 'मेनूतून काढा' : 'मेनूत दाखवा'}</button>
                         <a href="custom-section.html?id=${encodeURIComponent(cs.id || ('cs_' + (idx + 1)))}" target="_blank" class="btn btn-secondary" style="padding:5px 10px; font-size:14px; text-decoration:none;">पेज पहा ↗</a>
                         <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editCustomSection(${idx})">एडिट</button>
                         <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteCustomSection(${idx})">काढा</button>
@@ -4766,6 +5038,7 @@
             document.getElementById('csPhoto').value = cs.photo || '';
             document.getElementById('csLinkUrl').value = cs.linkUrl || '';
             document.getElementById('csLinkLabel').value = cs.linkLabel || '';
+            const cbMenu = document.getElementById('csShowInMenu'); if (cbMenu) cbMenu.checked = (cs.showInMenu !== false);
             updateAdminFileStatusLabel('csPhoto', cs.photo ? getCleanUploadedFileLabel(cs.photo) : 'कोणतीही फाईल निवडलेली नाही', cs.photo ? 'ready' : '');
             document.getElementById('btnSaveCustomSec').textContent = 'विभाग अपडेट करा';
             document.getElementById('btnCancelCustomSec').style.display = 'inline-flex';
@@ -4774,6 +5047,7 @@
             editingCustomIdx = -1;
             ['csTitle','csBadge','csContent','csPhoto','csLinkUrl','csLinkLabel'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
             updateAdminFileStatusLabel('csPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
+            const cbMenu = document.getElementById('csShowInMenu'); if (cbMenu) cbMenu.checked = true;
             document.getElementById('btnSaveCustomSec').textContent = 'नवीन विभाग जोडा';
             document.getElementById('btnCancelCustomSec').style.display = 'none';
         }
@@ -4785,7 +5059,8 @@
             const prevItem = (editingCustomIdx >= 0) ? appState.customSections[editingCustomIdx] : null;
             const prevVis = prevItem ? (prevItem.visible !== false) : true;
             const stableId = (prevItem && prevItem.id) ? prevItem.id : ('cs_' + Date.now());
-            const obj = { id: stableId, title, badge: getV('csBadge'), content: getV('csContent'), photo: getV('csPhoto'), linkUrl: getV('csLinkUrl'), linkLabel: getV('csLinkLabel'), visible: prevVis };
+            const showInMenu = document.getElementById('csShowInMenu') ? document.getElementById('csShowInMenu').checked : true;
+            const obj = { id: stableId, title, badge: getV('csBadge'), content: getV('csContent'), photo: getV('csPhoto'), linkUrl: getV('csLinkUrl'), linkLabel: getV('csLinkLabel'), visible: prevVis, showInMenu };
             if (editingCustomIdx >= 0) appState.customSections[editingCustomIdx] = obj;
             else appState.customSections.push(obj);
             cancelEditCustomSection();
@@ -4793,6 +5068,16 @@
             renderCustomSectionsEditor();
             renderNewV13Sections();
             showToast('सानुकूल विभाग यशस्वीरित्या सेव्ह झाला!');
+        }
+        function toggleCustomSectionMenu(idx) {
+            ensureV13StateDefaults();
+            const cs = appState.customSections[idx];
+            if (!cs) return;
+            cs.showInMenu = !(cs.showInMenu !== false);
+            saveStateToStorage();
+            renderCustomSectionsEditor();
+            renderNewV13Sections();
+            showToast(cs.showInMenu ? `"${cs.title}" मेनूमध्ये दाखवला जाईल!` : `"${cs.title}" मेनूमधून लपवला आहे (थेट लिंक सुरू राहील).`);
         }
         function toggleCustomSectionVis(idx) {
             ensureV13StateDefaults();
@@ -8583,8 +8868,8 @@
                                 <div style="font-size:19px;margin-top:4px;">${r.name} (${r.phone}) ${r.aadhaar ? `<span class="badge" style="background:#e0e7ff; color:#1e3a8a; font-size:14px;">आधार: ${r.aadhaar}</span>` : ''} <span style="font-size:15px;color:var(--text-muted);">| ${r.date || ''}</span></div>
                                 <div style="font-size:16px;color:var(--text-muted);">${r.detail}</div>
                                 <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;">
-                                    ${r.attachment ? `<a href="${r.attachment}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;">अर्ज / तक्रार कागदपत्र पहा</a>` : ''}
-                                    ${r.aadhaarDoc ? `<a href="${r.aadhaarDoc}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 12px; font-size:15px; border-color:#1e3a8a; color:#1e3a8a;">आधार कार्ड फोटो पहा</a>` : ''}
+                                    ${r.attachment ? `<button type="button" class="btn btn-secondary" style="padding:4px 12px; font-size:15px;" onclick="openAdminReqDoc(${idx}, 'attachment')">अर्ज / तक्रार कागदपत्र पहा</button>` : ''}
+                                    ${r.aadhaarDoc ? `<button type="button" class="btn btn-secondary" style="padding:4px 12px; font-size:15px; border-color:#1e3a8a; color:#1e3a8a;" onclick="openAdminReqDoc(${idx}, 'aadhaarDoc')">आधार कार्ड फोटो पहा</button>` : ''}
                                 </div>
                             </div>
                         </div>
@@ -9080,5 +9365,17 @@
             initPortalVisitorCounter();
         })();
     </script>
+
+    <!-- Modal: Safe Lightweight Admin Document / Aadhaar Preview (v17) -->
+    <div class="modal-backdrop" id="safeAdminDocModal" style="z-index: 10050; background: rgba(15, 23, 42, 0.85);">
+        <div class="modal-content" style="max-width: 680px; width: 94%; max-height: 90vh; overflow-y: auto; padding: 18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:10px; border-bottom:1px solid var(--border-color); margin-bottom:14px;">
+                <h3 id="safeDocModalTitle" style="margin:0; font-size:20px; color:var(--secondary);">कागदपत्र तपासणी</h3>
+                <button type="button" class="btn btn-danger" style="padding:5px 14px; font-size:15px;" onclick="closeSafeAdminDocModal()">बंद करा ✕</button>
+            </div>
+            <div id="safeDocModalBody" style="text-align:center;"></div>
+        </div>
+    </div>
+
 </body>
 </html>

@@ -196,6 +196,18 @@
             letter-spacing: 0.4px;
         }
 
+    
+        /* v17 Mobile Top-Bar & Overflow Guard */
+        html, body { max-width: 100%; overflow-x: hidden; }
+        .gp-top-row a { white-space: nowrap; }
+        .font-size-controls { flex-shrink: 0; white-space: nowrap; }
+        @media (max-width: 768px) {
+            .gp-top-bar { padding: 7px 10px !important; font-size: 13.5px !important; }
+            .gp-top-row { gap: 5px 8px !important; }
+            .font-size-controls { margin-left: auto !important; padding: 2px 5px !important; }
+            .font-size-btn { font-size: 12.5px !important; padding: 1px 5px !important; }
+        }
+
     </style>
 </head>
 <body>
@@ -323,7 +335,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const activeCsId = urlParams.get('id') || '';
             csList.forEach((cs, idx) => {
-                if (!cs || cs.visible === false || !cs.title) return;
+                if (!cs || cs.visible === false || cs.showInMenu === false || !cs.title) return;
                 const cid = cs.id || ('cs_' + idx);
                 const li = document.createElement('li');
                 li.className = 'dynamic-custom-nav-item';
@@ -344,7 +356,8 @@
         })();
 
         
-        const DEFAULT_TAX = {
+        const DEFAULT_TAX_ACCOUNTS = [{
+            label: 'घरपट्टी व पाणीपट्टी खाते',
             bankName: 'अहमदनगर जिल्हा मध्यवर्ती सहकारी बँक (ADCC) / राष्ट्रीयीकृत बँक',
             accName: 'ग्रामपंचायत फंड, पिंपळगाव निपाणी',
             accNo: 'कार्यालयातून तपासून भरा',
@@ -353,19 +366,26 @@
             whatsapp: '9975571585',
             qrPhoto: '',
             note: 'घरपट्टी व पाणीपट्टी ऑनलाइन भरल्यानंतर पेमेंटचा स्क्रीनशॉट, तुमचे नाव व घर क्रमांक खालील WhatsApp बटनावर पाठवावा. पावती ग्रामपंचायत कार्यालयातून अथवा WhatsApp वर दिली जाईल.'
-        };
-        function renderTax(tx, gpName) {
+        }];
+        function optCloudImg(u) {
+            if (u && u.includes('res.cloudinary.com') && u.includes('/image/upload/') && !u.includes('/w_800,')) {
+                return u.replace('/image/upload/', '/image/upload/w_800,q_auto,f_auto/');
+            }
+            return u || '';
+        }
+        function renderTaxAccounts(accounts, gpName) {
             const host = document.getElementById('taxPaymentContainer');
             if (!host) return;
-            const d = Object.assign({}, DEFAULT_TAX, tx || {});
-            const waDigits = String(d.whatsapp || '').replace(/\D/g, '');
-            const waMsg = encodeURIComponent(`नमस्कार ${gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}, मी माझी घरपट्टी / पाणीपट्टी ऑनलाइन भरली आहे. खाली पेमेंटचा स्क्रीनशॉट व घर क्रमांक पाठवत आहे.`);
-            const waHref = waDigits ? `https://wa.me/91${waDigits.slice(-10)}?text=${waMsg}` : '';
-            host.innerHTML = `
-                <div class="info-card" style="border-left: 5px solid #16a34a;">
+            const list = (Array.isArray(accounts) && accounts.length) ? accounts : DEFAULT_TAX_ACCOUNTS;
+            host.innerHTML = list.map((d, idx) => {
+                const waDigits = String(d.whatsapp || '').replace(/\D/g, '');
+                const waMsg = encodeURIComponent(`नमस्कार ${gpName || 'ग्रामपंचायत पिंपळगाव निपाणी'}, मी ${d.label || 'घरपट्टी / पाणीपट्टी'} ऑनलाइन भरली आहे. खाली पेमेंटचा स्क्रीनशॉट व घर क्रमांक पाठवत आहे.`);
+                const waHref = waDigits ? `https://wa.me/91${waDigits.slice(-10)}?text=${waMsg}` : '';
+                return `
+                <div class="info-card" style="border-left: 5px solid #16a34a; margin-bottom: 20px;">
                     <div class="tax-split-grid">
                         <div>
-                            <span class="badge" style="margin-bottom:8px;">ऑनलाइन कर भरणा सुविधा</span>
+                            <span class="badge" style="margin-bottom:8px;">${d.label || 'ऑनलाइन कर भरणा सुविधा'}</span>
                             <h2 style="font-size:24px; color:var(--secondary); margin-bottom:10px;">${d.accName || 'ग्रामपंचायत फंड'}</h2>
                             <div style="display:flex; flex-direction:column; gap:7px; font-size:17.5px; color:var(--text-main); margin-bottom:14px;">
                                 <div><strong>बँकेचे नाव:</strong> ${d.bankName || '-'}</div>
@@ -376,30 +396,37 @@
                             ${d.note ? `<p style="font-size:15.5px; color:var(--text-muted); background:var(--bg-subtle); padding:12px 14px; border-radius:10px; margin-bottom:16px;">${d.note}</p>` : ''}
                             <div style="display:flex; gap:10px; flex-wrap:wrap;">
                                 ${waHref ? `<a href="${waHref}" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:10px 18px;">WhatsApp वर पावती स्क्रीनशॉट पाठवा</a>` : ''}
-                                <button type="button" class="btn btn-secondary" onclick="navigator.clipboard && navigator.clipboard.writeText('${(d.upiId || '').replace(/'/g, '')}'); showToast('UPI ID कॉपी झाला!');">UPI ID कॉपी करा</button>
+                                ${d.upiId ? `<button type="button" class="btn btn-secondary" onclick="navigator.clipboard && navigator.clipboard.writeText('${String(d.upiId).replace(/'/g, '')}'); showToast('UPI ID कॉपी झाला!');">UPI ID कॉपी करा</button>` : ''}
                             </div>
                         </div>
                         <div class="tax-qr-box">
                             ${d.qrPhoto
-                                ? `<img src="${d.qrPhoto}" alt="Gram Panchayat UPI QR Code"><div style="font-size:16px; color:var(--secondary);"><strong>कोणत्याही UPI App ने स्कॅन करा</strong></div>`
+                                ? `<img src="${optCloudImg(d.qrPhoto)}" alt="Gram Panchayat UPI QR Code"><div style="font-size:16px; color:var(--secondary);"><strong>कोणत्याही UPI App ने स्कॅन करा</strong></div>`
                                 : `<div style="padding:30px 14px; color:var(--text-muted); font-size:16px;">अधिकृत UPI QR कोड अद्याप अपलोड केलेला नाही.<br><span style="font-size:14.5px;">(ॲडमिन पॅनल → घरपट्टी व पाणीपट्टी टॅबमधून QR फोटो अपलोड करा)</span></div>`
                             }
                         </div>
                     </div>
                 </div>
-            `;
+                `;
+            }).join('');
+        }
+        function extractTaxList(portalObj) {
+            if (!portalObj) return null;
+            if (Array.isArray(portalObj.taxAccounts) && portalObj.taxAccounts.length) return portalObj.taxAccounts;
+            if (portalObj.taxConfig && typeof portalObj.taxConfig === 'object') return [Object.assign({ label: 'घरपट्टी व पाणीपट्टी खाते' }, portalObj.taxConfig)];
+            return null;
         }
         (async function initTaxPage() {
             let local = {};
             try { local = JSON.parse(localStorage.getItem('gp_portal_v6') || '{}') || {}; } catch (e) {}
-            renderTax(local.taxConfig, local.gpName);
+            renderTaxAccounts(extractTaxList(local), local.gpName);
             try {
                 const res = await fetch(`${FB_DB_URL}/grampanchayatPortal.json`);
                 const remote = await res.json();
-                if (remote && remote.taxConfig) renderTax(remote.taxConfig, remote.gpName);
+                const rList = extractTaxList(remote);
+                if (rList) renderTaxAccounts(rList, remote.gpName);
             } catch (e) {}
         })();
-
     </script>
     <script>
         function applyPortalFontScale(scaleVal) {

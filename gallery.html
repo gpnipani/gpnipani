@@ -196,6 +196,26 @@
             letter-spacing: 0.4px;
         }
 
+    
+        /* v17 Mobile Top-Bar & Overflow Guard */
+        html, body { max-width: 100%; overflow-x: hidden; }
+        .gp-top-row a { white-space: nowrap; }
+        .font-size-controls { flex-shrink: 0; white-space: nowrap; }
+        @media (max-width: 768px) {
+            .gp-top-bar { padding: 7px 10px !important; font-size: 13.5px !important; }
+            .gp-top-row { gap: 5px 8px !important; }
+            .font-size-controls { margin-left: auto !important; padding: 2px 5px !important; }
+            .font-size-btn { font-size: 12.5px !important; padding: 1px 5px !important; }
+        }
+
+    
+        .gal-count-badge { position: absolute; bottom: 8px; right: 8px; background: rgba(15,23,42,0.82); color: #fde047; padding: 3px 10px; border-radius: 999px; font-size: 13.5px; }
+        .gal-mini-strip { display: flex; gap: 6px; overflow-x: auto; padding-top: 6px; }
+        .gal-mini-strip img { width: 52px; height: 42px; object-fit: cover; border-radius: 6px; border: 1.5px solid var(--border-color); cursor: pointer; flex-shrink: 0; }
+        .gal-lightbox { position: fixed; inset: 0; background: rgba(15,23,42,0.92); z-index: 9999; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 16px; }
+        .gal-lightbox.open { display: flex; }
+        .gal-lightbox img { max-width: 94vw; max-height: 76vh; border-radius: 10px; object-fit: contain; }
+
     </style>
 </head>
 <body>
@@ -285,6 +305,15 @@
         <div>मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
         <div style="margin-top:6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी | <a href="https://gpnipani.online">https://gpnipani.online</a> | Website Design by <strong>Anil Bhaurao Tormal</strong></div>
     </footer>
+        <div id="galLightbox" class="gal-lightbox" onclick="if(event.target===this) closeGalLightbox()">
+        <div style="color:#fff; font-size:18px; margin-bottom:10px; text-align:center;" id="galLbCaption"></div>
+        <img id="galLbImg" src="" alt="Gallery Photo">
+        <div style="display:flex; gap:10px; margin-top:14px; flex-wrap:wrap; justify-content:center;">
+            <button type="button" class="btn btn-secondary" onclick="stepGalLightbox(-1)">◀ मागील</button>
+            <button type="button" class="btn btn-primary" onclick="closeGalLightbox()">बंद करा ✕</button>
+            <button type="button" class="btn btn-secondary" onclick="stepGalLightbox(1)">पुढील ▶</button>
+        </div>
+    </div>
     <div id="pageToast" class="toast"></div>
     <script>
         const FB_DB_URL = 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app';
@@ -323,7 +352,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const activeCsId = urlParams.get('id') || '';
             csList.forEach((cs, idx) => {
-                if (!cs || cs.visible === false || !cs.title) return;
+                if (!cs || cs.visible === false || cs.showInMenu === false || !cs.title) return;
                 const cid = cs.id || ('cs_' + idx);
                 const li = document.createElement('li');
                 li.className = 'dynamic-custom-nav-item';
@@ -345,28 +374,71 @@
 
         
         const DEFAULT_GAL = [
-            { title: 'ग्रामपंचायत कार्यालय व स्वच्छ गाव उपक्रम', tag: 'स्वच्छता मोहीम', photo: '', videoUrl: '' },
-            { title: 'गावातील वृक्षारोपण व जलसंधारण कार्यक्रम', tag: 'पर्यावरण', photo: '', videoUrl: '' }
+            { title: 'ग्रामपंचायत कार्यालय व स्वच्छ गाव उपक्रम', tag: 'स्वच्छता मोहीम', photo: '', photos: [], videoUrl: '' },
+            { title: 'गावातील वृक्षारोपण व जलसंधारण कार्यक्रम', tag: 'पर्यावरण', photo: '', photos: [], videoUrl: '' }
         ];
+        let currentGalItems = [];
+        let lbPhotos = [];
+        let lbIdx = 0;
+        let lbTitle = '';
+        function optCloudImg(u) {
+            if (u && u.includes('res.cloudinary.com') && u.includes('/image/upload/') && !u.includes('/w_1000,')) {
+                return u.replace('/image/upload/', '/image/upload/w_1000,q_auto,f_auto/');
+            }
+            return u || '';
+        }
+        function openGalLightbox(itemIdx, photoIdx) {
+            const g = currentGalItems[itemIdx];
+            if (!g) return;
+            const arr = (Array.isArray(g.photos) && g.photos.length) ? g.photos : (g.photo ? [g.photo] : []);
+            if (!arr.length) return;
+            lbPhotos = arr;
+            lbIdx = Math.max(0, Math.min(photoIdx || 0, arr.length - 1));
+            lbTitle = g.title || '';
+            updateGalLightboxView();
+            document.getElementById('galLightbox').classList.add('open');
+        }
+        function updateGalLightboxView() {
+            const img = document.getElementById('galLbImg');
+            const cap = document.getElementById('galLbCaption');
+            if (img) img.src = optCloudImg(lbPhotos[lbIdx] || '');
+            if (cap) cap.textContent = `${lbTitle} (${lbIdx + 1} / ${lbPhotos.length})`;
+        }
+        function stepGalLightbox(dir) {
+            if (!lbPhotos.length) return;
+            lbIdx = (lbIdx + dir + lbPhotos.length) % lbPhotos.length;
+            updateGalLightboxView();
+        }
+        function closeGalLightbox() {
+            const lb = document.getElementById('galLightbox');
+            const img = document.getElementById('galLbImg');
+            if (lb) lb.classList.remove('open');
+            if (img) img.src = '';
+        }
         function renderGallery(list) {
             const host = document.getElementById('galleryContainer');
             if (!host) return;
-            const arr = (Array.isArray(list) && list.length) ? list : DEFAULT_GAL;
-            host.innerHTML = arr.map(g => `
+            currentGalItems = (Array.isArray(list) && list.length) ? list : DEFAULT_GAL;
+            host.innerHTML = currentGalItems.map((g, itemIdx) => {
+                const photosArr = (Array.isArray(g.photos) && g.photos.length) ? g.photos : (g.photo ? [g.photo] : []);
+                const cover = photosArr[0] || '';
+                return `
                 <div class="gallery-card">
-                    <div class="gallery-thumb">
-                        ${g.photo
-                            ? `<img src="${g.photo}" alt="${(g.title || '').replace(/"/g, '&quot;')}">`
+                    <div class="gallery-thumb" style="position:relative; cursor:${cover ? 'pointer' : 'default'};" ${cover ? `onclick="openGalLightbox(${itemIdx}, 0)"` : ''}>
+                        ${cover
+                            ? `<img src="${optCloudImg(cover)}" loading="lazy" alt="${(g.title || '').replace(/"/g, '&quot;')}">`
                             : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15.5px;padding:12px;text-align:center;">फोटो / व्हिडिओ प्रिव्ह्यू</div>`
                         }
+                        ${photosArr.length > 1 ? `<span class="gal-count-badge">${photosArr.length} फोटो</span>` : ''}
                     </div>
                     <div class="gallery-body">
                         ${g.tag ? `<span class="badge" style="margin:0;">${g.tag}</span>` : ''}
                         <h3 style="font-size:19.5px; color:var(--secondary); margin:4px 0;">${g.title || ''}</h3>
-                        ${g.videoUrl ? `<a href="${g.videoUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:7px 14px; font-size:15px; align-self:flex-start;">व्हिडिओ पहा</a>` : ''}
+                        ${photosArr.length > 1 ? `<div class="gal-mini-strip">${photosArr.map((pUrl, pIdx) => `<img src="${optCloudImg(pUrl)}" loading="lazy" onclick="openGalLightbox(${itemIdx}, ${pIdx})" alt="Photo ${pIdx+1}">`).join('')}</div>` : ''}
+                        ${g.videoUrl ? `<a href="${g.videoUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:7px 14px; font-size:15px; align-self:flex-start; margin-top:6px;">व्हिडिओ पहा</a>` : ''}
                     </div>
                 </div>
-            `).join('');
+            `;}).join('');
         }
         (async function initGalPage() {
             let local = {};
@@ -378,7 +450,6 @@
                 if (Array.isArray(remote) && remote.length) renderGallery(remote);
             } catch (e) {}
         })();
-
     </script>
     <script>
         function applyPortalFontScale(scaleVal) {

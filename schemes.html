@@ -177,6 +177,18 @@
             letter-spacing: 0.4px;
         }
 
+    
+        /* v17 Mobile Top-Bar & Overflow Guard */
+        html, body { max-width: 100%; overflow-x: hidden; }
+        .gp-top-row a { white-space: nowrap; }
+        .font-size-controls { flex-shrink: 0; white-space: nowrap; }
+        @media (max-width: 768px) {
+            .gp-top-bar { padding: 7px 10px !important; font-size: 13.5px !important; }
+            .gp-top-row { gap: 5px 8px !important; }
+            .font-size-controls { margin-left: auto !important; padding: 2px 5px !important; }
+            .font-size-btn { font-size: 12.5px !important; padding: 1px 5px !important; }
+        }
+
     </style>
 
 </head>
@@ -347,7 +359,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const activeCsId = urlParams.get('id') || '';
             csList.forEach((cs, idx) => {
-                if (!cs || cs.visible === false || !cs.title) return;
+                if (!cs || cs.visible === false || cs.showInMenu === false || !cs.title) return;
                 const cid = cs.id || ('cs_' + idx);
                 const li = document.createElement('li');
                 li.className = 'dynamic-custom-nav-item';
