@@ -1558,6 +1558,60 @@
             color: var(--primary);
         }
 
+
+        .bm-color-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        @media (max-width: 640px) {
+            .bm-color-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        .bm-color-chip {
+            background: var(--bg-subtle);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 6px 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            font-size: 13.5px;
+        }
+        .bm-color-chip input[type="color"] {
+            width: 30px;
+            height: 26px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            padding: 0;
+        }
+        .bm-bg-presets {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-top: 6px;
+        }
+        @media (max-width: 600px) {
+            .bm-bg-presets { grid-template-columns: repeat(2, 1fr); }
+        }
+        .bm-bg-swatch {
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 7px 6px;
+            font-size: 13px;
+            text-align: center;
+            cursor: pointer;
+            color: #0f172a;
+            font-weight: 700;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .bm-bg-swatch.active {
+            border: 2.5px solid var(--primary);
+            transform: scale(1.03);
+            box-shadow: 0 4px 10px rgba(234, 88, 12, 0.25);
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -2936,9 +2990,9 @@
             <div class="form-group">
                 <label>१) बॅनरचा प्रकार / प्रसंग निवडा</label>
                 <select class="form-control" id="bmTemplateType" onchange="onBannerTemplateChange()">
-                    <option value="birthday">वाढदिवस शुभेच्छा (Birthday)</option>
+                    <option value="punyatithi">पुण्यतिथी / स्मृतिदिन अभिवादन (संदर्भ डिझाइन)</option>
                     <option value="jayanti">महापुरुष जयंती अभिवादन (Jayanti)</option>
-                    <option value="punyatithi">पुण्यतिथी / भावपूर्ण श्रद्धांजली</option>
+                    <option value="birthday">वाढदिवस शुभेच्छा (Birthday)</option>
                     <option value="festival">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</option>
                     <option value="gramsabha">ग्रामसभा / विशेष शासकीय सूचना</option>
                     <option value="development">विकासकाम लोकार्पण / भूमिपूजन</option>
@@ -2946,7 +3000,18 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>२) बॅनरचा आकार (Size) निवडा</label>
+                <label>२) मांडणी शैली (Poster Layout)</label>
+                <select class="form-control" id="bmLayoutStyle" onchange="renderGpBannerCanvas()">
+                    <option value="split-left">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर (संदर्भ पोस्टर)</option>
+                    <option value="split-right">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</option>
+                    <option value="center-classic">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="bm-row-2">
+            <div class="form-group">
+                <label>३) बॅनरचा आकार (Size)</label>
                 <select class="form-control" id="bmSizePreset" onchange="renderGpBannerCanvas()">
                     <option value="1080x1080">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</option>
                     <option value="1080x1920">उभा स्टोरी / WhatsApp Status (1080 × 1920)</option>
@@ -2955,118 +3020,168 @@
                     <option value="1240x1754">A4 प्रिंट पोस्टर (1240 × 1754)</option>
                 </select>
             </div>
-        </div>
-
-        <div class="bm-row-2">
             <div class="form-group">
-                <label>३) मराठी फॉन्ट (पोर्टल फॉन्ट्स)</label>
+                <label>४) मराठी फॉन्ट (पोर्टल फॉन्ट्स)</label>
                 <select class="form-control" id="bmFontFamily" onchange="renderGpBannerCanvas()">
-                    <option value="'Khand', sans-serif">Khand Bold (अधिकृत पोर्टल मुख्य फॉन्ट)</option>
+                    <option value="'Khand', sans-serif">Khand Bold (ठळक व भव्य पोस्टर फॉन्ट)</option>
                     <option value="'Rozha One', serif">Rozha One (आकर्षक पारंपरिक शीर्षक फॉन्ट)</option>
                     <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari (स्वच्छ शासकीय फॉन्ट)</option>
                     <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari (आधुनिक फॉन्ट)</option>
                 </select>
             </div>
+        </div>
+
+        <!-- Preset Backgrounds Selector + Custom BG Upload -->
+        <div class="form-group" style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <label style="margin:0; color:var(--secondary);">५) बॅकग्राऊंड निवडा (Preset Backgrounds किंवा स्वतःचा फोटो)</label>
+                <div style="display:flex; gap:6px;">
+                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:4px 10px; font-size:13.5px;">
+                        <span>कस्टम बॅकग्राऊंड</span>
+                        <input type="file" id="bmCustomBgInput" accept="image/*" style="display:none;" onchange="handleCustomBgUpload(this)">
+                    </label>
+                    <button type="button" id="bmClearCustomBgBtn" class="btn btn-danger" style="display:none; padding:4px 9px; font-size:13px;" onclick="clearCustomBg()">✕</button>
+                </div>
+            </div>
+            <input type="hidden" id="bmBgPreset" value="pink-glow">
+            <div class="bm-bg-presets" id="bmBgPresetGrid">
+                <button type="button" class="bm-bg-swatch active" data-bg="pink-glow" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8,#ffffff);" onclick="selectBannerBgPreset('pink-glow', this)">गुलाबी आभा (संदर्भ)</button>
+                <button type="button" class="bm-bg-swatch" data-bg="saffron-rays" style="background:linear-gradient(135deg,#fff7ed,#fed7aa,#fdba74);" onclick="selectBannerBgPreset('saffron-rays', this)">भगवा किरणोत्सव</button>
+                <button type="button" class="bm-bg-swatch" data-bg="royal-gold" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe,#fde68a);" onclick="selectBannerBgPreset('royal-gold', this)">शाही निळा-सोनेरी</button>
+                <button type="button" class="bm-bg-swatch" data-bg="crimson-fest" style="background:linear-gradient(135deg,#fff1f2,#fecdd3,#fde047);" onclick="selectBannerBgPreset('crimson-fest', this)">मंगलमय मरून-सोनरी</button>
+                <button type="button" class="bm-bg-swatch" data-bg="emerald-vil" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0,#fef9c3);" onclick="selectBannerBgPreset('emerald-vil', this)">हरित ग्रामविकास</button>
+                <button type="button" class="bm-bg-swatch" data-bg="marble-peace" style="background:linear-gradient(135deg,#ffffff,#f1f5f9,#cbd5e1);" onclick="selectBannerBgPreset('marble-peace', this)">शांत संगमरवर (श्रद्धांजली)</button>
+                <button type="button" class="bm-bg-swatch" data-bg="sunset-warm" style="background:linear-gradient(135deg,#fef3c7,#fca5a5,#f9a8d4);" onclick="selectBannerBgPreset('sunset-warm', this)">संध्या सुवर्ण आभा</button>
+                <button type="button" class="bm-bg-swatch" data-bg="deep-navy" style="background:linear-gradient(135deg,#0f172a,#1e3a8a); color:#fde047;" onclick="selectBannerBgPreset('deep-navy', this)">गडद शाही निळा</button>
+            </div>
+        </div>
+
+        <!-- Text Hierarchy Inputs -->
+        <div class="form-group">
+            <label>६) वरचा गुणगौरव / ब्रीदवाक्य मजकूर (ऐच्छिक — रिकामा ठेवल्यास दिसणार नाही)</label>
+            <textarea class="form-control" rows="2" id="bmTopBadge" oninput="renderGpBannerCanvas()">सत्यशोधक समाजाचे संस्थापक,
+स्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,</textarea>
+        </div>
+
+        <div class="bm-row-2">
             <div class="form-group">
-                <label>४) रंगसंगती थीम (Color Theme)</label>
-                <select class="form-control" id="bmColorTheme" onchange="renderGpBannerCanvas()">
-                    <option value="saffron">भगवा व सोनेरी (Saffron &amp; Gold)</option>
-                    <option value="royal">शाही निळा व केशरी (Royal Navy &amp; Orange)</option>
-                    <option value="green">हिरवा व सोनेरी (Gram Vikas Green)</option>
-                    <option value="tribute">शांत पांढरा व राखाडी (श्रद्धांजली / पुण्यतिथी)</option>
-                    <option value="maroon">गडद मरून व सोनेरी (उत्सव / जयंती)</option>
-                </select>
+                <label>७) मास्टर नाव / मुख्य शीर्षक (खूप मोठ्या फॉन्टमध्ये दिसेल)</label>
+                <input type="text" class="form-control" id="bmMainTitle" value="क्रांतिसूर्य महात्मा ज्योतिबा फुले" oninput="renderGpBannerCanvas()">
+            </div>
+            <div class="form-group">
+                <label>मास्टर नाव फॉन्ट आकार (Font Size)</label>
+                <div class="bm-range-row">
+                    <input type="range" id="bmMasterFontScale" min="75" max="145" value="112" oninput="document.getElementById('bmMasterScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                    <span class="bm-range-pill" id="bmMasterScaleVal">112%</span>
+                </div>
             </div>
         </div>
 
         <div class="bm-row-2">
             <div class="form-group">
-                <label>वरचा छोटा बॅज / अभिवादन ओळ</label>
-                <input type="text" class="form-control" id="bmTopBadge" value="अभिष्टचिंतन व हार्दिक शुभेच्छा!" oninput="renderGpBannerCanvas()">
+                <label>८) खालील अभिवादन / मुख्य संदेश ओळ (मध्यम फॉन्ट)</label>
+                <input type="text" class="form-control" id="bmSubGreeting" value="यांना स्मृतिदिनी विनम्र अभिवादन!" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
                 <label>दिनांक / विशेष ओळ (ऐच्छिक)</label>
-                <input type="text" class="form-control" id="bmDateLine" placeholder="उदा. दिनांक: २८ नोव्हेंबर २०२६" oninput="renderGpBannerCanvas()">
+                <input type="text" class="form-control" id="bmDateLine" value="२८ नोव्हेंबर" oninput="renderGpBannerCanvas()">
             </div>
         </div>
 
         <div class="form-group">
-            <label>मुख्य शीर्षक / व्यक्तीचे किंवा कार्यक्रमाचे नाव</label>
-            <input type="text" class="form-control" id="bmMainTitle" value="मा. श्री. ........................................ यांना वाढदिवसाच्या हार्दिक शुभेच्छा!" oninput="renderGpBannerCanvas()">
+            <label>९) सविस्तर संदेश / माहिती (लहान फॉन्ट)</label>
+            <textarea class="form-control" rows="2" id="bmBodyText" oninput="renderGpBannerCanvas()">त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!</textarea>
         </div>
 
         <div class="form-group">
-            <label>सविस्तर संदेश / माहिती (२ ते ४ ओळी)</label>
-            <textarea class="form-control" rows="3" id="bmBodyText" oninput="renderGpBannerCanvas()">आपणास उत्तम आरोग्य, दीर्घायुष्य व पुढील सामाजिक आणि सार्वजनिक कार्यास मनःपूर्वक हार्दिक शुभेच्छा!</textarea>
+            <label>१०) शुभेच्छुक / निमंत्रक ओळ</label>
+            <input type="text" class="form-control" id="bmSenderText" value="विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="renderGpBannerCanvas()">
         </div>
 
-        <div class="bm-row-2">
-            <div class="form-group">
-                <label>शुभेच्छुक / निमंत्रक (तळाशी उजवीकडे)</label>
-                <input type="text" class="form-control" id="bmSenderText" value="शुभेच्छुक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="renderGpBannerCanvas()">
-            </div>
-            <div class="form-group">
-                <label>फोटो फ्रेम आकार</label>
-                <select class="form-control" id="bmPhotoShape" onchange="renderGpBannerCanvas()">
-                    <option value="circle">गोल फ्रेम (Circle)</option>
-                    <option value="rounded">चौकोनी गोलाकार कोपरे (Rounded Box)</option>
-                    <option value="none">फोटो नको (फक्त मजकूर बॅनर)</option>
-                </select>
+        <!-- Individual Text Colors Picker Bar -->
+        <div class="form-group" style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:10px 12px;">
+            <label style="margin-bottom:7px; color:var(--secondary);">११) प्रत्येक मजकुराचा स्वतंत्र रंग निवडा (Text Colors)</label>
+            <div class="bm-color-grid">
+                <label class="bm-color-chip"><span>वरचा परिचय</span><input type="color" id="bmColIntro" value="#1e293b" oninput="renderGpBannerCanvas()"></label>
+                <label class="bm-color-chip"><span>मास्टर नाव</span><input type="color" id="bmColMaster" value="#9d174d" oninput="renderGpBannerCanvas()"></label>
+                <label class="bm-color-chip"><span>अभिवादन ओळ</span><input type="color" id="bmColGreeting" value="#be185d" oninput="renderGpBannerCanvas()"></label>
+                <label class="bm-color-chip"><span>संदेश व शुभेच्छुक</span><input type="color" id="bmColBody" value="#0f172a" oninput="renderGpBannerCanvas()"></label>
             </div>
         </div>
 
-        <div class="bm-row-2">
-            <div class="form-group">
-                <label>संबंधित व्यक्ती / कार्यक्रमाचा फोटो निवडा</label>
-                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                    <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex:1;">
-                        <span>फोटो अपलोड करा</span>
-                        <input type="file" id="bmPhotoInput" accept="image/*" style="display:none;" onchange="handleBannerPhotoUpload(this)">
-                    </label>
-                    <button type="button" class="btn btn-danger" style="padding:8px 12px; font-size:14.5px;" onclick="clearBannerPhoto()">फोटो काढा</button>
+        <!-- Large Photo Upload, Frame & Position Controls -->
+        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px; margin-bottom:12px;">
+            <div class="bm-row-2">
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label style="font-size:15px;">१२) व्यक्ती / कार्यक्रमाचा मोठा फोटो निवडा</label>
+                    <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                        <label class="btn btn-primary" style="cursor:pointer; margin:0; padding:7px 14px; font-size:15px; flex:1;">
+                            <span>फोटो अपलोड करा</span>
+                            <input type="file" id="bmPhotoInput" accept="image/*" style="display:none;" onchange="handleBannerPhotoUpload(this)">
+                        </label>
+                        <button type="button" class="btn btn-danger" style="padding:7px 12px; font-size:14px;" onclick="clearBannerPhoto()">काढा</button>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label style="font-size:15px;">फोटो फ्रेम प्रकार</label>
+                    <select class="form-control" id="bmPhotoShape" onchange="renderGpBannerCanvas()">
+                        <option value="portrait-card">मोठी उभी पोर्ट्रेट फ्रेम (संदर्भ स्टाईल)</option>
+                        <option value="cutout-clean">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</option>
+                        <option value="circle">मोठी गोल फ्रेम (Large Circle)</option>
+                        <option value="none">फोटो नको (फक्त मजकूर बॅनर)</option>
+                    </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label>फोटो झूम / आकार समायोजन</label>
-                <div class="bm-range-row">
-                    <input type="range" id="bmPhotoZoom" min="70" max="150" value="100" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
-                    <span class="bm-range-pill" id="bmPhotoZoomVal">100%</span>
+            <div class="bm-row-2">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:14.5px;">फोटो झूम (Zoom)</label>
+                    <div class="bm-range-row">
+                        <input type="range" id="bmPhotoZoom" min="75" max="160" value="105" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmPhotoZoomVal">105%</span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:14.5px;">फोटो वर-खाली समायोजन (Vertical Shift)</label>
+                    <div class="bm-range-row">
+                        <input type="range" id="bmPhotoOffsetY" min="-40" max="40" value="0" oninput="document.getElementById('bmPhotoYVal').textContent=this.value; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmPhotoYVal">0</span>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Center Watermark Controls -->
-        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:12px 14px; margin-bottom:14px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
-                <label style="margin:0; color:var(--secondary); font-size:16.5px; display:flex; align-items:center; gap:8px; cursor:pointer;">
+        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px; margin-bottom:12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+                <label style="margin:0; color:var(--secondary); font-size:16px; display:flex; align-items:center; gap:8px; cursor:pointer;">
                     <input type="checkbox" id="bmWatermarkEnabled" checked style="width:19px; height:19px; accent-color:var(--primary);" onchange="renderGpBannerCanvas()">
                     <span>बॅनरच्या मध्यभागी वॉटरमार्क दाखवा (Center Watermark)</span>
                 </label>
             </div>
             <div class="bm-row-2">
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">वॉटरमार्क मजकूर (Watermark Text)</label>
+                    <label style="font-size:14.5px;">वॉटरमार्क मजकूर</label>
                     <input type="text" class="form-control" id="bmWatermarkText" value="ग्रामपंचायत पिंपळगाव निपाणी" oninput="renderGpBannerCanvas()">
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">वॉटरमार्क पारदर्शकता (Opacity: 0% ते 100%)</label>
+                    <label style="font-size:14.5px;">वॉटरमार्क पारदर्शकता (Opacity)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmWatermarkOpacity" min="0" max="100" value="14" oninput="document.getElementById('bmWmOpVal').textContent=this.value+'%'; renderGpBannerCanvas()">
-                        <span class="bm-range-pill" id="bmWmOpVal">14%</span>
+                        <input type="range" id="bmWatermarkOpacity" min="0" max="100" value="12" oninput="document.getElementById('bmWmOpVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmWmOpVal">12%</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <!-- Gram Panchayat Footer Branding Controls -->
-        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:12px 14px;">
+        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px;">
             <div class="bm-row-2">
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">फूटर मधील ग्रामपंचायत नाव</label>
+                    <label style="font-size:14.5px;">फूटर मधील ग्रामपंचायत नाव</label>
                     <input type="text" class="form-control" id="bmFooterGpName" value="ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर" oninput="renderGpBannerCanvas()">
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">फूटर वेबसाईट ब्रँडिंग लिंक</label>
+                    <label style="font-size:14.5px;">फूटर वेबसाईट ब्रँडिंग लिंक</label>
                     <input type="text" class="form-control" id="bmFooterDomain" value="अधिकृत वेबपोर्टल: https://gpnipani.online" oninput="renderGpBannerCanvas()">
                 </div>
             </div>
@@ -3088,7 +3203,6 @@
         </div>
     </div>
 </div>
-
             </div>
 
 
@@ -9777,40 +9891,98 @@
     </div>
 
     <script>
-        // --- v18 HTML5 Canvas Banner Generation Engine ---
+// --- v19 Rich Poster Banner Studio Engine (Reference Split-Poster + Multi-Color Typography + Preset Backgrounds) ---
         let bmUploadedImage = null;
+        let bmCustomBgImage = null;
         let bmLogoImage = null;
 
-        const BM_THEMES = {
-            saffron: { bg1: '#fff7ed', bg2: '#fed7aa', border: '#ea580c', accent: '#c2410c', title: '#7c2d12', text: '#1e293b', footerBg: '#1e3a8a', footerText: '#ffffff', footerAccent: '#fde047' },
-            royal:   { bg1: '#eff6ff', bg2: '#dbeafe', border: '#1e3a8a', accent: '#ea580c', title: '#1e3a8a', text: '#0f172a', footerBg: '#0f172a', footerText: '#ffffff', footerAccent: '#fb923c' },
-            green:   { bg1: '#f0fdf4', bg2: '#bbf7d0', border: '#15803d', accent: '#166534', title: '#14532d', text: '#1e293b', footerBg: '#14532d', footerText: '#ffffff', footerAccent: '#fde047' },
-            tribute: { bg1: '#f8fafc', bg2: '#e2e8f0', border: '#475569', accent: '#334155', title: '#0f172a', text: '#334155', footerBg: '#1e293b', footerText: '#f8fafc', footerAccent: '#cbd5e1' },
-            maroon:  { bg1: '#fff1f2', bg2: '#fecdd3', border: '#9f1239', accent: '#be123c', title: '#881337', text: '#1e293b', footerBg: '#4c0519', footerText: '#ffffff', footerAccent: '#fde047' }
+        const BM_BG_PRESETS = {
+            'pink-glow':    { c1: '#ffffff', c2: '#fce7f3', c3: '#f5d0fe', border: '#9d174d', accent: '#be185d', footerBg: '#9d174d', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e293b', masterCol: '#9d174d', greetCol: '#be185d', bodyCol: '#1e293b', rayColor: 'rgba(219, 39, 119, 0.08)' },
+            'saffron-rays': { c1: '#fffbeb', c2: '#fed7aa', c3: '#fdba74', border: '#c2410c', accent: '#ea580c', footerBg: '#7c2d12', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e293b', masterCol: '#9a3412', greetCol: '#c2410c', bodyCol: '#1e293b', rayColor: 'rgba(234, 88, 12, 0.10)' },
+            'royal-gold':   { c1: '#ffffff', c2: '#dbeafe', c3: '#bfdbfe', border: '#1e3a8a', accent: '#d97706', footerBg: '#1e3a8a', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e3a8a', masterCol: '#172554', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(30, 58, 138, 0.08)' },
+            'crimson-fest': { c1: '#fff1f2', c2: '#fecdd3', c3: '#fda4af', border: '#881337', accent: '#be123c', footerBg: '#881337', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#4c0519', masterCol: '#881337', greetCol: '#be123c', bodyCol: '#1e293b', rayColor: 'rgba(190, 18, 60, 0.08)' },
+            'emerald-vil':  { c1: '#f0fdf4', c2: '#bbf7d0', c3: '#86efac', border: '#166534', accent: '#15803d', footerBg: '#14532d', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#14532d', masterCol: '#166534', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(22, 163, 74, 0.09)' },
+            'marble-peace': { c1: '#ffffff', c2: '#f8fafc', c3: '#e2e8f0', border: '#475569', accent: '#334155', footerBg: '#1e293b', footerText: '#ffffff', footerAccent: '#cbd5e1', introCol: '#334155', masterCol: '#0f172a', greetCol: '#475569', bodyCol: '#334155', rayColor: 'rgba(71, 85, 105, 0.06)' },
+            'sunset-warm':  { c1: '#fefce8', c2: '#fde68a', c3: '#fbcfe8', border: '#b45309', accent: '#be185d', footerBg: '#78350f', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#451a03', masterCol: '#9d174d', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(217, 119, 6, 0.09)' },
+            'deep-navy':    { c1: '#0f172a', c2: '#1e3a8a', c3: '#172554', border: '#f59e0b', accent: '#fde047', footerBg: '#ea580c', footerText: '#ffffff', footerAccent: '#fef08a', introCol: '#e2e8f0', masterCol: '#fde047', greetCol: '#fb923c', bodyCol: '#f1f5f9', rayColor: 'rgba(253, 224, 71, 0.08)' }
         };
 
         const BM_TEMPLATE_PRESETS = {
-            birthday:    { theme: 'saffron', badge: 'अभिष्टचिंतन व हार्दिक शुभेच्छा!', title: 'मा. श्री. ........................................ यांना वाढदिवसाच्या हार्दिक शुभेच्छा!', body: 'आपणास उत्तम आरोग्य, दीर्घायुष्य व पुढील सामाजिक आणि सार्वजनिक कार्यास मनःपूर्वक हार्दिक शुभेच्छा!' },
-            jayanti:     { theme: 'saffron', badge: 'विनम्र अभिवादन | जयंती निमित्त कोटी कोटी प्रणाम', title: 'युगपुरुष छत्रपती शिवाजी महाराज / महामानव जयंती निमित्त विनम्र अभिवादन!', body: 'त्यांच्या महान विचारांना व कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने त्रिवार वंदन!' },
-            punyatithi:  { theme: 'tribute', badge: 'भावपूर्ण श्रद्धांजली | पुण्यतिथी निमित्त विनम्र अभिवादन', title: 'कै. ........................................ यांना पुण्यतिथी निमित्त भावपूर्ण श्रद्धांजली!', body: 'त्यांच्या पवित्र स्मृतीस ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने विनम्र अभिवादन.' },
-            festival:    { theme: 'maroon',  badge: 'मंगलमय शुभेच्छा!', title: 'समस्त ग्रामस्थांना सण-उत्सव / राष्ट्रीय दिनाच्या हार्दिक शुभेच्छा!', body: 'हा उत्सव आपल्या सर्वांच्या जीवनात सुख, शांती, समृद्धी आणि उत्तम आरोग्य घेऊन येवो हीच सदिच्छा!' },
-            gramsabha:   { theme: 'royal',   badge: 'अधिकृत ग्रामपंचायत सूचना | ग्रामसभा निमंत्रण', title: 'जाहीर ग्रामसभा / विशेष ग्रामपंचायत सभेची सूचना', body: 'गावातील सर्व मतदार बंधू-भगिनींनी वेळेत उपस्थित राहून गावाच्या विकासासाठी आपले मोलाचे सहकार्य करावे.' },
-            development: { theme: 'green',   badge: 'गतिमान ग्रामविकास | लोकार्पण व भूमिपूजन सोहळा', title: 'गावातील नवीन विकासकामाचे भूमिपूजन / लोकार्पण सोहळा', body: 'गावाच्या सर्वांगीण विकासासाठी साकारण्यात आलेल्या या महत्त्वपूर्ण उपक्रमास सर्व ग्रामस्थ उपस्थित राहावेत.' },
-            custom:      { theme: 'royal',   badge: 'ग्रामपंचायत विशेष संदेश', title: 'येथे तुमच्या बॅनरचे मुख्य शीर्षक लिहा', body: 'येथे बॅनरचा सविस्तर मजकूर किंवा सूचना लिहा.' }
+            punyatithi:  { bg: 'pink-glow',    layout: 'split-left',     intro: 'सत्यशोधक समाजाचे संस्थापक,\nस्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,', master: 'क्रांतिसूर्य महात्मा ज्योतिबा फुले', greeting: 'यांना स्मृतिदिनी विनम्र अभिवादन!', date: '२८ नोव्हेंबर', body: 'त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!', sender: 'विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            jayanti:     { bg: 'saffron-rays', layout: 'split-left',     intro: 'रयतेचे राजे, हिंदवी स्वराज्य संस्थापक,', master: 'छत्रपती शिवाजी महाराज', greeting: 'यांना जयंती निमित्त त्रिवार मानाचा मुजरा!', date: 'शिवजयंती महोत्सव', body: 'त्यांच्या शौर्याला, पराक्रमाला आणि आदर्श राज्यकारभाराला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने विनम्र अभिवादन!', sender: 'अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            birthday:    { bg: 'crimson-fest', layout: 'split-left',     intro: 'आपल्या सर्वांचे लाडके व्यक्तिमत्व व समाजसेवक,', master: 'मा. श्री. ..............................', greeting: 'यांना वाढदिवसाच्या मनःपूर्वक हार्दिक शुभेच्छा!', date: '', body: 'आपणास उत्तम आरोग्य, दीर्घायुष्य व पुढील सामाजिक आणि सार्वजनिक कार्यास भरघोस यश लाभो हीच सदिच्छा!', sender: 'शुभेच्छुक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            festival:    { bg: 'sunset-warm',  layout: 'center-classic', intro: 'आनंद, उत्साह आणि समृद्धीचा पावन सण — सर्व ग्रामस्थांना', master: 'मंगलमय सण-उत्सवाच्या हार्दिक शुभेच्छा!', greeting: 'सुख, शांती व समृद्धीची मंगलकामना!', date: '', body: 'हा आनंदमय उत्सव आपल्या सर्वांच्या जीवनात उत्तम आरोग्य, ऐश्वर्य आणि भरभराट घेऊन येवो हीच सदिच्छा!', sender: 'शुभेच्छुक: ग्रामपंचायत परिवार व समस्त ग्रामस्थ' },
+            gramsabha:   { bg: 'royal-gold',   layout: 'center-classic', intro: 'आपला गाव, आपला विकास — चला ग्रामसभेत सहभागी होऊया', master: 'जाहीर ग्रामसभा निमंत्रण', greeting: 'सर्व ग्रामस्थ मतदारांनी वेळेत उपस्थित राहावे!', date: 'दिनांक: ...................... | वेळ: सकाळी ११:०० वा.', body: 'गावातील विकासकामे, शासकीय योजना व महत्त्वाच्या ठरावांवर चर्चा करण्यासाठी जाहीर ग्रामसभेचे आयोजन करण्यात आले आहे.', sender: 'निमंत्रक: सरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य मंडळ' },
+            development: { bg: 'emerald-vil',  layout: 'split-left',     intro: 'स्वच्छ, सुंदर व गतिमान ग्रामविकास उपक्रम', master: 'नवीन विकासकाम भूमिपूजन व लोकार्पण', greeting: 'गावाच्या प्रगतीचे आणखी एक भक्कम पाऊल!', date: '', body: 'ग्रामपंचायत निधी व शासकीय योजनेतून साकारण्यात आलेल्या या महत्त्वपूर्ण विकासकामाच्या सोहळ्यास सर्व ग्रामस्थ उपस्थित राहावेत.', sender: 'निमंत्रक: सरपंच, उपसरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य' },
+            custom:      { bg: 'royal-gold',   layout: 'split-left',     intro: 'विशेष गुणगौरव किंवा ब्रीदवाक्य येथे लिहा,', master: 'येथे भव्य मुख्य नाव किंवा शीर्षक लिहा', greeting: 'खालील अभिवादन किंवा उपशीर्षक ओळ!', date: '', body: 'येथे बॅनरचा सविस्तर संदेश किंवा माहिती लिहा.', sender: 'शुभेच्छुक / निमंत्रक: ग्रामपंचायत परिवार' }
         };
 
+        function applyPresetColorsToPickers(bgKey) {
+            const p = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
+            const setC = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+            setC('bmColIntro', p.introCol);
+            setC('bmColMaster', p.masterCol);
+            setC('bmColGreeting', p.greetCol);
+            setC('bmColBody', p.bodyCol);
+        }
+
+        function selectBannerBgPreset(bgKey, btnEl) {
+            bmCustomBgImage = null;
+            const clrBtn = document.getElementById('bmClearCustomBgBtn');
+            if (clrBtn) clrBtn.style.display = 'none';
+            const hid = document.getElementById('bmBgPreset');
+            if (hid) hid.value = bgKey;
+            document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            applyPresetColorsToPickers(bgKey);
+            renderGpBannerCanvas();
+        }
+
+        function handleCustomBgUpload(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    bmCustomBgImage = img;
+                    document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.remove('active'));
+                    const clrBtn = document.getElementById('bmClearCustomBgBtn');
+                    if (clrBtn) clrBtn.style.display = 'inline-flex';
+                    renderGpBannerCanvas();
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearCustomBg() {
+            bmCustomBgImage = null;
+            const inp = document.getElementById('bmCustomBgInput');
+            if (inp) inp.value = '';
+            const clrBtn = document.getElementById('bmClearCustomBgBtn');
+            if (clrBtn) clrBtn.style.display = 'none';
+            const curKey = document.getElementById('bmBgPreset')?.value || 'pink-glow';
+            const matchBtn = document.querySelector(`.bm-bg-swatch[data-bg="${curKey}"]`);
+            if (matchBtn) matchBtn.classList.add('active');
+            renderGpBannerCanvas();
+        }
+
         function onBannerTemplateChange() {
-            const type = document.getElementById('bmTemplateType')?.value || 'birthday';
+            const type = document.getElementById('bmTemplateType')?.value || 'punyatithi';
             const p = BM_TEMPLATE_PRESETS[type];
             if (p) {
-                const th = document.getElementById('bmColorTheme');
-                const bd = document.getElementById('bmTopBadge');
-                const ti = document.getElementById('bmMainTitle');
-                const bo = document.getElementById('bmBodyText');
-                if (th) th.value = p.theme;
-                if (bd) bd.value = p.badge;
-                if (ti) ti.value = p.title;
-                if (bo) bo.value = p.body;
+                const setV = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+                setV('bmLayoutStyle', p.layout);
+                setV('bmTopBadge', p.intro);
+                setV('bmMainTitle', p.master);
+                setV('bmSubGreeting', p.greeting);
+                setV('bmDateLine', p.date);
+                setV('bmBodyText', p.body);
+                setV('bmSenderText', p.sender);
+                const matchBtn = document.querySelector(`.bm-bg-swatch[data-bg="${p.bg}"]`);
+                selectBannerBgPreset(p.bg, matchBtn);
+                return;
             }
             renderGpBannerCanvas();
         }
@@ -9869,6 +10041,91 @@
             ctx.closePath();
         }
 
+        function drawPosterDecorativeBg(ctx, W, H, th) {
+            if (bmCustomBgImage && bmCustomBgImage.naturalWidth > 0) {
+                const sc = Math.max(W / bmCustomBgImage.naturalWidth, H / bmCustomBgImage.naturalHeight);
+                const dw = bmCustomBgImage.naturalWidth * sc;
+                const dh = bmCustomBgImage.naturalHeight * sc;
+                ctx.drawImage(bmCustomBgImage, (W - dw) / 2, (H - dh) / 2, dw, dh);
+                ctx.fillStyle = 'rgba(255,255,255,0.16)';
+                ctx.fillRect(0, 0, W, H);
+                return;
+            }
+            // Rich Multi-Stop Radial & Diagonal Studio Gradient
+            const grad = ctx.createLinearGradient(0, 0, W, H);
+            grad.addColorStop(0, th.c1);
+            grad.addColorStop(0.55, th.c2);
+            grad.addColorStop(1, th.c3);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Soft Sunburst Light Rays from upper-right / center
+            const minDim = Math.min(W, H);
+            ctx.save();
+            ctx.translate(W * 0.68, H * 0.34);
+            ctx.fillStyle = th.rayColor;
+            for (let i = 0; i < 16; i++) {
+                ctx.rotate((Math.PI * 2) / 16);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(minDim * 1.4, -minDim * 0.09);
+                ctx.lineTo(minDim * 1.4, minDim * 0.09);
+                ctx.closePath();
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // Soft radial spotlight glow behind main text & portrait
+            const rad1 = ctx.createRadialGradient(W * 0.68, H * 0.36, minDim * 0.04, W * 0.68, H * 0.36, minDim * 0.52);
+            rad1.addColorStop(0, 'rgba(255, 255, 255, 0.72)');
+            rad1.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = rad1;
+            ctx.fillRect(0, 0, W, H);
+
+            const rad2 = ctx.createRadialGradient(W * 0.28, H * 0.5, minDim * 0.05, W * 0.28, H * 0.5, minDim * 0.55);
+            rad2.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
+            rad2.addColorStop(1, 'rgba(255, 255, 255, 0)');
+            ctx.fillStyle = rad2;
+            ctx.fillRect(0, 0, W, H);
+        }
+
+        function drawFloralGarlandAccent(ctx, cx, cy, scale, th) {
+            // Subtle decorative floral/blossom accent below greeting (inspired by reference poster)
+            ctx.save();
+            ctx.translate(cx, cy);
+            const petalColors = ['#ffffff', '#fef08a', '#fed7aa'];
+            for (let f = -1; f <= 1; f += 2) {
+                ctx.save();
+                ctx.translate(f * 26 * scale, 0);
+                // Green leaves
+                ctx.fillStyle = '#15803d';
+                for (let l = -1; l <= 1; l++) {
+                    ctx.save();
+                    ctx.rotate(l * 0.65);
+                    ctx.beginPath();
+                    ctx.ellipse(0, 14 * scale, 7 * scale, 18 * scale, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                // 5 flower petals
+                for (let p = 0; p < 5; p++) {
+                    ctx.save();
+                    ctx.rotate((p * Math.PI * 2) / 5);
+                    ctx.fillStyle = petalColors[p % petalColors.length];
+                    ctx.beginPath();
+                    ctx.ellipse(0, -13 * scale, 7 * scale, 13 * scale, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+                ctx.fillStyle = '#f59e0b';
+                ctx.beginPath();
+                ctx.arc(0, 0, 5.5 * scale, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+            ctx.restore();
+        }
+
         function renderGpBannerCanvas() {
             const canvas = document.getElementById('gpBannerCanvas');
             if (!canvas) return;
@@ -9881,167 +10138,146 @@
             const dimBadge = document.getElementById('bmDimBadge');
             if (dimBadge) dimBadge.textContent = `${W} × ${H} px`;
 
-            const themeKey = document.getElementById('bmColorTheme')?.value || 'saffron';
-            const th = BM_THEMES[themeKey] || BM_THEMES.saffron;
+            const bgKey = document.getElementById('bmBgPreset')?.value || 'pink-glow';
+            const th = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
+            const layoutStyle = document.getElementById('bmLayoutStyle')?.value || 'split-left';
             const fontFam = document.getElementById('bmFontFamily')?.value || "'Khand', sans-serif";
-            const topBadge = (document.getElementById('bmTopBadge')?.value || '').trim();
+
+            const introText = (document.getElementById('bmTopBadge')?.value || '').trim();
+            const masterTitle = (document.getElementById('bmMainTitle')?.value || '').trim();
+            const masterScale = (parseFloat(document.getElementById('bmMasterFontScale')?.value || '112') || 112) / 100;
+            const subGreeting = (document.getElementById('bmSubGreeting')?.value || '').trim();
             const dateLine = (document.getElementById('bmDateLine')?.value || '').trim();
-            const mainTitle = (document.getElementById('bmMainTitle')?.value || '').trim();
             const bodyText = (document.getElementById('bmBodyText')?.value || '').trim();
             const senderText = (document.getElementById('bmSenderText')?.value || '').trim();
-            const photoShape = document.getElementById('bmPhotoShape')?.value || 'circle';
-            const photoZoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '100') || 100) / 100;
+
+            const colIntro = document.getElementById('bmColIntro')?.value || th.introCol;
+            const colMaster = document.getElementById('bmColMaster')?.value || th.masterCol;
+            const colGreeting = document.getElementById('bmColGreeting')?.value || th.greetCol;
+            const colBody = document.getElementById('bmColBody')?.value || th.bodyCol;
+
+            const photoShape = document.getElementById('bmPhotoShape')?.value || 'portrait-card';
+            const photoZoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '105') || 105) / 100;
+            const photoOffsetY = parseFloat(document.getElementById('bmPhotoOffsetY')?.value || '0') || 0;
 
             const wmEnabled = document.getElementById('bmWatermarkEnabled')?.checked !== false;
             const wmText = (document.getElementById('bmWatermarkText')?.value || '').trim();
-            const wmOpacity = Math.max(0, Math.min(100, parseFloat(document.getElementById('bmWatermarkOpacity')?.value || '14') || 0)) / 100;
+            const wmOpacity = Math.max(0, Math.min(100, parseFloat(document.getElementById('bmWatermarkOpacity')?.value || '12') || 0)) / 100;
 
             const footerGpName = (document.getElementById('bmFooterGpName')?.value || 'ग्रामपंचायत पिंपळगाव निपाणी').trim();
             const footerDomain = (document.getElementById('bmFooterDomain')?.value || 'https://gpnipani.online').trim();
 
-            const isLandscape = W > H * 1.25;
             const minDim = Math.min(W, H);
+            const isLandscape = W > H * 1.25;
 
-            // 1. Background Gradient
-            const bgGrad = ctx.createLinearGradient(0, 0, W, H);
-            bgGrad.addColorStop(0, th.bg1);
-            bgGrad.addColorStop(1, th.bg2);
-            ctx.fillStyle = bgGrad;
-            ctx.fillRect(0, 0, W, H);
+            // 1. Draw Studio Preset or Custom Background
+            drawPosterDecorativeBg(ctx, W, H, th);
 
-            // Decorative subtle corner circles
-            ctx.save();
-            ctx.globalAlpha = 0.08;
-            ctx.fillStyle = th.border;
-            ctx.beginPath();
-            ctx.arc(0, 0, minDim * 0.34, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.beginPath();
-            ctx.arc(W, H, minDim * 0.36, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.restore();
-
-            // 2. Outer & Inner Decorative Border
-            const pad = Math.round(minDim * 0.028);
+            // 2. Crisp Outer Frame Border
+            const pad = Math.round(minDim * 0.02);
             ctx.strokeStyle = th.border;
-            ctx.lineWidth = Math.max(6, Math.round(minDim * 0.01));
+            ctx.lineWidth = Math.max(5, Math.round(minDim * 0.008));
             ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
-            const innerPad = pad + Math.round(minDim * 0.014);
-            ctx.strokeStyle = th.accent;
-            ctx.lineWidth = 2;
-            ctx.strokeRect(innerPad, innerPad, W - innerPad * 2, H - innerPad * 2);
-
-            // 3. Official Footer Bar (Gram Panchayat Name + Portal Branding)
-            const footerH = Math.round(Math.max(88, H * (isLandscape ? 0.145 : 0.095)));
+            // 3. Official Gram Panchayat Footer Bar (Bold Capsule/Banner Style at Bottom)
+            const footerH = Math.round(Math.max(94, H * (isLandscape ? 0.15 : 0.105)));
             const footerY = H - pad - footerH;
             ctx.fillStyle = th.footerBg;
             ctx.fillRect(pad, footerY, W - pad * 2, footerH);
 
-            // Top accent stripe on footer
-            ctx.fillStyle = th.border;
-            ctx.fillRect(pad, footerY, W - pad * 2, Math.max(4, Math.round(footerH * 0.06)));
+            ctx.fillStyle = th.footerAccent;
+            ctx.fillRect(pad, footerY, W - pad * 2, Math.max(4, Math.round(footerH * 0.055)));
 
-            // Emblem badge on left of footer
-            const logoSize = Math.round(footerH * 0.68);
-            const logoX = pad + Math.round(minDim * 0.025);
+            const logoSize = Math.round(footerH * 0.72);
+            const logoX = pad + Math.round(minDim * 0.024);
             const logoY = footerY + Math.round((footerH - logoSize) / 2);
             if (bmLogoImage && bmLogoImage.complete && bmLogoImage.naturalWidth > 0) {
                 ctx.save();
+                ctx.fillStyle = '#ffffff';
+                drawRoundRectPath(ctx, logoX - 3, logoY - 3, logoSize + 6, logoSize + 6, 14);
+                ctx.fill();
                 drawRoundRectPath(ctx, logoX, logoY, logoSize, logoSize, 12);
                 ctx.clip();
                 ctx.drawImage(bmLogoImage, logoX, logoY, logoSize, logoSize);
                 ctx.restore();
             } else {
-                ctx.fillStyle = th.border;
+                ctx.fillStyle = '#ffffff';
                 drawRoundRectPath(ctx, logoX, logoY, logoSize, logoSize, 12);
                 ctx.fill();
-                ctx.fillStyle = '#ffffff';
+                ctx.fillStyle = th.footerBg;
                 ctx.font = `700 ${Math.round(logoSize * 0.42)}px ${fontFam}`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('ग्रा.पं.', logoX + logoSize / 2, logoY + logoSize / 2);
             }
 
-            const textStartX = logoX + logoSize + Math.round(minDim * 0.02);
+            const textStartX = logoX + logoSize + Math.round(minDim * 0.022);
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
             ctx.fillStyle = th.footerText;
-            const gpFontSize = Math.round(Math.min(footerH * 0.34, W * 0.028));
+            const gpFontSize = Math.round(Math.min(footerH * 0.36, W * 0.03));
             ctx.font = `700 ${gpFontSize}px ${fontFam}`;
             ctx.fillText(footerGpName, textStartX, footerY + footerH * 0.38, W - textStartX - pad - 16);
 
             ctx.fillStyle = th.footerAccent;
-            const domFontSize = Math.round(Math.min(footerH * 0.25, W * 0.021));
+            const domFontSize = Math.round(Math.min(footerH * 0.26, W * 0.022));
             ctx.font = `700 ${domFontSize}px ${fontFam}`;
-            ctx.fillText(footerDomain, textStartX, footerY + footerH * 0.72, W - textStartX - pad - 16);
+            ctx.fillText(footerDomain, textStartX, footerY + footerH * 0.73, W - textStartX - pad - 16);
 
-            // 4. Content Area Geometry (between innerPad and footerY)
-            const contentTop = innerPad + Math.round(minDim * 0.025);
-            const contentBottom = footerY - Math.round(minDim * 0.02);
-            const contentH = contentBottom - contentTop;
+            // 4. Main Poster Workspace (Between top pad and footerY — Zero Wasted Empty Space!)
+            const workTop = pad + Math.round(minDim * 0.022);
+            const workBottom = footerY - Math.round(minDim * 0.014);
+            const workH = workBottom - workTop;
+            const workLeft = pad + Math.round(minDim * 0.024);
+            const workRight = W - pad - Math.round(minDim * 0.024);
+            const workW = workRight - workLeft;
+
             const hasPhoto = (photoShape !== 'none');
+            const isSplit = hasPhoto && (layoutStyle === 'split-left' || layoutStyle === 'split-right');
 
-            // Top Badge Pill
-            let cursorY = contentTop;
-            if (topBadge) {
-                const badgeFontSize = Math.round(minDim * (isLandscape ? 0.036 : 0.03));
-                ctx.font = `700 ${badgeFontSize}px ${fontFam}`;
-                const bTextW = ctx.measureText(topBadge).width;
-                const pillW = Math.min(W - innerPad * 4, bTextW + badgeFontSize * 1.8);
-                const pillH = Math.round(badgeFontSize * 1.65);
-                const pillX = (W - pillW) / 2;
-                ctx.fillStyle = th.border;
-                drawRoundRectPath(ctx, pillX, cursorY, pillW, pillH, pillH / 2);
-                ctx.fill();
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(topBadge, W / 2, cursorY + pillH / 2, pillW - 20);
-                cursorY += pillH + Math.round(minDim * 0.018);
-            }
+            if (isSplit) {
+                // Split Poster Layout (Matches Reference Image: Large Portrait on Left/Right + Rich Hierarchical Text on Other Side)
+                const photoColW = Math.round(workW * 0.45);
+                const textColW = workW - photoColW - Math.round(minDim * 0.022);
+                const photoOnLeft = (layoutStyle === 'split-left');
 
-            if (dateLine) {
-                const dFontSize = Math.round(minDim * 0.024);
-                ctx.font = `700 ${dFontSize}px ${fontFam}`;
-                ctx.fillStyle = th.accent;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'top';
-                ctx.fillText(dateLine, W / 2, cursorY, W - innerPad * 4);
-                cursorY += dFontSize + Math.round(minDim * 0.014);
-            }
+                const pBoxX = photoOnLeft ? workLeft : (workRight - photoColW);
+                const pBoxY = workTop + Math.round(workH * 0.03);
+                const pBoxW = photoColW;
+                const pBoxH = Math.round(workH * 0.94);
 
-            const remH = contentBottom - cursorY;
+                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontFam);
 
-            if (isLandscape && hasPhoto) {
-                // Side-by-side layout for wide banners
-                const photoBoxSize = Math.round(Math.min(remH * 0.78, W * 0.28));
-                const photoCX = innerPad + Math.round(W * 0.18);
-                const photoCY = cursorY + remH / 2;
-                drawBannerPhotoSlot(ctx, bmUploadedImage, photoShape, photoCX, photoCY, photoBoxSize, photoZoom, th, fontFam);
-
-                const textLeft = innerPad + Math.round(W * 0.35);
-                const textMaxW = W - innerPad * 2 - textLeft;
-                const textCenterX = textLeft + textMaxW / 2;
-                drawBannerTextBlock(ctx, textCenterX, cursorY, remH, textMaxW, mainTitle, bodyText, senderText, th, fontFam, minDim);
+                const tBoxX = photoOnLeft ? (pBoxX + pBoxW + Math.round(minDim * 0.022)) : workLeft;
+                drawHierarchicalPosterText(
+                    ctx, tBoxX, workTop, textColW, workH, 'left',
+                    introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText,
+                    colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim
+                );
             } else {
-                // Stacked layout for Square / Story / Portrait
-                let textStartY = cursorY;
+                // Centered Full-Bleed Poster Layout (Large Top Portrait + Full-Width Hierarchical Typography Below)
+                let textTop = workTop;
+                let textH = workH;
                 if (hasPhoto) {
-                    const photoBoxSize = Math.round(Math.min(remH * 0.36, W * 0.34));
-                    const photoCX = W / 2;
-                    const photoCY = cursorY + photoBoxSize / 2 + 4;
-                    drawBannerPhotoSlot(ctx, bmUploadedImage, photoShape, photoCX, photoCY, photoBoxSize, photoZoom, th, fontFam);
-                    textStartY = cursorY + photoBoxSize + Math.round(minDim * 0.024);
+                    const pBoxW = Math.round(Math.min(workW * 0.56, workH * 0.44));
+                    const pBoxH = Math.round(workH * 0.43);
+                    const pBoxX = workLeft + Math.round((workW - pBoxW) / 2);
+                    const pBoxY = workTop + 4;
+                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontFam);
+                    textTop = pBoxY + pBoxH + Math.round(minDim * 0.018);
+                    textH = workBottom - textTop;
                 }
-                const textMaxW = W - innerPad * 4;
-                drawBannerTextBlock(ctx, W / 2, textStartY, contentBottom - textStartY, textMaxW, mainTitle, bodyText, senderText, th, fontFam, minDim);
+                drawHierarchicalPosterText(
+                    ctx, workLeft, textTop, workW, textH, 'center',
+                    introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText,
+                    colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim
+                );
             }
 
-            // 5. Center Watermark Overlay (Rendered on top of content with user opacity)
+            // 5. Center Watermark Overlay
             if (wmEnabled && wmText && wmOpacity > 0) {
                 ctx.save();
-                ctx.translate(W / 2, (contentTop + footerY) / 2);
+                ctx.translate(W / 2, (workTop + footerY) / 2);
                 ctx.rotate(-Math.PI / 7);
                 ctx.globalAlpha = wmOpacity;
                 const wmFontSize = Math.round(minDim * 0.068);
@@ -10051,104 +10287,226 @@
                 ctx.lineWidth = Math.max(2, Math.round(wmFontSize * 0.04));
                 ctx.strokeStyle = '#ffffff';
                 ctx.strokeText(wmText, 0, 0, W * 0.88);
-                ctx.fillStyle = th.title;
+                ctx.fillStyle = colMaster;
                 ctx.fillText(wmText, 0, 0, W * 0.88);
                 ctx.restore();
             }
         }
 
-        function drawBannerPhotoSlot(ctx, img, shape, cx, cy, size, zoom, th, fontFam) {
-            const half = size / 2;
+        function drawLargePosterPortrait(ctx, img, shape, x, y, w, h, zoom, offsetY, th, fontFam) {
             ctx.save();
-            // Outer decorative ring/frame
-            ctx.fillStyle = '#ffffff';
-            ctx.strokeStyle = th.border;
-            ctx.lineWidth = Math.max(5, Math.round(size * 0.032));
-            if (shape === 'circle') {
-                ctx.beginPath();
-                ctx.arc(cx, cy, half, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.stroke();
-                ctx.beginPath();
-                ctx.arc(cx, cy, half - ctx.lineWidth / 2, 0, Math.PI * 2);
-                ctx.clip();
-            } else {
-                drawRoundRectPath(ctx, cx - half, cy - half, size, size, 22);
-                ctx.fill();
-                ctx.stroke();
-                drawRoundRectPath(ctx, cx - half + ctx.lineWidth / 2, cy - half + ctx.lineWidth / 2, size - ctx.lineWidth, size - ctx.lineWidth, 18);
-                ctx.clip();
-            }
+            const shiftY = (offsetY / 100) * h;
 
-            if (img && img.naturalWidth > 0) {
-                const baseScale = Math.max(size / img.naturalWidth, size / img.naturalHeight) * zoom;
-                const dw = img.naturalWidth * baseScale;
-                const dh = img.naturalHeight * baseScale;
-                ctx.drawImage(img, cx - dw / 2, cy - dh / 2, dw, dh);
+            if (shape === 'circle') {
+                const diam = Math.min(w, h);
+                const cx = x + w / 2;
+                const cy = y + h / 2;
+                const r = diam / 2;
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = th.border;
+                ctx.lineWidth = Math.max(6, Math.round(diam * 0.025));
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, cy, r - ctx.lineWidth / 2, 0, Math.PI * 2);
+                ctx.clip();
+                if (img && img.naturalWidth > 0) {
+                    const sc = Math.max(diam / img.naturalWidth, diam / img.naturalHeight) * zoom;
+                    const dw = img.naturalWidth * sc;
+                    const dh = img.naturalHeight * sc;
+                    ctx.drawImage(img, cx - dw / 2, cy - dh / 2 + shiftY, dw, dh);
+                } else {
+                    drawEmptyPhotoPlaceholder(ctx, cx - r, cy - r, diam, diam, th, fontFam);
+                }
+            } else if (shape === 'cutout-clean') {
+                // Large borderless portrait blending cleanly into poster
+                drawRoundRectPath(ctx, x, y, w, h, 20);
+                ctx.clip();
+                if (img && img.naturalWidth > 0) {
+                    const sc = Math.max(w / img.naturalWidth, h / img.naturalHeight) * zoom;
+                    const dw = img.naturalWidth * sc;
+                    const dh = img.naturalHeight * sc;
+                    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2 + shiftY, dw, dh);
+                } else {
+                    drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam);
+                }
             } else {
-                ctx.fillStyle = th.bg1;
-                ctx.fillRect(cx - half, cy - half, size, size);
-                ctx.fillStyle = th.accent;
-                ctx.font = `700 ${Math.round(size * 0.11)}px ${fontFam}`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText('फोटो येथे दिसेल', cx, cy);
+                // Default: Large Upright Portrait Card Frame (Reference Style)
+                ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
+                ctx.shadowBlur = 18;
+                ctx.shadowOffsetY = 6;
+                ctx.fillStyle = '#ffffff';
+                drawRoundRectPath(ctx, x, y, w, h, 24);
+                ctx.fill();
+                ctx.shadowColor = 'transparent';
+
+                ctx.strokeStyle = th.border;
+                ctx.lineWidth = Math.max(5, Math.round(Math.min(w, h) * 0.016));
+                drawRoundRectPath(ctx, x, y, w, h, 24);
+                ctx.stroke();
+
+                const inset = Math.round(ctx.lineWidth * 0.75);
+                drawRoundRectPath(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, 18);
+                ctx.clip();
+
+                if (img && img.naturalWidth > 0) {
+                    const sc = Math.max((w - inset * 2) / img.naturalWidth, (h - inset * 2) / img.naturalHeight) * zoom;
+                    const dw = img.naturalWidth * sc;
+                    const dh = img.naturalHeight * sc;
+                    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2 + shiftY, dw, dh);
+                } else {
+                    drawEmptyPhotoPlaceholder(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, th, fontFam);
+                }
             }
             ctx.restore();
         }
 
-        function drawBannerTextBlock(ctx, centerX, topY, availH, maxW, title, body, sender, th, fontFam, minDim) {
+        function drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam) {
+            ctx.fillStyle = 'rgba(255,255,255,0.75)';
+            ctx.fillRect(x, y, w, h);
+            ctx.fillStyle = th.accent;
+            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.085)}px ${fontFam}`;
             ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('येथे मोठा फोटो दिसेल', x + w / 2, y + h * 0.46);
+            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.055)}px ${fontFam}`;
+            ctx.fillText('(डावीकडून फोटो अपलोड करा)', x + w / 2, y + h * 0.56);
+        }
+
+        function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim) {
+            const isLeft = (alignMode === 'left');
+            const anchorX = isLeft ? boxX : (boxX + boxW / 2);
+            ctx.textAlign = isLeft ? 'left' : 'center';
             ctx.textBaseline = 'top';
 
-            const titleSize = Math.round(minDim * 0.046);
-            ctx.font = `700 ${titleSize}px ${fontFam}`;
-            const titleLines = wrapCanvasLines(ctx, title, maxW).slice(0, 3);
-            const titleLineH = Math.round(titleSize * 1.24);
+            // Proportional Font Sizes:
+            // 1. Intro text: smaller refined size
+            // 2. Master Name: HUGE prominent poster typography!
+            // 3. Greeting line: bold medium-large accent
+            // 4. Body + Sender: clean smaller readable lines filling the card harmoniously
+            const baseUnit = isLeft ? Math.min(boxW * 1.15, boxH * 0.72) : Math.min(boxW * 0.78, boxH * 0.85);
+            const introSize = Math.max(18, Math.round(baseUnit * 0.054));
+            const masterSize = Math.max(34, Math.round(baseUnit * 0.135 * masterScale));
+            const greetSize = Math.max(22, Math.round(baseUnit * 0.068));
+            const dateSize = Math.max(16, Math.round(baseUnit * 0.042));
+            const bodySize = Math.max(17, Math.round(baseUnit * 0.046));
+            const senderSize = Math.max(16, Math.round(baseUnit * 0.043));
 
-            const bodySize = Math.round(minDim * 0.031);
+            ctx.font = `700 ${introSize}px ${fontFam}`;
+            const introLines = introText ? wrapCanvasLines(ctx, introText, boxW).slice(0, 3) : [];
+            const introLH = Math.round(introSize * 1.22);
+
+            ctx.font = `700 ${masterSize}px ${fontFam}`;
+            const masterLines = masterTitle ? wrapCanvasLines(ctx, masterTitle, boxW).slice(0, 3) : [];
+            const masterLH = Math.round(masterSize * 1.12);
+
+            ctx.font = `700 ${greetSize}px ${fontFam}`;
+            const greetLines = subGreeting ? wrapCanvasLines(ctx, subGreeting, boxW).slice(0, 2) : [];
+            const greetLH = Math.round(greetSize * 1.2);
+
             ctx.font = `700 ${bodySize}px ${fontFam}`;
-            const bodyLines = wrapCanvasLines(ctx, body, maxW * 0.94).slice(0, 4);
-            const bodyLineH = Math.round(bodySize * 1.32);
+            const bodyLines = bodyText ? wrapCanvasLines(ctx, bodyText, boxW).slice(0, 3) : [];
+            const bodyLH = Math.round(bodySize * 1.26);
 
-            const senderSize = Math.round(minDim * 0.026);
             ctx.font = `700 ${senderSize}px ${fontFam}`;
-            const senderLines = sender ? wrapCanvasLines(ctx, sender, maxW * 0.92).slice(0, 2) : [];
-            const senderLineH = Math.round(senderSize * 1.25);
+            const senderLines = senderText ? wrapCanvasLines(ctx, senderText, boxW).slice(0, 2) : [];
+            const senderLH = Math.round(senderSize * 1.22);
 
-            const totalBlockH = (titleLines.length * titleLineH) + 14 + (bodyLines.length * bodyLineH) + (senderLines.length ? 16 + senderLines.length * senderLineH : 0);
-            let y = topY + Math.max(0, (availH - totalBlockH) / 2);
+            const floralH = Math.round(minDim * 0.045);
+            const dateH = dateLine ? Math.round(dateSize * 1.65) : 0;
 
-            // Title
-            ctx.fillStyle = th.title;
-            ctx.font = `700 ${titleSize}px ${fontFam}`;
-            for (const ln of titleLines) {
-                ctx.fillText(ln, centerX, y, maxW);
-                y += titleLineH;
+            const rawTotalH =
+                (introLines.length * introLH) +
+                (masterLines.length * masterLH) +
+                (greetLines.length * greetLH) +
+                floralH + dateH +
+                (bodyLines.length * bodyLH) +
+                (senderLines.length * senderLH);
+
+            // Distribute vertical gaps evenly so there is NO awkward empty void!
+            const blocksCount = 5;
+            const freeSpace = Math.max(16, boxH - rawTotalH);
+            const gap = Math.min(Math.round(minDim * 0.026), Math.max(6, Math.floor(freeSpace / (blocksCount + 1))));
+            let y = boxY + Math.max(4, Math.floor((boxH - (rawTotalH + gap * (blocksCount - 1))) / 2));
+
+            // 1. Intro / Attributes Text (Smaller font above Master Name)
+            if (introLines.length) {
+                ctx.fillStyle = colIntro;
+                ctx.font = `700 ${introSize}px ${fontFam}`;
+                for (const ln of introLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += introLH;
+                }
+                y += gap;
             }
 
-            // Divider line
-            y += 6;
-            ctx.fillStyle = th.border;
-            ctx.fillRect(centerX - Math.min(110, maxW * 0.2), y, Math.min(220, maxW * 0.4), 4);
-            y += 12;
-
-            // Body
-            ctx.fillStyle = th.text;
-            ctx.font = `700 ${bodySize}px ${fontFam}`;
-            for (const ln of bodyLines) {
-                ctx.fillText(ln, centerX, y, maxW);
-                y += bodyLineH;
+            // 2. MASTER NAME / TITLE (Extra-Large Impact Typography with subtle 3D depth)
+            if (masterLines.length) {
+                ctx.font = `700 ${masterSize}px ${fontFam}`;
+                for (const ln of masterLines) {
+                    // Subtle white highlight + shadow for poster punch
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                    ctx.fillText(ln, anchorX + 2, y + 2, boxW);
+                    ctx.fillStyle = colMaster;
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += masterLH;
+                }
+                y += gap;
             }
 
-            // Sender / Regards pill
+            // 3. Greeting / Tribute Line
+            if (greetLines.length) {
+                ctx.fillStyle = colGreeting;
+                ctx.font = `700 ${greetSize}px ${fontFam}`;
+                for (const ln of greetLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += greetLH;
+                }
+                y += Math.round(gap * 0.75);
+            }
+
+            // 4. Floral Emblem Accent + Date Badge
+            const floralCenterX = isLeft ? (boxX + Math.min(boxW * 0.45, 160)) : (boxX + boxW / 2);
+            drawFloralGarlandAccent(ctx, floralCenterX, y + floralH * 0.45, minDim / 1080, th);
+            y += floralH + Math.round(gap * 0.6);
+
+            if (dateLine) {
+                ctx.font = `700 ${dateSize}px ${fontFam}`;
+                const dW = Math.min(boxW, ctx.measureText(dateLine).width + dateSize * 1.5);
+                const dH = Math.round(dateSize * 1.55);
+                const dX = isLeft ? boxX : (boxX + (boxW - dW) / 2);
+                ctx.fillStyle = th.border;
+                drawRoundRectPath(ctx, dX, y, dW, dH, dH / 2);
+                ctx.fill();
+                ctx.fillStyle = '#ffffff';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(dateLine, dX + dW / 2, y + dH / 2, dW - 14);
+                ctx.textAlign = isLeft ? 'left' : 'center';
+                ctx.textBaseline = 'top';
+                y += dH + gap;
+            }
+
+            // 5. Detailed Message Body (Smaller clean font)
+            if (bodyLines.length) {
+                ctx.fillStyle = colBody;
+                ctx.font = `700 ${bodySize}px ${fontFam}`;
+                for (const ln of bodyLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += bodyLH;
+                }
+                y += Math.round(gap * 0.8);
+            }
+
+            // 6. Sender / Regards Strip
             if (senderLines.length) {
-                y += 10;
-                ctx.fillStyle = th.accent;
+                ctx.fillStyle = colGreeting;
                 ctx.font = `700 ${senderSize}px ${fontFam}`;
                 for (const ln of senderLines) {
-                    ctx.fillText(ln, centerX, y, maxW);
-                    y += senderLineH;
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += senderLH;
                 }
             }
         }
@@ -10193,7 +10551,6 @@
             }
             renderGpBannerCanvas();
         }
-
 
         function syncBannerCitizenAccessUi() {
             const isPublic = Boolean(appState.visibility && appState.visibility.bannermaker === true);
