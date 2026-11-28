@@ -2946,19 +2946,19 @@
             <div class="form-group">
                 <label>१) बॅनरचा प्रकार / प्रसंग निवडा</label>
                 <select class="form-control" id="bmTemplateType" onchange="onBannerTemplateChange()">
-                    <option value="punyatithi">पुण्यतिथी / स्मृतिदिन अभिवादन (संदर्भ डिझाइन)</option>
-                    <option value="jayanti">महापुरुष जयंती अभिवादन (Jayanti)</option>
-                    <option value="birthday">वाढदिवस शुभेच्छा (Birthday)</option>
+                    <option value="punyatithi">पुण्यतिथी / स्मृतिदिन अभिवादन</option>
+                    <option value="jayanti">महापुरुष जयंती अभिवादन</option>
+                    <option value="birthday">वाढदिवस शुभेच्छा</option>
                     <option value="festival">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</option>
                     <option value="gramsabha">ग्रामसभा / विशेष शासकीय सूचना</option>
                     <option value="development">विकासकाम लोकार्पण / भूमिपूजन</option>
-                    <option value="custom">इतर / सानुकूल बॅनर (Custom)</option>
+                    <option value="custom">इतर / सानुकूल बॅनर</option>
                 </select>
             </div>
             <div class="form-group">
                 <label>२) मांडणी शैली (Poster Layout)</label>
                 <select class="form-control" id="bmLayoutStyle" onchange="renderGpBannerCanvas()">
-                    <option value="split-left">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर (संदर्भ पोस्टर)</option>
+                    <option value="split-left">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</option>
                     <option value="split-right">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</option>
                     <option value="center-classic">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</option>
                 </select>
@@ -2977,13 +2977,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>४) मराठी फॉन्ट (पोर्टल फॉन्ट्स)</label>
-                <select class="form-control" id="bmFontFamily" onchange="renderGpBannerCanvas()">
-                    <option value="'Khand', sans-serif">Khand Bold (ठळक व भव्य पोस्टर फॉन्ट)</option>
-                    <option value="'Rozha One', serif">Rozha One (आकर्षक पारंपरिक शीर्षक फॉन्ट)</option>
-                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari (स्वच्छ शासकीय फॉन्ट)</option>
-                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari (आधुनिक फॉन्ट)</option>
-                </select>
+                <label>४) दिनांक (उजव्या वरच्या कोपऱ्यात फिक्स)</label>
+                <input type="text" class="form-control" id="bmDateLine" value="२८ नोव्हेंबर २०२६" oninput="renderGpBannerCanvas()">
             </div>
         </div>
 
@@ -3001,57 +2996,108 @@
             </div>
             <input type="hidden" id="bmBgPreset" value="pink-glow">
             <div class="bm-bg-presets" id="bmBgPresetGrid">
-                <button type="button" class="bm-bg-swatch active" data-bg="pink-glow" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8,#ffffff);" onclick="selectBannerBgPreset('pink-glow', this)">गुलाबी आभा (संदर्भ)</button>
+                <button type="button" class="bm-bg-swatch active" data-bg="pink-glow" style="background:linear-gradient(135deg,#fdf2f8,#fbcfe8,#ffffff);" onclick="selectBannerBgPreset('pink-glow', this)">गुलाबी आभा</button>
                 <button type="button" class="bm-bg-swatch" data-bg="saffron-rays" style="background:linear-gradient(135deg,#fff7ed,#fed7aa,#fdba74);" onclick="selectBannerBgPreset('saffron-rays', this)">भगवा किरणोत्सव</button>
                 <button type="button" class="bm-bg-swatch" data-bg="royal-gold" style="background:linear-gradient(135deg,#eff6ff,#bfdbfe,#fde68a);" onclick="selectBannerBgPreset('royal-gold', this)">शाही निळा-सोनेरी</button>
                 <button type="button" class="bm-bg-swatch" data-bg="crimson-fest" style="background:linear-gradient(135deg,#fff1f2,#fecdd3,#fde047);" onclick="selectBannerBgPreset('crimson-fest', this)">मंगलमय मरून-सोनरी</button>
                 <button type="button" class="bm-bg-swatch" data-bg="emerald-vil" style="background:linear-gradient(135deg,#ecfdf5,#a7f3d0,#fef9c3);" onclick="selectBannerBgPreset('emerald-vil', this)">हरित ग्रामविकास</button>
-                <button type="button" class="bm-bg-swatch" data-bg="marble-peace" style="background:linear-gradient(135deg,#ffffff,#f1f5f9,#cbd5e1);" onclick="selectBannerBgPreset('marble-peace', this)">शांत संगमरवर (श्रद्धांजली)</button>
+                <button type="button" class="bm-bg-swatch" data-bg="marble-peace" style="background:linear-gradient(135deg,#ffffff,#f1f5f9,#cbd5e1);" onclick="selectBannerBgPreset('marble-peace', this)">शांत संगमरवर</button>
                 <button type="button" class="bm-bg-swatch" data-bg="sunset-warm" style="background:linear-gradient(135deg,#fef3c7,#fca5a5,#f9a8d4);" onclick="selectBannerBgPreset('sunset-warm', this)">संध्या सुवर्ण आभा</button>
                 <button type="button" class="bm-bg-swatch" data-bg="deep-navy" style="background:linear-gradient(135deg,#0f172a,#1e3a8a); color:#fde047;" onclick="selectBannerBgPreset('deep-navy', this)">गडद शाही निळा</button>
             </div>
         </div>
 
-        <!-- Text Hierarchy Inputs -->
-        <div class="form-group">
-            <label>६) वरचा गुणगौरव / ब्रीदवाक्य मजकूर (ऐच्छिक — रिकामा ठेवल्यास दिसणार नाही)</label>
-            <textarea class="form-control" rows="2" id="bmTopBadge" oninput="renderGpBannerCanvas()">सत्यशोधक समाजाचे संस्थापक,
-स्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,</textarea>
-        </div>
-
+        <!-- Block 1: Intro Text + Font -->
         <div class="bm-row-2">
             <div class="form-group">
-                <label>७) मास्टर नाव / मुख्य शीर्षक (खूप मोठ्या फॉन्टमध्ये दिसेल)</label>
+                <label>६) वरचा गुणगौरव / ब्रीदवाक्य मजकूर (ऐच्छिक)</label>
+                <textarea class="form-control" rows="2" id="bmTopBadge" oninput="renderGpBannerCanvas()">सत्यशोधक समाजाचे संस्थापक,
+स्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,</textarea>
+            </div>
+            <div class="form-group">
+                <label>वरच्या परिचय मजकुराचा फॉन्ट</label>
+                <select class="form-control" id="bmFontIntro" onchange="renderGpBannerCanvas()">
+                    <option value="'Khand', sans-serif">Khand Bold</option>
+                    <option value="'Rozha One', serif">Rozha One</option>
+                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Block 2: Master Name + Font + Size -->
+        <div class="bm-row-2">
+            <div class="form-group">
+                <label>७) मास्टर नाव / मुख्य शीर्षक (मोठ्या फॉन्टमध्ये)</label>
                 <input type="text" class="form-control" id="bmMainTitle" value="क्रांतिसूर्य महात्मा ज्योतिबा फुले" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
-                <label>मास्टर नाव फॉन्ट आकार (Font Size)</label>
-                <div class="bm-range-row">
-                    <input type="range" id="bmMasterFontScale" min="75" max="145" value="112" oninput="document.getElementById('bmMasterScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
-                    <span class="bm-range-pill" id="bmMasterScaleVal">112%</span>
-                </div>
+                <label>मास्टर नावाचा फॉन्ट</label>
+                <select class="form-control" id="bmFontMaster" onchange="renderGpBannerCanvas()">
+                    <option value="'Khand', sans-serif">Khand Bold</option>
+                    <option value="'Rozha One', serif">Rozha One</option>
+                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>मास्टर नाव फॉन्ट आकार (Font Size)</label>
+            <div class="bm-range-row">
+                <input type="range" id="bmMasterFontScale" min="75" max="145" value="112" oninput="document.getElementById('bmMasterScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                <span class="bm-range-pill" id="bmMasterScaleVal">112%</span>
             </div>
         </div>
 
+        <!-- Block 3: Sub Greeting + Font -->
         <div class="bm-row-2">
             <div class="form-group">
-                <label>८) खालील अभिवादन / मुख्य संदेश ओळ (मध्यम फॉन्ट)</label>
+                <label>८) खालील अभिवादन / संदेश ओळ</label>
                 <input type="text" class="form-control" id="bmSubGreeting" value="यांना स्मृतिदिनी विनम्र अभिवादन!" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
-                <label>दिनांक / विशेष ओळ (ऐच्छिक)</label>
-                <input type="text" class="form-control" id="bmDateLine" value="२८ नोव्हेंबर" oninput="renderGpBannerCanvas()">
+                <label>अभिवादन ओळीचा फॉन्ट</label>
+                <select class="form-control" id="bmFontGreeting" onchange="renderGpBannerCanvas()">
+                    <option value="'Khand', sans-serif">Khand Bold</option>
+                    <option value="'Rozha One', serif">Rozha One</option>
+                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</option>
+                </select>
             </div>
         </div>
 
-        <div class="form-group">
-            <label>९) सविस्तर संदेश / माहिती (लहान फॉन्ट)</label>
-            <textarea class="form-control" rows="2" id="bmBodyText" oninput="renderGpBannerCanvas()">त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!</textarea>
+        <!-- Block 4: Body Message + Font -->
+        <div class="bm-row-2">
+            <div class="form-group">
+                <label>९) सविस्तर संदेश / माहिती</label>
+                <textarea class="form-control" rows="2" id="bmBodyText" oninput="renderGpBannerCanvas()">त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!</textarea>
+            </div>
+            <div class="form-group">
+                <label>सविस्तर संदेशाचा फॉन्ट</label>
+                <select class="form-control" id="bmFontBody" onchange="renderGpBannerCanvas()">
+                    <option value="'Khand', sans-serif">Khand Bold</option>
+                    <option value="'Rozha One', serif">Rozha One</option>
+                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</option>
+                </select>
+            </div>
         </div>
 
-        <div class="form-group">
-            <label>१०) शुभेच्छुक / निमंत्रक ओळ</label>
-            <input type="text" class="form-control" id="bmSenderText" value="विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="renderGpBannerCanvas()">
+        <!-- Block 5: Sender + Font -->
+        <div class="bm-row-2">
+            <div class="form-group">
+                <label>१०) शुभेच्छुक / निमंत्रक ओळ</label>
+                <input type="text" class="form-control" id="bmSenderText" value="विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="renderGpBannerCanvas()">
+            </div>
+            <div class="form-group">
+                <label>शुभेच्छुक ओळीचा फॉन्ट</label>
+                <select class="form-control" id="bmFontSender" onchange="renderGpBannerCanvas()">
+                    <option value="'Khand', sans-serif">Khand Bold</option>
+                    <option value="'Rozha One', serif">Rozha One</option>
+                    <option value="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</option>
+                    <option value="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</option>
+                </select>
+            </div>
         </div>
 
         <!-- Individual Text Colors Picker Bar -->
@@ -3081,7 +3127,7 @@
                 <div class="form-group" style="margin-bottom:8px;">
                     <label style="font-size:15px;">फोटो फ्रेम प्रकार</label>
                     <select class="form-control" id="bmPhotoShape" onchange="renderGpBannerCanvas()">
-                        <option value="portrait-card">मोठी उभी पोर्ट्रेट फ्रेम (संदर्भ स्टाईल)</option>
+                        <option value="portrait-card">मोठी उभी पोर्ट्रेट फ्रेम</option>
                         <option value="cutout-clean">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</option>
                         <option value="circle">मोठी गोल फ्रेम (Large Circle)</option>
                         <option value="none">फोटो नको (फक्त मजकूर बॅनर)</option>
@@ -3129,18 +3175,9 @@
             </div>
         </div>
 
-        <!-- Gram Panchayat Footer Branding Controls -->
-        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px;">
-            <div class="bm-row-2">
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">फूटर मधील ग्रामपंचायत नाव</label>
-                    <input type="text" class="form-control" id="bmFooterGpName" value="ग्रामपंचायत पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर" oninput="renderGpBannerCanvas()">
-                </div>
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">फूटर वेबसाईट ब्रँडिंग लिंक</label>
-                    <input type="text" class="form-control" id="bmFooterDomain" value="अधिकृत वेबपोर्टल: https://gpnipani.online" oninput="renderGpBannerCanvas()">
-                </div>
-            </div>
+        <!-- Locked Footer Info Notice -->
+        <div style="background:var(--bg-subtle); border:1.5px dashed var(--border-color); border-radius:12px; padding:10px 12px; font-size:14.5px; color:var(--text-muted);">
+            <strong style="color:var(--secondary);">फूटर व दिनांक लॉक माहिती:</strong> उजव्या वरच्या कोपऱ्यातील <strong>दिनांक</strong> आणि तळाशी <strong>"ग्रामपंचायत पिंपळगाव निपाणी | अधिकृत वेबपोर्टल: https://gpnipani.online | Website Design by Anil Bhaurao Tormal"</strong> हे फिक्स ठेवले आहेत (बदलता येणार नाहीत) व प्रत्येक बॅकग्राऊंडनुसार <strong>Anil Bhaurao Tormal</strong> या नावाचा रंग आपोआप सुसंगत येईल.
         </div>
     </div>
 
@@ -9835,6 +9872,87 @@
             renderGpBannerCanvas();
         }
 
+// --- v21 Banner Studio Engine: Per-Text Font Selection, Fixed Top-Right Date, Locked Footer + Adaptive Designer Color ---
+        let bmUploadedImage = null;
+        let bmCustomBgImage = null;
+        let bmLogoImage = null;
+
+        const FIXED_BANNER_GP_TITLE = 'ग्रामपंचायत पिंपळगाव निपाणी';
+        const FIXED_BANNER_PORTAL_BRAND = 'अधिकृत वेबपोर्टल: https://gpnipani.online  |  Website Design by ';
+        const FIXED_BANNER_DESIGNER_NAME = 'Anil Bhaurao Tormal';
+
+        const BM_BG_PRESETS = {
+            'pink-glow':    { c1: '#ffffff', c2: '#fce7f3', c3: '#f5d0fe', border: '#9d174d', accent: '#be185d', footerBg: '#9d174d', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fef08a', dateBg: '#831843', dateText: '#ffffff', introCol: '#1e293b', masterCol: '#9d174d', greetCol: '#be185d', bodyCol: '#1e293b', rayColor: 'rgba(219, 39, 119, 0.08)' },
+            'saffron-rays': { c1: '#fffbeb', c2: '#fed7aa', c3: '#fdba74', border: '#c2410c', accent: '#ea580c', footerBg: '#7c2d12', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fde047', dateBg: '#9a3412', dateText: '#ffffff', introCol: '#1e293b', masterCol: '#9a3412', greetCol: '#c2410c', bodyCol: '#1e293b', rayColor: 'rgba(234, 88, 12, 0.10)' },
+            'royal-gold':   { c1: '#ffffff', c2: '#dbeafe', c3: '#bfdbfe', border: '#1e3a8a', accent: '#d97706', footerBg: '#1e3a8a', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fde047', dateBg: '#172554', dateText: '#fde047', introCol: '#1e3a8a', masterCol: '#172554', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(30, 58, 138, 0.08)' },
+            'crimson-fest': { c1: '#fff1f2', c2: '#fecdd3', c3: '#fda4af', border: '#881337', accent: '#be123c', footerBg: '#881337', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fef08a', dateBg: '#4c0519', dateText: '#fde047', introCol: '#4c0519', masterCol: '#881337', greetCol: '#be123c', bodyCol: '#1e293b', rayColor: 'rgba(190, 18, 60, 0.08)' },
+            'emerald-vil':  { c1: '#f0fdf4', c2: '#bbf7d0', c3: '#86efac', border: '#166534', accent: '#15803d', footerBg: '#14532d', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fde047', dateBg: '#052e16', dateText: '#fef08a', introCol: '#14532d', masterCol: '#166534', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(22, 163, 74, 0.09)' },
+            'marble-peace': { c1: '#ffffff', c2: '#f8fafc', c3: '#e2e8f0', border: '#475569', accent: '#334155', footerBg: '#1e293b', footerText: '#ffffff', footerAccent: '#cbd5e1', designerCol: '#fde047', dateBg: '#0f172a', dateText: '#f8fafc', introCol: '#334155', masterCol: '#0f172a', greetCol: '#475569', bodyCol: '#334155', rayColor: 'rgba(71, 85, 105, 0.06)' },
+            'sunset-warm':  { c1: '#fefce8', c2: '#fde68a', c3: '#fbcfe8', border: '#b45309', accent: '#be185d', footerBg: '#78350f', footerText: '#ffffff', footerAccent: '#fde047', designerCol: '#fef08a', dateBg: '#451a03', dateText: '#fde047', introCol: '#451a03', masterCol: '#9d174d', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(217, 119, 6, 0.09)' },
+            'deep-navy':    { c1: '#0f172a', c2: '#1e3a8a', c3: '#172554', border: '#f59e0b', accent: '#fde047', footerBg: '#ea580c', footerText: '#ffffff', footerAccent: '#fef08a', designerCol: '#ffffff', dateBg: '#f59e0b', dateText: '#0f172a', introCol: '#e2e8f0', masterCol: '#fde047', greetCol: '#fb923c', bodyCol: '#f1f5f9', rayColor: 'rgba(253, 224, 71, 0.08)' }
+        };
+
+        const BM_TEMPLATE_PRESETS = {
+            punyatithi:  { bg: 'pink-glow',    layout: 'split-left',     intro: 'सत्यशोधक समाजाचे संस्थापक,\nस्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,', master: 'क्रांतिसूर्य महात्मा ज्योतिबा फुले', greeting: 'यांना स्मृतिदिनी विनम्र अभिवादन!', body: 'त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!', sender: 'विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            jayanti:     { bg: 'saffron-rays', layout: 'split-left',     intro: 'रयतेचे राजे, हिंदवी स्वराज्य संस्थापक,', master: 'छत्रपती शिवाजी महाराज', greeting: 'यांना जयंती निमित्त त्रिवार मानाचा मुजरा!', body: 'त्यांच्या शौर्याला, पराक्रमाला आणि आदर्श राज्यकारभाराला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने विनम्र अभिवादन!', sender: 'अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            birthday:    { bg: 'crimson-fest', layout: 'split-left',     intro: 'आपल्या सर्वांचे लाडके व्यक्तिमत्व व समाजसेवक,', master: 'मा. श्री. ..............................', greeting: 'यांना वाढदिवसाच्या मनःपूर्वक हार्दिक शुभेच्छा!', body: 'आपणास उत्तम आरोग्य, दीर्घायुष्य व पुढील सामाजिक आणि सार्वजनिक कार्यास भरघोस यश लाभो हीच सदिच्छा!', sender: 'शुभेच्छुक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
+            festival:    { bg: 'sunset-warm',  layout: 'center-classic', intro: 'आनंद, उत्साह आणि समृद्धीचा पावन सण — सर्व ग्रामस्थांना', master: 'मंगलमय सण-उत्सवाच्या हार्दिक शुभेच्छा!', greeting: 'सुख, शांती व समृद्धीची मंगलकामना!', body: 'हा आनंदमय उत्सव आपल्या सर्वांच्या जीवनात उत्तम आरोग्य, ऐश्वर्य आणि भरभराट घेऊन येवो हीच सदिच्छा!', sender: 'शुभेच्छुक: ग्रामपंचायत परिवार व समस्त ग्रामस्थ' },
+            gramsabha:   { bg: 'royal-gold',   layout: 'center-classic', intro: 'आपला गाव, आपला विकास — चला ग्रामसभेत सहभागी होऊया', master: 'जाहीर ग्रामसभा निमंत्रण', greeting: 'सर्व ग्रामस्थ मतदारांनी वेळेत उपस्थित राहावे!', body: 'गावातील विकासकामे, शासकीय योजना व महत्त्वाच्या ठरावांवर चर्चा करण्यासाठी जाहीर ग्रामसभेचे आयोजन करण्यात आले आहे.', sender: 'निमंत्रक: सरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य मंडळ' },
+            development: { bg: 'emerald-vil',  layout: 'split-left',     intro: 'स्वच्छ, सुंदर व गतिमान ग्रामविकास उपक्रम', master: 'नवीन विकासकाम भूमिपूजन व लोकार्पण', greeting: 'गावाच्या प्रगतीचे आणखी एक भक्कम पाऊल!', body: 'ग्रामपंचायत निधी व शासकीय योजनेतून साकारण्यात आलेल्या या महत्त्वपूर्ण विकासकामाच्या सोहळ्यास सर्व ग्रामस्थ उपस्थित राहावेत.', sender: 'निमंत्रक: सरपंच, उपसरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य' },
+            custom:      { bg: 'royal-gold',   layout: 'split-left',     intro: 'विशेष गुणगौरव किंवा ब्रीदवाक्य येथे लिहा,', master: 'येथे भव्य मुख्य नाव किंवा शीर्षक लिहा', greeting: 'खालील अभिवादन किंवा उपशीर्षक ओळ!', body: 'येथे बॅनरचा सविस्तर संदेश किंवा माहिती लिहा.', sender: 'शुभेच्छुक / निमंत्रक: ग्रामपंचायत परिवार' }
+        };
+
+        function applyPresetColorsToPickers(bgKey) {
+            const p = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
+            const setC = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
+            setC('bmColIntro', p.introCol);
+            setC('bmColMaster', p.masterCol);
+            setC('bmColGreeting', p.greetCol);
+            setC('bmColBody', p.bodyCol);
+        }
+
+        function selectBannerBgPreset(bgKey, btnEl) {
+            bmCustomBgImage = null;
+            const clrBtn = document.getElementById('bmClearCustomBgBtn');
+            if (clrBtn) clrBtn.style.display = 'none';
+            const hid = document.getElementById('bmBgPreset');
+            if (hid) hid.value = bgKey;
+            document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.remove('active'));
+            if (btnEl) btnEl.classList.add('active');
+            applyPresetColorsToPickers(bgKey);
+            renderGpBannerCanvas();
+        }
+
+        function handleCustomBgUpload(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (ev) => {
+                const img = new Image();
+                img.onload = () => {
+                    bmCustomBgImage = img;
+                    document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.remove('active'));
+                    const clrBtn = document.getElementById('bmClearCustomBgBtn');
+                    if (clrBtn) clrBtn.style.display = 'inline-flex';
+                    renderGpBannerCanvas();
+                };
+                img.src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearCustomBg() {
+            bmCustomBgImage = null;
+            const inp = document.getElementById('bmCustomBgInput');
+            if (inp) inp.value = '';
+            const clrBtn = document.getElementById('bmClearCustomBgBtn');
+            if (clrBtn) clrBtn.style.display = 'none';
+            const curKey = document.getElementById('bmBgPreset')?.value || 'pink-glow';
+            const matchBtn = document.querySelector(`.bm-bg-swatch[data-bg="${curKey}"]`);
+            if (matchBtn) matchBtn.classList.add('active');
+            renderGpBannerCanvas();
+        }
+
         function onBannerTemplateChange() {
             const type = document.getElementById('bmTemplateType')?.value || 'punyatithi';
             const p = BM_TEMPLATE_PRESETS[type];
@@ -9844,7 +9962,6 @@
                 setV('bmTopBadge', p.intro);
                 setV('bmMainTitle', p.master);
                 setV('bmSubGreeting', p.greeting);
-                setV('bmDateLine', p.date);
                 setV('bmBodyText', p.body);
                 setV('bmSenderText', p.sender);
                 const matchBtn = document.querySelector(`.bm-bg-swatch[data-bg="${p.bg}"]`);
@@ -9918,7 +10035,6 @@
                 ctx.fillRect(0, 0, W, H);
                 return;
             }
-            // Rich Multi-Stop Radial & Diagonal Studio Gradient
             const grad = ctx.createLinearGradient(0, 0, W, H);
             grad.addColorStop(0, th.c1);
             grad.addColorStop(0.55, th.c2);
@@ -9926,7 +10042,6 @@
             ctx.fillStyle = grad;
             ctx.fillRect(0, 0, W, H);
 
-            // Soft Sunburst Light Rays from upper-right / center
             const minDim = Math.min(W, H);
             ctx.save();
             ctx.translate(W * 0.68, H * 0.34);
@@ -9942,7 +10057,6 @@
             }
             ctx.restore();
 
-            // Soft radial spotlight glow behind main text & portrait
             const rad1 = ctx.createRadialGradient(W * 0.68, H * 0.36, minDim * 0.04, W * 0.68, H * 0.36, minDim * 0.52);
             rad1.addColorStop(0, 'rgba(255, 255, 255, 0.72)');
             rad1.addColorStop(1, 'rgba(255, 255, 255, 0)');
@@ -9956,15 +10070,13 @@
             ctx.fillRect(0, 0, W, H);
         }
 
-        function drawFloralGarlandAccent(ctx, cx, cy, scale, th) {
-            // Subtle decorative floral/blossom accent below greeting (inspired by reference poster)
+        function drawFloralGarlandAccent(ctx, cx, cy, scale) {
             ctx.save();
             ctx.translate(cx, cy);
             const petalColors = ['#ffffff', '#fef08a', '#fed7aa'];
             for (let f = -1; f <= 1; f += 2) {
                 ctx.save();
                 ctx.translate(f * 26 * scale, 0);
-                // Green leaves
                 ctx.fillStyle = '#15803d';
                 for (let l = -1; l <= 1; l++) {
                     ctx.save();
@@ -9974,7 +10086,6 @@
                     ctx.fill();
                     ctx.restore();
                 }
-                // 5 flower petals
                 for (let p = 0; p < 5; p++) {
                     ctx.save();
                     ctx.rotate((p * Math.PI * 2) / 5);
@@ -10008,13 +10119,18 @@
             const bgKey = document.getElementById('bmBgPreset')?.value || 'pink-glow';
             const th = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
             const layoutStyle = document.getElementById('bmLayoutStyle')?.value || 'split-left';
-            const fontFam = document.getElementById('bmFontFamily')?.value || "'Khand', sans-serif";
+
+            const fontIntro = document.getElementById('bmFontIntro')?.value || "'Khand', sans-serif";
+            const fontMaster = document.getElementById('bmFontMaster')?.value || "'Khand', sans-serif";
+            const fontGreeting = document.getElementById('bmFontGreeting')?.value || "'Khand', sans-serif";
+            const fontBody = document.getElementById('bmFontBody')?.value || "'Khand', sans-serif";
+            const fontSender = document.getElementById('bmFontSender')?.value || "'Khand', sans-serif";
 
             const introText = (document.getElementById('bmTopBadge')?.value || '').trim();
             const masterTitle = (document.getElementById('bmMainTitle')?.value || '').trim();
             const masterScale = (parseFloat(document.getElementById('bmMasterFontScale')?.value || '112') || 112) / 100;
             const subGreeting = (document.getElementById('bmSubGreeting')?.value || '').trim();
-            const dateLine = (document.getElementById('bmDateLine')?.value || '').trim();
+            const fixedDateText = (document.getElementById('bmDateLine')?.value || '२८ नोव्हेंबर २०२६').trim();
             const bodyText = (document.getElementById('bmBodyText')?.value || '').trim();
             const senderText = (document.getElementById('bmSenderText')?.value || '').trim();
 
@@ -10031,23 +10147,45 @@
             const wmText = (document.getElementById('bmWatermarkText')?.value || '').trim();
             const wmOpacity = Math.max(0, Math.min(100, parseFloat(document.getElementById('bmWatermarkOpacity')?.value || '12') || 0)) / 100;
 
-            const footerGpName = (document.getElementById('bmFooterGpName')?.value || 'ग्रामपंचायत पिंपळगाव निपाणी').trim();
-            const footerDomain = (document.getElementById('bmFooterDomain')?.value || 'https://gpnipani.online').trim();
-
             const minDim = Math.min(W, H);
             const isLandscape = W > H * 1.25;
 
-            // 1. Draw Studio Preset or Custom Background
+            // 1. Background
             drawPosterDecorativeBg(ctx, W, H, th);
 
-            // 2. Crisp Outer Frame Border
+            // 2. Outer Border
             const pad = Math.round(minDim * 0.02);
             ctx.strokeStyle = th.border;
             ctx.lineWidth = Math.max(5, Math.round(minDim * 0.008));
             ctx.strokeRect(pad, pad, W - pad * 2, H - pad * 2);
 
-            // 3. Official Gram Panchayat Footer Bar (Bold Capsule/Banner Style at Bottom)
-            const footerH = Math.round(Math.max(94, H * (isLandscape ? 0.15 : 0.105)));
+            // 3. Fixed Top-Right Date Badge
+            let topDateReserveH = 0;
+            if (fixedDateText) {
+                const dtFontSize = Math.max(15, Math.round(minDim * 0.021));
+                ctx.font = `700 ${dtFontSize}px 'Khand', sans-serif`;
+                const dtTextW = ctx.measureText(fixedDateText).width;
+                const dtPillW = Math.min(W * 0.44, dtTextW + dtFontSize * 1.6);
+                const dtPillH = Math.round(dtFontSize * 1.65);
+                const dtPillX = W - pad - Math.round(minDim * 0.016) - dtPillW;
+                const dtPillY = pad + Math.round(minDim * 0.016);
+                ctx.fillStyle = th.dateBg;
+                drawRoundRectPath(ctx, dtPillX, dtPillY, dtPillW, dtPillH, dtPillH / 2);
+                ctx.fill();
+                ctx.strokeStyle = th.footerAccent;
+                ctx.lineWidth = 2;
+                drawRoundRectPath(ctx, dtPillX, dtPillY, dtPillW, dtPillH, dtPillH / 2);
+                ctx.stroke();
+
+                ctx.fillStyle = th.dateText;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(fixedDateText, dtPillX + dtPillW / 2, dtPillY + dtPillH / 2 + 1, dtPillW - 14);
+                topDateReserveH = dtPillH + Math.round(minDim * 0.012);
+            }
+
+            // 4. Fixed Locked Footer Bar
+            const footerH = Math.round(Math.max(96, H * (isLandscape ? 0.15 : 0.106)));
             const footerY = H - pad - footerH;
             ctx.fillStyle = th.footerBg;
             ctx.fillRect(pad, footerY, W - pad * 2, footerH);
@@ -10055,8 +10193,8 @@
             ctx.fillStyle = th.footerAccent;
             ctx.fillRect(pad, footerY, W - pad * 2, Math.max(4, Math.round(footerH * 0.055)));
 
-            const logoSize = Math.round(footerH * 0.72);
-            const logoX = pad + Math.round(minDim * 0.024);
+            const logoSize = Math.round(footerH * 0.7);
+            const logoX = pad + Math.round(minDim * 0.022);
             const logoY = footerY + Math.round((footerH - logoSize) / 2);
             if (bmLogoImage && bmLogoImage.complete && bmLogoImage.naturalWidth > 0) {
                 ctx.save();
@@ -10072,29 +10210,38 @@
                 drawRoundRectPath(ctx, logoX, logoY, logoSize, logoSize, 12);
                 ctx.fill();
                 ctx.fillStyle = th.footerBg;
-                ctx.font = `700 ${Math.round(logoSize * 0.42)}px ${fontFam}`;
+                ctx.font = `700 ${Math.round(logoSize * 0.42)}px 'Khand', sans-serif`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.fillText('ग्रा.पं.', logoX + logoSize / 2, logoY + logoSize / 2);
             }
 
-            const textStartX = logoX + logoSize + Math.round(minDim * 0.022);
+            const textStartX = logoX + logoSize + Math.round(minDim * 0.02);
+            const maxFooterW = W - textStartX - pad - 16;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
+
             ctx.fillStyle = th.footerText;
-            const gpFontSize = Math.round(Math.min(footerH * 0.36, W * 0.03));
-            ctx.font = `700 ${gpFontSize}px ${fontFam}`;
-            ctx.fillText(footerGpName, textStartX, footerY + footerH * 0.38, W - textStartX - pad - 16);
+            const gpFontSize = Math.round(Math.min(footerH * 0.33, W * 0.028));
+            ctx.font = `700 ${gpFontSize}px 'Khand', sans-serif`;
+            ctx.fillText(FIXED_BANNER_GP_TITLE, textStartX, footerY + footerH * 0.35, maxFooterW);
 
+            const domFontSize = Math.round(Math.min(footerH * 0.24, W * 0.0205));
+            ctx.font = `700 ${domFontSize}px 'Khand', sans-serif`;
+            const line2Y = footerY + footerH * 0.71;
+            const prefixW = Math.min(maxFooterW * 0.74, ctx.measureText(FIXED_BANNER_PORTAL_BRAND).width);
             ctx.fillStyle = th.footerAccent;
-            const domFontSize = Math.round(Math.min(footerH * 0.26, W * 0.022));
-            ctx.font = `700 ${domFontSize}px ${fontFam}`;
-            ctx.fillText(footerDomain, textStartX, footerY + footerH * 0.73, W - textStartX - pad - 16);
+            ctx.fillText(FIXED_BANNER_PORTAL_BRAND, textStartX, line2Y, prefixW);
 
-            // 4. Main Poster Workspace (Between top pad and footerY — Zero Wasted Empty Space!)
-            const workTop = pad + Math.round(minDim * 0.022);
+            const nameStartX = textStartX + prefixW;
+            const remFooterW = Math.max(40, maxFooterW - prefixW);
+            ctx.fillStyle = th.designerCol || '#fde047';
+            ctx.fillText(FIXED_BANNER_DESIGNER_NAME, nameStartX, line2Y, remFooterW);
+
+            // 5. Main Workspace Area
+            const workTop = pad + Math.round(minDim * 0.016) + topDateReserveH;
             const workBottom = footerY - Math.round(minDim * 0.014);
-            const workH = workBottom - workTop;
+            const workH = Math.max(120, workBottom - workTop);
             const workLeft = pad + Math.round(minDim * 0.024);
             const workRight = W - pad - Math.round(minDim * 0.024);
             const workW = workRight - workLeft;
@@ -10102,53 +10249,59 @@
             const hasPhoto = (photoShape !== 'none');
             const isSplit = hasPhoto && (layoutStyle === 'split-left' || layoutStyle === 'split-right');
 
+            const fontConfig = {
+                intro: fontIntro,
+                master: fontMaster,
+                greeting: fontGreeting,
+                body: fontBody,
+                sender: fontSender
+            };
+
             if (isSplit) {
-                // Split Poster Layout (Matches Reference Image: Large Portrait on Left/Right + Rich Hierarchical Text on Other Side)
                 const photoColW = Math.round(workW * 0.45);
                 const textColW = workW - photoColW - Math.round(minDim * 0.022);
                 const photoOnLeft = (layoutStyle === 'split-left');
 
                 const pBoxX = photoOnLeft ? workLeft : (workRight - photoColW);
-                const pBoxY = workTop + Math.round(workH * 0.03);
+                const pBoxY = workTop + Math.round(workH * 0.02);
                 const pBoxW = photoColW;
-                const pBoxH = Math.round(workH * 0.94);
+                const pBoxH = Math.round(workH * 0.96);
 
-                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontFam);
+                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontMaster);
 
                 const tBoxX = photoOnLeft ? (pBoxX + pBoxW + Math.round(minDim * 0.022)) : workLeft;
                 drawHierarchicalPosterText(
                     ctx, tBoxX, workTop, textColW, workH, 'left',
-                    introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText,
-                    colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim
+                    introText, masterTitle, masterScale, subGreeting, bodyText, senderText,
+                    colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim
                 );
             } else {
-                // Centered Full-Bleed Poster Layout (Large Top Portrait + Full-Width Hierarchical Typography Below)
                 let textTop = workTop;
                 let textH = workH;
                 if (hasPhoto) {
                     const pBoxW = Math.round(Math.min(workW * 0.56, workH * 0.44));
                     const pBoxH = Math.round(workH * 0.43);
                     const pBoxX = workLeft + Math.round((workW - pBoxW) / 2);
-                    const pBoxY = workTop + 4;
-                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontFam);
-                    textTop = pBoxY + pBoxH + Math.round(minDim * 0.018);
+                    const pBoxY = workTop + 2;
+                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontMaster);
+                    textTop = pBoxY + pBoxH + Math.round(minDim * 0.016);
                     textH = workBottom - textTop;
                 }
                 drawHierarchicalPosterText(
                     ctx, workLeft, textTop, workW, textH, 'center',
-                    introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText,
-                    colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim
+                    introText, masterTitle, masterScale, subGreeting, bodyText, senderText,
+                    colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim
                 );
             }
 
-            // 5. Center Watermark Overlay
+            // 6. Center Watermark Overlay
             if (wmEnabled && wmText && wmOpacity > 0) {
                 ctx.save();
                 ctx.translate(W / 2, (workTop + footerY) / 2);
                 ctx.rotate(-Math.PI / 7);
                 ctx.globalAlpha = wmOpacity;
                 const wmFontSize = Math.round(minDim * 0.068);
-                ctx.font = `700 ${wmFontSize}px ${fontFam}`;
+                ctx.font = `700 ${wmFontSize}px ${fontMaster}`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.lineWidth = Math.max(2, Math.round(wmFontSize * 0.04));
@@ -10188,7 +10341,6 @@
                     drawEmptyPhotoPlaceholder(ctx, cx - r, cy - r, diam, diam, th, fontFam);
                 }
             } else if (shape === 'cutout-clean') {
-                // Large borderless portrait blending cleanly into poster
                 drawRoundRectPath(ctx, x, y, w, h, 20);
                 ctx.clip();
                 if (img && img.naturalWidth > 0) {
@@ -10200,7 +10352,6 @@
                     drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam);
                 }
             } else {
-                // Default: Large Upright Portrait Card Frame (Reference Style)
                 ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
                 ctx.shadowBlur = 18;
                 ctx.shadowOffsetY = 6;
@@ -10239,69 +10390,60 @@
             ctx.textBaseline = 'middle';
             ctx.fillText('येथे मोठा फोटो दिसेल', x + w / 2, y + h * 0.46);
             ctx.font = `700 ${Math.round(Math.min(w, h) * 0.055)}px ${fontFam}`;
-            ctx.fillText('(डावीकडून फोटो अपलोड करा)', x + w / 2, y + h * 0.56);
+            ctx.fillText('(फोटो अपलोड करा)', x + w / 2, y + h * 0.56);
         }
 
-        function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, masterScale, subGreeting, dateLine, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontFam, minDim) {
+        function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, masterScale, subGreeting, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim) {
             const isLeft = (alignMode === 'left');
             const anchorX = isLeft ? boxX : (boxX + boxW / 2);
             ctx.textAlign = isLeft ? 'left' : 'center';
             ctx.textBaseline = 'top';
 
-            // Proportional Font Sizes:
-            // 1. Intro text: smaller refined size
-            // 2. Master Name: HUGE prominent poster typography!
-            // 3. Greeting line: bold medium-large accent
-            // 4. Body + Sender: clean smaller readable lines filling the card harmoniously
             const baseUnit = isLeft ? Math.min(boxW * 1.15, boxH * 0.72) : Math.min(boxW * 0.78, boxH * 0.85);
             const introSize = Math.max(18, Math.round(baseUnit * 0.054));
             const masterSize = Math.max(34, Math.round(baseUnit * 0.135 * masterScale));
             const greetSize = Math.max(22, Math.round(baseUnit * 0.068));
-            const dateSize = Math.max(16, Math.round(baseUnit * 0.042));
             const bodySize = Math.max(17, Math.round(baseUnit * 0.046));
             const senderSize = Math.max(16, Math.round(baseUnit * 0.043));
 
-            ctx.font = `700 ${introSize}px ${fontFam}`;
+            ctx.font = `700 ${introSize}px ${fontConfig.intro}`;
             const introLines = introText ? wrapCanvasLines(ctx, introText, boxW).slice(0, 3) : [];
             const introLH = Math.round(introSize * 1.22);
 
-            ctx.font = `700 ${masterSize}px ${fontFam}`;
+            ctx.font = `700 ${masterSize}px ${fontConfig.master}`;
             const masterLines = masterTitle ? wrapCanvasLines(ctx, masterTitle, boxW).slice(0, 3) : [];
             const masterLH = Math.round(masterSize * 1.12);
 
-            ctx.font = `700 ${greetSize}px ${fontFam}`;
+            ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
             const greetLines = subGreeting ? wrapCanvasLines(ctx, subGreeting, boxW).slice(0, 2) : [];
             const greetLH = Math.round(greetSize * 1.2);
 
-            ctx.font = `700 ${bodySize}px ${fontFam}`;
+            ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
             const bodyLines = bodyText ? wrapCanvasLines(ctx, bodyText, boxW).slice(0, 3) : [];
             const bodyLH = Math.round(bodySize * 1.26);
 
-            ctx.font = `700 ${senderSize}px ${fontFam}`;
+            ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
             const senderLines = senderText ? wrapCanvasLines(ctx, senderText, boxW).slice(0, 2) : [];
             const senderLH = Math.round(senderSize * 1.22);
 
             const floralH = Math.round(minDim * 0.045);
-            const dateH = dateLine ? Math.round(dateSize * 1.65) : 0;
 
             const rawTotalH =
                 (introLines.length * introLH) +
                 (masterLines.length * masterLH) +
                 (greetLines.length * greetLH) +
-                floralH + dateH +
+                floralH +
                 (bodyLines.length * bodyLH) +
                 (senderLines.length * senderLH);
 
-            // Distribute vertical gaps evenly so there is NO awkward empty void!
-            const blocksCount = 5;
+            const blocksCount = 4;
             const freeSpace = Math.max(16, boxH - rawTotalH);
             const gap = Math.min(Math.round(minDim * 0.026), Math.max(6, Math.floor(freeSpace / (blocksCount + 1))));
             let y = boxY + Math.max(4, Math.floor((boxH - (rawTotalH + gap * (blocksCount - 1))) / 2));
 
-            // 1. Intro / Attributes Text (Smaller font above Master Name)
             if (introLines.length) {
                 ctx.fillStyle = colIntro;
-                ctx.font = `700 ${introSize}px ${fontFam}`;
+                ctx.font = `700 ${introSize}px ${fontConfig.intro}`;
                 for (const ln of introLines) {
                     ctx.fillText(ln, anchorX, y, boxW);
                     y += introLH;
@@ -10309,11 +10451,9 @@
                 y += gap;
             }
 
-            // 2. MASTER NAME / TITLE (Extra-Large Impact Typography with subtle 3D depth)
             if (masterLines.length) {
-                ctx.font = `700 ${masterSize}px ${fontFam}`;
+                ctx.font = `700 ${masterSize}px ${fontConfig.master}`;
                 for (const ln of masterLines) {
-                    // Subtle white highlight + shadow for poster punch
                     ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
                     ctx.fillText(ln, anchorX + 2, y + 2, boxW);
                     ctx.fillStyle = colMaster;
@@ -10323,43 +10463,23 @@
                 y += gap;
             }
 
-            // 3. Greeting / Tribute Line
             if (greetLines.length) {
                 ctx.fillStyle = colGreeting;
-                ctx.font = `700 ${greetSize}px ${fontFam}`;
+                ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
                 for (const ln of greetLines) {
                     ctx.fillText(ln, anchorX, y, boxW);
                     y += greetLH;
                 }
-                y += Math.round(gap * 0.75);
+                y += Math.round(gap * 0.7);
             }
 
-            // 4. Floral Emblem Accent + Date Badge
             const floralCenterX = isLeft ? (boxX + Math.min(boxW * 0.45, 160)) : (boxX + boxW / 2);
-            drawFloralGarlandAccent(ctx, floralCenterX, y + floralH * 0.45, minDim / 1080, th);
-            y += floralH + Math.round(gap * 0.6);
+            drawFloralGarlandAccent(ctx, floralCenterX, y + floralH * 0.45, minDim / 1080);
+            y += floralH + Math.round(gap * 0.65);
 
-            if (dateLine) {
-                ctx.font = `700 ${dateSize}px ${fontFam}`;
-                const dW = Math.min(boxW, ctx.measureText(dateLine).width + dateSize * 1.5);
-                const dH = Math.round(dateSize * 1.55);
-                const dX = isLeft ? boxX : (boxX + (boxW - dW) / 2);
-                ctx.fillStyle = th.border;
-                drawRoundRectPath(ctx, dX, y, dW, dH, dH / 2);
-                ctx.fill();
-                ctx.fillStyle = '#ffffff';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(dateLine, dX + dW / 2, y + dH / 2, dW - 14);
-                ctx.textAlign = isLeft ? 'left' : 'center';
-                ctx.textBaseline = 'top';
-                y += dH + gap;
-            }
-
-            // 5. Detailed Message Body (Smaller clean font)
             if (bodyLines.length) {
                 ctx.fillStyle = colBody;
-                ctx.font = `700 ${bodySize}px ${fontFam}`;
+                ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
                 for (const ln of bodyLines) {
                     ctx.fillText(ln, anchorX, y, boxW);
                     y += bodyLH;
@@ -10367,10 +10487,9 @@
                 y += Math.round(gap * 0.8);
             }
 
-            // 6. Sender / Regards Strip
             if (senderLines.length) {
                 ctx.fillStyle = colGreeting;
-                ctx.font = `700 ${senderSize}px ${fontFam}`;
+                ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
                 for (const ln of senderLines) {
                     ctx.fillText(ln, anchorX, y, boxW);
                     y += senderLH;
@@ -10396,15 +10515,9 @@
 
         function initGpBannerStudioDefaults(portalObj) {
             const p = portalObj || (typeof appState !== 'undefined' ? appState : null) || {};
-            const gpName = p.gpName || 'ग्रामपंचायत पिंपळगाव निपाणी';
-            const addr = p.gpAddress || 'ता. अकोले, जि. अहिल्यानगर';
-            const dom = (p.cloudConfig && p.cloudConfig.officialDomain) || 'gpnipani.online';
+            const gpName = p.gpName || FIXED_BANNER_GP_TITLE;
             const wmEl = document.getElementById('bmWatermarkText');
-            const ftGpEl = document.getElementById('bmFooterGpName');
-            const ftDomEl = document.getElementById('bmFooterDomain');
             if (wmEl && wmEl.value === 'ग्रामपंचायत पिंपळगाव निपाणी') wmEl.value = gpName;
-            if (ftGpEl && ftGpEl.value.startsWith('ग्रामपंचायत पिंपळगाव निपाणी')) ftGpEl.value = `${gpName}, ${addr}`;
-            if (ftDomEl && ftDomEl.value.includes('gpnipani.online')) ftDomEl.value = `अधिकृत वेबपोर्टल: https://${dom.replace(/^https?:\/\//, '')}`;
 
             if (!bmLogoImage) {
                 const img = new Image();
@@ -10418,6 +10531,7 @@
             }
             renderGpBannerCanvas();
         }
+
 
         function syncBannerCitizenAccessUi() {
             const isPublic = Boolean(appState.visibility && appState.visibility.bannermaker === true);
