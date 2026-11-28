@@ -9896,39 +9896,67 @@
             }
             el.textContent = dt;
         }
-        async function initPortalVisitorCounter() {
+function toMarathiDigitsV26(n) {
+            const map = ['०','१','२','३','४','५','६','७','८','९'];
+            return String(Math.max(1, Math.floor(Number(n) || 1))).replace(/[0-9]/g, d => map[Number(d)]);
+        }
+        async function runPortalVisitorCounterV26() {
             const el = document.getElementById('portalVisitorCountVal');
             if (!el) return;
-            try {
-                const cached = localStorage.getItem('gp_last_visitor_count_v1');
-                if (cached && Number(cached) > 0) el.textContent = formatMarathiNumber(cached);
-            } catch (e) {}
-            const dbUrl = ((typeof appState !== 'undefined' && appState.cloudConfig && appState.cloudConfig.firebaseDatabaseUrl)
+            const dbUrl = ((typeof appState !== 'undefined' && appState && appState.cloudConfig && appState.cloudConfig.firebaseDatabaseUrl)
+                || (typeof FB_DB_URL !== 'undefined' ? FB_DB_URL : '')
                 || 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app').trim().replace(/\/$/, '');
-            if (!dbUrl) return;
+
+            let baseCount = 0;
             try {
-                const metaUrl = `${dbUrl}/grampanchayatPortalMeta/visitorCount.json`;
-                const res = await fetch(metaUrl);
-                let count = await res.json();
-                count = (typeof count === 'number' && !isNaN(count) && count >= 0) ? Math.floor(count) : 0;
-                let alreadyCounted = false;
-                try { alreadyCounted = sessionStorage.getItem('gp_visit_counted_v1') === '1'; } catch (e) {}
-                if (!alreadyCounted) {
-                    count = count + 1;
-                    try { sessionStorage.setItem('gp_visit_counted_v1', '1'); } catch (e) {}
-                    fetch(metaUrl, {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(count)
-                    }).catch(() => {});
+                const savedLocal = Number(localStorage.getItem('gp_last_visitor_count_v1') || '0');
+                if (savedLocal > 0) {
+                    baseCount = savedLocal;
+                    el.textContent = toMarathiDigitsV26(savedLocal);
                 }
-                if (count < 1) count = 1;
-                el.textContent = formatMarathiNumber(count);
-                try { localStorage.setItem('gp_last_visitor_count_v1', String(count)); } catch (e) {}
-            } catch (err) {
-                if (el.textContent === '...') el.textContent = '१';
+            } catch (e) {}
+
+            // Increment once per 30-minute window per browser so reloads/page visits reflect real traffic cleanly
+            const nowTs = Date.now();
+            let lastIncTs = 0;
+            try { lastIncTs = Number(localStorage.getItem('gp_visitor_last_inc_ts_v1') || '0'); } catch (e) {}
+            const shouldIncrement = (!lastIncTs) || ((nowTs - lastIncTs) > (30 * 60 * 1000));
+
+            let remoteCount = null;
+            if (dbUrl) {
+                try {
+                    const metaUrl = `${dbUrl}/grampanchayatPortalMeta/visitorCount.json`;
+                    const res = await fetch(metaUrl, { cache: 'no-store' });
+                    if (res.ok) {
+                        const raw = await res.json();
+                        if (typeof raw === 'number' && !isNaN(raw) && raw >= 0) {
+                            remoteCount = Math.floor(raw);
+                        }
+                    }
+                    const nextVal = Math.max(remoteCount || 0, baseCount) + (shouldIncrement ? 1 : 0);
+                    const finalVal = Math.max(1, nextVal);
+                    if (shouldIncrement) {
+                        try { localStorage.setItem('gp_visitor_last_inc_ts_v1', String(nowTs)); } catch (e) {}
+                        fetch(metaUrl, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(finalVal)
+                        }).catch(() => {});
+                    }
+                    try { localStorage.setItem('gp_last_visitor_count_v1', String(finalVal)); } catch (e) {}
+                    el.textContent = toMarathiDigitsV26(finalVal);
+                    return;
+                } catch (e) {}
             }
+
+            const fallbackVal = Math.max(1, baseCount + (shouldIncrement ? 1 : 0));
+            if (shouldIncrement) {
+                try { localStorage.setItem('gp_visitor_last_inc_ts_v1', String(nowTs)); } catch (e) {}
+            }
+            try { localStorage.setItem('gp_last_visitor_count_v1', String(fallbackVal)); } catch (e) {}
+            el.textContent = toMarathiDigitsV26(fallbackVal);
         }
+        async function initPortalVisitorCounter() { return runPortalVisitorCounterV26(); }
         (function initV16AccessibilityAndMeta() {
             let savedScale = 1;
             try { savedScale = parseFloat(localStorage.getItem('gp_font_scale_v1') || '1') || 1; } catch (e) {}
@@ -9951,7 +9979,7 @@
 
     <script>
         // --- v22 Custom In-App Dropdown Helpers & Reliable Background Selection ---
-        function closeAllBannerDropdowns() {
+function closeAllBannerDropdowns() {
             document.querySelectorAll('.bm-dd-wrap').forEach(w => {
                 w.classList.remove('open');
                 const lst = w.querySelector('.bm-dd-list');
@@ -10005,11 +10033,36 @@
                 renderGpBannerCanvas();
             }
         }
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.bm-dd-wrap')) {
-                closeAllBannerDropdowns();
-            }
-        });
+        (function bindBannerDropdownDelegation() {
+            if (window.__gpBmDdBoundV26) return;
+            window.__gpBmDdBoundV26 = true;
+            document.addEventListener('click', (e) => {
+                const itemEl = e.target.closest('.bm-dd-item');
+                if (itemEl) {
+                    const wrap = itemEl.closest('.bm-dd-wrap');
+                    if (wrap) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        const val = itemEl.getAttribute('data-val') || '';
+                        selectBannerInAppOption(wrap.id, val, itemEl.textContent, e);
+                        return;
+                    }
+                }
+                const btnEl = e.target.closest('.bm-dd-btn');
+                if (btnEl) {
+                    const wrap = btnEl.closest('.bm-dd-wrap');
+                    if (wrap) {
+                        e.stopPropagation();
+                        e.preventDefault();
+                        toggleBannerInAppDropdown(wrap.id, e);
+                        return;
+                    }
+                }
+                if (!e.target.closest('.bm-dd-wrap')) {
+                    closeAllBannerDropdowns();
+                }
+            }, true);
+        })();
 
         function applyPresetColorsToPickers(bgKey) {
             const p = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
