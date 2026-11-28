@@ -501,13 +501,13 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="punyatithi" onclick="selectBannerInAppOption('bmDdTemplate', 'punyatithi', this.textContent)">पुण्यतिथी / स्मृतिदिन अभिवादन</div>
-                    <div class="bm-dd-item" data-val="jayanti" onclick="selectBannerInAppOption('bmDdTemplate', 'jayanti', this.textContent)">महापुरुष जयंती अभिवादन</div>
-                    <div class="bm-dd-item" data-val="birthday" onclick="selectBannerInAppOption('bmDdTemplate', 'birthday', this.textContent)">वाढदिवस शुभेच्छा</div>
-                    <div class="bm-dd-item" data-val="festival" onclick="selectBannerInAppOption('bmDdTemplate', 'festival', this.textContent)">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</div>
-                    <div class="bm-dd-item" data-val="gramsabha" onclick="selectBannerInAppOption('bmDdTemplate', 'gramsabha', this.textContent)">ग्रामसभा / विशेष शासकीय सूचना</div>
-                    <div class="bm-dd-item" data-val="development" onclick="selectBannerInAppOption('bmDdTemplate', 'development', this.textContent)">विकासकाम लोकार्पण / भूमिपूजन</div>
-                    <div class="bm-dd-item" data-val="custom" onclick="selectBannerInAppOption('bmDdTemplate', 'custom', this.textContent)">इतर / सानुकूल बॅनर</div>
+                    <div class="bm-dd-item selected" data-val="punyatithi" onclick="selectBannerInAppOption('bmDdTemplate', 'punyatithi', this.textContent, event)">पुण्यतिथी / स्मृतिदिन अभिवादन</div>
+                    <div class="bm-dd-item" data-val="jayanti" onclick="selectBannerInAppOption('bmDdTemplate', 'jayanti', this.textContent, event)">महापुरुष जयंती अभिवादन</div>
+                    <div class="bm-dd-item" data-val="birthday" onclick="selectBannerInAppOption('bmDdTemplate', 'birthday', this.textContent, event)">वाढदिवस शुभेच्छा</div>
+                    <div class="bm-dd-item" data-val="festival" onclick="selectBannerInAppOption('bmDdTemplate', 'festival', this.textContent, event)">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</div>
+                    <div class="bm-dd-item" data-val="gramsabha" onclick="selectBannerInAppOption('bmDdTemplate', 'gramsabha', this.textContent, event)">ग्रामसभा / विशेष शासकीय सूचना</div>
+                    <div class="bm-dd-item" data-val="development" onclick="selectBannerInAppOption('bmDdTemplate', 'development', this.textContent, event)">विकासकाम लोकार्पण / भूमिपूजन</div>
+                    <div class="bm-dd-item" data-val="custom" onclick="selectBannerInAppOption('bmDdTemplate', 'custom', this.textContent, event)">इतर / सानुकूल बॅनर</div>
                     </div>
                 </div>
             </div>
@@ -520,9 +520,9 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="split-left" onclick="selectBannerInAppOption('bmDdLayout', 'split-left', this.textContent)">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</div>
-                    <div class="bm-dd-item" data-val="split-right" onclick="selectBannerInAppOption('bmDdLayout', 'split-right', this.textContent)">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</div>
-                    <div class="bm-dd-item" data-val="center-classic" onclick="selectBannerInAppOption('bmDdLayout', 'center-classic', this.textContent)">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</div>
+                    <div class="bm-dd-item selected" data-val="split-left" onclick="selectBannerInAppOption('bmDdLayout', 'split-left', this.textContent, event)">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</div>
+                    <div class="bm-dd-item" data-val="split-right" onclick="selectBannerInAppOption('bmDdLayout', 'split-right', this.textContent, event)">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</div>
+                    <div class="bm-dd-item" data-val="center-classic" onclick="selectBannerInAppOption('bmDdLayout', 'center-classic', this.textContent, event)">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</div>
                     </div>
                 </div>
             </div>
@@ -538,11 +538,11 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="1080x1080" onclick="selectBannerInAppOption('bmDdSize', '1080x1080', this.textContent)">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</div>
-                    <div class="bm-dd-item" data-val="1080x1920" onclick="selectBannerInAppOption('bmDdSize', '1080x1920', this.textContent)">उभा स्टोरी / WhatsApp Status (1080 × 1920)</div>
-                    <div class="bm-dd-item" data-val="1200x630" onclick="selectBannerInAppOption('bmDdSize', '1200x630', this.textContent)">आडवा बॅनर — WhatsApp / Web (1200 × 630)</div>
-                    <div class="bm-dd-item" data-val="1920x1080" onclick="selectBannerInAppOption('bmDdSize', '1920x1080', this.textContent)">HD स्क्रीन / YouTube बॅनर (1920 × 1080)</div>
-                    <div class="bm-dd-item" data-val="1240x1754" onclick="selectBannerInAppOption('bmDdSize', '1240x1754', this.textContent)">A4 प्रिंट पोस्टर (1240 × 1754)</div>
+                    <div class="bm-dd-item selected" data-val="1080x1080" onclick="selectBannerInAppOption('bmDdSize', '1080x1080', this.textContent, event)">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</div>
+                    <div class="bm-dd-item" data-val="1080x1920" onclick="selectBannerInAppOption('bmDdSize', '1080x1920', this.textContent, event)">उभा स्टोरी / WhatsApp Status (1080 × 1920)</div>
+                    <div class="bm-dd-item" data-val="1200x630" onclick="selectBannerInAppOption('bmDdSize', '1200x630', this.textContent, event)">आडवा बॅनर — WhatsApp / Web (1200 × 630)</div>
+                    <div class="bm-dd-item" data-val="1920x1080" onclick="selectBannerInAppOption('bmDdSize', '1920x1080', this.textContent, event)">HD स्क्रीन / YouTube बॅनर (1920 × 1080)</div>
+                    <div class="bm-dd-item" data-val="1240x1754" onclick="selectBannerInAppOption('bmDdSize', '1240x1754', this.textContent, event)">A4 प्रिंट पोस्टर (1240 × 1754)</div>
                     </div>
                 </div>
             </div>
@@ -593,14 +593,14 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Kalam&#39;, cursive', this.textContent)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Khand&#39;, sans-serif', this.textContent)">Khand Bold (खंड — ठळक पोस्टर)</div>
-                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Rozha One&#39;, serif', this.textContent)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Yatra One&#39;, cursive', this.textContent)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Hind&#39;, sans-serif', this.textContent)">Hind Bold (हिंद — सुवाच्य)</div>
-                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Noto Sans Devanagari</div>
-                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Poppins + Devanagari</div>
+                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -621,14 +621,14 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Kalam&#39;, cursive', this.textContent)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Khand&#39;, sans-serif', this.textContent)">Khand Bold (खंड — ठळक पोस्टर)</div>
-                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Rozha One&#39;, serif', this.textContent)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Yatra One&#39;, cursive', this.textContent)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Hind&#39;, sans-serif', this.textContent)">Hind Bold (हिंद — सुवाच्य)</div>
-                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Noto Sans Devanagari</div>
-                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -656,14 +656,14 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Kalam&#39;, cursive', this.textContent)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Khand&#39;, sans-serif', this.textContent)">Khand Bold (खंड — ठळक पोस्टर)</div>
-                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Rozha One&#39;, serif', this.textContent)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Yatra One&#39;, cursive', this.textContent)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Hind&#39;, sans-serif', this.textContent)">Hind Bold (हिंद — सुवाच्य)</div>
-                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Noto Sans Devanagari</div>
-                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -684,14 +684,14 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Kalam&#39;, cursive', this.textContent)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Khand&#39;, sans-serif', this.textContent)">Khand Bold (खंड — ठळक पोस्टर)</div>
-                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Rozha One&#39;, serif', this.textContent)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Yatra One&#39;, cursive', this.textContent)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Hind&#39;, sans-serif', this.textContent)">Hind Bold (हिंद — सुवाच्य)</div>
-                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Noto Sans Devanagari</div>
-                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Poppins + Devanagari</div>
+                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -712,14 +712,14 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Kalam&#39;, cursive', this.textContent)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Khand&#39;, sans-serif', this.textContent)">Khand Bold (खंड — ठळक पोस्टर)</div>
-                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Rozha One&#39;, serif', this.textContent)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Yatra One&#39;, cursive', this.textContent)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Hind&#39;, sans-serif', this.textContent)">Hind Bold (हिंद — सुवाच्य)</div>
-                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Noto Sans Devanagari</div>
-                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent)">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -758,10 +758,10 @@
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="portrait-card" onclick="selectBannerInAppOption('bmDdPhotoShape', 'portrait-card', this.textContent)">मोठी उभी पोर्ट्रेट फ्रेम</div>
-                    <div class="bm-dd-item" data-val="cutout-clean" onclick="selectBannerInAppOption('bmDdPhotoShape', 'cutout-clean', this.textContent)">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</div>
-                    <div class="bm-dd-item" data-val="circle" onclick="selectBannerInAppOption('bmDdPhotoShape', 'circle', this.textContent)">मोठी गोल फ्रेम (Large Circle)</div>
-                    <div class="bm-dd-item" data-val="none" onclick="selectBannerInAppOption('bmDdPhotoShape', 'none', this.textContent)">फोटो नको (फक्त मजकूर बॅनर)</div>
+                    <div class="bm-dd-item selected" data-val="portrait-card" onclick="selectBannerInAppOption('bmDdPhotoShape', 'portrait-card', this.textContent, event)">मोठी उभी पोर्ट्रेट फ्रेम</div>
+                    <div class="bm-dd-item" data-val="cutout-clean" onclick="selectBannerInAppOption('bmDdPhotoShape', 'cutout-clean', this.textContent, event)">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</div>
+                    <div class="bm-dd-item" data-val="circle" onclick="selectBannerInAppOption('bmDdPhotoShape', 'circle', this.textContent, event)">मोठी गोल फ्रेम (Large Circle)</div>
+                    <div class="bm-dd-item" data-val="none" onclick="selectBannerInAppOption('bmDdPhotoShape', 'none', this.textContent, event)">फोटो नको (फक्त मजकूर बॅनर)</div>
                     </div>
                 </div>
                 </div>
@@ -904,13 +904,24 @@
         
         
         // --- v22 Custom In-App Dropdown Helpers & Reliable Background Selection ---
+        function closeAllBannerDropdowns() {
+            document.querySelectorAll('.bm-dd-wrap').forEach(w => {
+                w.classList.remove('open');
+                const lst = w.querySelector('.bm-dd-list');
+                if (lst) lst.style.display = 'none';
+            });
+        }
         function toggleBannerInAppDropdown(ddId, ev) {
             if (ev) { ev.stopPropagation(); ev.preventDefault(); }
             const wrap = document.getElementById(ddId);
             if (!wrap) return;
-            const wasOpen = wrap.classList.contains('open');
-            document.querySelectorAll('.bm-dd-wrap.open').forEach(w => w.classList.remove('open'));
-            if (!wasOpen) wrap.classList.add('open');
+            const lst = wrap.querySelector('.bm-dd-list');
+            const wasOpen = wrap.classList.contains('open') || (lst && lst.style.display === 'block');
+            closeAllBannerDropdowns();
+            if (!wasOpen) {
+                wrap.classList.add('open');
+                if (lst) lst.style.display = 'block';
+            }
         }
         function setBannerInAppValue(ddId, val, labelText) {
             const wrap = document.getElementById(ddId);
@@ -923,19 +934,33 @@
                 it.classList.toggle('selected', it.getAttribute('data-val') === val);
             });
         }
-        function selectBannerInAppOption(ddId, val, labelText) {
+        function ensureBannerFontLoadedAndDraw(fontSpec) {
+            renderGpBannerCanvas();
+            if (document.fonts && typeof document.fonts.load === 'function' && fontSpec) {
+                const sampleText = 'क्रांतिसूर्य महात्मा ज्योतिबा फुले ०१२३४५६७८९ ABC';
+                Promise.all([
+                    document.fonts.load(`700 48px ${fontSpec}`, sampleText).catch(() => null),
+                    document.fonts.load(`400 32px ${fontSpec}`, sampleText).catch(() => null)
+                ]).then(() => {
+                    requestAnimationFrame(() => renderGpBannerCanvas());
+                });
+            }
+        }
+        function selectBannerInAppOption(ddId, val, labelText, ev) {
+            if (ev) { ev.stopPropagation(); ev.preventDefault(); }
             setBannerInAppValue(ddId, val, labelText);
-            const wrap = document.getElementById(ddId);
-            if (wrap) wrap.classList.remove('open');
+            closeAllBannerDropdowns();
             if (ddId === 'bmDdTemplate') {
                 onBannerTemplateChange();
+            } else if (ddId && ddId.indexOf('bmDdFont') === 0) {
+                ensureBannerFontLoadedAndDraw(val);
             } else {
                 renderGpBannerCanvas();
             }
         }
         document.addEventListener('click', (e) => {
             if (!e.target.closest('.bm-dd-wrap')) {
-                document.querySelectorAll('.bm-dd-wrap.open').forEach(w => w.classList.remove('open'));
+                closeAllBannerDropdowns();
             }
         });
 
@@ -1646,7 +1671,11 @@
                 img.onerror = () => { renderGpBannerCanvas(); };
                 img.src = (p.gpLogoUrl && !p.gpLogoUrl.startsWith('data:')) ? p.gpLogoUrl : 'icon-192.png';
             }
-            if (document.fonts && document.fonts.ready) {
+            if (document.fonts && typeof document.fonts.load === 'function') {
+                const fList = ["'Kalam', cursive", "'Khand', sans-serif", "'Rozha One', serif", "'Yatra One', cursive", "'Tiro Devanagari Marathi', serif", "'Hind', sans-serif", "'Noto Sans Devanagari', sans-serif"];
+                Promise.all(fList.map(ff => document.fonts.load(`700 44px ${ff}`, 'क्रांतिसूर्य महात्मा फुले').catch(() => null)))
+                    .then(() => renderGpBannerCanvas());
+            } else if (document.fonts && document.fonts.ready) {
                 document.fonts.ready.then(() => renderGpBannerCanvas());
             }
             renderGpBannerCanvas();
