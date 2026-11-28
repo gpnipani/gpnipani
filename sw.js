@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gpnipani-pwa-v72';
+const CACHE_NAME = 'gpnipani-pwa-v73';
 const CORE_ASSETS = [
   './',
   './index.html',
@@ -15,6 +15,7 @@ const CORE_ASSETS = [
   './directory.html',
   './gallery.html',
   './custom-section.html',
+  './banner-maker.html',
   './manifest.json',
   './icon-192.png',
   './icon-512.png'

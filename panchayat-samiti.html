@@ -422,6 +422,7 @@
                 <li data-nav-sec="budget"><a href="budget.html">अंदाजपत्रक व निधी</a></li>
                 <li data-nav-sec="directory"><a href="directory.html">गावातील संस्था</a></li>
                 <li data-nav-sec="gallery"><a href="gallery.html">फोटो गॅलरी</a></li>
+                <li data-nav-sec="bannermaker" style="display:none;"><a href="banner-maker.html">बॅनर तयार करा</a></li>
             </ul>
         </div>
     </nav>
@@ -1210,8 +1211,13 @@
             const vis = portalData.visibility || {};
             nav.querySelectorAll('[data-nav-sec]').forEach(el => {
                 const k = el.getAttribute('data-nav-sec');
-                if (k && vis[k] === false) el.style.display = 'none';
-                else el.style.display = '';
+                if (k === 'bannermaker') {
+                    el.style.display = (vis.bannermaker === true) ? '' : 'none';
+                } else if (k && vis[k] === false) {
+                    el.style.display = 'none';
+                } else {
+                    el.style.display = '';
+                }
             });
             nav.querySelectorAll('.dynamic-custom-nav-item').forEach(el => el.remove());
             const csList = Array.isArray(portalData.customSections) ? portalData.customSections : [];
