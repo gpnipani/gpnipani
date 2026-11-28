@@ -1736,58 +1736,6 @@
             justify-content: center;
         }
 
-
-        /* v29 Canva-Like Interactive Canvas Studio Styles */
-        .bm-canva-toolbar {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--bg-subtle);
-            border: 1.5px solid var(--border-color);
-            border-radius: 11px;
-            padding: 9px 11px;
-            margin-bottom: 10px;
-        }
-        .bm-active-pill {
-            background: var(--hover-tint, rgba(234,88,12,0.12));
-            border: 1.5px solid var(--primary);
-            color: var(--primary-dark, var(--primary));
-            border-radius: 999px;
-            padding: 4px 11px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-        .bm-inline-editor-box {
-            background: var(--bg-subtle);
-            border: 2px solid var(--primary);
-            border-radius: 12px;
-            padding: 11px 12px;
-            margin-bottom: 12px;
-        }
-        .bm-eraser-panel {
-            background: #fff7ed;
-            border: 1.5px solid #fdba74;
-            border-radius: 11px;
-            padding: 10px 12px;
-            margin-top: 8px;
-        }
-        [data-theme="dark"] .bm-eraser-panel {
-            background: rgba(234, 88, 12, 0.12);
-            border-color: rgba(251, 146, 60, 0.45);
-        }
-        #gpBannerCanvas {
-            touch-action: none;
-            cursor: grab;
-        }
-        #gpBannerCanvas.dragging-mode {
-            cursor: grabbing;
-        }
-        #gpBannerCanvas.eraser-cursor {
-            cursor: crosshair;
-        }
-
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -3118,38 +3066,23 @@
 <div class="bm-studio-grid">
     <!-- Left: Controls -->
     <div class="bm-controls-card">
-        <!-- Quick Canva-Style Selected Element Live Editor -->
-        <div class="bm-inline-editor-box" id="bmSelectedElementBox">
-            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                <span class="bm-active-pill" id="bmSelectedLayerBadge">निवडलेला घटक: मास्टर नाव (क्लिक करून बदला)</span>
-                <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                    <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:13.5px;" onclick="cycleSelectedBannerLayer()">पुढील घटक निवडा</button>
-                    <button type="button" class="btn btn-secondary" style="padding:4px 10px; font-size:13.5px;" onclick="resetAllBannerOffsets()">जागा मूळ स्थितीत आणा</button>
-                </div>
-            </div>
-            <div id="bmQuickTextEditWrap" class="form-group" style="margin-bottom:0;">
-                <label id="bmQuickTextLabel" style="font-size:14.5px;">निवडलेल्या मजकुरात थेट बदल करा:</label>
-                <input type="text" class="form-control" id="bmQuickTextInput" oninput="applyQuickTextEditFromInput()">
-            </div>
-        </div>
-
         <div class="bm-row-2">
             <div class="form-group">
                 <label>१) बॅनरचा प्रकार / प्रसंग निवडा</label>
                 <div class="bm-dd-wrap" id="bmDdTemplate">
                     <input type="hidden" id="bmTemplateType" value="punyatithi">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdTemplate', event)">
                         <span id="bmLblTemplate">पुण्यतिथी / स्मृतिदिन अभिवादन</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="punyatithi">पुण्यतिथी / स्मृतिदिन अभिवादन</div>
-                        <div class="bm-dd-item" data-val="jayanti">महापुरुष जयंती अभिवादन</div>
-                        <div class="bm-dd-item" data-val="birthday">वाढदिवस शुभेच्छा</div>
-                        <div class="bm-dd-item" data-val="festival">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</div>
-                        <div class="bm-dd-item" data-val="gramsabha">ग्रामसभा / विशेष शासकीय सूचना</div>
-                        <div class="bm-dd-item" data-val="development">विकासकाम लोकार्पण / भूमिपूजन</div>
-                        <div class="bm-dd-item" data-val="custom">इतर / सानुकूल बॅनर</div>
+                    <div class="bm-dd-item selected" data-val="punyatithi" onclick="selectBannerInAppOption('bmDdTemplate', 'punyatithi', this.textContent, event)">पुण्यतिथी / स्मृतिदिन अभिवादन</div>
+                    <div class="bm-dd-item" data-val="jayanti" onclick="selectBannerInAppOption('bmDdTemplate', 'jayanti', this.textContent, event)">महापुरुष जयंती अभिवादन</div>
+                    <div class="bm-dd-item" data-val="birthday" onclick="selectBannerInAppOption('bmDdTemplate', 'birthday', this.textContent, event)">वाढदिवस शुभेच्छा</div>
+                    <div class="bm-dd-item" data-val="festival" onclick="selectBannerInAppOption('bmDdTemplate', 'festival', this.textContent, event)">सण-उत्सव / राष्ट्रीय दिन शुभेच्छा</div>
+                    <div class="bm-dd-item" data-val="gramsabha" onclick="selectBannerInAppOption('bmDdTemplate', 'gramsabha', this.textContent, event)">ग्रामसभा / विशेष शासकीय सूचना</div>
+                    <div class="bm-dd-item" data-val="development" onclick="selectBannerInAppOption('bmDdTemplate', 'development', this.textContent, event)">विकासकाम लोकार्पण / भूमिपूजन</div>
+                    <div class="bm-dd-item" data-val="custom" onclick="selectBannerInAppOption('bmDdTemplate', 'custom', this.textContent, event)">इतर / सानुकूल बॅनर</div>
                     </div>
                 </div>
             </div>
@@ -3157,14 +3090,14 @@
                 <label>२) मांडणी शैली (Poster Layout)</label>
                 <div class="bm-dd-wrap" id="bmDdLayout">
                     <input type="hidden" id="bmLayoutStyle" value="split-left">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdLayout', event)">
                         <span id="bmLblLayout">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="split-left">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</div>
-                        <div class="bm-dd-item" data-val="split-right">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</div>
-                        <div class="bm-dd-item" data-val="center-classic">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</div>
+                    <div class="bm-dd-item selected" data-val="split-left" onclick="selectBannerInAppOption('bmDdLayout', 'split-left', this.textContent, event)">डावीकडे मोठा फोटो + उजवीकडे भव्य मजकूर</div>
+                    <div class="bm-dd-item" data-val="split-right" onclick="selectBannerInAppOption('bmDdLayout', 'split-right', this.textContent, event)">उजवीकडे मोठा फोटो + डावीकडे भव्य मजकूर</div>
+                    <div class="bm-dd-item" data-val="center-classic" onclick="selectBannerInAppOption('bmDdLayout', 'center-classic', this.textContent, event)">मध्यभागी मोठा फोटो + खाली भव्य मजकूर</div>
                     </div>
                 </div>
             </div>
@@ -3175,16 +3108,16 @@
                 <label>३) बॅनरचा आकार (Size)</label>
                 <div class="bm-dd-wrap" id="bmDdSize">
                     <input type="hidden" id="bmSizePreset" value="1080x1080">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdSize', event)">
                         <span id="bmLblSize">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="1080x1080">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</div>
-                        <div class="bm-dd-item" data-val="1080x1920">उभा स्टोरी / WhatsApp Status (1080 × 1920)</div>
-                        <div class="bm-dd-item" data-val="1200x630">आडवा बॅनर — WhatsApp / Web (1200 × 630)</div>
-                        <div class="bm-dd-item" data-val="1920x1080">HD स्क्रीन / YouTube बॅनर (1920 × 1080)</div>
-                        <div class="bm-dd-item" data-val="1240x1754">A4 प्रिंट पोस्टर (1240 × 1754)</div>
+                    <div class="bm-dd-item selected" data-val="1080x1080" onclick="selectBannerInAppOption('bmDdSize', '1080x1080', this.textContent, event)">चौरस पोस्ट — Instagram / Facebook (1080 × 1080)</div>
+                    <div class="bm-dd-item" data-val="1080x1920" onclick="selectBannerInAppOption('bmDdSize', '1080x1920', this.textContent, event)">उभा स्टोरी / WhatsApp Status (1080 × 1920)</div>
+                    <div class="bm-dd-item" data-val="1200x630" onclick="selectBannerInAppOption('bmDdSize', '1200x630', this.textContent, event)">आडवा बॅनर — WhatsApp / Web (1200 × 630)</div>
+                    <div class="bm-dd-item" data-val="1920x1080" onclick="selectBannerInAppOption('bmDdSize', '1920x1080', this.textContent, event)">HD स्क्रीन / YouTube बॅनर (1920 × 1080)</div>
+                    <div class="bm-dd-item" data-val="1240x1754" onclick="selectBannerInAppOption('bmDdSize', '1240x1754', this.textContent, event)">A4 प्रिंट पोस्टर (1240 × 1754)</div>
                     </div>
                 </div>
             </div>
@@ -3223,26 +3156,26 @@
         <div class="bm-row-2">
             <div class="form-group">
                 <label>६) वरचा गुणगौरव / ब्रीदवाक्य मजकूर (ऐच्छिक)</label>
-                <textarea class="form-control" rows="2" id="bmTopBadge" oninput="syncQuickEditorIfActive('intro'); renderGpBannerCanvas()">सत्यशोधक समाजाचे संस्थापक,
+                <textarea class="form-control" rows="2" id="bmTopBadge" oninput="renderGpBannerCanvas()">सत्यशोधक समाजाचे संस्थापक,
 स्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,</textarea>
             </div>
             <div class="form-group">
                 <label>वरच्या परिचय मजकुराचा फॉन्ट</label>
                 <div class="bm-dd-wrap" id="bmDdFontIntro">
                     <input type="hidden" id="bmFontIntro" value="'Kalam', cursive">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdFontIntro', event)">
                         <span id="bmLblFontIntro">Kalam (कलम — सुलेख / कॅलिग्राफी)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="'Kalam', cursive">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                        <div class="bm-dd-item" data-val="'Khand', sans-serif">Khand Bold (खंड — ठळक पोस्टर)</div>
-                        <div class="bm-dd-item" data-val="'Rozha One', serif">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                        <div class="bm-dd-item" data-val="'Yatra One', cursive">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                        <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                        <div class="bm-dd-item" data-val="'Hind', sans-serif">Hind Bold (हिंद — सुवाच्य)</div>
-                        <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</div>
-                        <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</div>
+                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontIntro', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -3252,25 +3185,25 @@
         <div class="bm-row-2">
             <div class="form-group">
                 <label>७) मास्टर नाव / मुख्य शीर्षक (मोठ्या फॉन्टमध्ये)</label>
-                <input type="text" class="form-control" id="bmMainTitle" value="क्रांतिसूर्य महात्मा ज्योतिबा फुले" oninput="syncQuickEditorIfActive('master'); renderGpBannerCanvas()">
+                <input type="text" class="form-control" id="bmMainTitle" value="क्रांतिसूर्य महात्मा ज्योतिबा फुले" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
                 <label>मास्टर नावाचा फॉन्ट</label>
                 <div class="bm-dd-wrap" id="bmDdFontMaster">
                     <input type="hidden" id="bmFontMaster" value="'Khand', sans-serif">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdFontMaster', event)">
                         <span id="bmLblFontMaster">Khand Bold (खंड — ठळक पोस्टर)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item" data-val="'Kalam', cursive">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                        <div class="bm-dd-item selected" data-val="'Khand', sans-serif">Khand Bold (खंड — ठळक पोस्टर)</div>
-                        <div class="bm-dd-item" data-val="'Rozha One', serif">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                        <div class="bm-dd-item" data-val="'Yatra One', cursive">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                        <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                        <div class="bm-dd-item" data-val="'Hind', sans-serif">Hind Bold (हिंद — सुवाच्य)</div>
-                        <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</div>
-                        <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontMaster', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -3287,25 +3220,25 @@
         <div class="bm-row-2">
             <div class="form-group">
                 <label>८) खालील अभिवादन / संदेश ओळ</label>
-                <input type="text" class="form-control" id="bmSubGreeting" value="यांना स्मृतिदिनी विनम्र अभिवादन!" oninput="syncQuickEditorIfActive('greeting'); renderGpBannerCanvas()">
+                <input type="text" class="form-control" id="bmSubGreeting" value="यांना स्मृतिदिनी विनम्र अभिवादन!" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
                 <label>अभिवादन ओळीचा फॉन्ट</label>
                 <div class="bm-dd-wrap" id="bmDdFontGreeting">
                     <input type="hidden" id="bmFontGreeting" value="'Khand', sans-serif">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdFontGreeting', event)">
                         <span id="bmLblFontGreeting">Khand Bold (खंड — ठळक पोस्टर)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item" data-val="'Kalam', cursive">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                        <div class="bm-dd-item selected" data-val="'Khand', sans-serif">Khand Bold (खंड — ठळक पोस्टर)</div>
-                        <div class="bm-dd-item" data-val="'Rozha One', serif">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                        <div class="bm-dd-item" data-val="'Yatra One', cursive">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                        <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                        <div class="bm-dd-item" data-val="'Hind', sans-serif">Hind Bold (हिंद — सुवाच्य)</div>
-                        <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</div>
-                        <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontGreeting', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -3315,25 +3248,25 @@
         <div class="bm-row-2">
             <div class="form-group">
                 <label>९) सविस्तर संदेश / माहिती</label>
-                <textarea class="form-control" rows="2" id="bmBodyText" oninput="syncQuickEditorIfActive('body'); renderGpBannerCanvas()">त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!</textarea>
+                <textarea class="form-control" rows="2" id="bmBodyText" oninput="renderGpBannerCanvas()">त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!</textarea>
             </div>
             <div class="form-group">
                 <label>सविस्तर संदेशाचा फॉन्ट</label>
                 <div class="bm-dd-wrap" id="bmDdFontBody">
                     <input type="hidden" id="bmFontBody" value="'Kalam', cursive">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdFontBody', event)">
                         <span id="bmLblFontBody">Kalam (कलम — सुलेख / कॅलिग्राफी)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="'Kalam', cursive">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                        <div class="bm-dd-item" data-val="'Khand', sans-serif">Khand Bold (खंड — ठळक पोस्टर)</div>
-                        <div class="bm-dd-item" data-val="'Rozha One', serif">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                        <div class="bm-dd-item" data-val="'Yatra One', cursive">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                        <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                        <div class="bm-dd-item" data-val="'Hind', sans-serif">Hind Bold (हिंद — सुवाच्य)</div>
-                        <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</div>
-                        <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</div>
+                    <div class="bm-dd-item selected" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontBody', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -3343,25 +3276,25 @@
         <div class="bm-row-2">
             <div class="form-group">
                 <label>१०) शुभेच्छुक / निमंत्रक ओळ</label>
-                <input type="text" class="form-control" id="bmSenderText" value="विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="syncQuickEditorIfActive('sender'); renderGpBannerCanvas()">
+                <input type="text" class="form-control" id="bmSenderText" value="विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी" oninput="renderGpBannerCanvas()">
             </div>
             <div class="form-group">
                 <label>शुभेच्छुक ओळीचा फॉन्ट</label>
                 <div class="bm-dd-wrap" id="bmDdFontSender">
                     <input type="hidden" id="bmFontSender" value="'Khand', sans-serif">
-                    <button type="button" class="bm-dd-btn">
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdFontSender', event)">
                         <span id="bmLblFontSender">Khand Bold (खंड — ठळक पोस्टर)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item" data-val="'Kalam', cursive">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
-                        <div class="bm-dd-item selected" data-val="'Khand', sans-serif">Khand Bold (खंड — ठळक पोस्टर)</div>
-                        <div class="bm-dd-item" data-val="'Rozha One', serif">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
-                        <div class="bm-dd-item" data-val="'Yatra One', cursive">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
-                        <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
-                        <div class="bm-dd-item" data-val="'Hind', sans-serif">Hind Bold (हिंद — सुवाच्य)</div>
-                        <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif">Noto Sans Devanagari</div>
-                        <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif">Poppins + Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Kalam', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Kalam&#39;, cursive', this.textContent, event)">Kalam (कलम — सुलेख / कॅलिग्राफी)</div>
+                    <div class="bm-dd-item selected" data-val="'Khand', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Khand&#39;, sans-serif', this.textContent, event)">Khand Bold (खंड — ठळक पोस्टर)</div>
+                    <div class="bm-dd-item" data-val="'Rozha One', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Rozha One&#39;, serif', this.textContent, event)">Rozha One (रोझा वन — पारंपरिक शीर्षक)</div>
+                    <div class="bm-dd-item" data-val="'Yatra One', cursive" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Yatra One&#39;, cursive', this.textContent, event)">Yatra One (यात्रा वन — उत्सव / जयंती)</div>
+                    <div class="bm-dd-item" data-val="'Tiro Devanagari Marathi', serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Tiro Devanagari Marathi&#39;, serif', this.textContent, event)">Tiro Marathi (टिरो मराठी — साहित्यिक)</div>
+                    <div class="bm-dd-item" data-val="'Hind', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Hind&#39;, sans-serif', this.textContent, event)">Hind Bold (हिंद — सुवाच्य)</div>
+                    <div class="bm-dd-item" data-val="'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Noto Sans Devanagari</div>
+                    <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
             </div>
@@ -3378,11 +3311,11 @@
             </div>
         </div>
 
-        <!-- Photo Upload, Fit/Crop Mode, Border ON/OFF & Photo Eraser -->
+        <!-- Large Photo Upload, Frame & Position Controls -->
         <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px; margin-bottom:12px;">
-            <div class="bm-row-2" style="margin-bottom:8px;">
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">१२) फोटो निवडा</label>
+            <div class="bm-row-2">
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label style="font-size:15px;">१२) व्यक्ती / कार्यक्रमाचा मोठा फोटो निवडा</label>
                     <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
                         <label class="btn btn-primary" style="cursor:pointer; margin:0; padding:7px 14px; font-size:15px; flex:1;">
                             <span>फोटो अपलोड करा</span>
@@ -3391,105 +3324,58 @@
                         <button type="button" class="btn btn-danger" style="padding:7px 12px; font-size:14px;" onclick="clearBannerPhoto()">काढा</button>
                     </div>
                 </div>
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">फोटो बसवण्याची पद्धत (Fit / Fill)</label>
-                <div class="bm-dd-wrap" id="bmDdPhotoFit">
-                    <input type="hidden" id="bmPhotoFitMode" value="contain">
-                    <button type="button" class="bm-dd-btn">
-                        <span id="bmLblPhotoFit">संपूर्ण फोटो न कापता बसावा (Fit / पूर्ण फोटो)</span>
-                        <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
-                    </button>
-                    <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="contain">संपूर्ण फोटो न कापता बसावा (Fit / पूर्ण फोटो)</div>
-                        <div class="bm-dd-item" data-val="cover">फ्रेम भरून बसावा (Fill / क्रॉप)</div>
-                    </div>
-                </div>
-                </div>
-            </div>
-
-            <div class="bm-row-2" style="margin-bottom:8px;">
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">फोटो फ्रेम आकार</label>
+                <div class="form-group" style="margin-bottom:8px;">
+                    <label style="font-size:15px;">फोटो फ्रेम प्रकार</label>
                 <div class="bm-dd-wrap" id="bmDdPhotoShape">
                     <input type="hidden" id="bmPhotoShape" value="portrait-card">
-                    <button type="button" class="bm-dd-btn">
-                        <span id="bmLblPhotoShape">उभी पोर्ट्रेट फ्रेम</span>
+                    <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdPhotoShape', event)">
+                        <span id="bmLblPhotoShape">मोठी उभी पोर्ट्रेट फ्रेम</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                        <div class="bm-dd-item selected" data-val="portrait-card">उभी पोर्ट्रेट फ्रेम</div>
-                        <div class="bm-dd-item" data-val="circle">गोल फ्रेम (Circle)</div>
-                        <div class="bm-dd-item" data-val="none">फोटो नको (फक्त मजकूर)</div>
+                    <div class="bm-dd-item selected" data-val="portrait-card" onclick="selectBannerInAppOption('bmDdPhotoShape', 'portrait-card', this.textContent, event)">मोठी उभी पोर्ट्रेट फ्रेम</div>
+                    <div class="bm-dd-item" data-val="cutout-clean" onclick="selectBannerInAppOption('bmDdPhotoShape', 'cutout-clean', this.textContent, event)">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</div>
+                    <div class="bm-dd-item" data-val="circle" onclick="selectBannerInAppOption('bmDdPhotoShape', 'circle', this.textContent, event)">मोठी गोल फ्रेम (Large Circle)</div>
+                    <div class="bm-dd-item" data-val="none" onclick="selectBannerInAppOption('bmDdPhotoShape', 'none', this.textContent, event)">फोटो नको (फक्त मजकूर बॅनर)</div>
                     </div>
                 </div>
-                </div>
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:15px;">फोटो बॉर्डर (Border ON / OFF)</label>
-                    <div style="display:flex; align-items:center; justify-content:space-between; gap:8px; background:var(--bg-card); border:1.5px solid var(--border-color); border-radius:10px; padding:7px 11px;">
-                        <label style="margin:0; font-size:14.5px; display:flex; align-items:center; gap:7px; cursor:pointer;">
-                            <input type="checkbox" id="bmPhotoBorderEnabled" checked style="width:18px; height:18px; accent-color:var(--primary);" onchange="renderGpBannerCanvas()">
-                            <span>बॉर्डर दाखवा</span>
-                        </label>
-                        <input type="color" id="bmPhotoBorderColor" value="#9d174d" style="width:32px; height:26px; border:none; background:transparent; cursor:pointer; padding:0;" oninput="renderGpBannerCanvas()" title="फोटो बॉर्डर रंग">
-                    </div>
                 </div>
             </div>
-
             <div class="bm-row-2" style="margin-bottom:8px;">
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size:14px;">फोटो झूम (Zoom)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmPhotoZoom" min="50" max="180" value="100" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
-                        <span class="bm-range-pill" id="bmPhotoZoomVal">100%</span>
+                        <input type="range" id="bmPhotoZoom" min="70" max="170" value="105" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmPhotoZoomVal">105%</span>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size:14px;">फोटो तिरकस कोन (Rotate °)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmPhotoRotate" min="-25" max="25" value="0" oninput="document.getElementById('bmPhotoRotVal').textContent=this.value+'°'; renderGpBannerCanvas()">
+                        <input type="range" id="bmPhotoRotate" min="-20" max="20" value="0" oninput="document.getElementById('bmPhotoRotVal').textContent=this.value+'°'; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmPhotoRotVal">0°</span>
                     </div>
                 </div>
             </div>
-
             <div class="bm-row-2">
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size:14px;">डावी-उजवीकडे सरकवा (Pan X)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmPhotoOffsetX" min="-50" max="50" value="0" oninput="document.getElementById('bmPhotoXVal').textContent=this.value; renderGpBannerCanvas()">
+                        <input type="range" id="bmPhotoOffsetX" min="-40" max="40" value="0" oninput="document.getElementById('bmPhotoXVal').textContent=this.value; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmPhotoXVal">0</span>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
                     <label style="font-size:14px;">वर-खाली सरकवा (Pan Y)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmPhotoOffsetY" min="-50" max="50" value="0" oninput="document.getElementById('bmPhotoYVal').textContent=this.value; renderGpBannerCanvas()">
+                        <input type="range" id="bmPhotoOffsetY" min="-40" max="40" value="0" oninput="document.getElementById('bmPhotoYVal').textContent=this.value; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmPhotoYVal">0</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Photo Eraser Tool Panel -->
-            <div class="bm-eraser-panel">
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
-                    <strong style="font-size:15px; color:#9a3412;">फोटो इरेझर टूल (Photo Eraser — प्रिव्ह्यूवर फोटोवर घासून पुसा)</strong>
-                    <div style="display:flex; gap:6px; flex-wrap:wrap;">
-                        <button type="button" id="bmEraserToggleBtn" class="btn btn-secondary" style="padding:4px 11px; font-size:13.5px;" onclick="toggleBannerEraserMode()">इरेझर: बंद (OFF)</button>
-                        <button type="button" id="bmEraserRestoreBtn" class="btn btn-secondary" style="padding:4px 10px; font-size:13.5px;" onclick="toggleEraserRestoreBrush()">पुन्हा दाखवा (Restore)</button>
-                        <button type="button" class="btn btn-danger" style="padding:4px 10px; font-size:13.5px;" onclick="resetPhotoEraserMask()">मूळ फोटो आणा</button>
-                    </div>
-                </div>
-                <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14px;">इरेझर ब्रश जाडी (Brush Size)</label>
-                    <div class="bm-range-row">
-                        <input type="range" id="bmEraserSize" min="8" max="90" value="28" oninput="document.getElementById('bmEraserSzVal').textContent=this.value+'px'">
-                        <span class="bm-range-pill" id="bmEraserSzVal">28px</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Center Watermark Controls -->
+        <!-- Center Watermark Controls (Text, Opacity, Size & Color) -->
         <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px; margin-bottom:12px;">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
                 <label style="margin:0; color:var(--secondary); font-size:16px; display:flex; align-items:center; gap:8px; cursor:pointer;">
@@ -3532,10 +3418,6 @@
 
     <!-- Right: Live Canvas Preview & Download -->
     <div class="bm-preview-card">
-        <div class="bm-canva-toolbar">
-            <span id="bmCanvasHintBadge" class="bm-active-pill">बोटाने/माऊसने होल्ड करून हलवा किंवा क्लिक करून एडिट करा</span>
-            <button type="button" id="bmQuickEraserChipBtn" class="btn btn-secondary" style="padding:4px 10px; font-size:13.5px;" onclick="toggleBannerEraserMode()">फोटो इरेझर</button>
-        </div>
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
             <strong style="color:var(--secondary); font-size:18px;">लाईव्ह बॅनर प्रिव्ह्यू (Live Preview)</strong>
             <span id="bmDimBadge" class="badge" style="margin:0;">1080 × 1080 px</span>
@@ -10347,31 +10229,9 @@ function closeAllBannerDropdowns() {
         }
 
 // --- v21 Banner Studio Engine: Per-Text Font Selection, Fixed Top-Right Date, Locked Footer + Adaptive Designer Color ---
-// --- v29 Canva-Style Interactive Banner Studio Engine ---
         let bmUploadedImage = null;
-        let bmErasedPhotoCanvas = null;
-        let bmErasedPhotoCtx = null;
         let bmCustomBgImage = null;
         let bmLogoImage = null;
-
-        // Selected layer & free-drag coordinates (in canvas pixels)
-        let bmSelectedTarget = 'master'; // 'photo' | 'intro' | 'master' | 'greeting' | 'body' | 'sender'
-        let bmHitBoxes = {};
-        let bmLayerOffsets = {
-            photo:    { dx: 0, dy: 0 },
-            intro:    { dx: 0, dy: 0 },
-            master:   { dx: 0, dy: 0 },
-            greeting: { dx: 0, dy: 0 },
-            body:     { dx: 0, dy: 0 },
-            sender:   { dx: 0, dy: 0 }
-        };
-
-        // Pointer drag & eraser state
-        let bmDragState = { active: false, target: null, startX: 0, startY: 0, origDx: 0, origDy: 0, moved: false };
-        let bmEraserMode = false;
-        let bmEraserRestore = false;
-        let bmErasingStroke = false;
-        let bmLastErasePt = null;
 
         const FIXED_BANNER_GP_TITLE = 'ग्रामपंचायत पिंपळगाव निपाणी';
         const FIXED_BANNER_PORTAL_BRAND = 'अधिकृत वेबपोर्टल: https://gpnipani.online  |  Website Design by ';
@@ -10398,164 +10258,6 @@ function closeAllBannerDropdowns() {
             custom:      { bg: 'royal-gold',   layout: 'split-left',     intro: 'विशेष गुणगौरव किंवा ब्रीदवाक्य येथे लिहा,', master: 'येथे भव्य मुख्य नाव किंवा शीर्षक लिहा', greeting: 'खालील अभिवादन किंवा उपशीर्षक ओळ!', body: 'येथे बॅनरचा सविस्तर संदेश किंवा माहिती लिहा.', sender: 'शुभेच्छुक / निमंत्रक: ग्रामपंचायत परिवार' }
         };
 
-        const BM_LAYER_LABELS = {
-            photo:    'फोटो फ्रेम',
-            intro:    'वरचा परिचय मजकूर',
-            master:   'मास्टर नाव (मुख्य शीर्षक)',
-            greeting: 'अभिवादन / संदेश ओळ',
-            body:     'सविस्तर संदेश',
-            sender:   'शुभेच्छुक / निमंत्रक'
-        };
-        const BM_LAYER_INPUT_IDS = {
-            intro:    'bmTopBadge',
-            master:   'bmMainTitle',
-            greeting: 'bmSubGreeting',
-            body:     'bmBodyText',
-            sender:   'bmSenderText'
-        };
-
-        function updateQuickEditorPanel() {
-            const badge = document.getElementById('bmSelectedLayerBadge');
-            const editWrap = document.getElementById('bmQuickTextEditWrap');
-            const lbl = document.getElementById('bmQuickTextLabel');
-            const inp = document.getElementById('bmQuickTextInput');
-            const name = BM_LAYER_LABELS[bmSelectedTarget] || 'मजकूर';
-            if (badge) badge.textContent = `निवडलेला घटक: ${name}`;
-            const srcId = BM_LAYER_INPUT_IDS[bmSelectedTarget];
-            if (srcId && editWrap && inp) {
-                editWrap.style.display = 'block';
-                if (lbl) lbl.textContent = `${name} थेट बदला:`;
-                const srcEl = document.getElementById(srcId);
-                if (srcEl && document.activeElement !== inp) inp.value = srcEl.value || '';
-            } else if (editWrap) {
-                editWrap.style.display = 'none';
-            }
-        }
-
-        function setSelectedBannerTarget(target) {
-            if (!BM_LAYER_LABELS[target]) return;
-            bmSelectedTarget = target;
-            updateQuickEditorPanel();
-            renderGpBannerCanvas();
-        }
-
-        function cycleSelectedBannerLayer() {
-            const order = ['master', 'intro', 'greeting', 'body', 'sender', 'photo'];
-            const idx = order.indexOf(bmSelectedTarget);
-            setSelectedBannerTarget(order[(idx + 1) % order.length]);
-        }
-
-        function applyQuickTextEditFromInput() {
-            const srcId = BM_LAYER_INPUT_IDS[bmSelectedTarget];
-            const inp = document.getElementById('bmQuickTextInput');
-            if (!srcId || !inp) return;
-            const srcEl = document.getElementById(srcId);
-            if (srcEl) {
-                srcEl.value = inp.value;
-                renderGpBannerCanvas();
-            }
-        }
-
-        function syncQuickEditorIfActive(targetKey) {
-            if (bmSelectedTarget === targetKey) {
-                const srcId = BM_LAYER_INPUT_IDS[targetKey];
-                const srcEl = document.getElementById(srcId);
-                const inp = document.getElementById('bmQuickTextInput');
-                if (srcEl && inp && document.activeElement !== inp) inp.value = srcEl.value || '';
-            }
-        }
-
-        function resetAllBannerOffsets() {
-            Object.keys(bmLayerOffsets).forEach(k => { bmLayerOffsets[k] = { dx: 0, dy: 0 }; });
-            renderGpBannerCanvas();
-            if (typeof showToast === 'function') showToast('सर्व घटकांची जागा मूळ स्थितीत आणली आहे!');
-        }
-
-        function closeAllBannerDropdowns() {
-            document.querySelectorAll('.bm-dd-wrap').forEach(w => {
-                w.classList.remove('open');
-                const lst = w.querySelector('.bm-dd-list');
-                if (lst) lst.style.display = 'none';
-            });
-        }
-        function toggleBannerInAppDropdown(ddId, ev) {
-            if (ev) { ev.stopPropagation(); ev.preventDefault(); }
-            const wrap = document.getElementById(ddId);
-            if (!wrap) return;
-            const lst = wrap.querySelector('.bm-dd-list');
-            const wasOpen = wrap.classList.contains('open') || (lst && lst.style.display === 'block');
-            closeAllBannerDropdowns();
-            if (!wasOpen) {
-                wrap.classList.add('open');
-                if (lst) lst.style.display = 'block';
-            }
-        }
-        function setBannerInAppValue(ddId, val, labelText) {
-            const wrap = document.getElementById(ddId);
-            if (!wrap) return;
-            const hid = wrap.querySelector('input[type="hidden"]');
-            const lbl = wrap.querySelector('.bm-dd-btn span');
-            if (hid) hid.value = val;
-            if (lbl && labelText) lbl.textContent = labelText.trim();
-            wrap.querySelectorAll('.bm-dd-item').forEach(it => {
-                it.classList.toggle('selected', it.getAttribute('data-val') === val);
-            });
-        }
-        function ensureBannerFontLoadedAndDraw(fontSpec) {
-            renderGpBannerCanvas();
-            if (document.fonts && typeof document.fonts.load === 'function' && fontSpec) {
-                const sampleText = 'क्रांतिसूर्य महात्मा ज्योतिबा फुले ०१२३४५६७८९ ABC';
-                Promise.all([
-                    document.fonts.load(`700 48px ${fontSpec}`, sampleText).catch(() => null),
-                    document.fonts.load(`400 32px ${fontSpec}`, sampleText).catch(() => null)
-                ]).then(() => {
-                    requestAnimationFrame(() => renderGpBannerCanvas());
-                });
-            }
-        }
-        function selectBannerInAppOption(ddId, val, labelText, ev) {
-            if (ev) { ev.stopPropagation(); ev.preventDefault(); }
-            setBannerInAppValue(ddId, val, labelText);
-            closeAllBannerDropdowns();
-            if (ddId === 'bmDdTemplate') {
-                onBannerTemplateChange();
-            } else if (ddId && ddId.indexOf('bmDdFont') === 0) {
-                ensureBannerFontLoadedAndDraw(val);
-            } else {
-                renderGpBannerCanvas();
-            }
-        }
-        (function bindBannerDropdownDelegation() {
-            if (window.__gpBmDdBoundV29) return;
-            window.__gpBmDdBoundV29 = true;
-            document.addEventListener('click', (e) => {
-                const itemEl = e.target.closest('.bm-dd-item');
-                if (itemEl) {
-                    const wrap = itemEl.closest('.bm-dd-wrap');
-                    if (wrap) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        const val = itemEl.getAttribute('data-val') || '';
-                        selectBannerInAppOption(wrap.id, val, itemEl.textContent, e);
-                        return;
-                    }
-                }
-                const btnEl = e.target.closest('.bm-dd-btn');
-                if (btnEl) {
-                    const wrap = btnEl.closest('.bm-dd-wrap');
-                    if (wrap) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        toggleBannerInAppDropdown(wrap.id, e);
-                        return;
-                    }
-                }
-                if (!e.target.closest('.bm-dd-wrap')) {
-                    closeAllBannerDropdowns();
-                }
-            }, true);
-        })();
-
         function applyPresetColorsToPickers(bgKey) {
             const p = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
             const setC = (id, val) => { const el = document.getElementById(id); if (el) el.value = val; };
@@ -10563,8 +10265,6 @@ function closeAllBannerDropdowns() {
             setC('bmColMaster', p.masterCol);
             setC('bmColGreeting', p.greetCol);
             setC('bmColBody', p.bodyCol);
-            setC('bmPhotoBorderColor', p.border);
-            setC('bmWatermarkColor', p.masterCol);
         }
 
         function selectBannerBgPreset(bgKey, btnEl) {
@@ -10622,79 +10322,11 @@ function closeAllBannerDropdowns() {
                 setV('bmSubGreeting', p.greeting);
                 setV('bmBodyText', p.body);
                 setV('bmSenderText', p.sender);
-                updateQuickEditorPanel();
                 const matchBtn = document.querySelector(`.bm-bg-swatch[data-bg="${p.bg}"]`);
                 selectBannerBgPreset(p.bg, matchBtn);
                 return;
             }
             renderGpBannerCanvas();
-        }
-
-        // Photo Eraser Mask Initialization & Strokes
-        function initEraserMaskFromImage(img) {
-            if (!img || !img.naturalWidth || !img.naturalHeight) return;
-            bmErasedPhotoCanvas = document.createElement('canvas');
-            bmErasedPhotoCanvas.width = img.naturalWidth;
-            bmErasedPhotoCanvas.height = img.naturalHeight;
-            bmErasedPhotoCtx = bmErasedPhotoCanvas.getContext('2d');
-            bmErasedPhotoCtx.clearRect(0, 0, bmErasedPhotoCanvas.width, bmErasedPhotoCanvas.height);
-            bmErasedPhotoCtx.drawImage(img, 0, 0);
-        }
-
-        function resetPhotoEraserMask() {
-            if (!bmUploadedImage) return;
-            initEraserMaskFromImage(bmUploadedImage);
-            renderGpBannerCanvas();
-            if (typeof showToast === 'function') showToast('फोटोचा इरेझर रीसेट करून मूळ फोटो परत आणला आहे!');
-        }
-
-        function syncEraserButtonsUi() {
-            const tBtn = document.getElementById('bmEraserToggleBtn');
-            const qBtn = document.getElementById('bmQuickEraserChipBtn');
-            const rBtn = document.getElementById('bmEraserRestoreBtn');
-            const hint = document.getElementById('bmCanvasHintBadge');
-            const canvas = document.getElementById('gpBannerCanvas');
-
-            if (tBtn) {
-                tBtn.textContent = bmEraserMode ? 'इरेझर: चालू (ON)' : 'इरेझर: बंद (OFF)';
-                tBtn.style.background = bmEraserMode ? '#ea580c' : '';
-                tBtn.style.color = bmEraserMode ? '#ffffff' : '';
-            }
-            if (qBtn) {
-                qBtn.textContent = bmEraserMode ? 'इरेझर चालू (बंद करा)' : 'फोटो इरेझर';
-                qBtn.style.background = bmEraserMode ? '#ea580c' : '';
-                qBtn.style.color = bmEraserMode ? '#ffffff' : '';
-            }
-            if (rBtn) {
-                rBtn.textContent = bmEraserRestore ? 'पुन्हा दाखवा: चालू' : 'पुन्हा दाखवा (Restore)';
-                rBtn.style.borderColor = bmEraserRestore ? '#16a34a' : '';
-                rBtn.style.color = bmEraserRestore ? '#166534' : '';
-            }
-            if (hint) {
-                hint.textContent = bmEraserMode
-                    ? (bmEraserRestore ? 'Restore ब्रश: फोटोवर घासून पुसलेला भाग परत आणा' : 'Eraser ब्रश: फोटोवर बोट/माऊस घासून हवा तो भाग पुसा')
-                    : 'बोटाने/माऊसने होल्ड करून हलवा किंवा क्लिक करून एडिट करा';
-            }
-            if (canvas) {
-                canvas.classList.toggle('eraser-cursor', bmEraserMode);
-            }
-        }
-
-        function toggleBannerEraserMode() {
-            if (!bmUploadedImage) {
-                if (typeof showToast === 'function') showToast('आधी बॅनरमध्ये फोटो अपलोड करा!');
-                return;
-            }
-            bmEraserMode = !bmEraserMode;
-            if (!bmEraserMode) bmEraserRestore = false;
-            syncEraserButtonsUi();
-        }
-
-        function toggleEraserRestoreBrush() {
-            if (!bmUploadedImage) return;
-            bmEraserMode = true;
-            bmEraserRestore = !bmEraserRestore;
-            syncEraserButtonsUi();
         }
 
         function handleBannerPhotoUpload(input) {
@@ -10705,8 +10337,6 @@ function closeAllBannerDropdowns() {
                 const img = new Image();
                 img.onload = () => {
                     bmUploadedImage = img;
-                    initEraserMaskFromImage(img);
-                    setSelectedBannerTarget('photo');
                     renderGpBannerCanvas();
                 };
                 img.src = ev.target.result;
@@ -10716,179 +10346,9 @@ function closeAllBannerDropdowns() {
 
         function clearBannerPhoto() {
             bmUploadedImage = null;
-            bmErasedPhotoCanvas = null;
-            bmErasedPhotoCtx = null;
-            bmEraserMode = false;
-            bmEraserRestore = false;
-            syncEraserButtonsUi();
             const inp = document.getElementById('bmPhotoInput');
             if (inp) inp.value = '';
             renderGpBannerCanvas();
-        }
-
-        // Convert client pointer coordinates into canvas internal coordinates (W, H)
-        function clientToBannerCanvasCoords(canvas, clientX, clientY) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / Math.max(1, rect.width);
-            const scaleY = canvas.height / Math.max(1, rect.height);
-            return {
-                x: (clientX - rect.left) * scaleX,
-                y: (clientY - rect.top) * scaleY
-            };
-        }
-
-        // Map canvas (cx, cy) point back into photo's natural pixel coordinates (px, py)
-        function canvasPtToPhotoNaturalPt(cx, cy) {
-            const box = bmHitBoxes.photo;
-            if (!box || !bmUploadedImage) return null;
-            const totalCx = box.cx + (bmLayerOffsets.photo?.dx || 0);
-            const totalCy = box.cy + (bmLayerOffsets.photo?.dy || 0);
-            const zoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '100') || 100) / 100;
-            const panX = ((parseFloat(document.getElementById('bmPhotoOffsetX')?.value || '0') || 0) / 100) * box.w;
-            const panY = ((parseFloat(document.getElementById('bmPhotoOffsetY')?.value || '0') || 0) / 100) * box.h;
-            const rotDeg = parseFloat(document.getElementById('bmPhotoRotate')?.value || '0') || 0;
-            const fitMode = document.getElementById('bmPhotoFitMode')?.value || 'contain';
-
-            const imgW = bmUploadedImage.naturalWidth;
-            const imgH = bmUploadedImage.naturalHeight;
-            const baseSc = (fitMode === 'cover')
-                ? Math.max(box.w / imgW, box.h / imgH)
-                : Math.min(box.w / imgW, box.h / imgH);
-            const sc = baseSc * zoom;
-
-            // Undo translation & rotation
-            let dx = cx - (totalCx + panX);
-            let dy = cy - (totalCy + panY);
-            if (rotDeg) {
-                const rad = (-rotDeg * Math.PI) / 180;
-                const cos = Math.cos(rad), sin = Math.sin(rad);
-                const rx = dx * cos - dy * sin;
-                const ry = dx * sin + dy * cos;
-                dx = rx; dy = ry;
-            }
-            const px = (dx / sc) + (imgW / 2);
-            const py = (dy / sc) + (imgH / 2);
-            return { px, py, scale: sc };
-        }
-
-        function applyEraserAtCanvasPt(fromPt, toPt) {
-            if (!bmErasedPhotoCtx || !bmUploadedImage) return;
-            const brushPx = parseFloat(document.getElementById('bmEraserSize')?.value || '28') || 28;
-            const pTo = canvasPtToPhotoNaturalPt(toPt.x, toPt.y);
-            if (!pTo) return;
-            const pFrom = fromPt ? canvasPtToPhotoNaturalPt(fromPt.x, fromPt.y) : pTo;
-            const natRadius = Math.max(4, (brushPx * 1.4) / Math.max(0.15, pTo.scale));
-
-            bmErasedPhotoCtx.save();
-            bmErasedPhotoCtx.lineCap = 'round';
-            bmErasedPhotoCtx.lineJoin = 'round';
-            bmErasedPhotoCtx.lineWidth = natRadius * 2;
-            if (bmEraserRestore) {
-                bmErasedPhotoCtx.globalCompositeOperation = 'source-over';
-                bmErasedPhotoCtx.strokeStyle = '#ffffff';
-                bmErasedPhotoCtx.beginPath();
-                bmErasedPhotoCtx.moveTo(pFrom.px, pFrom.py);
-                bmErasedPhotoCtx.lineTo(pTo.px, pTo.py);
-                bmErasedPhotoCtx.stroke();
-                bmErasedPhotoCtx.globalCompositeOperation = 'source-atop';
-                bmErasedPhotoCtx.drawImage(bmUploadedImage, 0, 0);
-            } else {
-                bmErasedPhotoCtx.globalCompositeOperation = 'destination-out';
-                bmErasedPhotoCtx.strokeStyle = 'rgba(0,0,0,1)';
-                bmErasedPhotoCtx.beginPath();
-                bmErasedPhotoCtx.moveTo(pFrom.px, pFrom.py);
-                bmErasedPhotoCtx.lineTo(pTo.px, pTo.py);
-                bmErasedPhotoCtx.stroke();
-            }
-            bmErasedPhotoCtx.restore();
-            renderGpBannerCanvas();
-        }
-
-        function hitTestBannerTarget(cx, cy) {
-            const checkOrder = ['intro', 'master', 'greeting', 'body', 'sender', 'photo'];
-            for (const key of checkOrder) {
-                const b = bmHitBoxes[key];
-                if (!b) continue;
-                const pad = 10;
-                if (cx >= b.x - pad && cx <= b.x + b.w + pad && cy >= b.y - pad && cy <= b.y + b.h + pad) {
-                    return key;
-                }
-            }
-            return null;
-        }
-
-        function bindBannerCanvasPointerEvents() {
-            const canvas = document.getElementById('gpBannerCanvas');
-            if (!canvas || canvas.dataset.v29Bound === '1') return;
-            canvas.dataset.v29Bound = '1';
-
-            canvas.addEventListener('pointerdown', (e) => {
-                e.preventDefault();
-                canvas.setPointerCapture(e.pointerId);
-                const pt = clientToBannerCanvasCoords(canvas, e.clientX, e.clientY);
-
-                if (bmEraserMode && bmUploadedImage) {
-                    bmErasingStroke = true;
-                    bmLastErasePt = pt;
-                    applyEraserAtCanvasPt(null, pt);
-                    return;
-                }
-
-                const hit = hitTestBannerTarget(pt.x, pt.y) || bmSelectedTarget || 'master';
-                setSelectedBannerTarget(hit);
-                const curOff = bmLayerOffsets[hit] || { dx: 0, dy: 0 };
-                bmDragState = {
-                    active: true,
-                    target: hit,
-                    startX: pt.x,
-                    startY: pt.y,
-                    origDx: curOff.dx,
-                    origDy: curOff.dy,
-                    moved: false
-                };
-                canvas.classList.add('dragging-mode');
-            });
-
-            canvas.addEventListener('pointermove', (e) => {
-                const pt = clientToBannerCanvasCoords(canvas, e.clientX, e.clientY);
-                if (bmEraserMode && bmErasingStroke) {
-                    e.preventDefault();
-                    applyEraserAtCanvasPt(bmLastErasePt, pt);
-                    bmLastErasePt = pt;
-                    return;
-                }
-                if (!bmDragState.active || !bmDragState.target) return;
-                e.preventDefault();
-                const ddx = pt.x - bmDragState.startX;
-                const ddy = pt.y - bmDragState.startY;
-                if (Math.hypot(ddx, ddy) > 3) bmDragState.moved = true;
-                bmLayerOffsets[bmDragState.target] = {
-                    dx: bmDragState.origDx + ddx,
-                    dy: bmDragState.origDy + ddy
-                };
-                renderGpBannerCanvas();
-            });
-
-            const finishPointer = (e) => {
-                if (bmEraserMode && bmErasingStroke) {
-                    bmErasingStroke = false;
-                    bmLastErasePt = null;
-                }
-                if (bmDragState.active) {
-                    if (!bmDragState.moved && bmDragState.target && BM_LAYER_INPUT_IDS[bmDragState.target]) {
-                        const qInp = document.getElementById('bmQuickTextInput');
-                        if (qInp) {
-                            qInp.focus();
-                        }
-                    }
-                    bmDragState.active = false;
-                    bmDragState.target = null;
-                    canvas.classList.remove('dragging-mode');
-                }
-            };
-
-            canvas.addEventListener('pointerup', finishPointer);
-            canvas.addEventListener('pointercancel', finishPointer);
         }
 
         function wrapCanvasLines(ctx, text, maxWidth) {
@@ -11005,9 +10465,7 @@ function closeAllBannerDropdowns() {
         function renderGpBannerCanvas() {
             const canvas = document.getElementById('gpBannerCanvas');
             if (!canvas) return;
-            bindBannerCanvasPointerEvents();
             const ctx = canvas.getContext('2d');
-            bmHitBoxes = {};
 
             const sizeStr = document.getElementById('bmSizePreset')?.value || '1080x1080';
             const [W, H] = sizeStr.split('x').map(n => parseInt(n, 10) || 1080);
@@ -11020,10 +10478,10 @@ function closeAllBannerDropdowns() {
             const th = BM_BG_PRESETS[bgKey] || BM_BG_PRESETS['pink-glow'];
             const layoutStyle = document.getElementById('bmLayoutStyle')?.value || 'split-left';
 
-            const fontIntro = document.getElementById('bmFontIntro')?.value || "'Kalam', cursive";
+            const fontIntro = document.getElementById('bmFontIntro')?.value || "'Khand', sans-serif";
             const fontMaster = document.getElementById('bmFontMaster')?.value || "'Khand', sans-serif";
             const fontGreeting = document.getElementById('bmFontGreeting')?.value || "'Khand', sans-serif";
-            const fontBody = document.getElementById('bmFontBody')?.value || "'Kalam', cursive";
+            const fontBody = document.getElementById('bmFontBody')?.value || "'Khand', sans-serif";
             const fontSender = document.getElementById('bmFontSender')?.value || "'Khand', sans-serif";
 
             const introText = (document.getElementById('bmTopBadge')?.value || '').trim();
@@ -11040,10 +10498,7 @@ function closeAllBannerDropdowns() {
             const colBody = document.getElementById('bmColBody')?.value || th.bodyCol;
 
             const photoShape = document.getElementById('bmPhotoShape')?.value || 'portrait-card';
-            const photoFitMode = document.getElementById('bmPhotoFitMode')?.value || 'contain';
-            const photoBorderEnabled = document.getElementById('bmPhotoBorderEnabled')?.checked !== false;
-            const photoBorderColor = document.getElementById('bmPhotoBorderColor')?.value || th.border;
-            const photoZoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '100') || 100) / 100;
+            const photoZoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '105') || 105) / 100;
             const photoOffsetX = parseFloat(document.getElementById('bmPhotoOffsetX')?.value || '0') || 0;
             const photoOffsetY = parseFloat(document.getElementById('bmPhotoOffsetY')?.value || '0') || 0;
             const photoRotateDeg = parseFloat(document.getElementById('bmPhotoRotate')?.value || '0') || 0;
@@ -11163,18 +10618,6 @@ function closeAllBannerDropdowns() {
                 body: fontBody,
                 sender: fontSender
             };
-            const photoOpts = {
-                shape: photoShape,
-                fitMode: photoFitMode,
-                borderEnabled: photoBorderEnabled,
-                borderColor: photoBorderColor,
-                zoom: photoZoom,
-                offsetX: photoOffsetX,
-                offsetY: photoOffsetY,
-                rotDeg: photoRotateDeg,
-                selected: bmSelectedTarget === 'photo',
-                dragOffset: bmLayerOffsets.photo || { dx: 0, dy: 0 }
-            };
 
             if (isSplit) {
                 const photoColW = Math.round(workW * 0.45);
@@ -11186,7 +10629,7 @@ function closeAllBannerDropdowns() {
                 const pBoxW = photoColW;
                 const pBoxH = Math.round(workH * 0.96);
 
-                drawLargePosterPortrait(ctx, pBoxX, pBoxY, pBoxW, pBoxH, photoOpts, th, fontMaster);
+                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetX, photoOffsetY, photoRotateDeg, th, fontMaster);
 
                 const tBoxX = photoOnLeft ? (pBoxX + pBoxW + Math.round(minDim * 0.022)) : workLeft;
                 drawHierarchicalPosterText(
@@ -11202,7 +10645,7 @@ function closeAllBannerDropdowns() {
                     const pBoxH = Math.round(workH * 0.43);
                     const pBoxX = workLeft + Math.round((workW - pBoxW) / 2);
                     const pBoxY = workTop + 2;
-                    drawLargePosterPortrait(ctx, pBoxX, pBoxY, pBoxW, pBoxH, photoOpts, th, fontMaster);
+                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetX, photoOffsetY, photoRotateDeg, th, fontMaster);
                     textTop = pBoxY + pBoxH + Math.round(minDim * 0.016);
                     textH = workBottom - textTop;
                 }
@@ -11213,7 +10656,7 @@ function closeAllBannerDropdowns() {
                 );
             }
 
-            // 6. Center Watermark Overlay
+            // 6. Center Watermark Overlay (with Size & Color control)
             if (wmEnabled && wmText && wmOpacity > 0) {
                 ctx.save();
                 ctx.translate(W / 2, (workTop + footerY) / 2);
@@ -11232,165 +10675,93 @@ function closeAllBannerDropdowns() {
             }
         }
 
-        function drawLargePosterPortrait(ctx, x, y, w, h, opts, th, fontFam) {
-            const dx = opts.dragOffset?.dx || 0;
-            const dy = opts.dragOffset?.dy || 0;
-            const bx = x + dx;
-            const by = y + dy;
-            const cx = bx + w / 2;
-            const cy = by + h / 2;
-            bmHitBoxes.photo = { x: bx, y: by, w, h, cx, cy };
-
-            const activeImg = bmErasedPhotoCanvas || bmUploadedImage;
-            const panX = ((opts.offsetX || 0) / 100) * w;
-            const panY = ((opts.offsetY || 0) / 100) * h;
-
+        function drawTransformedPortraitImg(ctx, img, cx, cy, boxW, boxH, zoom, shiftX, shiftY, rotDeg) {
+            const sc = Math.max(boxW / img.naturalWidth, boxH / img.naturalHeight) * zoom;
+            const dw = img.naturalWidth * sc;
+            const dh = img.naturalHeight * sc;
             ctx.save();
-            if (opts.shape === 'circle') {
-                const diam = Math.min(w, h);
-                const r = diam / 2;
-                if (opts.borderEnabled) {
-                    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-                    ctx.strokeStyle = opts.borderColor || th.border;
-                    ctx.lineWidth = Math.max(5, Math.round(diam * 0.022));
-                    ctx.beginPath();
-                    ctx.arc(cx, cy, r, 0, Math.PI * 2);
-                    ctx.fill();
-                    ctx.stroke();
-                }
-                ctx.beginPath();
-                ctx.arc(cx, cy, Math.max(4, r - (opts.borderEnabled ? Math.round(diam * 0.011) : 0)), 0, Math.PI * 2);
-                ctx.clip();
+            ctx.translate(cx + shiftX, cy + shiftY);
+            if (rotDeg) ctx.rotate((rotDeg * Math.PI) / 180);
+            ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+            ctx.restore();
+        }
+        function drawLargePosterPortrait(ctx, img, shape, x, y, w, h, zoom, offsetX, offsetY, rotDeg, th, fontFam) {
+            ctx.save();
+            const shiftX = (offsetX / 100) * w;
+            const shiftY = (offsetY / 100) * h;
 
-                if (activeImg && activeImg.width > 0 && activeImg.height > 0) {
-                    const baseSc = (opts.fitMode === 'cover')
-                        ? Math.max(diam / activeImg.width, diam / activeImg.height)
-                        : Math.min(diam / activeImg.width, diam / activeImg.height);
-                    const sc = baseSc * (opts.zoom || 1);
-                    const dw = activeImg.width * sc;
-                    const dh = activeImg.height * sc;
-                    ctx.save();
-                    ctx.translate(cx + panX, cy + panY);
-                    if (opts.rotDeg) ctx.rotate((opts.rotDeg * Math.PI) / 180);
-                    ctx.drawImage(activeImg, -dw / 2, -dh / 2, dw, dh);
-                    ctx.restore();
+            if (shape === 'circle') {
+                const diam = Math.min(w, h);
+                const cx = x + w / 2;
+                const cy = y + h / 2;
+                const r = diam / 2;
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = th.border;
+                ctx.lineWidth = Math.max(6, Math.round(diam * 0.025));
+                ctx.beginPath();
+                ctx.arc(cx, cy, r, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, cy, r - ctx.lineWidth / 2, 0, Math.PI * 2);
+                ctx.clip();
+                if (img && img.naturalWidth > 0) {
+                    drawTransformedPortraitImg(ctx, img, cx, cy, diam, diam, zoom, shiftX, shiftY, rotDeg);
                 } else {
                     drawEmptyPhotoPlaceholder(ctx, cx - r, cy - r, diam, diam, th, fontFam);
                 }
-            } else {
-                if (opts.borderEnabled) {
-                    ctx.shadowColor = 'rgba(15, 23, 42, 0.16)';
-                    ctx.shadowBlur = 14;
-                    ctx.shadowOffsetY = 4;
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.78)';
-                    drawRoundRectPath(ctx, bx, by, w, h, 20);
-                    ctx.fill();
-                    ctx.shadowColor = 'transparent';
+            } else if (shape === 'cutout-clean') {
+                drawRoundRectPath(ctx, x, y, w, h, 20);
+                ctx.clip();
+                if (img && img.naturalWidth > 0) {
+                    drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w, h, zoom, shiftX, shiftY, rotDeg);
+                } else {
+                    drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam);
                 }
+            } else {
+                ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
+                ctx.shadowBlur = 18;
+                ctx.shadowOffsetY = 6;
+                ctx.fillStyle = '#ffffff';
+                drawRoundRectPath(ctx, x, y, w, h, 24);
+                ctx.fill();
+                ctx.shadowColor = 'transparent';
 
-                const borderW = opts.borderEnabled ? Math.max(4, Math.round(Math.min(w, h) * 0.014)) : 0;
-                const innerX = bx + borderW;
-                const innerY = by + borderW;
-                const innerW = Math.max(10, w - borderW * 2);
-                const innerH = Math.max(10, h - borderW * 2);
+                ctx.strokeStyle = th.border;
+                ctx.lineWidth = Math.max(5, Math.round(Math.min(w, h) * 0.016));
+                drawRoundRectPath(ctx, x, y, w, h, 24);
+                ctx.stroke();
 
-                ctx.save();
-                drawRoundRectPath(ctx, innerX, innerY, innerW, innerH, 16);
+                const inset = Math.round(ctx.lineWidth * 0.75);
+                drawRoundRectPath(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, 18);
                 ctx.clip();
 
-                if (activeImg && activeImg.width > 0 && activeImg.height > 0) {
-                    const baseSc = (opts.fitMode === 'cover')
-                        ? Math.max(innerW / activeImg.width, innerH / activeImg.height)
-                        : Math.min(innerW / activeImg.width, innerH / activeImg.height);
-                    const sc = baseSc * (opts.zoom || 1);
-                    const dw = activeImg.width * sc;
-                    const dh = activeImg.height * sc;
-                    ctx.save();
-                    ctx.translate(innerX + innerW / 2 + panX, innerY + innerH / 2 + panY);
-                    if (opts.rotDeg) ctx.rotate((opts.rotDeg * Math.PI) / 180);
-                    ctx.drawImage(activeImg, -dw / 2, -dh / 2, dw, dh);
-                    ctx.restore();
+                if (img && img.naturalWidth > 0) {
+                    drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w - inset * 2, h - inset * 2, zoom, shiftX, shiftY, rotDeg);
                 } else {
-                    drawEmptyPhotoPlaceholder(ctx, innerX, innerY, innerW, innerH, th, fontFam);
+                    drawEmptyPhotoPlaceholder(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, th, fontFam);
                 }
-                ctx.restore();
-
-                if (opts.borderEnabled) {
-                    ctx.strokeStyle = opts.borderColor || th.border;
-                    ctx.lineWidth = borderW;
-                    drawRoundRectPath(ctx, bx, by, w, h, 20);
-                    ctx.stroke();
-                }
-            }
-
-            // Canva-style selection outline when photo is selected
-            if (opts.selected) {
-                ctx.strokeStyle = '#ea580c';
-                ctx.lineWidth = 3;
-                ctx.setLineDash([8, 5]);
-                drawRoundRectPath(ctx, bx - 3, by - 3, w + 6, h + 6, 22);
-                ctx.stroke();
-                ctx.setLineDash([]);
             }
             ctx.restore();
         }
 
         function drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam) {
-            ctx.fillStyle = 'rgba(255,255,255,0.68)';
+            ctx.fillStyle = 'rgba(255,255,255,0.75)';
             ctx.fillRect(x, y, w, h);
             ctx.fillStyle = th.accent;
-            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.08)}px ${fontFam}`;
+            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.085)}px ${fontFam}`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('येथे फोटो दिसेल', x + w / 2, y + h * 0.45);
-            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.052)}px ${fontFam}`;
+            ctx.fillText('येथे मोठा फोटो दिसेल', x + w / 2, y + h * 0.46);
+            ctx.font = `700 ${Math.round(Math.min(w, h) * 0.055)}px ${fontFam}`;
             ctx.fillText('(फोटो अपलोड करा)', x + w / 2, y + h * 0.56);
-        }
-
-        function drawTextBlockWithDrag(ctx, layerKey, lines, anchorX, startY, boxW, fontSize, lineLH, fontFamily, color, alignMode, drawShadow3D) {
-            if (!lines || !lines.length) return startY;
-            const off = bmLayerOffsets[layerKey] || { dx: 0, dy: 0 };
-            const lx = anchorX + off.dx;
-            const ly = startY + off.dy;
-
-            ctx.textAlign = alignMode;
-            ctx.textBaseline = 'top';
-            ctx.font = `700 ${fontSize}px ${fontFamily}`;
-
-            let maxWUsed = 0;
-            let curY = ly;
-            for (const ln of lines) {
-                const mw = Math.min(boxW, ctx.measureText(ln).width || 0);
-                if (mw > maxWUsed) maxWUsed = mw;
-                if (drawShadow3D) {
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-                    ctx.fillText(ln, lx + 2, curY + 2, boxW);
-                }
-                ctx.fillStyle = color;
-                ctx.fillText(ln, lx, curY, boxW);
-                curY += lineLH;
-            }
-
-            const totalH = lines.length * lineLH;
-            const boxWidth = Math.max(40, maxWUsed || boxW * 0.5);
-            const hitX = (alignMode === 'center') ? (lx - boxWidth / 2) : lx;
-            bmHitBoxes[layerKey] = { x: hitX, y: ly, w: boxWidth, h: totalH };
-
-            if (bmSelectedTarget === layerKey) {
-                ctx.save();
-                ctx.strokeStyle = '#ea580c';
-                ctx.lineWidth = 2.5;
-                ctx.setLineDash([6, 4]);
-                drawRoundRectPath(ctx, hitX - 6, ly - 4, boxWidth + 12, totalH + 8, 8);
-                ctx.stroke();
-                ctx.restore();
-            }
-            return startY + totalH;
         }
 
         function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, masterScale, subGreeting, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim) {
             const isLeft = (alignMode === 'left');
             const anchorX = isLeft ? boxX : (boxX + boxW / 2);
+            ctx.textAlign = isLeft ? 'left' : 'center';
+            ctx.textBaseline = 'top';
 
             const baseUnit = isLeft ? Math.min(boxW * 1.15, boxH * 0.72) : Math.min(boxW * 0.78, boxH * 0.85);
             const introSize = Math.max(18, Math.round(baseUnit * 0.054));
@@ -11435,15 +10806,34 @@ function closeAllBannerDropdowns() {
             let y = boxY + Math.max(4, Math.floor((boxH - (rawTotalH + gap * (blocksCount - 1))) / 2));
 
             if (introLines.length) {
-                y = drawTextBlockWithDrag(ctx, 'intro', introLines, anchorX, y, boxW, introSize, introLH, fontConfig.intro, colIntro, alignMode, false);
+                ctx.fillStyle = colIntro;
+                ctx.font = `700 ${introSize}px ${fontConfig.intro}`;
+                for (const ln of introLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += introLH;
+                }
                 y += gap;
             }
+
             if (masterLines.length) {
-                y = drawTextBlockWithDrag(ctx, 'master', masterLines, anchorX, y, boxW, masterSize, masterLH, fontConfig.master, colMaster, alignMode, true);
+                ctx.font = `700 ${masterSize}px ${fontConfig.master}`;
+                for (const ln of masterLines) {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                    ctx.fillText(ln, anchorX + 2, y + 2, boxW);
+                    ctx.fillStyle = colMaster;
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += masterLH;
+                }
                 y += gap;
             }
+
             if (greetLines.length) {
-                y = drawTextBlockWithDrag(ctx, 'greeting', greetLines, anchorX, y, boxW, greetSize, greetLH, fontConfig.greeting, colGreeting, alignMode, false);
+                ctx.fillStyle = colGreeting;
+                ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
+                for (const ln of greetLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += greetLH;
+                }
                 y += Math.round(gap * 0.7);
             }
 
@@ -11452,15 +10842,27 @@ function closeAllBannerDropdowns() {
             y += floralH + Math.round(gap * 0.65);
 
             if (bodyLines.length) {
-                y = drawTextBlockWithDrag(ctx, 'body', bodyLines, anchorX, y, boxW, bodySize, bodyLH, fontConfig.body, colBody, alignMode, false);
+                ctx.fillStyle = colBody;
+                ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
+                for (const ln of bodyLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += bodyLH;
+                }
                 y += Math.round(gap * 0.8);
             }
+
             if (senderLines.length) {
-                drawTextBlockWithDrag(ctx, 'sender', senderLines, anchorX, y, boxW, senderSize, senderLH, fontConfig.sender, colGreeting, alignMode, false);
+                ctx.fillStyle = colGreeting;
+                ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
+                for (const ln of senderLines) {
+                    ctx.fillText(ln, anchorX, y, boxW);
+                    y += senderLH;
+                }
             }
         }
 
-        // --- Saved Banner Drafts & WhatsApp Share ---
+
+        // --- v27 Banner Drafts Save/Load & Direct WhatsApp Share ---
         const BM_DRAFTS_KEY = 'gp_banner_drafts_v1';
         function getSavedBannerDrafts() {
             try { return JSON.parse(localStorage.getItem(BM_DRAFTS_KEY) || '[]') || []; } catch (e) { return []; }
@@ -11487,17 +10889,11 @@ function closeAllBannerDropdowns() {
                 'bmTemplateType', 'bmLayoutStyle', 'bmSizePreset', 'bmDateLine', 'bmBgPreset',
                 'bmTopBadge', 'bmFontIntro', 'bmMainTitle', 'bmFontMaster', 'bmMasterFontScale',
                 'bmSubGreeting', 'bmFontGreeting', 'bmBodyText', 'bmFontBody', 'bmSenderText', 'bmFontSender',
-                'bmColIntro', 'bmColMaster', 'bmColGreeting', 'bmColBody',
-                'bmPhotoShape', 'bmPhotoFitMode', 'bmPhotoBorderColor',
+                'bmColIntro', 'bmColMaster', 'bmColGreeting', 'bmColBody', 'bmPhotoShape',
                 'bmPhotoZoom', 'bmPhotoOffsetX', 'bmPhotoOffsetY', 'bmPhotoRotate',
                 'bmWatermarkText', 'bmWatermarkOpacity', 'bmWatermarkScale', 'bmWatermarkColor'
             ];
-            const data = {
-                name: label,
-                wmEnabled: document.getElementById('bmWatermarkEnabled')?.checked !== false,
-                borderEnabled: document.getElementById('bmPhotoBorderEnabled')?.checked !== false,
-                offsets: JSON.parse(JSON.stringify(bmLayerOffsets))
-            };
+            const data = { name: label, wmEnabled: document.getElementById('bmWatermarkEnabled')?.checked !== false };
             fields.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
             const list = getSavedBannerDrafts();
             list.unshift(data);
@@ -11509,21 +10905,14 @@ function closeAllBannerDropdowns() {
             const d = getSavedBannerDrafts()[idx];
             if (!d) return;
             Object.keys(d).forEach(k => {
-                if (['name', 'wmEnabled', 'borderEnabled', 'offsets'].includes(k)) return;
+                if (k === 'name' || k === 'wmEnabled') return;
                 const el = document.getElementById(k);
                 if (el) el.value = d[k];
             });
             const wmCb = document.getElementById('bmWatermarkEnabled');
             if (wmCb) wmCb.checked = (d.wmEnabled !== false);
-            const brCb = document.getElementById('bmPhotoBorderEnabled');
-            if (brCb) brCb.checked = (d.borderEnabled !== false);
-            if (d.offsets) {
-                bmLayerOffsets = Object.assign({
-                    photo: { dx: 0, dy: 0 }, intro: { dx: 0, dy: 0 }, master: { dx: 0, dy: 0 },
-                    greeting: { dx: 0, dy: 0 }, body: { dx: 0, dy: 0 }, sender: { dx: 0, dy: 0 }
-                }, d.offsets);
-            }
 
+            // Sync custom dropdown labels
             const ddPairs = [
                 ['bmDdTemplate', d.bmTemplateType],
                 ['bmDdLayout', d.bmLayoutStyle],
@@ -11533,8 +10922,7 @@ function closeAllBannerDropdowns() {
                 ['bmDdFontGreeting', d.bmFontGreeting],
                 ['bmDdFontBody', d.bmFontBody],
                 ['bmDdFontSender', d.bmFontSender],
-                ['bmDdPhotoShape', d.bmPhotoShape],
-                ['bmDdPhotoFit', d.bmPhotoFitMode]
+                ['bmDdPhotoShape', d.bmPhotoShape]
             ];
             ddPairs.forEach(([ddId, val]) => {
                 if (!val) return;
@@ -11543,13 +10931,12 @@ function closeAllBannerDropdowns() {
             });
             document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.toggle('active', b.getAttribute('data-bg') === d.bmBgPreset));
             if (document.getElementById('bmMasterScaleVal')) document.getElementById('bmMasterScaleVal').textContent = (d.bmMasterFontScale || 112) + '%';
-            if (document.getElementById('bmPhotoZoomVal')) document.getElementById('bmPhotoZoomVal').textContent = (d.bmPhotoZoom || 100) + '%';
+            if (document.getElementById('bmPhotoZoomVal')) document.getElementById('bmPhotoZoomVal').textContent = (d.bmPhotoZoom || 105) + '%';
             if (document.getElementById('bmPhotoXVal')) document.getElementById('bmPhotoXVal').textContent = d.bmPhotoOffsetX || 0;
             if (document.getElementById('bmPhotoYVal')) document.getElementById('bmPhotoYVal').textContent = d.bmPhotoOffsetY || 0;
             if (document.getElementById('bmPhotoRotVal')) document.getElementById('bmPhotoRotVal').textContent = (d.bmPhotoRotate || 0) + '°';
             if (document.getElementById('bmWmOpVal')) document.getElementById('bmWmOpVal').textContent = (d.bmWatermarkOpacity || 12) + '%';
             if (document.getElementById('bmWmSzVal')) document.getElementById('bmWmSzVal').textContent = (d.bmWatermarkScale || 100) + '%';
-            updateQuickEditorPanel();
             renderGpBannerCanvas();
             if (typeof showToast === 'function') showToast('ड्राफ्ट लोड झाला!');
         }
@@ -11564,7 +10951,8 @@ function closeAllBannerDropdowns() {
             const canvas = document.getElementById('gpBannerCanvas');
             if (!canvas) return;
             const title = (document.getElementById('bmMainTitle')?.value || 'ग्रामपंचायत पिंपळगाव निपाणी बॅनर').trim();
-            const shareText = `${title}\nग्रामपंचायत पिंपळगाव निपाणी | https://gpnipani.online`;
+            const shareText = `${title}
+ग्रामपंचायत पिंपळगाव निपाणी | https://gpnipani.online`;
             if (navigator.share && canvas.toBlob) {
                 canvas.toBlob(async (blob) => {
                     if (!blob) { downloadGpBanner('jpeg'); return; }
@@ -11620,11 +11008,9 @@ function closeAllBannerDropdowns() {
             } else if (document.fonts && document.fonts.ready) {
                 document.fonts.ready.then(() => renderGpBannerCanvas());
             }
-            updateQuickEditorPanel();
-            syncEraserButtonsUi();
-            renderSavedBannerDrafts();
             renderGpBannerCanvas();
         }
+
 
         function syncBannerCitizenAccessUi() {
             const isPublic = Boolean(appState.visibility && appState.visibility.bannermaker === true);
