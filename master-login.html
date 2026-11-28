@@ -1689,6 +1689,53 @@
             box-shadow: 0 4px 12px rgba(234, 88, 12, 0.35);
         }
 
+
+        /* v27 Banner Studio Pro Controls: Pan X, Rotate, Watermark Size/Color, Saved Drafts, WhatsApp Share */
+        .bm-row-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        @media (max-width: 680px) {
+            .bm-row-3 { grid-template-columns: 1fr; }
+        }
+        .bm-drafts-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .bm-draft-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-card);
+            border: 1.5px solid var(--border-color);
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 13.5px;
+            cursor: pointer;
+            color: var(--text-main);
+        }
+        .bm-draft-pill:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .bm-draft-del {
+            background: #fee2e2;
+            color: #b91c1c;
+            border: none;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 12px;
+            line-height: 1;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -2054,6 +2101,7 @@
                 <span id="roleBadgeDisplay" class="badge" style="margin-left: 10px; background: #ffffff; color: #0f172a;">ग्रामसेवक (Super Admin)</span>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button type="button" class="btn btn-secondary" id="btnPresentationDemo" onclick="togglePresentationDemoMode()" style="background:#fde047; color:#0f172a; border:none;">डेमो मोड: बंद (Demo Mode)</button>
                 <button type="button" class="btn btn-primary" onclick="exitAdminToPortal()">पोर्टल पहा (Live Preview)</button>
                 <button type="button" class="btn btn-danger" onclick="logoutAdmin()">लॉगआउट</button>
             </div>
@@ -3338,16 +3386,32 @@
                 </div>
                 </div>
             </div>
-            <div class="bm-row-2">
+            <div class="bm-row-2" style="margin-bottom:8px;">
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">फोटो झूम (Zoom)</label>
+                    <label style="font-size:14px;">फोटो झूम (Zoom)</label>
                     <div class="bm-range-row">
-                        <input type="range" id="bmPhotoZoom" min="75" max="160" value="105" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                        <input type="range" id="bmPhotoZoom" min="70" max="170" value="105" oninput="document.getElementById('bmPhotoZoomVal').textContent=this.value+'%'; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmPhotoZoomVal">105%</span>
                     </div>
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">फोटो वर-खाली समायोजन (Vertical Shift)</label>
+                    <label style="font-size:14px;">फोटो तिरकस कोन (Rotate °)</label>
+                    <div class="bm-range-row">
+                        <input type="range" id="bmPhotoRotate" min="-20" max="20" value="0" oninput="document.getElementById('bmPhotoRotVal').textContent=this.value+'°'; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmPhotoRotVal">0°</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bm-row-2">
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:14px;">डावी-उजवीकडे सरकवा (Pan X)</label>
+                    <div class="bm-range-row">
+                        <input type="range" id="bmPhotoOffsetX" min="-40" max="40" value="0" oninput="document.getElementById('bmPhotoXVal').textContent=this.value; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmPhotoXVal">0</span>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:14px;">वर-खाली सरकवा (Pan Y)</label>
                     <div class="bm-range-row">
                         <input type="range" id="bmPhotoOffsetY" min="-40" max="40" value="0" oninput="document.getElementById('bmPhotoYVal').textContent=this.value; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmPhotoYVal">0</span>
@@ -3356,27 +3420,44 @@
             </div>
         </div>
 
-        <!-- Center Watermark Controls -->
-        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px;">
+        <!-- Center Watermark Controls (Text, Opacity, Size & Color) -->
+        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px; margin-bottom:12px;">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
                 <label style="margin:0; color:var(--secondary); font-size:16px; display:flex; align-items:center; gap:8px; cursor:pointer;">
                     <input type="checkbox" id="bmWatermarkEnabled" checked style="width:19px; height:19px; accent-color:var(--primary);" onchange="renderGpBannerCanvas()">
                     <span>बॅनरच्या मध्यभागी वॉटरमार्क दाखवा (Center Watermark)</span>
                 </label>
+                <label class="bm-color-chip" style="padding:4px 8px;"><span>वॉटरमार्क रंग</span><input type="color" id="bmWatermarkColor" value="#9d174d" oninput="renderGpBannerCanvas()"></label>
             </div>
-            <div class="bm-row-2">
+            <div class="bm-row-3">
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">वॉटरमार्क मजकूर</label>
+                    <label style="font-size:14px;">वॉटरमार्क मजकूर</label>
                     <input type="text" class="form-control" id="bmWatermarkText" value="ग्रामपंचायत पिंपळगाव निपाणी" oninput="renderGpBannerCanvas()">
                 </div>
                 <div class="form-group" style="margin-bottom:0;">
-                    <label style="font-size:14.5px;">वॉटरमार्क पारदर्शकता (Opacity)</label>
+                    <label style="font-size:14px;">पारदर्शकता (Opacity)</label>
                     <div class="bm-range-row">
                         <input type="range" id="bmWatermarkOpacity" min="0" max="100" value="12" oninput="document.getElementById('bmWmOpVal').textContent=this.value+'%'; renderGpBannerCanvas()">
                         <span class="bm-range-pill" id="bmWmOpVal">12%</span>
                     </div>
                 </div>
+                <div class="form-group" style="margin-bottom:0;">
+                    <label style="font-size:14px;">वॉटरमार्क आकार (Size)</label>
+                    <div class="bm-range-row">
+                        <input type="range" id="bmWatermarkScale" min="60" max="160" value="100" oninput="document.getElementById('bmWmSzVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                        <span class="bm-range-pill" id="bmWmSzVal">100%</span>
+                    </div>
+                </div>
             </div>
+        </div>
+
+        <!-- Saved Banner Drafts Manager -->
+        <div style="background:var(--bg-subtle); border:1.5px solid var(--border-color); border-radius:12px; padding:11px 12px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                <strong style="font-size:15.5px; color:var(--secondary);">तयार डिझाइन ड्राफ्ट सेव्ह / पुन्हा लोड करा</strong>
+                <button type="button" class="btn btn-secondary" style="padding:5px 12px; font-size:14px;" onclick="saveCurrentBannerDraft()">+ हा ड्राफ्ट सेव्ह करा</button>
+            </div>
+            <div id="bmSavedDraftsList" class="bm-drafts-bar"></div>
         </div>
     </div>
 
@@ -3389,9 +3470,10 @@
         <div class="bm-canvas-stage">
             <canvas id="gpBannerCanvas" width="1080" height="1080"></canvas>
         </div>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:center;">
-            <button type="button" class="btn btn-primary" style="flex:1; min-width:170px;" onclick="downloadGpBanner('png')">PNG डाउनलोड करा (HD)</button>
-            <button type="button" class="btn btn-secondary" style="flex:1; min-width:170px;" onclick="downloadGpBanner('jpeg')">JPG डाउनलोड करा (WhatsApp)</button>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center;">
+            <button type="button" class="btn btn-primary" style="flex:1; min-width:135px; padding:10px 12px; font-size:16px;" onclick="downloadGpBanner('png')">PNG डाउनलोड (HD)</button>
+            <button type="button" class="btn btn-secondary" style="flex:1; min-width:135px; padding:10px 12px; font-size:16px;" onclick="downloadGpBanner('jpeg')">JPG डाउनलोड</button>
+            <button type="button" class="btn" style="flex:1; min-width:155px; padding:10px 12px; font-size:16px; background:linear-gradient(135deg,#16a34a,#15803d); color:#ffffff;" onclick="shareGpBannerOnWhatsApp()">WhatsApp वर शेअर करा</button>
         </div>
     </div>
 </div>
@@ -6747,6 +6829,36 @@
             }, 450);
         }
 
+
+        function printTokenReceiptSlip() {
+            const rec = lastReceiptPayload || {
+                trackingId: lastGeneratedTrackingId || 'GP-2026-1001',
+                type: 'अर्ज',
+                subject: '-',
+                name: '-',
+                phone: '-',
+                date: getLiveMarathiDateTime()
+            };
+            const gpName = (appState && appState.gpName) || 'ग्रामपंचायत पिंपळगाव निपाणी';
+            const gpAddr = (appState && appState.gpAddress) || 'ता. अकोले, जि. अहिल्यानगर';
+            const w = window.open('', '_blank', 'width=680,height=760');
+            if (!w) { downloadReceiptSlip('pdf'); return; }
+            w.document.write(`<!DOCTYPE html><html lang="mr"><head><meta charset="UTF-8"><title>टोकन पावती - ${rec.trackingId}</title>
+                <style>body{font-family:sans-serif;padding:28px;color:#0f172a;}.box{border:2.5px solid #1e3a8a;border-radius:12px;padding:22px;max-width:560px;margin:0 auto;}.hdr{text-align:center;border-bottom:2px solid #ea580c;padding-bottom:12px;margin-bottom:16px;}.tok{background:#fff7ed;border:2px dashed #ea580c;padding:12px;text-align:center;font-size:24px;font-weight:700;color:#c2410c;border-radius:8px;margin:14px 0;}.row{margin:8px 0;font-size:16px;}@media print{.no-print{display:none;}}</style>
+                </head><body><div class="box"><div class="hdr"><h2 style="margin:0;color:#ea580c;">${gpName}</h2><p style="margin:4px 0 0;color:#475569;">${gpAddr}</p><h3 style="margin:8px 0 0;color:#1e3a8a;">नागरिक सेवा / तक्रार टोकन पोचपावती</h3></div>
+                <div class="tok">टोकन / मागोवा क्रमांक: ${rec.trackingId}</div>
+                <div class="row"><strong>प्रकार:</strong> ${rec.type || 'अर्ज'}</div>
+                <div class="row"><strong>विषय / दाखला:</strong> ${rec.subject || '-'}</div>
+                <div class="row"><strong>अर्जदाराचे नाव:</strong> ${rec.name || '-'}</div>
+                <div class="row"><strong>मोबाईल क्रमांक:</strong> ${rec.phone || '-'}</div>
+                <div class="row"><strong>दिनांक व वेळ:</strong> ${rec.date || '-'}</div>
+                <div style="margin-top:16px;padding-top:10px;border-top:1px solid #cbd5e1;font-size:13.5px;color:#475569;text-align:center;">अधिकृत वेबपोर्टल: https://gpnipani.online | Website Design by Anil Bhaurao Tormal</div>
+                <div class="no-print" style="text-align:center;margin-top:18px;"><button onclick="window.print()" style="padding:10px 22px;font-size:16px;background:#ea580c;color:#fff;border:none;border-radius:8px;cursor:pointer;">प्रिंट करा / Save as PDF</button></div>
+                </div></body></html>`);
+            w.document.close();
+            setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 350);
+        }
+
         function copyReceiptTrackingCode() {
             const code = (document.getElementById('receiptTrackingCode')?.textContent || lastGeneratedTrackingId || '').trim();
             if (!code) return;
@@ -7578,6 +7690,55 @@
                 switchAdminTab(firstVisibleTabBtn.getAttribute('data-tab'), firstVisibleTabBtn);
             }
             populateAdminForms();
+        }
+
+
+        // --- v27 One-Click Presentation Demo Mode (In-Memory Only — Never Overwrites Live Firebase Data) ---
+        let isPresentationDemoActive = false;
+        let realPortalSnapshotBackup = null;
+        function togglePresentationDemoMode() {
+            const btn = document.getElementById('btnPresentationDemo');
+            if (!isPresentationDemoActive) {
+                realPortalSnapshotBackup = JSON.stringify({
+                    gpName: appState.gpName,
+                    gpAddress: appState.gpAddress,
+                    heroTitle: appState.heroTitle,
+                    phone: appState.phone,
+                    email: appState.email,
+                    stats: appState.stats
+                });
+                isPresentationDemoActive = true;
+                appState.gpName = 'ग्रामपंचायत आदर्शगाव (डेमो पोर्टल)';
+                appState.gpAddress = 'ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र)';
+                appState.heroTitle = 'डिजिटल व पारदर्शक ग्रामपंचायत नागरिक सेवा पोर्टल (डेमो)';
+                appState.phone = '+91 9975571585';
+                appState.email = 'demo.gp@maharashtra.gov.in';
+                if (appState.stats) {
+                    appState.stats = Object.assign({}, appState.stats, { pop: '३,४५०', houses: '७२०', area: '१,१८० हे.' });
+                }
+                if (btn) {
+                    btn.textContent = 'डेमो मोड: चालू (मूळ माहिती परत आणा)';
+                    btn.style.background = '#22c55e';
+                    btn.style.color = '#ffffff';
+                }
+                if (typeof populateActualPortalContent === 'function') populateActualPortalContent();
+                showToast('प्रेझेंटेशन डेमो मोड चालू झाला! (मूळ डेटा सुरक्षित आहे)');
+            } else {
+                if (realPortalSnapshotBackup) {
+                    try {
+                        const prev = JSON.parse(realPortalSnapshotBackup);
+                        Object.assign(appState, prev);
+                    } catch (e) {}
+                }
+                isPresentationDemoActive = false;
+                if (btn) {
+                    btn.textContent = 'डेमो मोड: बंद (Demo Mode)';
+                    btn.style.background = '#fde047';
+                    btn.style.color = '#0f172a';
+                }
+                if (typeof populateActualPortalContent === 'function') populateActualPortalContent();
+                showToast('मूळ ग्रामपंचायत माहिती पुन्हा लोड झाली!');
+            }
         }
 
         function exitAdminToPortal() {
@@ -10215,6 +10376,7 @@ function closeAllBannerDropdowns() {
             document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.remove('active'));
             if (btnEl) btnEl.classList.add('active');
             applyPresetColorsToPickers(bgKey);
+            renderSavedBannerDrafts();
             renderGpBannerCanvas();
         }
 
@@ -10519,11 +10681,15 @@ function closeAllBannerDropdowns() {
 
             const photoShape = document.getElementById('bmPhotoShape')?.value || 'portrait-card';
             const photoZoom = (parseFloat(document.getElementById('bmPhotoZoom')?.value || '105') || 105) / 100;
+            const photoOffsetX = parseFloat(document.getElementById('bmPhotoOffsetX')?.value || '0') || 0;
             const photoOffsetY = parseFloat(document.getElementById('bmPhotoOffsetY')?.value || '0') || 0;
+            const photoRotateDeg = parseFloat(document.getElementById('bmPhotoRotate')?.value || '0') || 0;
 
             const wmEnabled = document.getElementById('bmWatermarkEnabled')?.checked !== false;
             const wmText = (document.getElementById('bmWatermarkText')?.value || '').trim();
             const wmOpacity = Math.max(0, Math.min(100, parseFloat(document.getElementById('bmWatermarkOpacity')?.value || '12') || 0)) / 100;
+            const wmScale = (parseFloat(document.getElementById('bmWatermarkScale')?.value || '100') || 100) / 100;
+            const wmColor = document.getElementById('bmWatermarkColor')?.value || colMaster;
 
             const minDim = Math.min(W, H);
             const isLandscape = W > H * 1.25;
@@ -10645,7 +10811,7 @@ function closeAllBannerDropdowns() {
                 const pBoxW = photoColW;
                 const pBoxH = Math.round(workH * 0.96);
 
-                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontMaster);
+                drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetX, photoOffsetY, photoRotateDeg, th, fontMaster);
 
                 const tBoxX = photoOnLeft ? (pBoxX + pBoxW + Math.round(minDim * 0.022)) : workLeft;
                 drawHierarchicalPosterText(
@@ -10661,7 +10827,7 @@ function closeAllBannerDropdowns() {
                     const pBoxH = Math.round(workH * 0.43);
                     const pBoxX = workLeft + Math.round((workW - pBoxW) / 2);
                     const pBoxY = workTop + 2;
-                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetY, th, fontMaster);
+                    drawLargePosterPortrait(ctx, bmUploadedImage, photoShape, pBoxX, pBoxY, pBoxW, pBoxH, photoZoom, photoOffsetX, photoOffsetY, photoRotateDeg, th, fontMaster);
                     textTop = pBoxY + pBoxH + Math.round(minDim * 0.016);
                     textH = workBottom - textTop;
                 }
@@ -10672,27 +10838,38 @@ function closeAllBannerDropdowns() {
                 );
             }
 
-            // 6. Center Watermark Overlay
+            // 6. Center Watermark Overlay (with Size & Color control)
             if (wmEnabled && wmText && wmOpacity > 0) {
                 ctx.save();
                 ctx.translate(W / 2, (workTop + footerY) / 2);
                 ctx.rotate(-Math.PI / 7);
                 ctx.globalAlpha = wmOpacity;
-                const wmFontSize = Math.round(minDim * 0.068);
+                const wmFontSize = Math.round(minDim * 0.068 * wmScale);
                 ctx.font = `700 ${wmFontSize}px ${fontMaster}`;
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
                 ctx.lineWidth = Math.max(2, Math.round(wmFontSize * 0.04));
                 ctx.strokeStyle = '#ffffff';
-                ctx.strokeText(wmText, 0, 0, W * 0.88);
-                ctx.fillStyle = colMaster;
-                ctx.fillText(wmText, 0, 0, W * 0.88);
+                ctx.strokeText(wmText, 0, 0, W * 0.9);
+                ctx.fillStyle = wmColor;
+                ctx.fillText(wmText, 0, 0, W * 0.9);
                 ctx.restore();
             }
         }
 
-        function drawLargePosterPortrait(ctx, img, shape, x, y, w, h, zoom, offsetY, th, fontFam) {
+        function drawTransformedPortraitImg(ctx, img, cx, cy, boxW, boxH, zoom, shiftX, shiftY, rotDeg) {
+            const sc = Math.max(boxW / img.naturalWidth, boxH / img.naturalHeight) * zoom;
+            const dw = img.naturalWidth * sc;
+            const dh = img.naturalHeight * sc;
             ctx.save();
+            ctx.translate(cx + shiftX, cy + shiftY);
+            if (rotDeg) ctx.rotate((rotDeg * Math.PI) / 180);
+            ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+            ctx.restore();
+        }
+        function drawLargePosterPortrait(ctx, img, shape, x, y, w, h, zoom, offsetX, offsetY, rotDeg, th, fontFam) {
+            ctx.save();
+            const shiftX = (offsetX / 100) * w;
             const shiftY = (offsetY / 100) * h;
 
             if (shape === 'circle') {
@@ -10711,10 +10888,7 @@ function closeAllBannerDropdowns() {
                 ctx.arc(cx, cy, r - ctx.lineWidth / 2, 0, Math.PI * 2);
                 ctx.clip();
                 if (img && img.naturalWidth > 0) {
-                    const sc = Math.max(diam / img.naturalWidth, diam / img.naturalHeight) * zoom;
-                    const dw = img.naturalWidth * sc;
-                    const dh = img.naturalHeight * sc;
-                    ctx.drawImage(img, cx - dw / 2, cy - dh / 2 + shiftY, dw, dh);
+                    drawTransformedPortraitImg(ctx, img, cx, cy, diam, diam, zoom, shiftX, shiftY, rotDeg);
                 } else {
                     drawEmptyPhotoPlaceholder(ctx, cx - r, cy - r, diam, diam, th, fontFam);
                 }
@@ -10722,10 +10896,7 @@ function closeAllBannerDropdowns() {
                 drawRoundRectPath(ctx, x, y, w, h, 20);
                 ctx.clip();
                 if (img && img.naturalWidth > 0) {
-                    const sc = Math.max(w / img.naturalWidth, h / img.naturalHeight) * zoom;
-                    const dw = img.naturalWidth * sc;
-                    const dh = img.naturalHeight * sc;
-                    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2 + shiftY, dw, dh);
+                    drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w, h, zoom, shiftX, shiftY, rotDeg);
                 } else {
                     drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam);
                 }
@@ -10748,10 +10919,7 @@ function closeAllBannerDropdowns() {
                 ctx.clip();
 
                 if (img && img.naturalWidth > 0) {
-                    const sc = Math.max((w - inset * 2) / img.naturalWidth, (h - inset * 2) / img.naturalHeight) * zoom;
-                    const dw = img.naturalWidth * sc;
-                    const dh = img.naturalHeight * sc;
-                    ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2 + shiftY, dw, dh);
+                    drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w - inset * 2, h - inset * 2, zoom, shiftX, shiftY, rotDeg);
                 } else {
                     drawEmptyPhotoPlaceholder(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, th, fontFam);
                 }
@@ -10872,6 +11040,117 @@ function closeAllBannerDropdowns() {
                     ctx.fillText(ln, anchorX, y, boxW);
                     y += senderLH;
                 }
+            }
+        }
+
+
+        // --- v27 Banner Drafts Save/Load & Direct WhatsApp Share ---
+        const BM_DRAFTS_KEY = 'gp_banner_drafts_v1';
+        function getSavedBannerDrafts() {
+            try { return JSON.parse(localStorage.getItem(BM_DRAFTS_KEY) || '[]') || []; } catch (e) { return []; }
+        }
+        function renderSavedBannerDrafts() {
+            const box = document.getElementById('bmSavedDraftsList');
+            if (!box) return;
+            const list = getSavedBannerDrafts();
+            if (!list.length) {
+                box.innerHTML = '<span style="font-size:13.5px; color:var(--text-muted);">अद्याप कोणताही ड्राफ्ट सेव्ह केलेला नाही.</span>';
+                return;
+            }
+            box.innerHTML = list.map((d, i) => `
+                <span class="bm-draft-pill" onclick="loadSavedBannerDraft(${i})" title="हा ड्राफ्ट लोड करा">
+                    <span>${d.name || ('ड्राफ्ट ' + (i + 1))}</span>
+                    <button type="button" class="bm-draft-del" onclick="event.stopPropagation(); deleteSavedBannerDraft(${i})" title="काढा">×</button>
+                </span>
+            `).join('');
+        }
+        function saveCurrentBannerDraft() {
+            const title = (document.getElementById('bmMainTitle')?.value || '').trim();
+            const label = title ? title.slice(0, 24) : ('ड्राफ्ट #' + (getSavedBannerDrafts().length + 1));
+            const fields = [
+                'bmTemplateType', 'bmLayoutStyle', 'bmSizePreset', 'bmDateLine', 'bmBgPreset',
+                'bmTopBadge', 'bmFontIntro', 'bmMainTitle', 'bmFontMaster', 'bmMasterFontScale',
+                'bmSubGreeting', 'bmFontGreeting', 'bmBodyText', 'bmFontBody', 'bmSenderText', 'bmFontSender',
+                'bmColIntro', 'bmColMaster', 'bmColGreeting', 'bmColBody', 'bmPhotoShape',
+                'bmPhotoZoom', 'bmPhotoOffsetX', 'bmPhotoOffsetY', 'bmPhotoRotate',
+                'bmWatermarkText', 'bmWatermarkOpacity', 'bmWatermarkScale', 'bmWatermarkColor'
+            ];
+            const data = { name: label, wmEnabled: document.getElementById('bmWatermarkEnabled')?.checked !== false };
+            fields.forEach(id => { const el = document.getElementById(id); if (el) data[id] = el.value; });
+            const list = getSavedBannerDrafts();
+            list.unshift(data);
+            try { localStorage.setItem(BM_DRAFTS_KEY, JSON.stringify(list.slice(0, 12))); } catch (e) {}
+            renderSavedBannerDrafts();
+            if (typeof showToast === 'function') showToast('बॅनर ड्राफ्ट सेव्ह झाला!');
+        }
+        function loadSavedBannerDraft(idx) {
+            const d = getSavedBannerDrafts()[idx];
+            if (!d) return;
+            Object.keys(d).forEach(k => {
+                if (k === 'name' || k === 'wmEnabled') return;
+                const el = document.getElementById(k);
+                if (el) el.value = d[k];
+            });
+            const wmCb = document.getElementById('bmWatermarkEnabled');
+            if (wmCb) wmCb.checked = (d.wmEnabled !== false);
+
+            // Sync custom dropdown labels
+            const ddPairs = [
+                ['bmDdTemplate', d.bmTemplateType],
+                ['bmDdLayout', d.bmLayoutStyle],
+                ['bmDdSize', d.bmSizePreset],
+                ['bmDdFontIntro', d.bmFontIntro],
+                ['bmDdFontMaster', d.bmFontMaster],
+                ['bmDdFontGreeting', d.bmFontGreeting],
+                ['bmDdFontBody', d.bmFontBody],
+                ['bmDdFontSender', d.bmFontSender],
+                ['bmDdPhotoShape', d.bmPhotoShape]
+            ];
+            ddPairs.forEach(([ddId, val]) => {
+                if (!val) return;
+                const item = document.querySelector(`#${ddId} .bm-dd-item[data-val="${val.replace(/"/g, '\"')}"]`);
+                if (item && typeof setBannerInAppValue === 'function') setBannerInAppValue(ddId, val, item.textContent);
+            });
+            document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.toggle('active', b.getAttribute('data-bg') === d.bmBgPreset));
+            if (document.getElementById('bmMasterScaleVal')) document.getElementById('bmMasterScaleVal').textContent = (d.bmMasterFontScale || 112) + '%';
+            if (document.getElementById('bmPhotoZoomVal')) document.getElementById('bmPhotoZoomVal').textContent = (d.bmPhotoZoom || 105) + '%';
+            if (document.getElementById('bmPhotoXVal')) document.getElementById('bmPhotoXVal').textContent = d.bmPhotoOffsetX || 0;
+            if (document.getElementById('bmPhotoYVal')) document.getElementById('bmPhotoYVal').textContent = d.bmPhotoOffsetY || 0;
+            if (document.getElementById('bmPhotoRotVal')) document.getElementById('bmPhotoRotVal').textContent = (d.bmPhotoRotate || 0) + '°';
+            if (document.getElementById('bmWmOpVal')) document.getElementById('bmWmOpVal').textContent = (d.bmWatermarkOpacity || 12) + '%';
+            if (document.getElementById('bmWmSzVal')) document.getElementById('bmWmSzVal').textContent = (d.bmWatermarkScale || 100) + '%';
+            renderGpBannerCanvas();
+            if (typeof showToast === 'function') showToast('ड्राफ्ट लोड झाला!');
+        }
+        function deleteSavedBannerDraft(idx) {
+            const list = getSavedBannerDrafts();
+            list.splice(idx, 1);
+            try { localStorage.setItem(BM_DRAFTS_KEY, JSON.stringify(list)); } catch (e) {}
+            renderSavedBannerDrafts();
+        }
+        function shareGpBannerOnWhatsApp() {
+            renderGpBannerCanvas();
+            const canvas = document.getElementById('gpBannerCanvas');
+            if (!canvas) return;
+            const title = (document.getElementById('bmMainTitle')?.value || 'ग्रामपंचायत पिंपळगाव निपाणी बॅनर').trim();
+            const shareText = `${title}
+ग्रामपंचायत पिंपळगाव निपाणी | https://gpnipani.online`;
+            if (navigator.share && canvas.toBlob) {
+                canvas.toBlob(async (blob) => {
+                    if (!blob) { downloadGpBanner('jpeg'); return; }
+                    const file = new File([blob], `GP_Banner_${Date.now()}.jpg`, { type: 'image/jpeg' });
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        try {
+                            await navigator.share({ title: title, text: shareText, files: [file] });
+                            return;
+                        } catch (e) {}
+                    }
+                    downloadGpBanner('jpeg');
+                    window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank', 'noopener');
+                }, 'image/jpeg', 0.94);
+            } else {
+                downloadGpBanner('jpeg');
+                window.open(`https://wa.me/?text=${encodeURIComponent(shareText)}`, '_blank', 'noopener');
             }
         }
 
