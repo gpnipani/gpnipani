@@ -653,6 +653,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>वरच्या परिचय मजकुराचा फॉन्ट आकार (Intro Font Size)</label>
+            <div class="bm-range-row">
+                <input type="range" id="bmIntroFontScale" min="60" max="145" value="100" oninput="document.getElementById('bmIntroScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                <span class="bm-range-pill" id="bmIntroScaleVal">100%</span>
+            </div>
+        </div>
+
         <!-- Block 2: Master Name + Font + Size -->
         <div class="bm-row-2">
             <div class="form-group">
@@ -716,6 +724,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>अभिवादन ओळीचा फॉन्ट आकार (Greeting Font Size)</label>
+            <div class="bm-range-row">
+                <input type="range" id="bmGreetingFontScale" min="60" max="145" value="100" oninput="document.getElementById('bmGreetingScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                <span class="bm-range-pill" id="bmGreetingScaleVal">100%</span>
+            </div>
+        </div>
+
         <!-- Block 4: Body Message + Font -->
         <div class="bm-row-2">
             <div class="form-group">
@@ -744,6 +760,14 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label>सविस्तर संदेशाचा फॉन्ट आकार (Body Font Size)</label>
+            <div class="bm-range-row">
+                <input type="range" id="bmBodyFontScale" min="60" max="145" value="100" oninput="document.getElementById('bmBodyScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                <span class="bm-range-pill" id="bmBodyScaleVal">100%</span>
+            </div>
+        </div>
+
         <!-- Block 5: Sender + Font -->
         <div class="bm-row-2">
             <div class="form-group">
@@ -769,6 +793,14 @@
                     <div class="bm-dd-item" data-val="'Poppins', 'Noto Sans Devanagari', sans-serif" onclick="selectBannerInAppOption('bmDdFontSender', '&#39;Poppins&#39;, &#39;Noto Sans Devanagari&#39;, sans-serif', this.textContent, event)">Poppins + Devanagari</div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>शुभेच्छुक ओळीचा फॉन्ट आकार (Sender Font Size)</label>
+            <div class="bm-range-row">
+                <input type="range" id="bmSenderFontScale" min="60" max="145" value="100" oninput="document.getElementById('bmSenderScaleVal').textContent=this.value+'%'; renderGpBannerCanvas()">
+                <span class="bm-range-pill" id="bmSenderScaleVal">100%</span>
             </div>
         </div>
 
@@ -1251,17 +1283,35 @@ function closeAllBannerDropdowns() {
             for (const para of rawParas) {
                 const words = para.split(/\s+/).filter(Boolean);
                 if (!words.length) { lines.push(''); continue; }
-                let cur = words[0];
-                for (let i = 1; i < words.length; i++) {
-                    const test = cur + ' ' + words[i];
+                let cur = '';
+                for (let i = 0; i < words.length; i++) {
+                    const word = words[i];
+                    const test = cur ? (cur + ' ' + word) : word;
                     if (ctx.measureText(test).width <= maxWidth) {
                         cur = test;
                     } else {
-                        lines.push(cur);
-                        cur = words[i];
+                        if (cur) {
+                            lines.push(cur);
+                            cur = '';
+                        }
+                        // If a single long word exceeds maxWidth, break it safely by characters
+                        if (ctx.measureText(word).width > maxWidth) {
+                            let part = '';
+                            for (const ch of Array.from(word)) {
+                                if (ctx.measureText(part + ch).width <= maxWidth || !part) {
+                                    part += ch;
+                                } else {
+                                    lines.push(part);
+                                    part = ch;
+                                }
+                            }
+                            cur = part;
+                        } else {
+                            cur = word;
+                        }
                     }
                 }
-                lines.push(cur);
+                if (cur) lines.push(cur);
             }
             return lines;
         }
@@ -1380,7 +1430,12 @@ function closeAllBannerDropdowns() {
 
             const introText = (document.getElementById('bmTopBadge')?.value || '').trim();
             const masterTitle = (document.getElementById('bmMainTitle')?.value || '').trim();
+            const introScale = (parseFloat(document.getElementById('bmIntroFontScale')?.value || '100') || 100) / 100;
             const masterScale = (parseFloat(document.getElementById('bmMasterFontScale')?.value || '112') || 112) / 100;
+            const greetingScale = (parseFloat(document.getElementById('bmGreetingFontScale')?.value || '100') || 100) / 100;
+            const bodyScale = (parseFloat(document.getElementById('bmBodyFontScale')?.value || '100') || 100) / 100;
+            const senderScale = (parseFloat(document.getElementById('bmSenderFontScale')?.value || '100') || 100) / 100;
+            const textScalesObj = { intro: introScale, master: masterScale, greeting: greetingScale, body: bodyScale, sender: senderScale };
             const subGreeting = (document.getElementById('bmSubGreeting')?.value || '').trim();
             const fixedDateText = (document.getElementById('bmDateLine')?.value || '२८ नोव्हेंबर २०२६').trim();
             const bodyText = (document.getElementById('bmBodyText')?.value || '').trim();
@@ -1528,7 +1583,7 @@ function closeAllBannerDropdowns() {
                 const tBoxX = photoOnLeft ? (pBoxX + pBoxW + Math.round(minDim * 0.022)) : workLeft;
                 drawHierarchicalPosterText(
                     ctx, tBoxX, workTop, textColW, workH, 'left',
-                    introText, masterTitle, masterScale, subGreeting, bodyText, senderText,
+                    introText, masterTitle, textScalesObj, subGreeting, bodyText, senderText,
                     colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim
                 );
             } else {
@@ -1545,7 +1600,7 @@ function closeAllBannerDropdowns() {
                 }
                 drawHierarchicalPosterText(
                     ctx, workLeft, textTop, workW, textH, 'center',
-                    introText, masterTitle, masterScale, subGreeting, bodyText, senderText,
+                    introText, masterTitle, textScalesObj, subGreeting, bodyText, senderText,
                     colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim
                 );
             }
@@ -1651,108 +1706,141 @@ function closeAllBannerDropdowns() {
             ctx.fillText('(फोटो अपलोड करा)', x + w / 2, y + h * 0.56);
         }
 
-        function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, masterScale, subGreeting, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim) {
+        function drawHierarchicalPosterText(ctx, boxX, boxY, boxW, boxH, alignMode, introText, masterTitle, textScales, subGreeting, bodyText, senderText, colIntro, colMaster, colGreeting, colBody, th, fontConfig, minDim) {
             const isLeft = (alignMode === 'left');
-            const anchorX = isLeft ? boxX : (boxX + boxW / 2);
+            const safePadX = Math.max(6, Math.round(boxW * 0.015));
+            const safeW = Math.max(80, boxW - safePadX * 2);
+            const anchorX = isLeft ? (boxX + safePadX) : (boxX + boxW / 2);
+
+            ctx.save();
+            // Hard clip inside the safe text column so text NEVER crosses outer border or footer
+            ctx.beginPath();
+            ctx.rect(boxX, boxY, boxW, boxH);
+            ctx.clip();
+
             ctx.textAlign = isLeft ? 'left' : 'center';
             ctx.textBaseline = 'top';
 
-            const baseUnit = isLeft ? Math.min(boxW * 1.15, boxH * 0.72) : Math.min(boxW * 0.78, boxH * 0.85);
-            const introSize = Math.max(18, Math.round(baseUnit * 0.054));
-            const masterSize = Math.max(34, Math.round(baseUnit * 0.135 * masterScale));
-            const greetSize = Math.max(22, Math.round(baseUnit * 0.068));
-            const bodySize = Math.max(17, Math.round(baseUnit * 0.046));
-            const senderSize = Math.max(16, Math.round(baseUnit * 0.043));
+            const baseUnit = isLeft ? Math.min(safeW * 1.15, boxH * 0.72) : Math.min(safeW * 0.78, boxH * 0.85);
+            const scIntro = (textScales && textScales.intro) || 1;
+            const scMaster = (textScales && textScales.master) || 1.12;
+            const scGreet = (textScales && textScales.greeting) || 1;
+            const scBody = (textScales && textScales.body) || 1;
+            const scSender = (textScales && textScales.sender) || 1;
 
-            ctx.font = `700 ${introSize}px ${fontConfig.intro}`;
-            const introLines = introText ? wrapCanvasLines(ctx, introText, boxW).slice(0, 3) : [];
-            const introLH = Math.round(introSize * 1.22);
+            // Auto-fit loop: if total height exceeds boxH, uniformly scale down so all lines stay comfortably inside
+            let fitRatio = 1.0;
+            let layoutData = null;
 
-            ctx.font = `700 ${masterSize}px ${fontConfig.master}`;
-            const masterLines = masterTitle ? wrapCanvasLines(ctx, masterTitle, boxW).slice(0, 3) : [];
-            const masterLH = Math.round(masterSize * 1.12);
+            for (let attempt = 0; attempt < 8; attempt++) {
+                const introSize = Math.max(13, Math.round(baseUnit * 0.052 * scIntro * fitRatio));
+                const masterSize = Math.max(22, Math.round(baseUnit * 0.128 * scMaster * fitRatio));
+                const greetSize = Math.max(15, Math.round(baseUnit * 0.064 * scGreet * fitRatio));
+                const bodySize = Math.max(13, Math.round(baseUnit * 0.044 * scBody * fitRatio));
+                const senderSize = Math.max(12, Math.round(baseUnit * 0.041 * scSender * fitRatio));
 
-            ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
-            const greetLines = subGreeting ? wrapCanvasLines(ctx, subGreeting, boxW).slice(0, 2) : [];
-            const greetLH = Math.round(greetSize * 1.2);
-
-            ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
-            const bodyLines = bodyText ? wrapCanvasLines(ctx, bodyText, boxW).slice(0, 3) : [];
-            const bodyLH = Math.round(bodySize * 1.26);
-
-            ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
-            const senderLines = senderText ? wrapCanvasLines(ctx, senderText, boxW).slice(0, 2) : [];
-            const senderLH = Math.round(senderSize * 1.22);
-
-            const floralH = Math.round(minDim * 0.045);
-
-            const rawTotalH =
-                (introLines.length * introLH) +
-                (masterLines.length * masterLH) +
-                (greetLines.length * greetLH) +
-                floralH +
-                (bodyLines.length * bodyLH) +
-                (senderLines.length * senderLH);
-
-            const blocksCount = 4;
-            const freeSpace = Math.max(16, boxH - rawTotalH);
-            const gap = Math.min(Math.round(minDim * 0.026), Math.max(6, Math.floor(freeSpace / (blocksCount + 1))));
-            let y = boxY + Math.max(4, Math.floor((boxH - (rawTotalH + gap * (blocksCount - 1))) / 2));
-
-            if (introLines.length) {
-                ctx.fillStyle = colIntro;
                 ctx.font = `700 ${introSize}px ${fontConfig.intro}`;
-                for (const ln of introLines) {
-                    ctx.fillText(ln, anchorX, y, boxW);
-                    y += introLH;
-                }
-                y += gap;
-            }
+                const introLines = introText ? wrapCanvasLines(ctx, introText, safeW).slice(0, 4) : [];
+                const introLH = Math.round(introSize * 1.2);
 
-            if (masterLines.length) {
                 ctx.font = `700 ${masterSize}px ${fontConfig.master}`;
-                for (const ln of masterLines) {
-                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
-                    ctx.fillText(ln, anchorX + 2, y + 2, boxW);
-                    ctx.fillStyle = colMaster;
-                    ctx.fillText(ln, anchorX, y, boxW);
-                    y += masterLH;
+                const masterLines = masterTitle ? wrapCanvasLines(ctx, masterTitle, safeW).slice(0, 4) : [];
+                const masterLH = Math.round(masterSize * 1.12);
+
+                ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
+                const greetLines = subGreeting ? wrapCanvasLines(ctx, subGreeting, safeW).slice(0, 3) : [];
+                const greetLH = Math.round(greetSize * 1.18);
+
+                ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
+                const bodyLines = bodyText ? wrapCanvasLines(ctx, bodyText, safeW).slice(0, 4) : [];
+                const bodyLH = Math.round(bodySize * 1.24);
+
+                ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
+                const senderLines = senderText ? wrapCanvasLines(ctx, senderText, safeW).slice(0, 3) : [];
+                const senderLH = Math.round(senderSize * 1.2);
+
+                const floralH = Math.max(20, Math.round(minDim * 0.042 * fitRatio));
+                const rawTotalH =
+                    (introLines.length * introLH) +
+                    (masterLines.length * masterLH) +
+                    (greetLines.length * greetLH) +
+                    floralH +
+                    (bodyLines.length * bodyLH) +
+                    (senderLines.length * senderLH);
+
+                const minGap = Math.max(4, Math.round(minDim * 0.012 * fitRatio));
+                const minNeededH = rawTotalH + (minGap * 4);
+                layoutData = {
+                    introSize, masterSize, greetSize, bodySize, senderSize,
+                    introLines, introLH, masterLines, masterLH, greetLines, greetLH,
+                    bodyLines, bodyLH, senderLines, senderLH, floralH, rawTotalH, fitRatio
+                };
+                if (minNeededH <= boxH - 8) break;
+                fitRatio = Math.max(0.45, fitRatio * ((boxH - 10) / Math.max(1, minNeededH)) * 0.96);
+            }
+
+            const d = layoutData;
+            const blocksCount = 4;
+            const freeSpace = Math.max(8, boxH - d.rawTotalH);
+            const gap = Math.min(Math.round(minDim * 0.024 * d.fitRatio), Math.max(3, Math.floor(freeSpace / (blocksCount + 1))));
+            const usedH = d.rawTotalH + gap * (blocksCount - 1);
+            let y = boxY + Math.max(2, Math.floor((boxH - usedH) / 2));
+
+            if (d.introLines.length) {
+                ctx.fillStyle = colIntro;
+                ctx.font = `700 ${d.introSize}px ${fontConfig.intro}`;
+                for (const ln of d.introLines) {
+                    ctx.fillText(ln, anchorX, y, safeW);
+                    y += d.introLH;
                 }
                 y += gap;
             }
 
-            if (greetLines.length) {
+            if (d.masterLines.length) {
+                ctx.font = `700 ${d.masterSize}px ${fontConfig.master}`;
+                for (const ln of d.masterLines) {
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+                    ctx.fillText(ln, anchorX + 2, y + 2, safeW);
+                    ctx.fillStyle = colMaster;
+                    ctx.fillText(ln, anchorX, y, safeW);
+                    y += d.masterLH;
+                }
+                y += gap;
+            }
+
+            if (d.greetLines.length) {
                 ctx.fillStyle = colGreeting;
-                ctx.font = `700 ${greetSize}px ${fontConfig.greeting}`;
-                for (const ln of greetLines) {
-                    ctx.fillText(ln, anchorX, y, boxW);
-                    y += greetLH;
+                ctx.font = `700 ${d.greetSize}px ${fontConfig.greeting}`;
+                for (const ln of d.greetLines) {
+                    ctx.fillText(ln, anchorX, y, safeW);
+                    y += d.greetLH;
                 }
                 y += Math.round(gap * 0.7);
             }
 
-            const floralCenterX = isLeft ? (boxX + Math.min(boxW * 0.45, 160)) : (boxX + boxW / 2);
-            drawFloralGarlandAccent(ctx, floralCenterX, y + floralH * 0.45, minDim / 1080);
-            y += floralH + Math.round(gap * 0.65);
+            const floralCenterX = isLeft ? (anchorX + Math.min(safeW * 0.45, 160)) : (boxX + boxW / 2);
+            drawFloralGarlandAccent(ctx, floralCenterX, y + d.floralH * 0.45, (minDim / 1080) * d.fitRatio);
+            y += d.floralH + Math.round(gap * 0.65);
 
-            if (bodyLines.length) {
+            if (d.bodyLines.length) {
                 ctx.fillStyle = colBody;
-                ctx.font = `700 ${bodySize}px ${fontConfig.body}`;
-                for (const ln of bodyLines) {
-                    ctx.fillText(ln, anchorX, y, boxW);
-                    y += bodyLH;
+                ctx.font = `700 ${d.bodySize}px ${fontConfig.body}`;
+                for (const ln of d.bodyLines) {
+                    ctx.fillText(ln, anchorX, y, safeW);
+                    y += d.bodyLH;
                 }
                 y += Math.round(gap * 0.8);
             }
 
-            if (senderLines.length) {
+            if (d.senderLines.length) {
                 ctx.fillStyle = colGreeting;
-                ctx.font = `700 ${senderSize}px ${fontConfig.sender}`;
-                for (const ln of senderLines) {
-                    ctx.fillText(ln, anchorX, y, boxW);
-                    y += senderLH;
+                ctx.font = `700 ${d.senderSize}px ${fontConfig.sender}`;
+                for (const ln of d.senderLines) {
+                    ctx.fillText(ln, anchorX, y, safeW);
+                    y += d.senderLH;
                 }
             }
+            ctx.restore();
         }
 
 
@@ -1781,8 +1869,8 @@ function closeAllBannerDropdowns() {
             const label = title ? title.slice(0, 24) : ('ड्राफ्ट #' + (getSavedBannerDrafts().length + 1));
             const fields = [
                 'bmTemplateType', 'bmLayoutStyle', 'bmSizePreset', 'bmDateLine', 'bmBgPreset',
-                'bmTopBadge', 'bmFontIntro', 'bmMainTitle', 'bmFontMaster', 'bmMasterFontScale',
-                'bmSubGreeting', 'bmFontGreeting', 'bmBodyText', 'bmFontBody', 'bmSenderText', 'bmFontSender',
+                'bmTopBadge', 'bmFontIntro', 'bmIntroFontScale', 'bmMainTitle', 'bmFontMaster', 'bmMasterFontScale',
+                'bmSubGreeting', 'bmFontGreeting', 'bmGreetingFontScale', 'bmBodyText', 'bmFontBody', 'bmBodyFontScale', 'bmSenderText', 'bmFontSender', 'bmSenderFontScale',
                 'bmColIntro', 'bmColMaster', 'bmColGreeting', 'bmColBody', 'bmPhotoShape',
                 'bmPhotoZoom', 'bmPhotoOffsetX', 'bmPhotoOffsetY', 'bmPhotoRotate',
                 'bmWatermarkText', 'bmWatermarkOpacity', 'bmWatermarkScale', 'bmWatermarkColor'
@@ -1824,7 +1912,11 @@ function closeAllBannerDropdowns() {
                 if (item && typeof setBannerInAppValue === 'function') setBannerInAppValue(ddId, val, item.textContent);
             });
             document.querySelectorAll('.bm-bg-swatch').forEach(b => b.classList.toggle('active', b.getAttribute('data-bg') === d.bmBgPreset));
+            if (document.getElementById('bmIntroScaleVal')) document.getElementById('bmIntroScaleVal').textContent = (d.bmIntroFontScale || 100) + '%';
             if (document.getElementById('bmMasterScaleVal')) document.getElementById('bmMasterScaleVal').textContent = (d.bmMasterFontScale || 112) + '%';
+            if (document.getElementById('bmGreetingScaleVal')) document.getElementById('bmGreetingScaleVal').textContent = (d.bmGreetingFontScale || 100) + '%';
+            if (document.getElementById('bmBodyScaleVal')) document.getElementById('bmBodyScaleVal').textContent = (d.bmBodyFontScale || 100) + '%';
+            if (document.getElementById('bmSenderScaleVal')) document.getElementById('bmSenderScaleVal').textContent = (d.bmSenderFontScale || 100) + '%';
             if (document.getElementById('bmPhotoZoomVal')) document.getElementById('bmPhotoZoomVal').textContent = (d.bmPhotoZoom || 105) + '%';
             if (document.getElementById('bmPhotoXVal')) document.getElementById('bmPhotoXVal').textContent = d.bmPhotoOffsetX || 0;
             if (document.getElementById('bmPhotoYVal')) document.getElementById('bmPhotoYVal').textContent = d.bmPhotoOffsetY || 0;
