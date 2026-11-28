@@ -285,7 +285,7 @@
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <link rel="canonical" href="http://gpnipani.online/committees.html">
+    <link rel="canonical" href="https://gpnipani.online/committees.html">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
@@ -507,7 +507,7 @@
 
     <footer>
         <div>मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
-        <div style="margin-top: 6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी (<a href="http://gpnipani.online" style="color:var(--primary); text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>http://gpnipani.online</span></a>) | Website Design by <strong>Anil Bhaurao Tormal</strong> | संपर्क: <a href="tel:+919975571585">9975571585</a></div>
+        <div style="margin-top: 6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी (<a href="https://gpnipani.online" style="color:var(--primary); text-decoration:none; display:inline-flex; align-items:center;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block; vertical-align:-2px; margin-right:3px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg><span>https://gpnipani.online</span></a>) | Website Design by <strong>Anil Bhaurao Tormal</strong> | संपर्क: <a href="tel:+919975571585">9975571585</a></div>
     </footer>
 
     <script>
@@ -816,7 +816,7 @@
         function downloadInqReceiptSlip(formatType) {
             const fmt = (formatType || 'jpg').toLowerCase() === 'pdf' ? 'pdf' : 'jpg';
             const rec = lastInqReceiptPayload || { trackingId: 'GP-2026-1001', type: 'चौकशी', subject: '-', name: '-', phone: '-', date: 'आज' };
-            const trackLink = `http://gpnipani.online/?track=${encodeURIComponent(rec.trackingId || '')}`;
+            const trackLink = `https://gpnipani.online/?track=${encodeURIComponent(rec.trackingId || '')}`;
             const qrDataUrl = buildInqQrDataUrl(trackLink);
             const slip = document.createElement('div');
             slip.style.cssText = 'position:fixed;left:-9999px;top:0;width:720px;background:#ffffff;color:#0f172a;padding:28px;border:3px solid #1e3a8a;font-family:"Noto Sans Devanagari",sans-serif;font-weight:700;letter-spacing:0;line-height:1.5;';
@@ -827,7 +827,7 @@
                         <div style="font-size:15px;">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५ | अधिकृत ऑनलाइन चौकशी पोचपावती</div>
                     </div>
                     <div style="background:rgba(255,255,255,0.16);padding:6px 12px;border-radius:8px;font-size:14px;white-space:nowrap;font-family:Arial,sans-serif;">
-                        <strong>http://gpnipani.online</strong>
+                        <strong>https://gpnipani.online</strong>
                     </div>
                 </div>
                 <div style="background:#fff7ed;border:2px dashed #ea580c;padding:14px 16px;border-radius:10px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:16px;">
@@ -850,7 +850,7 @@
                     <div><strong>सद्यस्थिती:</strong> प्रलंबित (संबंधित अधिकारी/कर्मचाऱ्याकडे वर्ग)</div>
                 </div>
                 <div style="border-top:1.5px solid #cbd5e1;padding-top:10px;font-size:14.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;">
-                    <span style="font-family:Arial,sans-serif;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">http://gpnipani.online</strong></span>
+                    <span style="font-family:Arial,sans-serif;">अधिकृत वेबपोर्टल: <strong style="color:#1e3a8a;">https://gpnipani.online</strong></span>
                     <span style="font-family:Arial,sans-serif;">Website Design by Anil Bhaurao Tormal</span>
                 </div>
                 <div style="margin-top:10px;padding:8px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:12.5px;color:#334155;line-height:1.45;text-align:center;">
@@ -952,26 +952,17 @@
             }
             if (!consentOk) { showToast('कृपया गोपनीयता व माहिती संरक्षण संमती बॉक्सवर टिक करा.'); return; }
 
-            const trackingId = 'GP-2026-' + Math.floor(1000 + Math.random() * 9000);
             const nowMs = Date.now();
-            const todayStr = new Date().toLocaleDateString('mr-IN', { day: 'numeric', month: 'long', year: 'numeric' });
-            const newReq = {
-                trackingId,
-                date: todayStr,
-                createdAt: nowMs,
-                resolvedAt: null,
-                type: 'चौकशी',
-                subject: categoryLabel + ' — ' + subject,
-                name,
-                phone,
-                aadhaar,
-                detail,
-                attachment,
-                aadhaarDoc,
-                status: 'प्रलंबित',
-                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
-                actionProof: ''
-            };
+            const yr = new Date().getFullYear();
+            const todayStr = new Date().toLocaleString('mr-IN', {
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            });
 
             let stateObj = {};
             try {
@@ -994,6 +985,33 @@
                 if (Array.isArray(aData)) archList = aData;
                 else if (aData && typeof aData === 'object') archList = Object.values(aData);
             } catch (e) {}
+
+            const usedIds = new Set();
+            reqList.forEach(r => { if (r && r.trackingId) usedIds.add(String(r.trackingId).trim().toUpperCase()); });
+            archList.forEach(a => { if (a && a.trackingId) usedIds.add(String(a.trackingId).trim().toUpperCase()); });
+            let trackingId = `GP-${yr}-I-${String(nowMs).slice(-5)}`;
+            for (let attempt = 0; attempt < 200; attempt++) {
+                const cand = `GP-${yr}-I-${Math.floor(1000 + Math.random() * 9000)}`;
+                if (!usedIds.has(cand.toUpperCase())) { trackingId = cand; break; }
+            }
+
+            const newReq = {
+                trackingId,
+                date: todayStr,
+                createdAt: nowMs,
+                resolvedAt: null,
+                type: 'चौकशी',
+                subject: categoryLabel + ' — ' + subject,
+                name,
+                phone,
+                aadhaar,
+                detail,
+                attachment,
+                aadhaarDoc,
+                status: 'प्रलंबित',
+                actionNote: 'तुमची चौकशी नोंदवली गेली आहे. संबंधित विभागाकडून लवकरच उत्तर दिले जाईल.',
+                actionProof: ''
+            };
 
             const targetInfo = resolveSubpageWhatsAppTarget(categoryLabel, subject, stateObj);
             newReq.actionNote = `चौकशी नोंदवली गेली असून संबंधित अधिकारी/कर्मचारी (${targetInfo.targetName}) यांना WhatsApp द्वारे पाठवण्यासाठी सज्ज आहे.`;
@@ -1049,7 +1067,7 @@
                 `*नागरिकाचा मोबाईल:* ${phone}`,
                 `*चौकशीचा तपशील:* ${detail}`,
                 '',
-                'अधिकृत पोर्टल: http://gpnipani.online'
+                'अधिकृत पोर्टल: https://gpnipani.online'
             ];
             const waNum = extractWaNumber(targetInfo.targetPhone);
             const waUrl = waNum
