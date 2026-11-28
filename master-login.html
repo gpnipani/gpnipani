@@ -2101,7 +2101,6 @@
                 <span id="roleBadgeDisplay" class="badge" style="margin-left: 10px; background: #ffffff; color: #0f172a;">ग्रामसेवक (Super Admin)</span>
             </div>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <button type="button" class="btn btn-secondary" id="btnPresentationDemo" onclick="togglePresentationDemoMode()" style="background:#fde047; color:#0f172a; border:none;">डेमो मोड: बंद (Demo Mode)</button>
                 <button type="button" class="btn btn-primary" onclick="exitAdminToPortal()">पोर्टल पहा (Live Preview)</button>
                 <button type="button" class="btn btn-danger" onclick="logoutAdmin()">लॉगआउट</button>
             </div>
@@ -7692,54 +7691,6 @@
             populateAdminForms();
         }
 
-
-        // --- v27 One-Click Presentation Demo Mode (In-Memory Only — Never Overwrites Live Firebase Data) ---
-        let isPresentationDemoActive = false;
-        let realPortalSnapshotBackup = null;
-        function togglePresentationDemoMode() {
-            const btn = document.getElementById('btnPresentationDemo');
-            if (!isPresentationDemoActive) {
-                realPortalSnapshotBackup = JSON.stringify({
-                    gpName: appState.gpName,
-                    gpAddress: appState.gpAddress,
-                    heroTitle: appState.heroTitle,
-                    phone: appState.phone,
-                    email: appState.email,
-                    stats: appState.stats
-                });
-                isPresentationDemoActive = true;
-                appState.gpName = 'ग्रामपंचायत आदर्शगाव (डेमो पोर्टल)';
-                appState.gpAddress = 'ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र)';
-                appState.heroTitle = 'डिजिटल व पारदर्शक ग्रामपंचायत नागरिक सेवा पोर्टल (डेमो)';
-                appState.phone = '+91 9975571585';
-                appState.email = 'demo.gp@maharashtra.gov.in';
-                if (appState.stats) {
-                    appState.stats = Object.assign({}, appState.stats, { pop: '३,४५०', houses: '७२०', area: '१,१८० हे.' });
-                }
-                if (btn) {
-                    btn.textContent = 'डेमो मोड: चालू (मूळ माहिती परत आणा)';
-                    btn.style.background = '#22c55e';
-                    btn.style.color = '#ffffff';
-                }
-                if (typeof populateActualPortalContent === 'function') populateActualPortalContent();
-                showToast('प्रेझेंटेशन डेमो मोड चालू झाला! (मूळ डेटा सुरक्षित आहे)');
-            } else {
-                if (realPortalSnapshotBackup) {
-                    try {
-                        const prev = JSON.parse(realPortalSnapshotBackup);
-                        Object.assign(appState, prev);
-                    } catch (e) {}
-                }
-                isPresentationDemoActive = false;
-                if (btn) {
-                    btn.textContent = 'डेमो मोड: बंद (Demo Mode)';
-                    btn.style.background = '#fde047';
-                    btn.style.color = '#0f172a';
-                }
-                if (typeof populateActualPortalContent === 'function') populateActualPortalContent();
-                showToast('मूळ ग्रामपंचायत माहिती पुन्हा लोड झाली!');
-            }
-        }
 
         function exitAdminToPortal() {
             document.getElementById('adminShellView').classList.remove('active');
