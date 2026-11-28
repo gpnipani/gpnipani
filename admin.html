@@ -3361,13 +3361,17 @@
                 <div class="bm-dd-wrap" id="bmDdPhotoShape">
                     <input type="hidden" id="bmPhotoShape" value="portrait-card">
                     <button type="button" class="bm-dd-btn" onclick="toggleBannerInAppDropdown('bmDdPhotoShape', event)">
-                        <span id="bmLblPhotoShape">मोठी उभी पोर्ट्रेट फ्रेम</span>
+                        <span id="bmLblPhotoShape">आयताकृती उभी फ्रेम (Vertical Rectangle)</span>
                         <svg class="bm-dd-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
                     </button>
                     <div class="bm-dd-list">
-                    <div class="bm-dd-item selected" data-val="portrait-card" onclick="selectBannerInAppOption('bmDdPhotoShape', 'portrait-card', this.textContent, event)">मोठी उभी पोर्ट्रेट फ्रेम</div>
-                    <div class="bm-dd-item" data-val="cutout-clean" onclick="selectBannerInAppOption('bmDdPhotoShape', 'cutout-clean', this.textContent, event)">मोठा थेट कटआउट / बिना-बॉर्डर फोटो</div>
-                    <div class="bm-dd-item" data-val="circle" onclick="selectBannerInAppOption('bmDdPhotoShape', 'circle', this.textContent, event)">मोठी गोल फ्रेम (Large Circle)</div>
+                    <div class="bm-dd-item selected" data-val="portrait-card" onclick="selectBannerInAppOption('bmDdPhotoShape', 'portrait-card', this.textContent, event)">आयताकृती उभी फ्रेम (Vertical Rectangle)</div>
+                    <div class="bm-dd-item" data-val="square-box" onclick="selectBannerInAppOption('bmDdPhotoShape', 'square-box', this.textContent, event)">चौरस फ्रेम (Square Frame)</div>
+                    <div class="bm-dd-item" data-val="landscape-rect" onclick="selectBannerInAppOption('bmDdPhotoShape', 'landscape-rect', this.textContent, event)">आयताकृती आडवी फ्रेम (Horizontal Rectangle)</div>
+                    <div class="bm-dd-item" data-val="circle" onclick="selectBannerInAppOption('bmDdPhotoShape', 'circle', this.textContent, event)">गोल फ्रेम (Circle)</div>
+                    <div class="bm-dd-item" data-val="oval" onclick="selectBannerInAppOption('bmDdPhotoShape', 'oval', this.textContent, event)">अंडाकृती उभी फ्रेम (Oval Frame)</div>
+                    <div class="bm-dd-item" data-val="arch-top" onclick="selectBannerInAppOption('bmDdPhotoShape', 'arch-top', this.textContent, event)">कमानदार पारंपरिक फ्रेम (Arch / Mandir Frame)</div>
+                    <div class="bm-dd-item" data-val="cutout-clean" onclick="selectBannerInAppOption('bmDdPhotoShape', 'cutout-clean', this.textContent, event)">बिना-बॉर्डर थेट फोटो (No-Border Cutout)</div>
                     <div class="bm-dd-item" data-val="none" onclick="selectBannerInAppOption('bmDdPhotoShape', 'none', this.textContent, event)">फोटो नको (फक्त मजकूर बॅनर)</div>
                     </div>
                 </div>
@@ -10740,6 +10744,49 @@ function closeAllBannerDropdowns() {
             ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
             ctx.restore();
         }
+        function drawArchFramePath(ctx, x, y, w, h, bottomRadius) {
+            const rTop = w / 2;
+            const rb = Math.min(bottomRadius, w / 2, h / 3);
+            ctx.beginPath();
+            ctx.moveTo(x, y + rTop);
+            ctx.arc(x + rTop, y + rTop, rTop, Math.PI, 0, false);
+            ctx.lineTo(x + w, y + h - rb);
+            ctx.arcTo(x + w, y + h, x + w - rb, y + h, rb);
+            ctx.lineTo(x + rb, y + h);
+            ctx.arcTo(x, y + h, x, y + h - rb, rb);
+            ctx.closePath();
+        }
+
+        function drawFramedBoxHelper(ctx, img, fx, fy, fw, fh, radius, isArch, zoom, shiftX, shiftY, rotDeg, th, fontFam) {
+            ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
+            ctx.shadowBlur = 18;
+            ctx.shadowOffsetY = 6;
+            ctx.fillStyle = '#ffffff';
+            if (isArch) drawArchFramePath(ctx, fx, fy, fw, fh, 18);
+            else drawRoundRectPath(ctx, fx, fy, fw, fh, radius);
+            ctx.fill();
+            ctx.shadowColor = 'transparent';
+
+            ctx.strokeStyle = th.border;
+            ctx.lineWidth = Math.max(5, Math.round(Math.min(fw, fh) * 0.016));
+            if (isArch) drawArchFramePath(ctx, fx, fy, fw, fh, 18);
+            else drawRoundRectPath(ctx, fx, fy, fw, fh, radius);
+            ctx.stroke();
+
+            const inset = Math.round(ctx.lineWidth * 0.75);
+            const ix = fx + inset, iy = fy + inset;
+            const iw = Math.max(12, fw - inset * 2), ih = Math.max(12, fh - inset * 2);
+            if (isArch) drawArchFramePath(ctx, ix, iy, iw, ih, Math.max(8, 18 - inset));
+            else drawRoundRectPath(ctx, ix, iy, iw, ih, Math.max(4, radius - inset));
+            ctx.clip();
+
+            if (img && img.naturalWidth > 0) {
+                drawTransformedPortraitImg(ctx, img, ix + iw / 2, iy + ih / 2, iw, ih, zoom, shiftX, shiftY, rotDeg);
+            } else {
+                drawEmptyPhotoPlaceholder(ctx, ix, iy, iw, ih, th, fontFam);
+            }
+        }
+
         function drawLargePosterPortrait(ctx, img, shape, x, y, w, h, zoom, offsetX, offsetY, rotDeg, th, fontFam) {
             ctx.save();
             const shiftX = (offsetX / 100) * w;
@@ -10752,7 +10799,7 @@ function closeAllBannerDropdowns() {
                 const r = diam / 2;
                 ctx.fillStyle = '#ffffff';
                 ctx.strokeStyle = th.border;
-                ctx.lineWidth = Math.max(6, Math.round(diam * 0.025));
+                ctx.lineWidth = Math.max(6, Math.round(diam * 0.024));
                 ctx.beginPath();
                 ctx.arc(cx, cy, r, 0, Math.PI * 2);
                 ctx.fill();
@@ -10765,8 +10812,41 @@ function closeAllBannerDropdowns() {
                 } else {
                     drawEmptyPhotoPlaceholder(ctx, cx - r, cy - r, diam, diam, th, fontFam);
                 }
+            } else if (shape === 'oval') {
+                const ow = Math.min(w, h * 0.82);
+                const oh = h;
+                const cx = x + w / 2;
+                const cy = y + h / 2;
+                ctx.fillStyle = '#ffffff';
+                ctx.strokeStyle = th.border;
+                ctx.lineWidth = Math.max(6, Math.round(Math.min(ow, oh) * 0.02));
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, ow / 2, oh / 2, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.ellipse(cx, cy, Math.max(8, ow / 2 - ctx.lineWidth / 2), Math.max(8, oh / 2 - ctx.lineWidth / 2), 0, 0, Math.PI * 2);
+                ctx.clip();
+                if (img && img.naturalWidth > 0) {
+                    drawTransformedPortraitImg(ctx, img, cx, cy, ow, oh, zoom, shiftX, shiftY, rotDeg);
+                } else {
+                    drawEmptyPhotoPlaceholder(ctx, cx - ow / 2, cy - oh / 2, ow, oh, th, fontFam);
+                }
+            } else if (shape === 'square-box') {
+                const side = Math.min(w, h);
+                const sx = x + (w - side) / 2;
+                const sy = y + (h - side) / 2;
+                drawFramedBoxHelper(ctx, img, sx, sy, side, side, 16, false, zoom, shiftX, shiftY, rotDeg, th, fontFam);
+            } else if (shape === 'landscape-rect') {
+                const lw = w;
+                const lh = Math.min(h, Math.round(w * 0.68));
+                const lx = x;
+                const ly = y + (h - lh) / 2;
+                drawFramedBoxHelper(ctx, img, lx, ly, lw, lh, 18, false, zoom, shiftX, shiftY, rotDeg, th, fontFam);
+            } else if (shape === 'arch-top') {
+                drawFramedBoxHelper(ctx, img, x, y, w, h, 20, true, zoom, shiftX, shiftY, rotDeg, th, fontFam);
             } else if (shape === 'cutout-clean') {
-                drawRoundRectPath(ctx, x, y, w, h, 20);
+                drawRoundRectPath(ctx, x, y, w, h, 18);
                 ctx.clip();
                 if (img && img.naturalWidth > 0) {
                     drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w, h, zoom, shiftX, shiftY, rotDeg);
@@ -10774,28 +10854,8 @@ function closeAllBannerDropdowns() {
                     drawEmptyPhotoPlaceholder(ctx, x, y, w, h, th, fontFam);
                 }
             } else {
-                ctx.shadowColor = 'rgba(15, 23, 42, 0.22)';
-                ctx.shadowBlur = 18;
-                ctx.shadowOffsetY = 6;
-                ctx.fillStyle = '#ffffff';
-                drawRoundRectPath(ctx, x, y, w, h, 24);
-                ctx.fill();
-                ctx.shadowColor = 'transparent';
-
-                ctx.strokeStyle = th.border;
-                ctx.lineWidth = Math.max(5, Math.round(Math.min(w, h) * 0.016));
-                drawRoundRectPath(ctx, x, y, w, h, 24);
-                ctx.stroke();
-
-                const inset = Math.round(ctx.lineWidth * 0.75);
-                drawRoundRectPath(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, 18);
-                ctx.clip();
-
-                if (img && img.naturalWidth > 0) {
-                    drawTransformedPortraitImg(ctx, img, x + w / 2, y + h / 2, w - inset * 2, h - inset * 2, zoom, shiftX, shiftY, rotDeg);
-                } else {
-                    drawEmptyPhotoPlaceholder(ctx, x + inset, y + inset, w - inset * 2, h - inset * 2, th, fontFam);
-                }
+                // Default: Vertical Rectangle ('portrait-card')
+                drawFramedBoxHelper(ctx, img, x, y, w, h, 20, false, zoom, shiftX, shiftY, rotDeg, th, fontFam);
             }
             ctx.restore();
         }
