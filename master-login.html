@@ -1282,6 +1282,90 @@
             .compact-req-card { padding: 10px; font-size: 14.5px; }
         }
 
+
+        /* v13 New Sections: Tax/UPI, Budget, Directory, Gallery, Custom Sections */
+        .tax-split-grid {
+            display: grid;
+            grid-template-columns: 1.35fr 0.9fr;
+            gap: 20px;
+            align-items: center;
+        }
+        @media (max-width: 780px) {
+            .tax-split-grid { grid-template-columns: 1fr; }
+        }
+        .tax-qr-box {
+            background: var(--bg-subtle);
+            border: 2px dashed var(--primary);
+            border-radius: 14px;
+            padding: 18px;
+            text-align: center;
+        }
+        .tax-qr-box img {
+            max-width: 210px;
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.14);
+            margin-bottom: 10px;
+        }
+        .budget-table-wrap {
+            overflow-x: auto;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            box-shadow: var(--shadow-sm);
+        }
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 620px;
+            font-size: 16.5px;
+        }
+        .budget-table th {
+            background: var(--secondary);
+            color: #ffffff;
+            text-align: left;
+            padding: 12px 14px;
+            font-weight: 600;
+        }
+        .budget-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
+        }
+        .budget-table tr:nth-child(even) td {
+            background: var(--bg-subtle);
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 18px;
+        }
+        .gallery-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+        .gallery-thumb {
+            height: 185px;
+            background: var(--bg-subtle);
+            overflow: hidden;
+            position: relative;
+        }
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.25s ease;
+        }
+        .gallery-card:hover .gallery-thumb img { transform: scale(1.04); }
+        .gallery-body { padding: 12px 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -1352,6 +1436,10 @@
                         <li><a href="#sec-about"><svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> गावाचा इतिहास व परिचय</a></li>
                         <li><a href="#sec-stats"><svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg> लोकसंख्या व आकडेवारी</a></li>
                         <li><a href="#sec-works"><svg class="icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> गावातील विकासकामे</a></li>
+                        <li data-nav-sec="tax"><a href="#sec-tax">घरपट्टी व पाणीपट्टी (QR)</a></li>
+                        <li data-nav-sec="budget"><a href="#sec-budget">अंदाजपत्रक व निधी तपशील</a></li>
+                        <li data-nav-sec="directory"><a href="#sec-directory">गावातील संस्था व सुविधा</a></li>
+                        <li data-nav-sec="gallery"><a href="#sec-gallery">फोटो व व्हिडिओ गॅलरी</a></li>
                     </ul>
                 </li>
                 <li class="has-dropdown" data-nav-sec="members">
@@ -1509,6 +1597,33 @@
             <div class="notice-list" id="noticesContainer"></div>
         </section>
 
+        <!-- घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (Tax & UPI QR) -->
+        <section class="section-wrap" id="sec-tax">
+            <h2 class="section-heading">घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (UPI / QR)</h2>
+            <div id="taxPaymentContainer"></div>
+        </section>
+
+        <!-- ग्रामपंचायत अंदाजपत्रक व निधी तपशील -->
+        <section class="section-wrap" id="sec-budget">
+            <h2 class="section-heading">ग्रामपंचायत अंदाजपत्रक व निधी तपशील</h2>
+            <div id="budgetContainer"></div>
+        </section>
+
+        <!-- गावातील महत्त्वाच्या संस्था व सुविधा (Village Directory) -->
+        <section class="section-wrap" id="sec-directory">
+            <h2 class="section-heading">गावातील महत्त्वाच्या संस्था व सुविधा</h2>
+            <div class="cards-grid" id="directoryContainer"></div>
+        </section>
+
+        <!-- गावाची फोटो व व्हिडिओ गॅलरी -->
+        <section class="section-wrap" id="sec-gallery">
+            <h2 class="section-heading">फोटो व व्हिडिओ गॅलरी</h2>
+            <div class="gallery-grid" id="galleryContainer"></div>
+        </section>
+
+        <!-- सानुकूल विभाग (Custom Sections added from Admin) -->
+        <div id="sec-custom"></div>
+
         <!-- Footer -->
         <footer>
             <div class="footer-grid">
@@ -1638,6 +1753,11 @@
             <button type="button" class="admin-tab-btn" data-tab="tab-general" data-roles="developer,gramsevak,operator" data-label="ताज्या सूचना व मुख्य पृष्ठ" onclick="switchAdminTab('tab-general', this)">३. ताज्या सूचना व मुख्य पृष्ठ</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-notices" data-roles="developer,gramsevak,operator" data-label="ग्रामसभा नोटीस व ठराव" onclick="switchAdminTab('tab-notices', this)">४. ग्रामसभा नोटीस व ठराव</button>
             <button type="button" class="admin-tab-btn" data-tab="tab-works" data-roles="developer,gramsevak,operator" data-label="गावातील विकासकामे" onclick="switchAdminTab('tab-works', this)">५. गावातील विकासकामे</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-gallery" data-roles="developer,gramsevak,operator" data-label="फोटो व व्हिडिओ गॅलरी" onclick="switchAdminTab('tab-gallery', this)">फोटो व व्हिडिओ गॅलरी</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-tax" data-roles="developer,gramsevak" data-label="घरपट्टी व पाणीपट्टी (QR)" onclick="switchAdminTab('tab-tax', this)">घरपट्टी व पाणीपट्टी (QR)</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-budget" data-roles="developer,gramsevak" data-label="अंदाजपत्रक व निधी तपशील" onclick="switchAdminTab('tab-budget', this)">अंदाजपत्रक व निधी तपशील</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-directory" data-roles="developer,gramsevak,operator" data-label="गावातील संस्था व सुविधा" onclick="switchAdminTab('tab-directory', this)">गावातील संस्था व सुविधा</button>
+            <button type="button" class="admin-tab-btn" data-tab="tab-custom-sections" data-roles="developer,gramsevak" data-label="नवीन सानुकूल विभाग जोडा" onclick="switchAdminTab('tab-custom-sections', this)">नवीन सानुकूल विभाग जोडा</button>
 
             <!-- गट २: नागरिक सेवा, योजना व नमुना अर्ज -->
             <button type="button" class="admin-tab-btn" data-tab="tab-sample-forms" data-roles="developer,gramsevak,operator" data-label="नमुना अर्ज अपलोड" onclick="switchAdminTab('tab-sample-forms', this)">६. नमुना अर्ज अपलोड</button>
@@ -2468,6 +2588,140 @@
                     </div>
                 </div>
             </div>
+            <!-- Tab: Tax & UPI QR -->
+            <div class="admin-tab-pane" id="tab-tax">
+                <div class="info-card" style="border-left: 5px solid #16a34a;">
+                    <h3 style="color:#15803d; margin-bottom:4px;">घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (UPI / QR) व्यवस्थापन</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">येथून ग्रामपंचायतीचा अधिकृत बँक तपशील, UPI आयडी, QR कोड फोटो आणि कर भरणा पावती पाठवण्यासाठीचा WhatsApp क्रमांक अपडेट करता येतो.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>बँकेचे नाव</label><input type="text" class="form-control" id="taxBankName" placeholder="उदा. स्टेट बँक ऑफ इंडिया / जिल्हा मध्यवर्ती बँक"></div>
+                        <div class="form-group"><label>खातेदाराचे नाव</label><input type="text" class="form-control" id="taxAccName" placeholder="उदा. ग्रामपंचायत फंड, पिंपळगाव निपाणी"></div>
+                        <div class="form-group"><label>खाते क्रमांक (Account No.)</label><input type="text" class="form-control" id="taxAccNo" placeholder="खाते क्रमांक भरा"></div>
+                        <div class="form-group"><label>IFSC कोड</label><input type="text" class="form-control" id="taxIfsc" placeholder="उदा. SBIN0001234"></div>
+                        <div class="form-group"><label>UPI ID</label><input type="text" class="form-control" id="taxUpiId" placeholder="उदा. gpnipani@sbi"></div>
+                        <div class="form-group"><label>पावती पाठवण्यासाठी WhatsApp क्रमांक (१० अंकी)</label><input type="text" class="form-control" id="taxWhatsapp" placeholder="उदा. 9975571585"></div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>नागरिकांसाठी कर भरणा सूचना</label>
+                            <textarea class="form-control" rows="2" id="taxNote" placeholder="उदा. घरपट्टी व पाणीपट्टी भरल्यानंतर पेमेंटचा स्क्रीनशॉट व घर क्रमांक खालील WhatsApp बटनावर पाठवावा."></textarea>
+                        </div>
+                        <div class="form-group" style="grid-column: 1 / -1;">
+                            <label>अधिकृत UPI QR कोड फोटो अपलोड करा</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                                <input type="hidden" id="taxQrPhoto" value="">
+                                <div id="taxQrPhoto_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                                    <span>QR फोटो निवडा</span>
+                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'taxQrPhoto')">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:14px; display:flex; justify-content:flex-end;">
+                        <button type="button" class="btn btn-primary" style="padding:10px 24px; font-size:18px;" onclick="saveTaxConfigAdmin()">घरपट्टी व QR माहिती सेव्ह करा</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Budget & 15th Finance Commission -->
+            <div class="admin-tab-pane" id="tab-budget">
+                <div class="info-card" style="border-left: 5px solid var(--secondary);">
+                    <h3 style="color:var(--secondary); margin-bottom:4px;">ग्रामपंचायत अंदाजपत्रक व निधी तपशील व्यवस्थापन</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">१५ वा वित्त आयोग, मनरेगा, ग्रामनिधी व इतर शासकीय योजनांतून प्राप्त निधी व खर्चाचा तपशील येथे जोडा किंवा एडिट करा.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>आर्थिक वर्ष</label><input type="text" class="form-control" id="bdgYear" placeholder="उदा. २०२५-२६"></div>
+                        <div class="form-group"><label>योजना / निधीचा प्रकार</label><input type="text" class="form-control" id="bdgScheme" placeholder="उदा. १५ वा वित्त आयोग (अबंधित)"></div>
+                        <div class="form-group"><label>प्राप्त / मंजूर निधी (₹)</label><input type="text" class="form-control" id="bdgReceived" placeholder="उदा. ₹१२,५०,०००"></div>
+                        <div class="form-group"><label>झालेला खर्च (₹)</label><input type="text" class="form-control" id="bdgSpent" placeholder="उदा. ₹९,८०,०००"></div>
+                        <div class="form-group"><label>शिल्लक / सद्यस्थिती</label><input type="text" class="form-control" id="bdgBalance" placeholder="उदा. ₹२,७०,००० (कामे प्रगतीपथावर)"></div>
+                        <div class="form-group"><label>अधिकृत PDF लिंक (ऐच्छिक)</label><input type="url" class="form-control" id="bdgPdfUrl" placeholder="https://..."></div>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveBudget" onclick="addOrUpdateBudgetItem()">निधी नोंद जोडा</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelBudget" style="display:none;" onclick="cancelEditBudget()">रद्द करा</button>
+                    </div>
+                    <div id="adminBudgetList"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Village Directory -->
+            <div class="admin-tab-pane" id="tab-directory">
+                <div class="info-card" style="border-left: 5px solid var(--primary);">
+                    <h3 style="color:var(--primary); margin-bottom:4px;">गावातील महत्त्वाच्या संस्था व सुविधा (Village Directory)</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">शाळा, अंगणवाडी, प्राथमिक आरोग्य केंद्र, रेशन दुकान, सोसायटी, दूध डेअरी व बँक यांचे तपशील जोडा किंवा एडिट करा.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>प्रकार / विभाग</label><input type="text" class="form-control" id="dirCategory" placeholder="उदा. शिक्षण / आरोग्य / रेशन दुकान / बँक"></div>
+                        <div class="form-group"><label>संस्थेचे नाव</label><input type="text" class="form-control" id="dirName" placeholder="उदा. जिल्हा परिषद प्राथमिक शाळा"></div>
+                        <div class="form-group"><label>पत्ता / कार्यालयीन वेळ</label><input type="text" class="form-control" id="dirAddress" placeholder="उदा. गावठाण, सकाळी १०:०० ते सायं. ५:००"></div>
+                        <div class="form-group"><label>संपर्क क्रमांक</label><input type="text" class="form-control" id="dirPhone" placeholder="उदा. 9823000000"></div>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveDirectory" onclick="addOrUpdateDirectoryItem()">संस्था जोडा</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelDirectory" style="display:none;" onclick="cancelEditDirectory()">रद्द करा</button>
+                    </div>
+                    <div id="adminDirectoryList"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Photo & Video Gallery -->
+            <div class="admin-tab-pane" id="tab-gallery">
+                <div class="info-card" style="border-left: 5px solid #ea580c;">
+                    <h3 style="color:#ea580c; margin-bottom:4px;">फोटो व व्हिडिओ गॅलरी व्यवस्थापन</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">गावातील कार्यक्रम, स्वच्छता मोहीम, वृक्षारोपण, पुरस्कार व विकासकामांचे फोटो किंवा YouTube व्हिडिओ लिंक येथे जोडा.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>शीर्षक / कार्यक्रमाचे नाव</label><input type="text" class="form-control" id="galTitle" placeholder="उदा. स्वातंत्र्य दिन ध्वजारोहण सोहळा"></div>
+                        <div class="form-group"><label>विभाग / तारीख</label><input type="text" class="form-control" id="galTag" placeholder="उदा. कार्यक्रम | १५ ऑगस्ट"></div>
+                        <div class="form-group">
+                            <label>फोटो अपलोड करा (Cloudinary)</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                                <input type="hidden" id="galPhoto" value="">
+                                <div id="galPhoto_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                                    <span>फोटो निवडा</span>
+                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'galPhoto')">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group"><label>YouTube / व्हिडिओ लिंक (ऐच्छिक)</label><input type="url" class="form-control" id="galVideoUrl" placeholder="https://youtube.com/..."></div>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveGallery" onclick="addOrUpdateGalleryItem()">गॅलरीमध्ये जोडा</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelGallery" style="display:none;" onclick="cancelEditGallery()">रद्द करा</button>
+                    </div>
+                    <div id="adminGalleryList"></div>
+                </div>
+            </div>
+
+            <!-- Tab: Custom Sections Builder -->
+            <div class="admin-tab-pane" id="tab-custom-sections">
+                <div class="info-card" style="border-left: 5px solid #7c3aed;">
+                    <h3 style="color:#6d28d9; margin-bottom:4px;">नवीन सानुकूल विभाग जोडा (Custom Section Builder)</h3>
+                    <p style="font-size:15.5px; color:var(--text-muted); margin-bottom:14px;">गावाच्या विशेष गरजेनुसार (उदा. जत्रा/यात्रा माहिती, पाणीपुरवठा वेळापत्रक, पर्यटन स्थळ, विशेष मोहीम) मुख्य पानावर कोणताही नवीन विभाग तयार करा.</p>
+                    <div class="grid-2">
+                        <div class="form-group"><label>विभागाचे मुख्य शीर्षक</label><input type="text" class="form-control" id="csTitle" placeholder="उदा. गावाचे पाणीपुरवठा वेळापत्रक"></div>
+                        <div class="form-group"><label>छोटे लेबल / बॅज (ऐच्छिक)</label><input type="text" class="form-control" id="csBadge" placeholder="उदा. विशेष माहिती"></div>
+                        <div class="form-group" style="grid-column: 1 / -1;"><label>विभागाचा सविस्तर मजकूर</label><textarea class="form-control" rows="3" id="csContent" placeholder="या विभागाची संपूर्ण माहिती येथे लिहा..."></textarea></div>
+                        <div class="form-group">
+                            <label>फोटो अपलोड करा (ऐच्छिक)</label>
+                            <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                                <input type="hidden" id="csPhoto" value="">
+                                <div id="csPhoto_status" class="unclickable-file-status" aria-hidden="true">कोणतीही फाईल निवडलेली नाही</div>
+                                <label class="btn btn-secondary" style="cursor:pointer; margin:0; padding:8px 14px; flex-shrink:0;">
+                                    <span>फोटो निवडा</span>
+                                    <input type="file" accept="image/*" style="display:none;" onchange="handleCloudinaryUpload(this, 'csPhoto')">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group"><label>PDF / बाह्य लिंक URL (ऐच्छिक)</label><input type="url" class="form-control" id="csLinkUrl" placeholder="https://..."></div>
+                        <div class="form-group"><label>लिंक बटनाचे नाव (ऐच्छिक)</label><input type="text" class="form-control" id="csLinkLabel" placeholder="उदा. सविस्तर PDF पहा"></div>
+                    </div>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+                        <button type="button" class="btn btn-primary" id="btnSaveCustomSec" onclick="addOrUpdateCustomSection()">नवीन विभाग जोडा</button>
+                        <button type="button" class="btn btn-secondary" id="btnCancelCustomSec" style="display:none;" onclick="cancelEditCustomSection()">रद्द करा</button>
+                    </div>
+                    <div id="adminCustomSectionsList"></div>
+                </div>
+            </div>
+
         </div>
 
     </div>
@@ -3001,6 +3255,34 @@
                 photo: '',
                 pdf: ''
             },
+            taxConfig: {
+                bankName: 'अहमदनगर जिल्हा मध्यवर्ती सहकारी बँक (ADCC) / राष्ट्रीयीकृत बँक',
+                accName: 'ग्रामपंचायत फंड, पिंपळगाव निपाणी',
+                accNo: 'कार्यालयातून तपासून भरा',
+                ifsc: 'IFSC कोड भरा',
+                upiId: 'gpnipani@upi',
+                whatsapp: '9975571585',
+                qrPhoto: '',
+                note: 'घरपट्टी व पाणीपट्टी ऑनलाइन भरल्यानंतर पेमेंटचा स्क्रीनशॉट, तुमचे नाव व घर क्रमांक खालील WhatsApp बटनावर पाठवावा. पावती ग्रामपंचायत कार्यालयातून अथवा WhatsApp वर दिली जाईल.'
+            },
+            budgetItems: [
+                { year: '२०२५-२६', scheme: '१५ वा वित्त आयोग (अबंधित निधी)', received: '₹१२,५०,०००', spent: '₹९,८०,०००', balance: '₹२,७०,००० (कामे सुरू)', pdfUrl: '' },
+                { year: '२०२५-२६', scheme: '१५ वा वित्त आयोग (बंधित - पाणी व स्वच्छता)', received: '₹१५,००,०००', spent: '₹१२,४०,०००', balance: '₹२,६०,००० (प्रगतीपथावर)', pdfUrl: '' },
+                { year: '२०२५-२६', scheme: 'स्व-उत्पन्न (ग्रामनिधी व करवसुली)', received: '₹४,२०,०००', spent: '₹३,६५,०००', balance: '₹५५,००० (सक्रिय)', pdfUrl: '' }
+            ],
+            villageDirectory: [
+                { category: 'शिक्षण', name: 'जिल्हा परिषद प्राथमिक शाळा', address: 'मुख्य गावठाण | सकाळी १०:०० ते सायं. ५:००', phone: '' },
+                { category: 'बालविकास', name: 'अंगणवाडी केंद्र क्र. १ व २', address: 'गावठाण व वाडीवस्ती | सकाळी ९:३० ते दुपारी २:००', phone: '' },
+                { category: 'आरोग्य', name: 'प्राथमिक आरोग्य उपकेंद्र', address: 'ग्रामपंचायत परिसर | सकाळी ९:०० ते दुपारी ४:००', phone: '' },
+                { category: 'पुरवठा', name: 'स्वस्त धान्य (रेशन) दुकान', address: 'मुख्य बाजारपेठ | शासन वेळेनुसार', phone: '' },
+                { category: 'सहकार', name: 'विविध कार्यकारी सहकारी सेवा सोसायटी', address: 'मुख्य रस्ता | सकाळी १०:०० ते सायं. ५:००', phone: '' },
+                { category: 'पशुसंवर्धन / दूध', name: 'गाव दूध संकलन केंद्र (डेअरी)', address: 'सकाळी ६:३० ते ८:३० | सायं. ६:०० ते ८:००', phone: '' }
+            ],
+            galleryItems: [
+                { title: 'ग्रामपंचायत कार्यालय व स्वच्छ गाव उपक्रम', tag: 'स्वच्छता मोहीम', photo: '', videoUrl: '' },
+                { title: 'गावातील वृक्षारोपण व जलसंधारण कार्यक्रम', tag: 'पर्यावरण', photo: '', videoUrl: '' }
+            ],
+            customSections: [],
             footerConfig: {
                 officeTitle: 'ग्रामपंचायत कार्यालय',
                 officeTiming: 'कार्यालयीन वेळ: सकाळी ९:४५ ते सायं. ५:३०',
@@ -3688,6 +3970,7 @@
 
             document.getElementById('membersContainer').innerHTML = governanceStripHtml + employeesHtml;
             applyFooterConfigToPortal();
+            renderNewV13Sections();
             const digContainer = document.getElementById('dignitariesContainer');
             if (digContainer) {
                 const digList = Array.isArray(appState.dignitaries) && appState.dignitaries.length ? appState.dignitaries : DEFAULT_STATE.dignitaries;
@@ -3812,7 +4095,12 @@
                 villageofficials: 'sec-villageofficials',
                 dignitaries: 'sec-dignitaries',
                 sampleforms: 'sec-sampleforms',
-                schemes: 'sec-schemes'
+                schemes: 'sec-schemes',
+                tax: 'sec-tax',
+                budget: 'sec-budget',
+                directory: 'sec-directory',
+                gallery: 'sec-gallery',
+                customsections: 'sec-custom'
             };
             Object.keys(map).forEach(key => {
                 const isVis = appState.visibility[key] !== false;
@@ -4135,6 +4423,11 @@
             if (!Array.isArray(appState.aapleSarkarCenter.servicesList)) appState.aapleSarkarCenter.servicesList = [];
             appState.aapleSarkarCenter.servicesList.push({ name: 'नवीन आपले सरकार दाखला / सेवा', fee: 'शासनमान्य दर', docs: 'आधार कार्ड, रेशन कार्ड व मोबाईल क्रमांक' });
             renderCscServicesEditor();
+            renderTaxEditor();
+            renderBudgetEditor();
+            renderDirectoryEditor();
+            renderGalleryEditor();
+            renderCustomSectionsEditor();
         }
         function removeCscServiceSlot(idx) {
             syncCscServicesInputs();
@@ -4200,6 +4493,412 @@
                 }, 22);
                 autoScrollTimers.push(timer);
             });
+        }
+
+        function ensureV13StateDefaults() {
+            if (!appState.taxConfig) appState.taxConfig = JSON.parse(JSON.stringify(DEFAULT_STATE.taxConfig));
+            if (!Array.isArray(appState.budgetItems)) appState.budgetItems = JSON.parse(JSON.stringify(DEFAULT_STATE.budgetItems));
+            if (!Array.isArray(appState.villageDirectory)) appState.villageDirectory = JSON.parse(JSON.stringify(DEFAULT_STATE.villageDirectory));
+            if (!Array.isArray(appState.galleryItems)) appState.galleryItems = JSON.parse(JSON.stringify(DEFAULT_STATE.galleryItems));
+            if (!Array.isArray(appState.customSections)) appState.customSections = [];
+        }
+
+        function renderNewV13Sections() {
+            ensureV13StateDefaults();
+
+            // 1. Tax & UPI QR Section
+            const taxHost = document.getElementById('taxPaymentContainer');
+            if (taxHost) {
+                const tx = appState.taxConfig;
+                const waDigits = String(tx.whatsapp || '').replace(/\D/g, '');
+                const waMsg = encodeURIComponent(`नमस्कार ${appState.gpName || 'ग्रामपंचायत'}, मी माझी घरपट्टी / पाणीपट्टी ऑनलाइन भरली आहे. खाली पेमेंटचा स्क्रीनशॉट व घर क्रमांक पाठवत आहे.`);
+                const waHref = waDigits ? `https://wa.me/91${waDigits.slice(-10)}?text=${waMsg}` : '';
+                taxHost.innerHTML = `
+                    <div class="info-card" style="border-left: 5px solid #16a34a;">
+                        <div class="tax-split-grid">
+                            <div>
+                                <span class="badge" style="margin-bottom:8px;">ऑनलाइन कर भरणा सुविधा</span>
+                                <h3 style="font-size:22px; color:var(--secondary); margin-bottom:10px;">${tx.accName || appState.gpName || 'ग्रामपंचायत फंड'}</h3>
+                                <div style="display:flex; flex-direction:column; gap:6px; font-size:17px; color:var(--text-main); margin-bottom:12px;">
+                                    <div><strong>बँकेचे नाव:</strong> ${tx.bankName || '-'}</div>
+                                    <div><strong>खाते क्रमांक:</strong> ${tx.accNo || '-'}</div>
+                                    <div><strong>IFSC कोड:</strong> ${tx.ifsc || '-'}</div>
+                                    <div><strong>UPI ID:</strong> <span style="color:var(--primary); font-weight:700;">${tx.upiId || '-'}</span></div>
+                                </div>
+                                ${tx.note ? `<p style="font-size:15.5px; color:var(--text-muted); background:var(--bg-subtle); padding:10px 12px; border-radius:10px; margin-bottom:14px;">${tx.note}</p>` : ''}
+                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                                    ${waHref ? `<a href="${waHref}" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:9px 16px; font-size:16px;">WhatsApp वर पावती स्क्रीनशॉट पाठवा</a>` : ''}
+                                    <button type="button" class="btn btn-secondary" style="padding:9px 16px; font-size:16px;" onclick="navigator.clipboard && navigator.clipboard.writeText('${(tx.upiId || '').replace(/'/g, '')}'); showToast('UPI ID कॉपी झाला!');">UPI ID कॉपी करा</button>
+                                </div>
+                            </div>
+                            <div class="tax-qr-box">
+                                ${tx.qrPhoto
+                                    ? `<img src="${tx.qrPhoto}" alt="Gram Panchayat UPI QR Code"><div style="font-size:15.5px; color:var(--secondary);"><strong>कोणत्याही UPI App ने स्कॅन करा</strong></div>`
+                                    : `<div style="padding:26px 12px; color:var(--text-muted); font-size:16px;">अधिकृत UPI QR कोड अद्याप अपलोड केलेला नाही.<br><span style="font-size:14.5px;">(ॲडमिन पॅनल → घरपट्टी व पाणीपट्टी टॅबमधून QR फोटो अपलोड करा)</span></div>`
+                                }
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 2. Budget & 15th Finance Commission
+            const bdgHost = document.getElementById('budgetContainer');
+            if (bdgHost) {
+                const list = appState.budgetItems || [];
+                if (!list.length) {
+                    bdgHost.innerHTML = `<div class="info-card" style="text-align:center; color:var(--text-muted);">सध्या अंदाजपत्रक व निधी नोंदी उपलब्ध नाहीत.</div>`;
+                } else {
+                    bdgHost.innerHTML = `
+                        <div class="budget-table-wrap">
+                            <table class="budget-table">
+                                <thead>
+                                    <tr>
+                                        <th>आर्थिक वर्ष</th>
+                                        <th>योजना / निधीचा प्रकार</th>
+                                        <th>प्राप्त / मंजूर निधी</th>
+                                        <th>झालेला खर्च</th>
+                                        <th>शिल्लक / स्थिती</th>
+                                        <th>तपशील</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${list.map(b => `
+                                        <tr>
+                                            <td><strong>${b.year || '-'}</strong></td>
+                                            <td>${b.scheme || '-'}</td>
+                                            <td style="color:#15803d; font-weight:700;">${b.received || '-'}</td>
+                                            <td style="color:#b91c1c; font-weight:700;">${b.spent || '-'}</td>
+                                            <td>${b.balance || '-'}</td>
+                                            <td>${b.pdfUrl ? `<a href="${b.pdfUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 10px; font-size:14px;">PDF पहा</a>` : '-'}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    `;
+                }
+            }
+
+            // 3. Village Directory
+            const dirHost = document.getElementById('directoryContainer');
+            if (dirHost) {
+                const list = appState.villageDirectory || [];
+                dirHost.innerHTML = list.map(d => `
+                    <div class="card-item" style="display:flex; flex-direction:column; justify-content:space-between; gap:8px;">
+                        <div>
+                            <span class="badge" style="margin-bottom:6px;">${d.category || 'संस्था'}</span>
+                            <h3 style="font-size:20px; margin-bottom:4px;">${d.name || ''}</h3>
+                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">${d.address || ''}</p>
+                        </div>
+                        ${d.phone ? `<div><a href="tel:${String(d.phone).replace(/\s+/g, '')}" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;">कॉल करा: ${d.phone}</a></div>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            // 4. Photo & Video Gallery
+            const galHost = document.getElementById('galleryContainer');
+            if (galHost) {
+                const list = appState.galleryItems || [];
+                galHost.innerHTML = list.map(g => `
+                    <div class="gallery-card">
+                        <div class="gallery-thumb">
+                            ${g.photo
+                                ? `<img src="${g.photo}" alt="${(g.title || '').replace(/"/g, '&quot;')}">`
+                                : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15.5px;padding:12px;text-align:center;">फोटो / व्हिडिओ प्रिव्ह्यू</div>`
+                            }
+                        </div>
+                        <div class="gallery-body">
+                            ${g.tag ? `<span class="badge" style="align-self:flex-start; margin:0;">${g.tag}</span>` : ''}
+                            <h3 style="font-size:19px; margin:2px 0 4px;">${g.title || ''}</h3>
+                            ${g.videoUrl ? `<a href="${g.videoUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 12px; font-size:14.5px; align-self:flex-start;">व्हिडिओ पहा</a>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // 5. Custom Sections
+            const csHost = document.getElementById('sec-custom');
+            if (csHost) {
+                const list = appState.customSections || [];
+                const isVis = !appState.visibility || appState.visibility.customsections !== false;
+                if (!isVis || !list.length) {
+                    csHost.innerHTML = '';
+                } else {
+                    csHost.innerHTML = list.map(cs => `
+                        <section class="section-wrap">
+                            <h2 class="section-heading">${cs.title || 'विशेष विभाग'}</h2>
+                            <div class="info-card" style="border-left: 5px solid var(--primary);">
+                                ${cs.badge ? `<span class="badge" style="margin-bottom:8px;">${cs.badge}</span>` : ''}
+                                <div style="display:grid; grid-template-columns: ${cs.photo ? '1.3fr 0.9fr' : '1fr'}; gap:18px; align-items:center;">
+                                    <div>
+                                        <p style="font-size:17.5px; line-height:1.65; white-space:pre-line; margin-bottom:${cs.linkUrl ? '14px' : '0'};">${cs.content || ''}</p>
+                                        ${cs.linkUrl ? `<a href="${cs.linkUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:8px 16px; font-size:16px;">${cs.linkLabel || 'सविस्तर पहा'}</a>` : ''}
+                                    </div>
+                                    ${cs.photo ? `<div><img src="${cs.photo}" alt="${(cs.title || '').replace(/"/g, '&quot;')}" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; border:1px solid var(--border-color);"></div>` : ''}
+                                </div>
+                            </div>
+                        </section>
+                    `).join('');
+                }
+            }
+        }
+
+        // --- Admin Editors for v13 Sections ---
+        function renderTaxEditor() {
+            ensureV13StateDefaults();
+            const tx = appState.taxConfig;
+            const setV = (id, v) => { const el = document.getElementById(id); if (el) el.value = v || ''; };
+            setV('taxBankName', tx.bankName);
+            setV('taxAccName', tx.accName);
+            setV('taxAccNo', tx.accNo);
+            setV('taxIfsc', tx.ifsc);
+            setV('taxUpiId', tx.upiId);
+            setV('taxWhatsapp', tx.whatsapp);
+            setV('taxNote', tx.note);
+            setV('taxQrPhoto', tx.qrPhoto);
+            updateAdminFileStatusLabel('taxQrPhoto', tx.qrPhoto ? getCleanUploadedFileLabel(tx.qrPhoto) : 'कोणतीही फाईल निवडलेली नाही', tx.qrPhoto ? 'ready' : '');
+        }
+        function saveTaxConfigAdmin() {
+            ensureV13StateDefaults();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            appState.taxConfig = {
+                bankName: getV('taxBankName'),
+                accName: getV('taxAccName'),
+                accNo: getV('taxAccNo'),
+                ifsc: getV('taxIfsc'),
+                upiId: getV('taxUpiId'),
+                whatsapp: getV('taxWhatsapp'),
+                note: getV('taxNote'),
+                qrPhoto: getV('taxQrPhoto')
+            };
+            logPortalActivity('घरपट्टी व पाणीपट्टी (UPI/QR) माहिती अपडेट केली.');
+            saveStateToStorage();
+            renderNewV13Sections();
+            showToast('घरपट्टी व QR माहिती यशस्वीरित्या सेव्ह झाली!');
+        }
+
+        let editingBudgetIdx = -1;
+        function renderBudgetEditor() {
+            ensureV13StateDefaults();
+            const host = document.getElementById('adminBudgetList');
+            if (!host) return;
+            host.innerHTML = appState.budgetItems.map((b, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
+                    <div><strong>${b.year} — ${b.scheme}</strong><div style="font-size:14.5px; color:var(--text-muted);">प्राप्त: ${b.received} | खर्च: ${b.spent} | शिल्लक: ${b.balance}</div></div>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editBudgetItem(${idx})">एडिट</button>
+                        <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteBudgetItem(${idx})">काढा</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:var(--text-muted);">कोणतीही निधी नोंद नाही.</p>';
+        }
+        function editBudgetItem(idx) {
+            const b = appState.budgetItems[idx]; if (!b) return;
+            editingBudgetIdx = idx;
+            document.getElementById('bdgYear').value = b.year || '';
+            document.getElementById('bdgScheme').value = b.scheme || '';
+            document.getElementById('bdgReceived').value = b.received || '';
+            document.getElementById('bdgSpent').value = b.spent || '';
+            document.getElementById('bdgBalance').value = b.balance || '';
+            document.getElementById('bdgPdfUrl').value = b.pdfUrl || '';
+            document.getElementById('btnSaveBudget').textContent = 'निधी नोंद अपडेट करा';
+            document.getElementById('btnCancelBudget').style.display = 'inline-flex';
+        }
+        function cancelEditBudget() {
+            editingBudgetIdx = -1;
+            ['bdgYear','bdgScheme','bdgReceived','bdgSpent','bdgBalance','bdgPdfUrl'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('btnSaveBudget').textContent = 'निधी नोंद जोडा';
+            document.getElementById('btnCancelBudget').style.display = 'none';
+        }
+        function addOrUpdateBudgetItem() {
+            ensureV13StateDefaults();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            const scheme = getV('bdgScheme');
+            if (!scheme) { showToast('कृपया योजना / निधीचा प्रकार भरा.'); return; }
+            const obj = { year: getV('bdgYear') || '२०२५-२६', scheme, received: getV('bdgReceived') || '-', spent: getV('bdgSpent') || '-', balance: getV('bdgBalance') || '-', pdfUrl: getV('bdgPdfUrl') };
+            if (editingBudgetIdx >= 0) appState.budgetItems[editingBudgetIdx] = obj;
+            else appState.budgetItems.unshift(obj);
+            cancelEditBudget();
+            saveStateToStorage();
+            renderBudgetEditor();
+            renderNewV13Sections();
+            showToast('अंदाजपत्रक व निधी नोंद सेव्ह झाली!');
+        }
+        function deleteBudgetItem(idx) {
+            appState.budgetItems.splice(idx, 1);
+            saveStateToStorage();
+            renderBudgetEditor();
+            renderNewV13Sections();
+            showToast('निधी नोंद काढली गेली.');
+        }
+
+        let editingDirIdx = -1;
+        function renderDirectoryEditor() {
+            ensureV13StateDefaults();
+            const host = document.getElementById('adminDirectoryList');
+            if (!host) return;
+            host.innerHTML = appState.villageDirectory.map((d, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
+                    <div><strong>[${d.category}] ${d.name}</strong><div style="font-size:14.5px; color:var(--text-muted);">${d.address}${d.phone ? ' | ' + d.phone : ''}</div></div>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editDirectoryItem(${idx})">एडिट</button>
+                        <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteDirectoryItem(${idx})">काढा</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:var(--text-muted);">कोणतीही संस्था नोंद नाही.</p>';
+        }
+        function editDirectoryItem(idx) {
+            const d = appState.villageDirectory[idx]; if (!d) return;
+            editingDirIdx = idx;
+            document.getElementById('dirCategory').value = d.category || '';
+            document.getElementById('dirName').value = d.name || '';
+            document.getElementById('dirAddress').value = d.address || '';
+            document.getElementById('dirPhone').value = d.phone || '';
+            document.getElementById('btnSaveDirectory').textContent = 'संस्था अपडेट करा';
+            document.getElementById('btnCancelDirectory').style.display = 'inline-flex';
+        }
+        function cancelEditDirectory() {
+            editingDirIdx = -1;
+            ['dirCategory','dirName','dirAddress','dirPhone'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            document.getElementById('btnSaveDirectory').textContent = 'संस्था जोडा';
+            document.getElementById('btnCancelDirectory').style.display = 'none';
+        }
+        function addOrUpdateDirectoryItem() {
+            ensureV13StateDefaults();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            const name = getV('dirName');
+            if (!name) { showToast('कृपया संस्थेचे नाव भरा.'); return; }
+            const obj = { category: getV('dirCategory') || 'संस्था', name, address: getV('dirAddress'), phone: getV('dirPhone') };
+            if (editingDirIdx >= 0) appState.villageDirectory[editingDirIdx] = obj;
+            else appState.villageDirectory.unshift(obj);
+            cancelEditDirectory();
+            saveStateToStorage();
+            renderDirectoryEditor();
+            renderNewV13Sections();
+            showToast('संस्था माहिती सेव्ह झाली!');
+        }
+        function deleteDirectoryItem(idx) {
+            appState.villageDirectory.splice(idx, 1);
+            saveStateToStorage();
+            renderDirectoryEditor();
+            renderNewV13Sections();
+            showToast('संस्था काढली गेली.');
+        }
+
+        let editingGalIdx = -1;
+        function renderGalleryEditor() {
+            ensureV13StateDefaults();
+            const host = document.getElementById('adminGalleryList');
+            if (!host) return;
+            host.innerHTML = appState.galleryItems.map((g, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        ${g.photo ? `<img src="${g.photo}" style="width:52px;height:42px;object-fit:cover;border-radius:6px;">` : ''}
+                        <div><strong>${g.title}</strong><div style="font-size:14.5px; color:var(--text-muted);">${g.tag || ''}${g.videoUrl ? ' | व्हिडिओ लिंक' : ''}</div></div>
+                    </div>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editGalleryItem(${idx})">एडिट</button>
+                        <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteGalleryItem(${idx})">काढा</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:var(--text-muted);">गॅलरीमध्ये कोणतीही नोंद नाही.</p>';
+        }
+        function editGalleryItem(idx) {
+            const g = appState.galleryItems[idx]; if (!g) return;
+            editingGalIdx = idx;
+            document.getElementById('galTitle').value = g.title || '';
+            document.getElementById('galTag').value = g.tag || '';
+            document.getElementById('galPhoto').value = g.photo || '';
+            document.getElementById('galVideoUrl').value = g.videoUrl || '';
+            updateAdminFileStatusLabel('galPhoto', g.photo ? getCleanUploadedFileLabel(g.photo) : 'कोणतीही फाईल निवडलेली नाही', g.photo ? 'ready' : '');
+            document.getElementById('btnSaveGallery').textContent = 'गॅलरी अपडेट करा';
+            document.getElementById('btnCancelGallery').style.display = 'inline-flex';
+        }
+        function cancelEditGallery() {
+            editingGalIdx = -1;
+            ['galTitle','galTag','galPhoto','galVideoUrl'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            updateAdminFileStatusLabel('galPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
+            document.getElementById('btnSaveGallery').textContent = 'गॅलरीमध्ये जोडा';
+            document.getElementById('btnCancelGallery').style.display = 'none';
+        }
+        function addOrUpdateGalleryItem() {
+            ensureV13StateDefaults();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            const title = getV('galTitle');
+            if (!title) { showToast('कृपया फोटो/व्हिडिओचे शीर्षक भरा.'); return; }
+            const obj = { title, tag: getV('galTag') || 'गॅलरी', photo: getV('galPhoto'), videoUrl: getV('galVideoUrl') };
+            if (editingGalIdx >= 0) appState.galleryItems[editingGalIdx] = obj;
+            else appState.galleryItems.unshift(obj);
+            cancelEditGallery();
+            saveStateToStorage();
+            renderGalleryEditor();
+            renderNewV13Sections();
+            showToast('गॅलरीमध्ये यशस्वीरित्या सेव्ह झाले!');
+        }
+        function deleteGalleryItem(idx) {
+            appState.galleryItems.splice(idx, 1);
+            saveStateToStorage();
+            renderGalleryEditor();
+            renderNewV13Sections();
+            showToast('गॅलरी नोंद काढली गेली.');
+        }
+
+        let editingCustomIdx = -1;
+        function renderCustomSectionsEditor() {
+            ensureV13StateDefaults();
+            const host = document.getElementById('adminCustomSectionsList');
+            if (!host) return;
+            host.innerHTML = appState.customSections.map((cs, idx) => `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
+                    <div><strong>${cs.title}</strong><div style="font-size:14.5px; color:var(--text-muted);">${(cs.content || '').slice(0, 80)}...</div></div>
+                    <div style="display:flex; gap:6px;">
+                        <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editCustomSection(${idx})">एडिट</button>
+                        <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteCustomSection(${idx})">काढा</button>
+                    </div>
+                </div>
+            `).join('') || '<p style="color:var(--text-muted);">सध्या कोणताही सानुकूल विभाग जोडलेला नाही. वरून नवीन विभाग जोडा.</p>';
+        }
+        function editCustomSection(idx) {
+            const cs = appState.customSections[idx]; if (!cs) return;
+            editingCustomIdx = idx;
+            document.getElementById('csTitle').value = cs.title || '';
+            document.getElementById('csBadge').value = cs.badge || '';
+            document.getElementById('csContent').value = cs.content || '';
+            document.getElementById('csPhoto').value = cs.photo || '';
+            document.getElementById('csLinkUrl').value = cs.linkUrl || '';
+            document.getElementById('csLinkLabel').value = cs.linkLabel || '';
+            updateAdminFileStatusLabel('csPhoto', cs.photo ? getCleanUploadedFileLabel(cs.photo) : 'कोणतीही फाईल निवडलेली नाही', cs.photo ? 'ready' : '');
+            document.getElementById('btnSaveCustomSec').textContent = 'विभाग अपडेट करा';
+            document.getElementById('btnCancelCustomSec').style.display = 'inline-flex';
+        }
+        function cancelEditCustomSection() {
+            editingCustomIdx = -1;
+            ['csTitle','csBadge','csContent','csPhoto','csLinkUrl','csLinkLabel'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+            updateAdminFileStatusLabel('csPhoto', 'कोणतीही फाईल निवडलेली नाही', '');
+            document.getElementById('btnSaveCustomSec').textContent = 'नवीन विभाग जोडा';
+            document.getElementById('btnCancelCustomSec').style.display = 'none';
+        }
+        function addOrUpdateCustomSection() {
+            ensureV13StateDefaults();
+            const getV = (id) => (document.getElementById(id)?.value || '').trim();
+            const title = getV('csTitle');
+            if (!title) { showToast('कृपया विभागाचे शीर्षक भरा.'); return; }
+            const obj = { title, badge: getV('csBadge'), content: getV('csContent'), photo: getV('csPhoto'), linkUrl: getV('csLinkUrl'), linkLabel: getV('csLinkLabel') };
+            if (editingCustomIdx >= 0) appState.customSections[editingCustomIdx] = obj;
+            else appState.customSections.push(obj);
+            cancelEditCustomSection();
+            saveStateToStorage();
+            renderCustomSectionsEditor();
+            renderNewV13Sections();
+            showToast('सानुकूल विभाग यशस्वीरित्या सेव्ह झाला!');
+        }
+        function deleteCustomSection(idx) {
+            appState.customSections.splice(idx, 1);
+            saveStateToStorage();
+            renderCustomSectionsEditor();
+            renderNewV13Sections();
+            showToast('सानुकूल विभाग काढला गेला.');
         }
 
         function renderDignitariesEditor() {
@@ -6150,6 +6849,11 @@
             if (tabId === 'tab-committees') renderCommitteesEditor();
             if (tabId === 'tab-policies') renderFooterConfigEditor();
             if (tabId === 'tab-requests') renderAdminRequests();
+            if (tabId === 'tab-tax') renderTaxEditor();
+            if (tabId === 'tab-budget') renderBudgetEditor();
+            if (tabId === 'tab-directory') renderDirectoryEditor();
+            if (tabId === 'tab-gallery') renderGalleryEditor();
+            if (tabId === 'tab-custom-sections') renderCustomSectionsEditor();
         }
 
         function updateUrgentSwitchUI(isOn) {
@@ -8149,7 +8853,12 @@
                 aaplesarkar: 'आपले सरकार सेवा केंद्र (CSC)',
                 panchayatsamiti: 'पंचायत समिती अकोले विभाग',
                 villageofficials: 'गावातील इतर शासकीय कर्मचारी',
-                committees: 'महत्त्वाच्या ग्रामपंचायत समित्या (स्वतंत्र पान)'
+                committees: 'महत्त्वाच्या ग्रामपंचायत समित्या (स्वतंत्र पान)',
+                tax: 'घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (QR)',
+                budget: 'ग्रामपंचायत अंदाजपत्रक व निधी तपशील',
+                directory: 'गावातील महत्त्वाच्या संस्था व सुविधा',
+                gallery: 'फोटो व व्हिडिओ गॅलरी',
+                customsections: 'नवीन सानुकूल विभाग (Custom Sections)'
             };
 
             const bulkBar = `
@@ -8174,7 +8883,7 @@
 
         function setAllSectionsVis(showState) {
             Object.keys(appState.visibility).forEach(k => { appState.visibility[k] = showState; });
-            ['aaplesarkar', 'panchayatsamiti', 'villageofficials', 'committees'].forEach(k => { appState.visibility[k] = showState; });
+            ['aaplesarkar', 'panchayatsamiti', 'villageofficials', 'committees', 'tax', 'budget', 'directory', 'gallery', 'customsections'].forEach(k => { appState.visibility[k] = showState; });
             saveStateToStorage();
             renderVisibilityToggles();
             showToast(showState ? 'सर्व विभाग चालू (Visible) केले आहेत!' : 'सर्व विभाग तात्पुरते लपवले आहेत!');
