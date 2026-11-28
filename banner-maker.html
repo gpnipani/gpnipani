@@ -903,33 +903,6 @@
         
         
         
-// --- v19 Rich Poster Banner Studio Engine (Reference Split-Poster + Multi-Color Typography + Preset Backgrounds) ---
-        let bmUploadedImage = null;
-        let bmCustomBgImage = null;
-        let bmLogoImage = null;
-
-        const BM_BG_PRESETS = {
-            'pink-glow':    { c1: '#ffffff', c2: '#fce7f3', c3: '#f5d0fe', border: '#9d174d', accent: '#be185d', footerBg: '#9d174d', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e293b', masterCol: '#9d174d', greetCol: '#be185d', bodyCol: '#1e293b', rayColor: 'rgba(219, 39, 119, 0.08)' },
-            'saffron-rays': { c1: '#fffbeb', c2: '#fed7aa', c3: '#fdba74', border: '#c2410c', accent: '#ea580c', footerBg: '#7c2d12', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e293b', masterCol: '#9a3412', greetCol: '#c2410c', bodyCol: '#1e293b', rayColor: 'rgba(234, 88, 12, 0.10)' },
-            'royal-gold':   { c1: '#ffffff', c2: '#dbeafe', c3: '#bfdbfe', border: '#1e3a8a', accent: '#d97706', footerBg: '#1e3a8a', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#1e3a8a', masterCol: '#172554', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(30, 58, 138, 0.08)' },
-            'crimson-fest': { c1: '#fff1f2', c2: '#fecdd3', c3: '#fda4af', border: '#881337', accent: '#be123c', footerBg: '#881337', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#4c0519', masterCol: '#881337', greetCol: '#be123c', bodyCol: '#1e293b', rayColor: 'rgba(190, 18, 60, 0.08)' },
-            'emerald-vil':  { c1: '#f0fdf4', c2: '#bbf7d0', c3: '#86efac', border: '#166534', accent: '#15803d', footerBg: '#14532d', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#14532d', masterCol: '#166534', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(22, 163, 74, 0.09)' },
-            'marble-peace': { c1: '#ffffff', c2: '#f8fafc', c3: '#e2e8f0', border: '#475569', accent: '#334155', footerBg: '#1e293b', footerText: '#ffffff', footerAccent: '#cbd5e1', introCol: '#334155', masterCol: '#0f172a', greetCol: '#475569', bodyCol: '#334155', rayColor: 'rgba(71, 85, 105, 0.06)' },
-            'sunset-warm':  { c1: '#fefce8', c2: '#fde68a', c3: '#fbcfe8', border: '#b45309', accent: '#be185d', footerBg: '#78350f', footerText: '#ffffff', footerAccent: '#fde047', introCol: '#451a03', masterCol: '#9d174d', greetCol: '#b45309', bodyCol: '#1e293b', rayColor: 'rgba(217, 119, 6, 0.09)' },
-            'deep-navy':    { c1: '#0f172a', c2: '#1e3a8a', c3: '#172554', border: '#f59e0b', accent: '#fde047', footerBg: '#ea580c', footerText: '#ffffff', footerAccent: '#fef08a', introCol: '#e2e8f0', masterCol: '#fde047', greetCol: '#fb923c', bodyCol: '#f1f5f9', rayColor: 'rgba(253, 224, 71, 0.08)' }
-        };
-
-        const BM_TEMPLATE_PRESETS = {
-            punyatithi:  { bg: 'pink-glow',    layout: 'split-left',     intro: 'सत्यशोधक समाजाचे संस्थापक,\nस्त्रीशिक्षण आणि सामाजिक समतेचे पुरस्कर्ते,', master: 'क्रांतिसूर्य महात्मा ज्योतिबा फुले', greeting: 'यांना स्मृतिदिनी विनम्र अभिवादन!', date: '२८ नोव्हेंबर', body: 'त्यांच्या महान विचारांना व समाजसुधारणेच्या कार्याला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने कोटी कोटी प्रणाम!', sender: 'विनम्र अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
-            jayanti:     { bg: 'saffron-rays', layout: 'split-left',     intro: 'रयतेचे राजे, हिंदवी स्वराज्य संस्थापक,', master: 'छत्रपती शिवाजी महाराज', greeting: 'यांना जयंती निमित्त त्रिवार मानाचा मुजरा!', date: 'शिवजयंती महोत्सव', body: 'त्यांच्या शौर्याला, पराक्रमाला आणि आदर्श राज्यकारभाराला ग्रामपंचायत व समस्त ग्रामस्थांच्या वतीने विनम्र अभिवादन!', sender: 'अभिवादक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
-            birthday:    { bg: 'crimson-fest', layout: 'split-left',     intro: 'आपल्या सर्वांचे लाडके व्यक्तिमत्व व समाजसेवक,', master: 'मा. श्री. ..............................', greeting: 'यांना वाढदिवसाच्या मनःपूर्वक हार्दिक शुभेच्छा!', date: '', body: 'आपणास उत्तम आरोग्य, दीर्घायुष्य व पुढील सामाजिक आणि सार्वजनिक कार्यास भरघोस यश लाभो हीच सदिच्छा!', sender: 'शुभेच्छुक: सरपंच, उपसरपंच, सर्व सदस्य व ग्रामपंचायत कर्मचारी' },
-            festival:    { bg: 'sunset-warm',  layout: 'center-classic', intro: 'आनंद, उत्साह आणि समृद्धीचा पावन सण — सर्व ग्रामस्थांना', master: 'मंगलमय सण-उत्सवाच्या हार्दिक शुभेच्छा!', greeting: 'सुख, शांती व समृद्धीची मंगलकामना!', date: '', body: 'हा आनंदमय उत्सव आपल्या सर्वांच्या जीवनात उत्तम आरोग्य, ऐश्वर्य आणि भरभराट घेऊन येवो हीच सदिच्छा!', sender: 'शुभेच्छुक: ग्रामपंचायत परिवार व समस्त ग्रामस्थ' },
-            gramsabha:   { bg: 'royal-gold',   layout: 'center-classic', intro: 'आपला गाव, आपला विकास — चला ग्रामसभेत सहभागी होऊया', master: 'जाहीर ग्रामसभा निमंत्रण', greeting: 'सर्व ग्रामस्थ मतदारांनी वेळेत उपस्थित राहावे!', date: 'दिनांक: ...................... | वेळ: सकाळी ११:०० वा.', body: 'गावातील विकासकामे, शासकीय योजना व महत्त्वाच्या ठरावांवर चर्चा करण्यासाठी जाहीर ग्रामसभेचे आयोजन करण्यात आले आहे.', sender: 'निमंत्रक: सरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य मंडळ' },
-            development: { bg: 'emerald-vil',  layout: 'split-left',     intro: 'स्वच्छ, सुंदर व गतिमान ग्रामविकास उपक्रम', master: 'नवीन विकासकाम भूमिपूजन व लोकार्पण', greeting: 'गावाच्या प्रगतीचे आणखी एक भक्कम पाऊल!', date: '', body: 'ग्रामपंचायत निधी व शासकीय योजनेतून साकारण्यात आलेल्या या महत्त्वपूर्ण विकासकामाच्या सोहळ्यास सर्व ग्रामस्थ उपस्थित राहावेत.', sender: 'निमंत्रक: सरपंच, उपसरपंच, ग्रामसेवक व ग्रामपंचायत सदस्य' },
-            custom:      { bg: 'royal-gold',   layout: 'split-left',     intro: 'विशेष गुणगौरव किंवा ब्रीदवाक्य येथे लिहा,', master: 'येथे भव्य मुख्य नाव किंवा शीर्षक लिहा', greeting: 'खालील अभिवादन किंवा उपशीर्षक ओळ!', date: '', body: 'येथे बॅनरचा सविस्तर संदेश किंवा माहिती लिहा.', sender: 'शुभेच्छुक / निमंत्रक: ग्रामपंचायत परिवार' }
-        };
-
-
         // --- v22 Custom In-App Dropdown Helpers & Reliable Background Selection ---
         function toggleBannerInAppDropdown(ddId, ev) {
             if (ev) { ev.stopPropagation(); ev.preventDefault(); }
