@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="mr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>विशेष विभाग | ग्रामपंचायत पिंपळगाव निपाणी</title>
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Khand:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #ea580c; --primary-dark: #c2410c; --secondary: #1e3a8a; --bg-body: #f8fafc; --bg-card: #ffffff; --bg-subtle: #f1f5f9; --text-main: #0f172a; --text-muted: #475569; --border-color: #e2e8f0; --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.06); --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08); }
+        [data-theme="dark"] { --primary: #fb923c; --primary-dark: #f97316; --secondary: #93c5fd; --bg-body: #0b1120; --bg-card: #111827; --bg-subtle: #1e293b; --text-main: #f8fafc; --text-muted: #cbd5e1; --border-color: #334155; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Khand', sans-serif; font-weight: 700; }
+        body { background: var(--bg-body); color: var(--text-main); line-height: 1.55; font-size: 18px; }
+        .icon { width: 20px; height: 20px; stroke: currentColor; stroke-width: 2.2; fill: none; stroke-linecap: round; stroke-linejoin: round; vertical-align: middle; }
+        .top-bar { background: var(--secondary); color: #fff; padding: 10px 20px; font-size: 15.5px; }
+        .top-bar-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+        .page-header { background: var(--bg-card); border-bottom: 2.5px solid var(--primary); padding: 8px 14px; box-shadow: var(--shadow-sm); position: sticky; top: 0; z-index: 100; }
+        .header-inner { max-width: 1180px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+        .brand-title { font-size: 19px; color: var(--secondary); line-height: 1.15; }
+        .brand-sub { font-size: 12.5px; color: var(--text-muted); }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 8px 16px; border-radius: 10px; border: none; cursor: pointer; font-size: 16.5px; text-decoration: none; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; }
+        .btn-secondary { background: var(--bg-subtle); color: var(--text-main); border: 1.5px solid var(--border-color); }
+        .container { max-width: 1180px; margin: 0 auto; padding: 28px 20px 48px; }
+        .page-hero { background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #ea580c 100%); color: #fff; border-radius: 16px; padding: 26px 28px; margin-bottom: 24px; box-shadow: var(--shadow-md); }
+        .page-hero h1 { font-size: 32px; line-height: 1.25; margin-bottom: 6px; }
+        .page-hero p { font-size: 17.5px; opacity: 0.95; }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 18px; }
+        .card-item { background: var(--bg-card); border: 1.5px solid var(--border-color); border-top: 4px solid var(--primary); border-radius: 14px; padding: 20px; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+        .badge { display: inline-block; background: rgba(234, 88, 12, 0.12); color: var(--primary-dark); padding: 3px 12px; border-radius: 999px; font-size: 14.5px; margin-bottom: 6px; width: fit-content; }
+        footer { background: #0f172a; color: #e2e8f0; padding: 24px 20px; margin-top: 40px; text-align: center; font-size: 15.5px; }
+        footer a { color: #fb923c; text-decoration: none; }
+
+        .gp-top-bar {
+            background: #1e3a8a; color: #ffffff; padding: 8px 14px; font-size: 15px;
+            border-bottom: 2px solid #ea580c;
+        }
+        .gp-top-bar-inner {
+            max-width: 1180px; margin: 0 auto; display: flex; flex-direction: column; gap: 4px;
+        }
+        .gp-top-row {
+            display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+        }
+        .gp-top-row a { color: #ffffff; text-decoration: none; display: inline-flex; align-items: center; gap: 5px; }
+        .gp-brand-header {
+            background: var(--bg-card); padding: 12px 14px; border-bottom: 2.5px solid #ea580c;
+        }
+        .gp-brand-inner {
+            max-width: 1180px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+        }
+        .gp-logo-link { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .gp-logo-box {
+            width: 54px; height: 54px; border-radius: 14px; background: linear-gradient(135deg, #ea580c, #c2410c);
+            color: #fff; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(234, 88, 12, 0.25);
+        }
+        .gp-logo-title { font-size: 27px; color: #ea580c; line-height: 1.1; font-weight: 700; }
+        .gp-logo-sub { font-size: 15.5px; color: var(--text-main); line-height: 1.25; }
+        .gp-action-navbar {
+            background: var(--bg-card); border-bottom: 2.5px solid #1e3a8a; position: sticky; top: 0; z-index: 950;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+        }
+        .gp-action-inner {
+            max-width: 1180px; margin: 0 auto; padding: 8px 12px;
+            display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap;
+        }
+        .gp-action-pills {
+            display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: nowrap; width: 100%;
+        }
+        .gp-pill-outline {
+            display: inline-flex; align-items: center; gap: 5px; padding: 6px 13px; border-radius: 999px;
+            border: 1.5px solid #ea580c; background: var(--bg-card); color: #ea580c; font-size: 15.5px;
+            cursor: pointer; text-decoration: none; white-space: nowrap;
+        }
+        .gp-pill-solid {
+            display: inline-flex; align-items: center; gap: 5px; padding: 6px 15px; border-radius: 999px;
+            border: none; background: linear-gradient(135deg, #ea580c, #c2410c); color: #ffffff; font-size: 15.5px;
+            cursor: pointer; text-decoration: none; white-space: nowrap;
+        }
+        .gp-theme-pill {
+            display: inline-flex; align-items: center; gap: 7px; padding: 5px 12px 5px 6px; border-radius: 999px;
+            border: 1.5px solid var(--border-color); background: var(--bg-subtle); color: var(--text-main);
+            font-size: 15.5px; cursor: pointer; white-space: nowrap;
+        }
+        .gp-theme-track {
+            width: 36px; height: 20px; border-radius: 999px; background: #ea580c; position: relative; display: inline-block;
+        }
+        .gp-theme-knob {
+            width: 16px; height: 16px; border-radius: 50%; background: #ffffff; position: absolute; top: 2px; left: 2px;
+            transition: transform 0.2s ease;
+        }
+        [data-theme="dark"] .gp-theme-knob { transform: translateX(16px); }
+        .gp-hamburger-btn {
+            width: 40px; height: 36px; border-radius: 10px; border: none; background: #ea580c; color: #ffffff;
+            display: inline-flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; font-size: 20px;
+        }
+        .gp-nav-menu {
+            list-style: none; display: none; flex-direction: column; width: 100%; margin-top: 8px;
+            background: #1e3a8a; border-radius: 12px; padding: 6px; gap: 2px;
+        }
+        .gp-nav-menu.open { display: flex; }
+        .gp-nav-menu a {
+            color: #ffffff; text-decoration: none; padding: 9px 12px; border-radius: 8px; font-size: 16px;
+            display: block;
+        }
+        .gp-nav-menu a:hover, .gp-nav-menu a.active-page { background: #ea580c; }
+        @media (min-width: 900px) {
+            .gp-top-bar-inner { flex-direction: row; justify-content: space-between; align-items: center; }
+            .gp-action-pills { width: auto; order: 2; }
+            .gp-hamburger-btn { display: none; }
+            .gp-nav-menu {
+                display: flex !important; flex-direction: row; flex-wrap: wrap; width: auto; margin-top: 0;
+                background: transparent; padding: 0; gap: 3px; order: 1;
+            }
+            .gp-nav-menu a { color: var(--secondary); padding: 6px 10px; font-size: 15.5px; }
+            .gp-nav-menu a:hover, .gp-nav-menu a.active-page { background: #ea580c; color: #ffffff; }
+        }
+        @media (max-width: 480px) {
+            .gp-logo-title { font-size: 22px; }
+            .gp-logo-sub { font-size: 13.5px; }
+            .gp-pill-outline, .gp-pill-solid, .gp-theme-pill { font-size: 14px; padding: 5px 10px; }
+        }
+
+    
+        .info-card { background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: 14px; padding: 22px; box-shadow: var(--shadow-sm); }
+        .tax-split-grid { display: grid; grid-template-columns: 1.35fr 0.9fr; gap: 20px; align-items: center; }
+        @media (max-width: 780px) { .tax-split-grid { grid-template-columns: 1fr; } }
+        .tax-qr-box { background: var(--bg-subtle); border: 2px dashed var(--primary); border-radius: 14px; padding: 18px; text-align: center; }
+        .tax-qr-box img { max-width: 220px; width: 100%; height: auto; border-radius: 10px; border: 2px solid #ffffff; box-shadow: 0 4px 12px rgba(15,23,42,0.14); margin-bottom: 10px; }
+        .budget-table-wrap { overflow-x: auto; background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: 14px; box-shadow: var(--shadow-sm); }
+        .budget-table { width: 100%; border-collapse: collapse; min-width: 640px; font-size: 16.5px; }
+        .budget-table th { background: var(--secondary); color: #ffffff; text-align: left; padding: 12px 14px; }
+        .budget-table td { padding: 11px 14px; border-bottom: 1px solid var(--border-color); color: var(--text-main); }
+        .budget-table tr:nth-child(even) td { background: var(--bg-subtle); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+        .gallery-card { background: var(--bg-card); border: 1.5px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow-sm); display: flex; flex-direction: column; }
+        .gallery-thumb { height: 200px; background: var(--bg-subtle); overflow: hidden; }
+        .gallery-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.25s ease; }
+        .gallery-card:hover .gallery-thumb img { transform: scale(1.04); }
+        .gallery-body { padding: 14px; flex: 1; display: flex; flex-direction: column; gap: 6px; }
+        .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 10px 20px; border-radius: 999px; font-size: 15.5px; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.25s; }
+        .toast.show { opacity: 1; }
+
+    </style>
+</head>
+<body>
+    <div class="gp-top-bar">
+        <div class="gp-top-bar-inner">
+            <div class="gp-top-row">
+                <svg class="icon" style="width:17px;height:17px;" viewBox="0 0 24 24"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M12 3 2 8h20L12 3z"/></svg>
+                <span>महाराष्ट्र शासन | ग्रामविकास व पंचायतराज विभाग</span>
+            </div>
+            <div class="gp-top-row">
+                <a href="tel:+919975571585"><svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> +91 9975571585</a>
+                <span>|</span>
+                <a href="mailto:contact.gpnipani@gmail.com"><svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> contact.gpnipani@gmail.com</a>
+            </div>
+        </div>
+    </div>
+    <header class="gp-brand-header">
+        <div class="gp-brand-inner">
+            <a href="index.html" class="gp-logo-link">
+                <div class="gp-logo-box">
+                    <svg class="icon" style="width:28px;height:28px;" viewBox="0 0 24 24"><path d="M3 21h18M6 21V10M10 21V10M14 21V10M18 21V10M12 3 2 8h20L12 3z"/></svg>
+                </div>
+                <div>
+                    <div class="gp-logo-title">ग्रामपंचायत पिंपळगाव निपाणी</div>
+                    <div class="gp-logo-sub">ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
+                </div>
+            </a>
+        </div>
+    </header>
+    <nav class="gp-action-navbar">
+        <div class="gp-action-inner">
+            <div class="gp-action-pills">
+                <a href="index.html" class="gp-pill-outline" title="मोबाईल App इन्स्टॉल करा">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+                    <span>App इन्स्टॉल</span>
+                </a>
+                <a href="admin.html" class="gp-pill-solid">
+                    <svg class="icon" style="width:16px;height:16px;" viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                    <span>लॉगिन</span>
+                </a>
+                <button type="button" class="gp-theme-pill" onclick="togglePageTheme()">
+                    <span class="gp-theme-track"><span class="gp-theme-knob"></span></span>
+                    <span id="themeBtn">लाईट</span>
+                </button>
+                <button type="button" class="gp-hamburger-btn" onclick="document.getElementById('subNavLinks').classList.toggle('open')" aria-label="मेनू">☰</button>
+            </div>
+            <ul class="gp-nav-menu" id="subNavLinks">
+                <li><a href="index.html">मुख्य पृष्ठ</a></li>
+                <li data-nav-sec="about"><a href="index.html#sec-about">गावाविषयी</a></li>
+                <li data-nav-sec="services"><a href="index.html#sec-services">ऑनलाइन सेवा</a></li>
+                <li data-nav-sec="members"><a href="index.html#sec-members">प्रशासन व कर्मचारी</a></li>
+                <li data-nav-sec="sampleforms"><a href="sample-forms.html">नमुना अर्ज</a></li>
+                <li data-nav-sec="schemes"><a href="schemes.html">शासकीय योजना</a></li>
+                <li data-nav-sec="aaplesarkar"><a href="aaple-sarkar.html">आपले सरकार</a></li>
+                <li data-nav-sec="panchayatsamiti"><a href="panchayat-samiti.html">पंचायत समिती</a></li>
+                <li data-nav-sec="villageofficials"><a href="village-officials.html">इतर शासकीय कर्मचारी</a></li>
+                <li data-nav-sec="committees"><a href="committees.html">समित्या</a></li>
+                <li data-nav-sec="tax"><a href="tax-payment.html">घरपट्टी व पाणीपट्टी</a></li>
+                <li data-nav-sec="budget"><a href="budget.html">अंदाजपत्रक व निधी</a></li>
+                <li data-nav-sec="directory"><a href="directory.html">गावातील संस्था</a></li>
+                <li data-nav-sec="gallery"><a href="gallery.html">फोटो गॅलरी</a></li>
+            </ul>
+        </div>
+    </nav>
+    <main class="container">
+        <div class="page-hero">
+            <h1 id="pageHeroTitle">ग्रामपंचायत विशेष विभाग</h1>
+            <p id="pageHeroDesc">ग्रामपंचायतीने जोडलेल्या विशेष विभागांची सविस्तर माहिती.</p>
+        </div>
+        <div id="customSectionHost"></div>
+        <div style="margin-top: 28px; text-align: center;">
+            <a href="index.html" class="btn btn-secondary">← मुख्य पृष्ठावर परत जा</a>
+        </div>
+    </main>
+    <footer>
+        <div>मु. पो. पिंपळगाव निपाणी, ता. अकोले, जि. अहिल्यानगर (महाराष्ट्र) - ४२२६०५</div>
+        <div style="margin-top:6px;">© २०२६ ग्रामपंचायत पिंपळगाव निपाणी | <a href="https://gpnipani.online">https://gpnipani.online</a> | Website Design by <strong>Anil Bhaurao Tormal</strong></div>
+    </footer>
+    <div id="pageToast" class="toast"></div>
+    <script>
+        const FB_DB_URL = 'https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app';
+        function showToast(msg) {
+            const t = document.getElementById('pageToast');
+            if (!t) return;
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2600);
+        }
+        function applySavedTheme() {
+            const t = localStorage.getItem('gp_theme_v5') || 'light';
+            document.documentElement.setAttribute('data-theme', t);
+            const btn = document.getElementById('themeBtn');
+            if (btn) btn.textContent = t === 'dark' ? 'डार्क' : 'लाईट';
+        }
+        function togglePageTheme() {
+            const next = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('gp_theme_v5', next);
+            applySavedTheme();
+        }
+        applySavedTheme();
+        
+        function syncSubpageNavWithState(portalData) {
+            const nav = document.getElementById('subNavLinks');
+            if (!nav || !portalData) return;
+            const vis = portalData.visibility || {};
+            nav.querySelectorAll('[data-nav-sec]').forEach(el => {
+                const k = el.getAttribute('data-nav-sec');
+                if (k && vis[k] === false) el.style.display = 'none';
+                else el.style.display = '';
+            });
+            nav.querySelectorAll('.dynamic-custom-nav-item').forEach(el => el.remove());
+            const csList = Array.isArray(portalData.customSections) ? portalData.customSections : [];
+            if (vis.customsections === false || !csList.length) return;
+            const urlParams = new URLSearchParams(window.location.search);
+            const activeCsId = urlParams.get('id') || '';
+            csList.forEach((cs, idx) => {
+                if (!cs || cs.visible === false || !cs.title) return;
+                const cid = cs.id || ('cs_' + idx);
+                const li = document.createElement('li');
+                li.className = 'dynamic-custom-nav-item';
+                const isAct = (window.location.pathname.endsWith('custom-section.html') && activeCsId === cid);
+                li.innerHTML = `<a href="custom-section.html?id=${encodeURIComponent(cid)}"${isAct ? ' class="active-page"' : ''}>${cs.title}</a>`;
+                nav.appendChild(li);
+            });
+        }
+        (async function loadSubpageDynamicMenu() {
+            let data = null;
+            try { data = JSON.parse(localStorage.getItem('gp_portal_v6') || 'null'); } catch (e) {}
+            if (data) syncSubpageNavWithState(data);
+            try {
+                const res = await fetch('https://gpnipani-f8271-default-rtdb.asia-southeast1.firebasedatabase.app/grampanchayatPortal.json');
+                const remote = await res.json();
+                if (remote && typeof remote === 'object') syncSubpageNavWithState(remote);
+            } catch (e) {}
+        })();
+
+        
+        function renderCustomSectionPage(list) {
+            const host = document.getElementById('customSectionHost');
+            const heroTitle = document.getElementById('pageHeroTitle');
+            const heroDesc = document.getElementById('pageHeroDesc');
+            if (!host) return;
+            const visibleList = (Array.isArray(list) ? list : []).filter(cs => cs && cs.visible !== false);
+            const params = new URLSearchParams(window.location.search);
+            const targetId = params.get('id') || '';
+
+            if (targetId) {
+                let found = visibleList.find((cs, idx) => (cs.id || ('cs_' + idx)) === targetId);
+                if (!found && Array.isArray(list)) {
+                    const rawFound = list.find((cs, idx) => (cs && (cs.id || ('cs_' + idx)) === targetId));
+                    if (rawFound && rawFound.visible !== false) found = rawFound;
+                }
+                if (!found) {
+                    heroTitle.textContent = 'विभाग उपलब्ध नाही';
+                    heroDesc.textContent = 'हा विभाग सध्या तात्पुरता लपवलेला आहे किंवा उपलब्ध नाही.';
+                    host.innerHTML = `<div class="info-card" style="text-align:center; padding:30px;">कृपया मुख्य पृष्ठावरून इतर विभाग निवडा.</div>`;
+                    return;
+                }
+                document.title = (found.title || 'विशेष विभाग') + ' | ग्रामपंचायत पिंपळगाव निपाणी';
+                heroTitle.textContent = found.title || 'विशेष विभाग';
+                heroDesc.textContent = found.badge || 'ग्रामपंचायत विशेष माहिती विभाग';
+                host.innerHTML = `
+                    <div class="info-card" style="border-left: 5px solid var(--primary);">
+                        ${found.badge ? `<span class="badge" style="margin-bottom:10px;">${found.badge}</span>` : ''}
+                        <div style="display:grid; grid-template-columns: ${found.photo ? '1.3fr 0.9fr' : '1fr'}; gap:20px; align-items:start;">
+                            <div>
+                                <div style="font-size:18px; line-height:1.7; white-space:pre-line; color:var(--text-main); margin-bottom:${found.linkUrl ? '18px' : '0'};">${found.content || ''}</div>
+                                ${found.linkUrl ? `<a href="${found.linkUrl}" target="_blank" rel="noopener" class="btn btn-primary">${found.linkLabel || 'सविस्तर पहा'}</a>` : ''}
+                            </div>
+                            ${found.photo ? `<div><img src="${found.photo}" alt="${(found.title || '').replace(/"/g, '&quot;')}" style="width:100%; border-radius:12px; border:1.5px solid var(--border-color); box-shadow:var(--shadow-sm);"></div>` : ''}
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            if (!visibleList.length) {
+                host.innerHTML = `<div class="info-card" style="text-align:center; padding:30px; color:var(--text-muted);">सध्या कोणताही अतिरिक्त सानुकूल विभाग उपलब्ध नाही.</div>`;
+                return;
+            }
+            host.innerHTML = `<div class="cards-grid">` + visibleList.map((cs, idx) => {
+                const cid = cs.id || ('cs_' + idx);
+                return `
+                    <div class="card-item">
+                        <div>
+                            ${cs.badge ? `<span class="badge">${cs.badge}</span>` : ''}
+                            <h3 style="font-size:21px; color:var(--secondary); margin-bottom:6px;">${cs.title || 'विशेष विभाग'}</h3>
+                            <p style="font-size:16px; color:var(--text-muted);">${(cs.content || '').slice(0, 130)}${(cs.content || '').length > 130 ? '...' : ''}</p>
+                        </div>
+                        <a href="custom-section.html?id=${encodeURIComponent(cid)}" class="btn btn-primary">संपूर्ण माहिती पहा →</a>
+                    </div>
+                `;
+            }).join('') + `</div>`;
+        }
+        (async function initCustomSecPage() {
+            let local = {};
+            try { local = JSON.parse(localStorage.getItem('gp_portal_v6') || '{}') || {}; } catch (e) {}
+            renderCustomSectionPage(local.customSections);
+            try {
+                const res = await fetch(`${FB_DB_URL}/grampanchayatPortal/customSections.json`);
+                const remote = await res.json();
+                if (Array.isArray(remote)) renderCustomSectionPage(remote);
+            } catch (e) {}
+        })();
+
+    </script>
+</body>
+</html>

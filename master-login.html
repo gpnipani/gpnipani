@@ -1436,10 +1436,6 @@
                         <li><a href="#sec-about"><svg class="icon" viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> गावाचा इतिहास व परिचय</a></li>
                         <li><a href="#sec-stats"><svg class="icon" viewBox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"/><line x1="12" x2="12" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="14"/></svg> लोकसंख्या व आकडेवारी</a></li>
                         <li><a href="#sec-works"><svg class="icon" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> गावातील विकासकामे</a></li>
-                        <li data-nav-sec="tax"><a href="#sec-tax">घरपट्टी व पाणीपट्टी (QR)</a></li>
-                        <li data-nav-sec="budget"><a href="#sec-budget">अंदाजपत्रक व निधी तपशील</a></li>
-                        <li data-nav-sec="directory"><a href="#sec-directory">गावातील संस्था व सुविधा</a></li>
-                        <li data-nav-sec="gallery"><a href="#sec-gallery">फोटो व व्हिडिओ गॅलरी</a></li>
                     </ul>
                 </li>
                 <li class="has-dropdown" data-nav-sec="members">
@@ -1457,7 +1453,7 @@
                         <li><a href="javascript:void(0)" onclick="openServiceModal('दाखला मागणी अर्ज')"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> दाखले मागणी अर्ज</a></li>
                         <li><a href="javascript:void(0)" onclick="openComplaintModal()"><svg class="icon" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> तक्रार निवारण</a></li>
                         <li><a href="javascript:void(0)" onclick="openTrackModal()"><svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> अर्ज किंवा तक्रार मागोवा</a></li>
-                        <li><a href="javascript:void(0)" onclick="openTaxComingSoonModal()"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> कर भरणा</a></li>
+                        <li data-nav-sec="tax"><a href="tax-payment.html"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> घरपट्टी व पाणीपट्टी भरणा</a></li>
                     </ul>
                 </li>
                 <li data-nav-sec="notices"><a href="#sec-notices"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> ग्रामसभा व ठराव</a></li>
@@ -1471,6 +1467,10 @@
                         <li data-nav-sec="villageofficials"><a href="village-officials.html">गावातील इतर शासकीय कर्मचारी</a></li>
                     </ul>
                 </li>
+                <li data-nav-sec="tax"><a href="tax-payment.html"><svg class="icon" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg> घरपट्टी व पाणीपट्टी</a></li>
+                <li data-nav-sec="budget"><a href="budget.html"><svg class="icon" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> अंदाजपत्रक व निधी</a></li>
+                <li data-nav-sec="directory"><a href="directory.html"><svg class="icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg> गावातील संस्था</a></li>
+                <li data-nav-sec="gallery"><a href="gallery.html"><svg class="icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> फोटो गॅलरी</a></li>
             </ul>
 
             <div class="nav-controls">
@@ -1596,33 +1596,6 @@
             <h2 class="section-heading">ग्रामसभा नोटीस व ठराव</h2>
             <div class="notice-list" id="noticesContainer"></div>
         </section>
-
-        <!-- घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (Tax & UPI QR) -->
-        <section class="section-wrap" id="sec-tax">
-            <h2 class="section-heading">घरपट्टी व पाणीपट्टी ऑनलाइन भरणा (UPI / QR)</h2>
-            <div id="taxPaymentContainer"></div>
-        </section>
-
-        <!-- ग्रामपंचायत अंदाजपत्रक व निधी तपशील -->
-        <section class="section-wrap" id="sec-budget">
-            <h2 class="section-heading">ग्रामपंचायत अंदाजपत्रक व निधी तपशील</h2>
-            <div id="budgetContainer"></div>
-        </section>
-
-        <!-- गावातील महत्त्वाच्या संस्था व सुविधा (Village Directory) -->
-        <section class="section-wrap" id="sec-directory">
-            <h2 class="section-heading">गावातील महत्त्वाच्या संस्था व सुविधा</h2>
-            <div class="cards-grid" id="directoryContainer"></div>
-        </section>
-
-        <!-- गावाची फोटो व व्हिडिओ गॅलरी -->
-        <section class="section-wrap" id="sec-gallery">
-            <h2 class="section-heading">फोटो व व्हिडिओ गॅलरी</h2>
-            <div class="gallery-grid" id="galleryContainer"></div>
-        </section>
-
-        <!-- सानुकूल विभाग (Custom Sections added from Admin) -->
-        <div id="sec-custom"></div>
 
         <!-- Footer -->
         <footer>
@@ -4505,141 +4478,24 @@
 
         function renderNewV13Sections() {
             ensureV13StateDefaults();
-
-            // 1. Tax & UPI QR Section
-            const taxHost = document.getElementById('taxPaymentContainer');
-            if (taxHost) {
-                const tx = appState.taxConfig;
-                const waDigits = String(tx.whatsapp || '').replace(/\D/g, '');
-                const waMsg = encodeURIComponent(`नमस्कार ${appState.gpName || 'ग्रामपंचायत'}, मी माझी घरपट्टी / पाणीपट्टी ऑनलाइन भरली आहे. खाली पेमेंटचा स्क्रीनशॉट व घर क्रमांक पाठवत आहे.`);
-                const waHref = waDigits ? `https://wa.me/91${waDigits.slice(-10)}?text=${waMsg}` : '';
-                taxHost.innerHTML = `
-                    <div class="info-card" style="border-left: 5px solid #16a34a;">
-                        <div class="tax-split-grid">
-                            <div>
-                                <span class="badge" style="margin-bottom:8px;">ऑनलाइन कर भरणा सुविधा</span>
-                                <h3 style="font-size:22px; color:var(--secondary); margin-bottom:10px;">${tx.accName || appState.gpName || 'ग्रामपंचायत फंड'}</h3>
-                                <div style="display:flex; flex-direction:column; gap:6px; font-size:17px; color:var(--text-main); margin-bottom:12px;">
-                                    <div><strong>बँकेचे नाव:</strong> ${tx.bankName || '-'}</div>
-                                    <div><strong>खाते क्रमांक:</strong> ${tx.accNo || '-'}</div>
-                                    <div><strong>IFSC कोड:</strong> ${tx.ifsc || '-'}</div>
-                                    <div><strong>UPI ID:</strong> <span style="color:var(--primary); font-weight:700;">${tx.upiId || '-'}</span></div>
-                                </div>
-                                ${tx.note ? `<p style="font-size:15.5px; color:var(--text-muted); background:var(--bg-subtle); padding:10px 12px; border-radius:10px; margin-bottom:14px;">${tx.note}</p>` : ''}
-                                <div style="display:flex; gap:10px; flex-wrap:wrap;">
-                                    ${waHref ? `<a href="${waHref}" target="_blank" rel="noopener" class="btn" style="background:linear-gradient(135deg,#16a34a,#15803d); color:#fff; padding:9px 16px; font-size:16px;">WhatsApp वर पावती स्क्रीनशॉट पाठवा</a>` : ''}
-                                    <button type="button" class="btn btn-secondary" style="padding:9px 16px; font-size:16px;" onclick="navigator.clipboard && navigator.clipboard.writeText('${(tx.upiId || '').replace(/'/g, '')}'); showToast('UPI ID कॉपी झाला!');">UPI ID कॉपी करा</button>
-                                </div>
-                            </div>
-                            <div class="tax-qr-box">
-                                ${tx.qrPhoto
-                                    ? `<img src="${tx.qrPhoto}" alt="Gram Panchayat UPI QR Code"><div style="font-size:15.5px; color:var(--secondary);"><strong>कोणत्याही UPI App ने स्कॅन करा</strong></div>`
-                                    : `<div style="padding:26px 12px; color:var(--text-muted); font-size:16px;">अधिकृत UPI QR कोड अद्याप अपलोड केलेला नाही.<br><span style="font-size:14.5px;">(ॲडमिन पॅनल → घरपट्टी व पाणीपट्टी टॅबमधून QR फोटो अपलोड करा)</span></div>`
-                                }
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }
-
-            // 2. Budget & 15th Finance Commission
-            const bdgHost = document.getElementById('budgetContainer');
-            if (bdgHost) {
-                const list = appState.budgetItems || [];
-                if (!list.length) {
-                    bdgHost.innerHTML = `<div class="info-card" style="text-align:center; color:var(--text-muted);">सध्या अंदाजपत्रक व निधी नोंदी उपलब्ध नाहीत.</div>`;
-                } else {
-                    bdgHost.innerHTML = `
-                        <div class="budget-table-wrap">
-                            <table class="budget-table">
-                                <thead>
-                                    <tr>
-                                        <th>आर्थिक वर्ष</th>
-                                        <th>योजना / निधीचा प्रकार</th>
-                                        <th>प्राप्त / मंजूर निधी</th>
-                                        <th>झालेला खर्च</th>
-                                        <th>शिल्लक / स्थिती</th>
-                                        <th>तपशील</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${list.map(b => `
-                                        <tr>
-                                            <td><strong>${b.year || '-'}</strong></td>
-                                            <td>${b.scheme || '-'}</td>
-                                            <td style="color:#15803d; font-weight:700;">${b.received || '-'}</td>
-                                            <td style="color:#b91c1c; font-weight:700;">${b.spent || '-'}</td>
-                                            <td>${b.balance || '-'}</td>
-                                            <td>${b.pdfUrl ? `<a href="${b.pdfUrl}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:4px 10px; font-size:14px;">PDF पहा</a>` : '-'}</td>
-                                        </tr>
-                                    `).join('')}
-                                </tbody>
-                            </table>
-                        </div>
-                    `;
-                }
-            }
-
-            // 3. Village Directory
-            const dirHost = document.getElementById('directoryContainer');
-            if (dirHost) {
-                const list = appState.villageDirectory || [];
-                dirHost.innerHTML = list.map(d => `
-                    <div class="card-item" style="display:flex; flex-direction:column; justify-content:space-between; gap:8px;">
-                        <div>
-                            <span class="badge" style="margin-bottom:6px;">${d.category || 'संस्था'}</span>
-                            <h3 style="font-size:20px; margin-bottom:4px;">${d.name || ''}</h3>
-                            <p style="font-size:15.5px; color:var(--text-muted); margin:0;">${d.address || ''}</p>
-                        </div>
-                        ${d.phone ? `<div><a href="tel:${String(d.phone).replace(/\s+/g, '')}" class="btn btn-secondary" style="padding:6px 12px; font-size:15px;">कॉल करा: ${d.phone}</a></div>` : ''}
-                    </div>
-                `).join('');
-            }
-
-            // 4. Photo & Video Gallery
-            const galHost = document.getElementById('galleryContainer');
-            if (galHost) {
-                const list = appState.galleryItems || [];
-                galHost.innerHTML = list.map(g => `
-                    <div class="gallery-card">
-                        <div class="gallery-thumb">
-                            ${g.photo
-                                ? `<img src="${g.photo}" alt="${(g.title || '').replace(/"/g, '&quot;')}">`
-                                : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:15.5px;padding:12px;text-align:center;">फोटो / व्हिडिओ प्रिव्ह्यू</div>`
-                            }
-                        </div>
-                        <div class="gallery-body">
-                            ${g.tag ? `<span class="badge" style="align-self:flex-start; margin:0;">${g.tag}</span>` : ''}
-                            <h3 style="font-size:19px; margin:2px 0 4px;">${g.title || ''}</h3>
-                            ${g.videoUrl ? `<a href="${g.videoUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:6px 12px; font-size:14.5px; align-self:flex-start;">व्हिडिओ पहा</a>` : ''}
-                        </div>
-                    </div>
-                `).join('');
-            }
-
-            // 5. Custom Sections
-            const csHost = document.getElementById('sec-custom');
-            if (csHost) {
-                const list = appState.customSections || [];
-                const isVis = !appState.visibility || appState.visibility.customsections !== false;
-                if (!isVis || !list.length) {
-                    csHost.innerHTML = '';
-                } else {
-                    csHost.innerHTML = list.map(cs => `
-                        <section class="section-wrap">
-                            <h2 class="section-heading">${cs.title || 'विशेष विभाग'}</h2>
-                            <div class="info-card" style="border-left: 5px solid var(--primary);">
-                                ${cs.badge ? `<span class="badge" style="margin-bottom:8px;">${cs.badge}</span>` : ''}
-                                <div style="display:grid; grid-template-columns: ${cs.photo ? '1.3fr 0.9fr' : '1fr'}; gap:18px; align-items:center;">
-                                    <div>
-                                        <p style="font-size:17.5px; line-height:1.65; white-space:pre-line; margin-bottom:${cs.linkUrl ? '14px' : '0'};">${cs.content || ''}</p>
-                                        ${cs.linkUrl ? `<a href="${cs.linkUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="padding:8px 16px; font-size:16px;">${cs.linkLabel || 'सविस्तर पहा'}</a>` : ''}
-                                    </div>
-                                    ${cs.photo ? `<div><img src="${cs.photo}" alt="${(cs.title || '').replace(/"/g, '&quot;')}" style="width:100%; max-height:280px; object-fit:cover; border-radius:12px; border:1px solid var(--border-color);"></div>` : ''}
-                                </div>
-                            </div>
-                        </section>
-                    `).join('');
+            // Ensure every custom section has a stable unique id
+            appState.customSections.forEach((cs, idx) => {
+                if (cs && !cs.id) cs.id = 'cs_' + (idx + 1);
+            });
+            // Dynamically render independent top-level menu items for all visible custom sections
+            const navUl = document.getElementById('navLinks');
+            if (navUl) {
+                navUl.querySelectorAll('.dynamic-custom-nav-item').forEach(el => el.remove());
+                const allowCs = !appState.visibility || appState.visibility.customsections !== false;
+                if (allowCs) {
+                    appState.customSections.forEach((cs, idx) => {
+                        if (!cs || cs.visible === false || !cs.title) return;
+                        const cid = cs.id || ('cs_' + (idx + 1));
+                        const li = document.createElement('li');
+                        li.className = 'dynamic-custom-nav-item';
+                        li.innerHTML = `<a href="custom-section.html?id=${encodeURIComponent(cid)}"><svg class="icon" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> ${cs.title}</a>`;
+                        navUl.appendChild(li);
+                    });
                 }
             }
         }
@@ -4849,15 +4705,27 @@
             ensureV13StateDefaults();
             const host = document.getElementById('adminCustomSectionsList');
             if (!host) return;
-            host.innerHTML = appState.customSections.map((cs, idx) => `
-                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color);">
-                    <div><strong>${cs.title}</strong><div style="font-size:14.5px; color:var(--text-muted);">${(cs.content || '').slice(0, 80)}...</div></div>
-                    <div style="display:flex; gap:6px;">
+            host.innerHTML = appState.customSections.map((cs, idx) => {
+                const isOn = cs.visible !== false;
+                return `
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; padding:10px; border-bottom:1px solid var(--border-color); opacity:${isOn ? '1' : '0.68'};">
+                    <div style="flex:1; min-width:200px;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                            <strong>${cs.title}</strong>
+                            <span style="font-size:13px; padding:2px 8px; border-radius:999px; background:${isOn ? '#dcfce7' : '#fee2e2'}; color:${isOn ? '#166534' : '#991b1b'};">${isOn ? 'दाखवत आहे (ON)' : 'लपवले आहे (OFF)'}</span>
+                        </div>
+                        <div style="font-size:14.5px; color:var(--text-muted);">${(cs.content || '').slice(0, 80)}${(cs.content || '').length > 80 ? '...' : ''}</div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                        <button type="button" class="inweb-switch ${isOn ? 'on' : ''}" onclick="toggleCustomSectionVis(${idx})" title="${isOn ? 'हा विभाग लपवा' : 'हा विभाग दाखवा'}">
+                            <span class="inweb-switch-knob"></span>
+                        </button>
+                        <a href="custom-section.html?id=${encodeURIComponent(cs.id || ('cs_' + (idx + 1)))}" target="_blank" class="btn btn-secondary" style="padding:5px 10px; font-size:14px; text-decoration:none;">पेज पहा ↗</a>
                         <button type="button" class="btn btn-secondary" style="padding:5px 10px; font-size:14px;" onclick="editCustomSection(${idx})">एडिट</button>
                         <button type="button" class="btn btn-danger" style="padding:5px 10px; font-size:14px;" onclick="deleteCustomSection(${idx})">काढा</button>
                     </div>
                 </div>
-            `).join('') || '<p style="color:var(--text-muted);">सध्या कोणताही सानुकूल विभाग जोडलेला नाही. वरून नवीन विभाग जोडा.</p>';
+            `;}).join('') || '<p style="color:var(--text-muted);">सध्या कोणताही सानुकूल विभाग जोडलेला नाही. वरून नवीन विभाग जोडा.</p>';
         }
         function editCustomSection(idx) {
             const cs = appState.customSections[idx]; if (!cs) return;
@@ -4884,7 +4752,10 @@
             const getV = (id) => (document.getElementById(id)?.value || '').trim();
             const title = getV('csTitle');
             if (!title) { showToast('कृपया विभागाचे शीर्षक भरा.'); return; }
-            const obj = { title, badge: getV('csBadge'), content: getV('csContent'), photo: getV('csPhoto'), linkUrl: getV('csLinkUrl'), linkLabel: getV('csLinkLabel') };
+            const prevItem = (editingCustomIdx >= 0) ? appState.customSections[editingCustomIdx] : null;
+            const prevVis = prevItem ? (prevItem.visible !== false) : true;
+            const stableId = (prevItem && prevItem.id) ? prevItem.id : ('cs_' + Date.now());
+            const obj = { id: stableId, title, badge: getV('csBadge'), content: getV('csContent'), photo: getV('csPhoto'), linkUrl: getV('csLinkUrl'), linkLabel: getV('csLinkLabel'), visible: prevVis };
             if (editingCustomIdx >= 0) appState.customSections[editingCustomIdx] = obj;
             else appState.customSections.push(obj);
             cancelEditCustomSection();
@@ -4892,6 +4763,16 @@
             renderCustomSectionsEditor();
             renderNewV13Sections();
             showToast('सानुकूल विभाग यशस्वीरित्या सेव्ह झाला!');
+        }
+        function toggleCustomSectionVis(idx) {
+            ensureV13StateDefaults();
+            const cs = appState.customSections[idx];
+            if (!cs) return;
+            cs.visible = !(cs.visible !== false);
+            saveStateToStorage();
+            renderCustomSectionsEditor();
+            renderNewV13Sections();
+            showToast(cs.visible ? `"${cs.title}" विभाग चालू (Visible) केला आहे!` : `"${cs.title}" विभाग लपवला (Hidden) आहे!`);
         }
         function deleteCustomSection(idx) {
             appState.customSections.splice(idx, 1);
